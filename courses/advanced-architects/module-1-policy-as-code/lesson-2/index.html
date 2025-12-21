@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Integrate architectural validation into your CI/CD pipeline to prevent violations automatically."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Lesson 2: Enforcing Policies in CI/CD | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Lesson 2: Enforcing Policies in CI/CD</h1><p class="summary" data-astro-cid-mjrgpu27>Integrate architectural validation into your CI/CD pipeline to prevent violations automatically.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="lesson-2-enforcing-policies-in-cicd">Lesson 2: Enforcing Policies in CI/CD</h1>
+<h2 id="the-goal-automatic-enforcement">The Goal: Automatic Enforcement</h2>
+<p>Policies are useless if they’re not enforced. This lesson shows you how to integrate Sruja validation into CI/CD so violations are caught <strong>before</strong> they reach production.</p>
+<h2 id="basic-cicd-integration">Basic CI/CD Integration</h2>
+<h3 id="github-actions">GitHub Actions</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># .github/workflows/architecture.yml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Architecture Validation</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  push</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    branches</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">main</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">develop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  pull_request</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    branches</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: [</span><span style="color:#032F62;--shiki-dark:#9ECBFF">main</span><span style="color:#24292E;--shiki-dark:#E1E4E8">, </span><span style="color:#032F62;--shiki-dark:#9ECBFF">develop</span><span style="color:#24292E;--shiki-dark:#E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">jobs</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  validate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    runs-on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">ubuntu-latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    steps</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">uses</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">actions/checkout@v4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Install Sruja</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          echo "$HOME/.local/bin" >> $GITHUB_PATH</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Validate Architecture</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          sruja fmt architecture.sruja</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">          sruja lint architecture.sruja</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Check Constraints</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">sruja validate --constraints architecture.sruja</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Export Documentation</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">        run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">sruja export markdown architecture.sruja > architecture.md</span></span></code></pre>
+<h3 id="gitlab-ci">GitLab CI</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># .gitlab-ci.yml</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">architecture-validation</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  image</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">alpine:latest</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  before_script</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">apk add --no-cache curl bash</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">export PATH="$HOME/.local/bin:$PATH"</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  script</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">sruja fmt architecture.sruja</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">sruja lint architecture.sruja</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">sruja validate --constraints architecture.sruja</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  only</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">merge_requests</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">main</span></span></code></pre>
+<h2 id="advanced-policy-violation-reporting">Advanced: Policy Violation Reporting</h2>
+<p>Generate compliance reports in CI/CD:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Generate Compliance Report</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    sruja validate --constraints architecture.sruja --format json > violations.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    sruja score architecture.sruja > score.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Upload Reports</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  uses</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">actions/upload-artifact@v3</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  with</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">architecture-reports</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    path</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      violations.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      score.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      architecture.md</span></span></code></pre>
+<h2 id="multi-repository-governance">Multi-Repository Governance</h2>
+<p>For organizations with multiple repositories, create a shared policy file:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># .github/workflows/architecture.yml</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Validate Against Shared Policies</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    # Fetch shared policies from central repo</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    git clone https://github.com/your-org/architecture-policies.git /tmp/policies</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    </span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    # Validate against shared constraints</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    sruja validate \</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      --constraints /tmp/policies/global-constraints.sruja \</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      --constraints architecture.sruja</span></span></code></pre>
+<h2 id="pre-commit-hooks">Pre-commit Hooks</h2>
+<p>Catch violations before they’re committed:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D">#!/bin/sh</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># .git/hooks/pre-commit</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Install Sruja if not available</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#D73A49;--shiki-dark:#F97583"> !</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> command</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> -v</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> sruja</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> &#x26;</span><span style="color:#D73A49;--shiki-dark:#F97583">></span><span style="color:#24292E;--shiki-dark:#E1E4E8"> /dev/null; </span><span style="color:#D73A49;--shiki-dark:#F97583">then</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">  curl</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> -fsSL</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh</span><span style="color:#D73A49;--shiki-dark:#F97583"> |</span><span style="color:#6F42C1;--shiki-dark:#B392F0"> bash</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">  export</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> PATH</span><span style="color:#D73A49;--shiki-dark:#F97583">=</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span><span style="color:#24292E;--shiki-dark:#E1E4E8">$HOME</span><span style="color:#032F62;--shiki-dark:#9ECBFF">/.local/bin:</span><span style="color:#24292E;--shiki-dark:#E1E4E8">$PATH</span><span style="color:#032F62;--shiki-dark:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Validate architecture</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">sruja</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> lint</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> architecture.sruja</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [ </span><span style="color:#005CC5;--shiki-dark:#79B8FF">$?</span><span style="color:#D73A49;--shiki-dark:#F97583"> -ne</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ]; </span><span style="color:#D73A49;--shiki-dark:#F97583">then</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  echo</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "❌ Architecture validation failed. Fix errors before committing."</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  exit</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#B392F0">sruja</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> validate</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> --constraints</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> architecture.sruja</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">if</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> [ </span><span style="color:#005CC5;--shiki-dark:#79B8FF">$?</span><span style="color:#D73A49;--shiki-dark:#F97583"> -ne</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span><span style="color:#24292E;--shiki-dark:#E1E4E8"> ]; </span><span style="color:#D73A49;--shiki-dark:#F97583">then</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  echo</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "❌ Constraint violations found. Fix before committing."</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">  exit</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 1</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#F97583">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">echo</span><span style="color:#032F62;--shiki-dark:#9ECBFF"> "✅ Architecture validation passed"</span></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">exit</span><span style="color:#005CC5;--shiki-dark:#79B8FF"> 0</span></span></code></pre>
+<h2 id="integration-with-pr-reviews">Integration with PR Reviews</h2>
+<p>Add architecture validation as a required check:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Architecture Gate</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    sruja validate --constraints architecture.sruja --fail-on-violations</span></span></code></pre>
+<p><strong>Result:</strong> PRs can’t be merged until architecture is valid.</p>
+<h2 id="monitoring-compliance">Monitoring Compliance</h2>
+<p>Track compliance over time:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">- </span><span style="color:#22863A;--shiki-dark:#85E89D">name</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#032F62;--shiki-dark:#9ECBFF">Track Compliance Metrics</span></span>
+<span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  run</span><span style="color:#24292E;--shiki-dark:#E1E4E8">: </span><span style="color:#D73A49;--shiki-dark:#F97583">|</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    sruja score architecture.sruja --format json > compliance-metrics.json</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    </span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    # Send to monitoring system</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">    curl -X POST https://your-monitoring-system/api/metrics \</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      -H "Content-Type: application/json" \</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      -d @compliance-metrics.json</span></span></code></pre>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Integrate early</strong> — Validate in CI/CD, not manually</li>
+<li><strong>Fail fast</strong> — Block merges on violations</li>
+<li><strong>Report compliance</strong> — Track metrics over time</li>
+<li><strong>Share policies</strong> — Use central policy files for multi-repo orgs</li>
+<li><strong>Pre-commit hooks</strong> — Catch issues before they’re committed</li>
+</ol>
+<h2 id="real-world-pattern">Real-World Pattern</h2>
+<p><strong>Large organization pattern:</strong></p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Central policy repository</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">architecture-policies/</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  ├── global-constraints.sruja</span><span style="color:#6A737D;--shiki-dark:#6A737D">    # Organization-wide rules</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  ├── team-payment.sruja</span><span style="color:#6A737D;--shiki-dark:#6A737D">          # Team-specific rules</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  └── compliance-hipaa.sruja</span><span style="color:#6A737D;--shiki-dark:#6A737D">      # Compliance requirements</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-dark:#6A737D"># Each service repository</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">service-repo/</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  ├── architecture.sruja</span><span style="color:#6A737D;--shiki-dark:#6A737D">          # Service architecture</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">  └── .github/workflows/</span></span>
+<span class="line"><span style="color:#032F62;--shiki-dark:#9ECBFF">      └── architecture.yml</span><span style="color:#6A737D;--shiki-dark:#6A737D">        # Validates against shared policies</span></span></code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li>Set up CI/CD validation for your architecture</li>
+<li>Create shared policy files for your organization</li>
+<li>Add pre-commit hooks for faster feedback</li>
+<li>Track compliance metrics over time</li>
+</ul>
+<p><strong>You now know how to enforce policies automatically. Governance at scale! 🚀</strong></p></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/courses/system-design-201/module-4-consistency/lesson-1" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 1: Design a Distributed Counter</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/courses" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/courses/ecommerce-platform/module-1-vision-basics/lesson-2" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 2: Setting up the Workspace</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html>

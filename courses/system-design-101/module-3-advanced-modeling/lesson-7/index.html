@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Master the art of creating effective views for different audiences and purposes."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Lesson 7: Views Best Practices | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Lesson 7: Views Best Practices</h1><p class="summary" data-astro-cid-mjrgpu27>Master the art of creating effective views for different audiences and purposes.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="lesson-7-views-best-practices">Lesson 7: Views Best Practices</h1>
+<p>Views are one of the most powerful features in Sruja DSL. They let you create multiple perspectives from a single model, making your architecture documentation accessible to different audiences. This lesson covers best practices for creating effective views.</p>
+<h2 id="the-power-of-views">The Power of Views</h2>
+<p>A single architecture model can serve:</p>
+<ul>
+<li><strong>Executives</strong>: High-level business context</li>
+<li><strong>Product Managers</strong>: Feature and user journey focus</li>
+<li><strong>Architects</strong>: Technical design and patterns</li>
+<li><strong>Developers</strong>: Implementation details</li>
+<li><strong>Operations</strong>: Deployment and monitoring concerns</li>
+<li><strong>Security</strong>: Compliance and threat modeling</li>
+</ul>
+<h2 id="view-creation-strategy">View Creation Strategy</h2>
+<h3 id="1-start-with-your-audience">1. Start with Your Audience</h3>
+<p>Before creating a view, ask:</p>
+<ul>
+<li><strong>Who will use this view?</strong> (Executive, Developer, Ops)</li>
+<li><strong>What questions do they need answered?</strong> (Cost, Performance, Security)</li>
+<li><strong>What level of detail do they need?</strong> (Context, Container, Component)</li>
+</ul>
+<h3 id="2-use-includeexclude-strategically">2. Use Include/Exclude Strategically</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Customer = person "Customer"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Admin = person "Administrator"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce = system "E-Commerce Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    WebApp = container "Web Application" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      CartComponent = component "Shopping Cart"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      ProductComponent = component "Product Catalog"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    API = container "API Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      OrderController = component "Order Controller"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      PaymentController = component "Payment Controller"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    OrderDB = datastore "Order Database"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    ProductDB = datastore "Product Database"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  PaymentGateway = system "Payment Gateway" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    external true</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Customer -> ECommerce.WebApp "Browses"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.WebApp -> ECommerce.API "Fetches data"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.API -> ECommerce.OrderDB "Stores orders"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.API -> PaymentGateway "Processes payments"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Executive view: Business context only</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Executive Overview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.WebApp ECommerce.API ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.WebApp.CartComponent ECommerce.WebApp.ProductComponent</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.API.OrderController ECommerce.API.PaymentController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "High-level business context for executives"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Architect view: Container-level architecture</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view architect {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Architectural View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.WebApp.CartComponent ECommerce.WebApp.ProductComponent</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.API.OrderController ECommerce.API.PaymentController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Container-level architecture for architects"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Developer view: Component-level implementation</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view developer {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Developer View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.WebApp.CartComponent ECommerce.WebApp.ProductComponent</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.API.OrderController ECommerce.API.PaymentController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Component-level details for developers"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="3-create-concern-specific-views">3. Create Concern-Specific Views</h3>
+<p>Focus on specific concerns: performance, security, data flow, deployment.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Performance view: Components with performance characteristics</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view performance {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Performance View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.OrderDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin ECommerce.WebApp</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Focuses on performance-critical components"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Security view: External interactions and data stores</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view security {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Security View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API PaymentGateway ECommerce.OrderDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin ECommerce.WebApp</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Highlights security boundaries and external systems"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Data flow view: Data dependencies</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view dataflow {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Data Flow View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin ECommerce.WebApp PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Shows how data flows through the system"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="view-naming-conventions">View Naming Conventions</h2>
+<p>Use clear, descriptive names that indicate the view’s purpose:</p>
+<h3 id="good-names">Good Names</h3>
+<ul>
+<li><code>executive</code> - Clear audience</li>
+<li><code>dataflow</code> - Clear concern</li>
+<li><code>deployment</code> - Clear purpose</li>
+<li><code>security-audit</code> - Specific use case</li>
+</ul>
+<h3 id="avoid">Avoid</h3>
+<ul>
+<li><code>view1</code>, <code>view2</code> - Not descriptive</li>
+<li><code>temp</code> - Temporary views should be removed</li>
+<li><code>test</code> - Test views shouldn’t be in production models</li>
+</ul>
+<h2 id="view-organization-patterns">View Organization Patterns</h2>
+<h3 id="pattern-1-by-audience">Pattern 1: By Audience</h3>
+<p>Create views for each stakeholder group.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view executive { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view product { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view architect { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view developer { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view operations { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="pattern-2-by-concern">Pattern 2: By Concern</h3>
+<p>Create views for different technical concerns.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view performance { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view security { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view dataflow { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view deployment { /* ... */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="pattern-3-by-layer">Pattern 3: By Layer</h3>
+<p>Create views for different C4 model layers.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view context { /* System context */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view container { /* Container diagram */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view component { /* Component diagram */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="pattern-4-by-feature">Pattern 4: By Feature</h3>
+<p>Create views for specific features or domains.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view checkout { /* Checkout flow */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view search { /* Search functionality */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view analytics { /* Analytics pipeline */ }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-always-include-an-index-view">1. Always Include an Index View</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Complete System View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Complete system overview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="2-use-descriptive-titles">2. Use Descriptive Titles</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "Executive Overview - Business Context"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // ...</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="3-add-descriptions">3. Add Descriptions</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view architect {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "Architectural View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  description "Container-level architecture showing system boundaries and interactions"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // ...</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="4-keep-views-focused">4. Keep Views Focused</h3>
+<p>Each view should answer a specific set of questions. If a view tries to answer too many questions, split it into multiple views.</p>
+<h3 id="5-document-view-purpose">5. Document View Purpose</h3>
+<p>Use comments or descriptions to explain why a view exists and when to use it.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Use this view for:</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // - Executive presentations</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // - Business stakeholder discussions</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // - High-level architecture reviews</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Executive Overview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // ...</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="common-view-patterns">Common View Patterns</h2>
+<h3 id="executive-dashboard-view">Executive Dashboard View</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "Executive Dashboard"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  exclude ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  exclude ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="technical-architecture-view">Technical Architecture View</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view technical {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "Technical Architecture"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  exclude Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="user-journey-view">User Journey View</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view userjourney {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "User Journey View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include Customer</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  exclude Admin ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="deployment-view">Deployment View</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view deployment {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  title "Deployment View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  include ECommerce.OrderDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  exclude Customer Admin PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="view-maintenance">View Maintenance</h2>
+<h3 id="when-to-create-new-views">When to Create New Views</h3>
+<ul>
+<li>New stakeholder group needs different perspective</li>
+<li>New concern emerges (e.g., compliance)</li>
+<li>Feature-specific view needed for documentation</li>
+</ul>
+<h3 id="when-to-remove-views">When to Remove Views</h3>
+<ul>
+<li>View is no longer used</li>
+<li>View duplicates another view</li>
+<li>View is outdated and not maintained</li>
+</ul>
+<h3 id="when-to-update-views">When to Update Views</h3>
+<ul>
+<li>Architecture changes affect view scope</li>
+<li>New components need to be included/excluded</li>
+<li>View purpose changes</li>
+</ul>
+<h2 id="advanced-view-composition">Advanced: View Composition</h2>
+<p>You can create views that build on other views by carefully selecting elements:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Base view: All containers</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view containers {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Container View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Extended view: Containers + external systems</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view containers-extended {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Container View with External Systems"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="real-world-example-e-commerce-platform">Real-World Example: E-Commerce Platform</h2>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Customer = person "Customer"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Admin = person "Administrator"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce = system "E-Commerce Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    WebApp = container "Web Application" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      CartComponent = component "Shopping Cart"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      ProductComponent = component "Product Catalog"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    API = container "API Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      OrderController = component "Order Controller"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      PaymentController = component "Payment Controller"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    OrderDB = datastore "Order Database"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    ProductDB = datastore "Product Database"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Cache = datastore "Redis Cache"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    EventQueue = queue "Event Queue"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  PaymentGateway = system "Payment Gateway" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    external true</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Customer -> ECommerce.WebApp "Browses"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.WebApp -> ECommerce.API "Fetches data"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.API -> ECommerce.OrderDB "Stores orders"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.API -> ECommerce.Cache "Caches queries"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce.API -> PaymentGateway "Processes payments"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Complete system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Complete System View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Executive: Business context</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Executive Overview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude ECommerce.WebApp ECommerce.API ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Product: User journeys</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view product {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Product View - User Journeys"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Customer</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Admin ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Architect: Container architecture</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view architect {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Architectural View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Developer: Component details</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view developer {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Developer View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.WebApp.CartComponent ECommerce.WebApp.ProductComponent</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.API.OrderController ECommerce.API.PaymentController</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Operations: Deployment and monitoring</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view operations {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Operations View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.WebApp ECommerce.API</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Data flow: Data dependencies</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view dataflow {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Data Flow View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin ECommerce.WebApp PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Performance: Performance-critical components</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view performance {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Performance View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include ECommerce.API ECommerce.Cache ECommerce.OrderDB</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Customer Admin ECommerce.WebApp ECommerce.ProductDB ECommerce.EventQueue PaymentGateway</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="summary">Summary</h2>
+<p>Views are a powerful tool for making architecture documentation accessible to different audiences. Follow these best practices:</p>
+<ol>
+<li><strong>Start with your audience</strong> - Know who will use the view</li>
+<li><strong>Use include/exclude strategically</strong> - Focus on what matters</li>
+<li><strong>Create concern-specific views</strong> - Performance, security, data flow</li>
+<li><strong>Use clear naming</strong> - Descriptive names that indicate purpose</li>
+<li><strong>Document view purpose</strong> - Explain why the view exists</li>
+<li><strong>Keep views focused</strong> - Each view should answer specific questions</li>
+<li><strong>Maintain views</strong> - Update or remove views as architecture evolves</li>
+</ol>
+<p>👉 <strong><a href="../module-4-production-readiness/lesson-1">Module 4: Production Readiness</a></strong> - Learn how to make your architecture production-ready.</p></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/courses/system-design-101/module-3-advanced-modeling/lesson-6" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 6: Advanced DSL Features</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/courses" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/courses/agentic-ai/module-1-fundamentals/lesson-1" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>What is Agentic AI?</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html>

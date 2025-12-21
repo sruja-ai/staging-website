@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Production-ready deployment strategies: Blue/Green, Canary, and real-world patterns."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Lesson 1: Deployment Strategies | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Lesson 1: Deployment Strategies</h1><p class="summary" data-astro-cid-mjrgpu27>Production-ready deployment strategies: Blue/Green, Canary, and real-world patterns.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="lesson-1-deployment-strategies">Lesson 1: Deployment Strategies</h1>
+<h2 id="real-world-problem-black-friday-deployment">Real-World Problem: Black Friday Deployment</h2>
+<p><strong>Scenario</strong>: You need to deploy a critical payment fix on Black Friday morning. The system handles $10M/hour in transactions. How do you deploy without risking downtime?</p>
+<p><strong>Wrong approach</strong>: Deploy directly to production and hope nothing breaks.</p>
+<p><strong>Right approach</strong>: Use a proven deployment strategy that minimizes risk.</p>
+<h2 id="why-deployment-strategies-matter">Why Deployment Strategies Matter</h2>
+<p><strong>Industry statistics:</strong></p>
+<ul>
+<li>60% of outages are caused by bad deployments (Gartner, 2023)</li>
+<li>Average cost of downtime: $5,600/minute for large enterprises</li>
+<li>99.9% uptime = 8.76 hours downtime/year (still too much for critical systems)</li>
+</ul>
+<p><strong>Product team perspective</strong>: Every minute of downtime means lost revenue, frustrated customers, and damaged reputation.</p>
+<p><strong>DevOps perspective</strong>: Need automated, repeatable, safe deployment processes.</p>
+<h2 id="bluegreen-deployment">Blue/Green Deployment</h2>
+<h3 id="concept">Concept</h3>
+<p>You have two identical environments (Blue and Green). One is live, the other is idle. You deploy to the idle one, test it, and then switch traffic.</p>
+<h3 id="real-world-example-e-commerce-platform">Real-World Example: E-Commerce Platform</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    ECommerce = system "E-Commerce Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        API = container "REST API" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            scale {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                min 10</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                max 200</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        PaymentService = container "Payment Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            description "Critical: Processes all payments"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        OrderDB = datastore "Order Database" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            technology "PostgreSQL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    deployment Production "Production Environment" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        node Blue "Active Cluster (Blue)" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance API {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 50</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 100</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                status "active"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance PaymentService {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 20</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 100</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance OrderDB {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                role "primary"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        node Green "Staging Cluster (Green)" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance API {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 50</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 0</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                status "ready"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance PaymentService {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 20</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 0</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                status "ready"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance OrderDB {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                role "standby"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                description "Synced from Blue, ready for switch"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="devops-workflow">DevOps Workflow</h3>
+<ol>
+<li><strong>Deploy to Green</strong>: Deploy new version to idle Green environment</li>
+<li><strong>Smoke Tests</strong>: Run automated health checks and integration tests</li>
+<li><strong>Load Testing</strong>: Verify Green can handle production load</li>
+<li><strong>Switch Traffic</strong>: Use load balancer to route 100% traffic to Green</li>
+<li><strong>Monitor</strong>: Watch metrics for 30 minutes</li>
+<li><strong>Rollback Plan</strong>: Keep Blue ready for instant rollback if issues occur</li>
+</ol>
+<h3 id="when-to-use-bluegreen">When to Use Blue/Green</h3>
+<p>✅ <strong>Good for:</strong></p>
+<ul>
+<li>Critical services (payment, authentication)</li>
+<li>Stateful applications with database replication</li>
+<li>Zero-downtime requirements</li>
+<li>Large, infrequent deployments</li>
+</ul>
+<p>❌ <strong>Not ideal for:</strong></p>
+<ul>
+<li>Frequent small deployments (wasteful)</li>
+<li>Stateless services (Canary is better)</li>
+<li>Limited infrastructure budget</li>
+</ul>
+<h3 id="cost-consideration">Cost Consideration</h3>
+<p><strong>Example</strong>: Running duplicate production environment</p>
+<ul>
+<li>Cost: 2x infrastructure during deployment window</li>
+<li>Typical window: 1-2 hours</li>
+<li>Trade-off: Higher cost for lower risk</li>
+</ul>
+<h2 id="canary-deployment">Canary Deployment</h2>
+<h3 id="concept-1">Concept</h3>
+<p>You roll out the new version to a small percentage of users (e.g., 5%) and monitor for errors. Gradually increase if metrics look good.</p>
+<h3 id="real-world-example-api-service">Real-World Example: API Service</h3>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    API = system "REST API" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        APIv1 = container "API v1.2.3" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            description "Current stable version"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        APIv2 = container "API v1.2.4" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            description "New version with performance improvements"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    deployment Production {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        node Canary "Canary Cluster" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance APIv2 {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 5</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                description "5% of traffic, monitoring error rate"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                    maxErrorRate "1%"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                    rollbackTrigger "error_rate > 1% or latency_p95 > 500ms"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        node Stable "Stable Cluster" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            containerInstance APIv1 {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                replicas 38</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                traffic 95</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="gradual-rollout-strategy">Gradual Rollout Strategy</h3>
+<p>Document the rollout plan in metadata:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  ECommerce = system "E-Commerce Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    API = container "API Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        deploymentStrategy "Canary"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        rolloutSteps "5% → 25% → 50% → 100%"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        stepDuration "15 minutes per step"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        monitoringWindow "15 minutes between steps"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        rollbackCriteria "error_rate > 1% OR latency_p95 > 500ms OR cpu > 90%"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="real-world-rollout-timeline">Real-World Rollout Timeline</h3>
+<p><strong>Example: Deploying new API version</strong></p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>10:00 AM - Deploy to Canary (5% traffic)</span></span>
+<span class="line"><span>10:15 AM - Monitor: Error rate 0.2%, Latency p95: 180ms ✅</span></span>
+<span class="line"><span>10:15 AM - Increase to 25% traffic</span></span>
+<span class="line"><span>10:30 AM - Monitor: Error rate 0.3%, Latency p95: 195ms ✅</span></span>
+<span class="line"><span>10:30 AM - Increase to 50% traffic</span></span>
+<span class="line"><span>10:45 AM - Monitor: Error rate 0.4%, Latency p95: 210ms ✅</span></span>
+<span class="line"><span>10:45 AM - Increase to 100% traffic</span></span>
+<span class="line"><span>11:00 AM - Deployment complete</span></span></code></pre>
+<h3 id="when-to-use-canary">When to Use Canary</h3>
+<p>✅ <strong>Good for:</strong></p>
+<ul>
+<li>Stateless services</li>
+<li>Frequent deployments (multiple per day)</li>
+<li>A/B testing new features</li>
+<li>Performance-sensitive changes</li>
+<li>Limited infrastructure budget</li>
+</ul>
+<p>❌ <strong>Not ideal for:</strong></p>
+<ul>
+<li>Database schema changes (requires coordination)</li>
+<li>Breaking API changes (incompatible versions)</li>
+<li>Services with complex state</li>
+</ul>
+<h2 id="rolling-deployment">Rolling Deployment</h2>
+<h3 id="concept-2">Concept</h3>
+<p>Gradually replace old instances with new ones, one at a time.</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">deployment Production {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    node Cluster "Kubernetes Cluster" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        containerInstance API {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            replicas 20</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            strategy "rolling"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            maxUnavailable 1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            maxSurge 2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            description "Replace 1 pod at a time, max 1 unavailable"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h3 id="when-to-use-rolling">When to Use Rolling</h3>
+<p>✅ <strong>Good for:</strong></p>
+<ul>
+<li>Kubernetes-native deployments</li>
+<li>Stateless microservices</li>
+<li>Cost-effective (no duplicate infrastructure)</li>
+<li>Automated rollback via health checks</li>
+</ul>
+<h2 id="feature-flags-deployment-strategy-alternative">Feature Flags: Deployment Strategy Alternative</h2>
+<p>Sometimes you don’t need a deployment strategy—use feature flags instead:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Platform = system "Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    FeatureFlags = container "Feature Flag Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      technology "LaunchDarkly, Split.io"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "Controls feature rollout without deployment"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    API = container "API Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        featureFlags {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">          newPaymentFlow "10% rollout"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">          experimentalSearch "5% rollout"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<p><strong>Use case</strong>: Deploy code with new feature disabled, then gradually enable via feature flags.</p>
+<h2 id="monitoring-during-deployment">Monitoring During Deployment</h2>
+<p>Model your observability during deployments:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  Observability = system "Observability Stack" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Prometheus = container "Metrics" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "Tracks error rate, latency, throughput during deployment"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    AlertManager = container "Alerting" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "Alerts on deployment issues"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Link monitoring to deployment</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">deployment Production {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        monitoring {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            metrics ["error_rate", "latency_p95", "cpu_usage", "request_rate"]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            alertThresholds {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                errorRate "> 1%"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                latencyP95 "> 500ms"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">                cpuUsage "> 90%"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">            rollbackAutomation true</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="real-world-case-study-netflix-canary-deployment">Real-World Case Study: Netflix Canary Deployment</h2>
+<p><strong>Challenge</strong>: Deploy to 100M+ users without downtime</p>
+<p><strong>Solution</strong>:</p>
+<ul>
+<li>Canary deployment to 1% of users</li>
+<li>Automated analysis of 50+ metrics</li>
+<li>Automatic rollback if any metric degrades</li>
+<li>Gradual rollout over 6 hours</li>
+</ul>
+<p><strong>Result</strong>: 99.99% deployment success rate</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Choose the right strategy</strong>: Blue/Green for critical, Canary for frequent, Rolling for cost-effective</li>
+<li><strong>Automate everything</strong>: Use CI/CD pipelines to automate deployment and rollback</li>
+<li><strong>Monitor aggressively</strong>: Track error rates, latency, and resource usage during deployment</li>
+<li><strong>Have a rollback plan</strong>: Always be ready to rollback within minutes</li>
+<li><strong>Document in Sruja</strong>: Model your deployment strategy so teams understand the process</li>
+</ol>
+<h2 id="exercise-design-a-deployment-strategy">Exercise: Design a Deployment Strategy</h2>
+<p><strong>Scenario</strong>: You’re deploying a new checkout flow for an e-commerce platform. The system processes $1M/hour.</p>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>Choose a deployment strategy (Blue/Green, Canary, or Rolling)</li>
+<li>Model it in Sruja with deployment nodes</li>
+<li>Add monitoring and rollback criteria</li>
+<li>Document the rollout timeline</li>
+</ol>
+<p><strong>Time</strong>: 15 minutes</p>
+<h2 id="further-reading">Further Reading</h2>
+<ul>
+<li>Tutorial: <a href="/tutorials/advanced/deployment-modeling">Deployment Modeling</a></li>
+<li>Course: <a href="/courses/system-design-101/module-4-production-readiness">System Design 101 - Module 4: Production Readiness</a></li>
+<li>Docs: <a href="/docs/concepts/deployment">Deployment Concepts</a></li>
+</ul></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/courses/ecommerce-platform/module-4-sdlc/lesson-1" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 1: The Local Loop</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/courses" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/courses/ecommerce-platform/module-6-evolution/lesson-1" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 1: The &quot;Good&quot; Problem (Traffic Spikes)</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html>

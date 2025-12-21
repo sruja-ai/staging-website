@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Complete guide to evaluating and adopting Sruja for your organization."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Adoption Guide | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.docs-page[data-astro-cid-uadgga6g]{max-width:1400px;margin:0 auto;padding:2rem}@media(max-width:1024px){.docs-page[data-astro-cid-uadgga6g]{padding:1.5rem}}@media(max-width:768px){.docs-page[data-astro-cid-uadgga6g]{padding:1rem}}@media(max-width:640px){.docs-page[data-astro-cid-uadgga6g]{padding:.75rem}}
+.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="docs-page" data-astro-cid-uadgga6g> <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Adoption Guide</h1><p class="summary" data-astro-cid-mjrgpu27>Complete guide to evaluating and adopting Sruja for your organization.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="sruja-adoption-guide">Sruja Adoption Guide</h1>
+<h2 id="is-sruja-right-for-your-organization">Is Sruja Right for Your Organization?</h2>
+<h3 id="quick-self-assessment">Quick Self-Assessment</h3>
+<p>Answer these questions to determine if Sruja addresses your needs:</p>
+<h4 id="architecture--documentation-pain-points">Architecture &#x26; Documentation Pain Points</h4>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Do your architecture diagrams become outdated within weeks?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do engineers spend significant time maintaining documentation?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Is there confusion about “the latest architecture diagram”?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do new engineers struggle to understand system architecture?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Are architectural decisions lost when senior engineers leave?</li>
+</ul>
+<p><strong>If 3+ are “Yes”</strong> → Sruja can help</p>
+<h4 id="compliance--governance-needs">Compliance &#x26; Governance Needs</h4>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Do you need to comply with regulations (HIPAA, SOC2, PCI-DSS, GDPR)?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Are compliance audits time-consuming and risky?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you struggle to prove architectural controls meet requirements?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Are security policies documented but not enforced?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you need to demonstrate compliance to auditors?</li>
+</ul>
+<p><strong>If 2+ are “Yes”</strong> → Sruja’s policy-as-code is valuable</p>
+<h4 id="technical-architecture-challenges">Technical Architecture Challenges</h4>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Do you have microservices that need governance?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Are you experiencing architectural drift (implementation vs. design)?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you need to enforce service boundaries and dependencies?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Are circular dependencies causing issues?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you need to generate infrastructure from architecture?</li>
+</ul>
+<p><strong>If 2+ are “Yes”</strong> → Sruja’s validation and enforcement help</p>
+<h4 id="devops--engineering-culture">DevOps &#x26; Engineering Culture</h4>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Do you use Git/GitOps workflows?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you have CI/CD pipelines?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you value “everything as code” (IaC, GitOps)?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you want architecture changes in PR reviews?</li>
+<li class="task-list-item"><input type="checkbox" disabled> Do you need architecture to integrate with Terraform/Istio/etc.?</li>
+</ul>
+<p><strong>If 3+ are “Yes”</strong> → Sruja fits your workflow</p>
+<h2 id="organization-size--maturity">Organization Size &#x26; Maturity</h2>
+<p><strong>Sruja is ideal for:</strong></p>
+<ul>
+<li>✅ <strong>Startups (10-50 engineers)</strong>: Fast scaling, need consistency</li>
+<li>✅ <strong>Scale-ups (50-200 engineers)</strong>: Managing complexity, compliance needs</li>
+<li>✅ <strong>Enterprises (200+ engineers)</strong>: Governance, compliance, knowledge management</li>
+</ul>
+<p><strong>Sruja may not be ideal if:</strong></p>
+<ul>
+<li>❌ You have &#x3C; 5 engineers (overhead may outweigh benefits)</li>
+<li>❌ You don’t use version control or CI/CD</li>
+<li>❌ You prefer visual-only tools (no code/DSL)</li>
+<li>❌ You have no compliance or governance requirements</li>
+</ul>
+<h2 id="decision-framework">Decision Framework</h2>
+<h3 id="step-1-define-your-goals">Step 1: Define Your Goals</h3>
+<p><strong>What problem are you trying to solve?</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Goal</th><th>Sruja Benefit</th><th>Priority</th></tr></thead><tbody><tr><td><strong>Reduce documentation overhead</strong></td><td>Architecture-as-code stays current</td><td>High</td></tr><tr><td><strong>Ensure compliance</strong></td><td>Policy-as-code with automated validation</td><td>High</td></tr><tr><td><strong>Prevent architectural drift</strong></td><td>Automated validation in CI/CD</td><td>Medium</td></tr><tr><td><strong>Faster onboarding</strong></td><td>Living documentation in codebase</td><td>Medium</td></tr><tr><td><strong>Enforce service boundaries</strong></td><td>Layer and dependency validation</td><td>Medium</td></tr><tr><td><strong>Generate infrastructure</strong></td><td>Terraform/OpenTofu generation (roadmap)</td><td>Low</td></tr></tbody></table>
+<p><strong>Action</strong>: Rank your top 3 goals. Sruja should address at least 2.</p>
+<h3 id="step-2-calculate-value--roi">Step 2: Calculate Value &#x26; ROI</h3>
+<p><strong>Note</strong>: Sruja is free and open source. This ROI calculation measures <strong>time savings and value</strong>, not purchase cost.</p>
+<p><strong>Quick Value Calculator:</strong></p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Time Savings = (Engineers × Hours/Week × 0.7) × 50 weeks × $100/hour</span></span>
+<span class="line"><span>Onboarding Savings = (New Engineers/Year × 2 weeks × 0.5) × $150k/year ÷ 50</span></span>
+<span class="line"><span>Risk Reduction = Compliance Failures Avoided × $100k</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Total Value = Time Savings + Onboarding + Risk Reduction</span></span></code></pre>
+<p><strong>Example</strong> (10 senior engineers, 20 new engineers/year):</p>
+<ul>
+<li>Time: 10 × 4 hours × 0.7 × 50 × $100 = <strong>$140k/year</strong></li>
+<li>Onboarding: 20 × 2 × 0.5 × $150k ÷ 50 = <strong>$60k/year</strong></li>
+<li>Risk: 1 failure avoided = <strong>$100k</strong> (one-time)</li>
+<li><strong>Total Value: $200k+ per year</strong></li>
+</ul>
+<p><strong>ROI</strong>: Since Sruja is free, ROI is essentially infinite - you get value with zero cost.</p>
+<h3 id="step-3-assess-technical-fit">Step 3: Assess Technical Fit</h3>
+<p><strong>Evaluate your technical stack:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Technology</th><th>Sruja Integration</th><th>Status</th></tr></thead><tbody><tr><td><strong>Git/GitHub/GitLab</strong></td><td>Native integration</td><td>✅ Available</td></tr><tr><td><strong>CI/CD (GitHub Actions, GitLab CI)</strong></td><td>Validation in pipelines</td><td>✅ Available</td></tr><tr><td><strong>Terraform/OpenTofu</strong></td><td>Infrastructure generation</td><td>🚧 Roadmap (Phase 2)</td></tr><tr><td><strong>Kubernetes/Istio</strong></td><td>Service mesh config generation</td><td>🚧 Roadmap (Phase 3)</td></tr><tr><td><strong>API Gateways (Kong, Apigee)</strong></td><td>Config generation</td><td>🚧 Roadmap (Phase 3)</td></tr><tr><td><strong>OPA (Open Policy Agent)</strong></td><td>Policy integration</td><td>🚧 Roadmap (Phase 2)</td></tr></tbody></table>
+<p><strong>Action</strong>:</p>
+<ul>
+<li>If you need Git/CI/CD integration → ✅ Ready now</li>
+<li>If you need Terraform/Istio/OPA → 🚧 On roadmap (see <a href="https://github.com/sruja-ai/sruja/discussions">Roadmap Discussions</a>) — you can pilot with current features now</li>
+</ul>
+<h2 id="evaluation-process">Evaluation Process</h2>
+<h3 id="phase-1-discovery-week-1">Phase 1: Discovery (Week 1)</h3>
+<p><strong>Activities:</strong></p>
+<ol>
+<li>Review Sruja documentation</li>
+<li>Try Sruja Designer online</li>
+<li>Install CLI: <code>curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</code></li>
+<li>Model a simple existing system</li>
+</ol>
+<p><strong>Deliverable</strong>: Understanding of Sruja capabilities</p>
+<h3 id="phase-2-proof-of-concept-weeks-2-4">Phase 2: Proof of Concept (Weeks 2-4)</h3>
+<p><strong>Activities:</strong></p>
+<ol>
+<li>Model 1-2 real systems in Sruja</li>
+<li>Integrate validation into CI/CD</li>
+<li>Document architecture decisions as ADRs</li>
+<li>Measure time savings</li>
+</ol>
+<p><strong>Success Criteria:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Can model systems accurately</li>
+<li class="task-list-item"><input type="checkbox" disabled> Validation catches real issues</li>
+<li class="task-list-item"><input type="checkbox" disabled> Team sees value</li>
+<li class="task-list-item"><input type="checkbox" disabled> Time savings measurable</li>
+</ul>
+<p><strong>Deliverable</strong>: PoC report with value estimate</p>
+<h3 id="phase-3-pilot-months-2-3">Phase 3: Pilot (Months 2-3)</h3>
+<p><strong>Activities:</strong></p>
+<ol>
+<li>Roll out to 1-2 teams</li>
+<li>Establish best practices</li>
+<li>Create internal documentation</li>
+<li>Measure compliance improvements</li>
+</ol>
+<p><strong>Success Criteria:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Architecture stays current</li>
+<li class="task-list-item"><input type="checkbox" disabled> Compliance validation working</li>
+<li class="task-list-item"><input type="checkbox" disabled> Team adoption > 80%</li>
+<li class="task-list-item"><input type="checkbox" disabled> Positive value demonstrated</li>
+</ul>
+<p><strong>Deliverable</strong>: Pilot report with go/no-go recommendation</p>
+<h2 id="decision-checklist">Decision Checklist</h2>
+<h3 id="must-have-requirements">Must-Have Requirements</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Problem Fit</strong>: Sruja addresses 2+ of your top goals</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Value Positive</strong>: Calculated value > $100k/year (or equivalent time savings)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Technical Fit</strong>: Git/CI/CD integration available (or roadmap acceptable)</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Team Readiness</strong>: Team comfortable with code-based tools</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>Leadership Support</strong>: Time allocated for adoption (no budget needed - Sruja is free)</li>
+</ul>
+<h3 id="nice-to-have-requirements">Nice-to-Have Requirements</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> Advanced features needed (Terraform, Istio, OPA)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Compliance requirements (HIPAA, SOC2, PCI-DSS)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Large team (100+ engineers)</li>
+<li class="task-list-item"><input type="checkbox" disabled> Microservices architecture</li>
+</ul>
+<h3 id="decision-matrix">Decision Matrix</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Criteria</th><th>Weight</th><th>Your Score (1-5)</th><th>Weighted Score</th></tr></thead><tbody><tr><td>Problem fit</td><td>30%</td><td>___</td><td>___</td></tr><tr><td>Value/ROI</td><td>25%</td><td>___</td><td>___</td></tr><tr><td>Technical fit</td><td>20%</td><td>___</td><td>___</td></tr><tr><td>Team readiness</td><td>15%</td><td>___</td><td>___</td></tr><tr><td>Leadership support</td><td>10%</td><td>___</td><td>___</td></tr><tr><td><strong>Total</strong></td><td>100%</td><td></td><td><strong>___/5.0</strong></td></tr></tbody></table>
+<p><strong>Decision Rule</strong>:</p>
+<ul>
+<li><strong>> 4.0</strong>: Strong fit → Proceed with pilot</li>
+<li><strong>3.5-4.0</strong>: Good fit → Consider pilot</li>
+<li><strong>&#x3C; 3.5</strong>: Weak fit → Reassess or wait</li>
+</ul>
+<h2 id="common-concerns--objections">Common Concerns &#x26; Objections</h2>
+<h3 id="we-already-have-architecture-documentation">”We already have architecture documentation”</h3>
+<p><strong>Response</strong>: Sruja doesn’t replace documentation — it makes it <strong>executable</strong>. Your documentation becomes code that:</p>
+<ul>
+<li>Stays current (version-controlled)</li>
+<li>Validates automatically</li>
+<li>Enforces policies</li>
+<li>Integrates with DevOps</li>
+</ul>
+<h3 id="our-team-isnt-technical-enough-for-a-dsl">”Our team isn’t technical enough for a DSL”</h3>
+<p><strong>Response</strong>: Sruja’s DSL is designed for <strong>all developers</strong>:</p>
+<ul>
+<li>1st-year CS students productive in 10 minutes</li>
+<li>Progressive disclosure (simple → advanced)</li>
+<li>Rich error messages guide users</li>
+<li>VS Code extension with full LSP support (autocomplete, go-to-definition, rename, find references, and more) - see <a href="/docs/vscode-extension">VS Code Extension Guide</a></li>
+</ul>
+<h3 id="we-dont-have-compliance-requirements">”We don’t have compliance requirements”</h3>
+<p><strong>Response</strong>: Sruja provides value beyond compliance:</p>
+<ul>
+<li>Faster onboarding (50% reduction)</li>
+<li>Reduced documentation time (20-30%)</li>
+<li>Architectural validation (prevents drift)</li>
+<li>Knowledge preservation</li>
+</ul>
+<h3 id="the-roadmap-features-we-need-arent-ready">”The roadmap features we need aren’t ready”</h3>
+<p><strong>Response</strong>:</p>
+<ul>
+<li>Core features (validation, CI/CD) are <strong>available now</strong></li>
+<li>Roadmap features (Terraform, Istio, OPA) are planned for <strong>Phase 2-3</strong> (see <a href="https://github.com/sruja-ai/sruja/discussions">Roadmap Discussions</a>)</li>
+<li>You can start with core features and add advanced later</li>
+<li>Early adoption gives you influence on roadmap priorities</li>
+</ul>
+<h2 id="success-metrics">Success Metrics</h2>
+<h3 id="track-these-kpis">Track These KPIs</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric</th><th>Baseline</th><th>Target (3 months)</th><th>Target (6 months)</th></tr></thead><tbody><tr><td><strong>Documentation time</strong></td><td>X hours/week</td><td>X × 0.7 hours/week</td><td>X × 0.5 hours/week</td></tr><tr><td><strong>Onboarding time</strong></td><td>X weeks</td><td>X × 0.7 weeks</td><td>X × 0.5 weeks</td></tr><tr><td><strong>Architecture freshness</strong></td><td>X% outdated</td><td>&#x3C; 10% outdated</td><td>&#x3C; 5% outdated</td></tr><tr><td><strong>Compliance violations</strong></td><td>X per quarter</td><td>X × 0.5 per quarter</td><td>0 per quarter</td></tr><tr><td><strong>Architectural issues caught</strong></td><td>X in production</td><td>X × 0.3 in production</td><td>X × 0.1 in production</td></tr></tbody></table>
+<h2 id="next-steps">Next Steps</h2>
+<h3 id="immediate-actions">Immediate Actions</h3>
+<ol>
+<li><strong>Complete Self-Assessment</strong> (above)</li>
+<li><strong>Calculate Value</strong> (Step 2)</li>
+<li><strong>Try Sruja</strong> (see <a href="/docs/getting-started">Getting Started</a>)</li>
+<li><strong>Join Community</strong> (GitHub Discussions, Discord, etc.)</li>
+</ol>
+<h3 id="decision-timeline">Decision Timeline</h3>
+<ul>
+<li><strong>Week 1</strong>: Self-assessment and value calculation</li>
+<li><strong>Week 2-4</strong>: Proof of concept</li>
+<li><strong>Month 2-3</strong>: Pilot program</li>
+<li><strong>Month 4+</strong>: Full rollout (if successful)</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><strong>Getting Started</strong>: <a href="/docs/getting-started">Getting Started Guide</a></li>
+<li><strong>Executive Overview</strong>: <a href="/investors/executive-overview">Executive Overview</a></li>
+<li><strong>Adoption Playbook</strong>: <a href="/docs/adoption-playbook">Adoption Playbook</a></li>
+<li><strong>Decision Framework</strong>: <a href="/docs/decision-framework">Quick Decision Framework</a></li>
+</ul>
+<h2 id="open-source--community-support">Open Source &#x26; Community Support</h2>
+<p>Sruja is <strong>free and open source</strong> (Apache 2.0 licensed), developed by and for the community. You can:</p>
+<ul>
+<li><strong>Use it freely</strong>: No licensing fees or restrictions</li>
+<li><strong>Contribute</strong>: Submit PRs, report issues, suggest features</li>
+<li><strong>Extend it</strong>: Build custom validators, exporters, and integrations</li>
+<li><strong>Join the community</strong>: Participate in <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a>, share use cases, and learn from others</li>
+</ul>
+<h2 id="professional-services">Professional Services</h2>
+<p>While Sruja is open source and free to use, professional consulting services are available for organizations that need:</p>
+<ul>
+<li><strong>Implementation support</strong>: Help rolling out Sruja across teams and systems</li>
+<li><strong>Best practices guidance</strong>: Establish architectural governance patterns and workflows</li>
+<li><strong>Custom integrations</strong>: Integrate Sruja with existing CI/CD, infrastructure, and monitoring tools</li>
+<li><strong>Training</strong>: Team training on Sruja DSL, validation patterns, and architectural modeling</li>
+<li><strong>Custom development</strong>: Build custom validators, exporters, or platform integrations</li>
+</ul>
+<p>Contact the team through <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a> to discuss your needs.</p>
+<h2 id="future-platform-vision">Future Platform Vision</h2>
+<p>Sruja is designed to evolve into a comprehensive platform for architectural governance:</p>
+<ul>
+<li><strong>Live System Review</strong>: Compare actual runtime behavior against architectural models to detect drift and violations.</li>
+<li><strong>Gap Analysis</strong>: Automatically identify missing components, undocumented dependencies, and architectural gaps.</li>
+<li><strong>Continuous Validation</strong>: Monitor production systems against architectural policies and constraints in real-time.</li>
+<li><strong>Compliance Monitoring</strong>: Track and report on architectural compliance across services and deployments.</li>
+</ul>
+<p>These capabilities are planned for future releases. The current open source foundation provides the building blocks for this evolution, and community feedback helps shape the roadmap.</p>
+<hr>
+<p><strong>Note</strong>: This guide helps you evaluate whether Sruja is the right fit for your organization and how to adopt it successfully.</p>
+<p><strong>Ready to evaluate Sruja? Start with the Self-Assessment above.</strong></p></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/docs/concepts/relations" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Relations</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/docs" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/docs/concepts/behavior-and-depends-on" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Behavior and depends_on</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav> </div>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html> 

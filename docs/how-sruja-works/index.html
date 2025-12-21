@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Developer-friendly language for defining, visualizing, and validating software architecture"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>How Sruja Works | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.docs-page[data-astro-cid-uadgga6g]{max-width:1400px;margin:0 auto;padding:2rem}@media(max-width:1024px){.docs-page[data-astro-cid-uadgga6g]{padding:1.5rem}}@media(max-width:768px){.docs-page[data-astro-cid-uadgga6g]{padding:1rem}}@media(max-width:640px){.docs-page[data-astro-cid-uadgga6g]{padding:.75rem}}
+.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="docs-page" data-astro-cid-uadgga6g> <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>How Sruja Works</h1></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="how-sruja-works">How Sruja Works</h1>
+<p>Sruja is built on a modern, modular architecture designed to bring <strong>Architecture-as-Code</strong> to every part of your development lifecycle—from your IDE to your CI/CD pipeline and documentation site.</p>
+<h2 id="the-sruja-platform">The Sruja Platform</h2>
+<p>The platform consists of several key components working together:</p>
+<ol>
+<li><strong>Core Engine</strong>: The heart of Sruja, written in Go. It handles parsing, validation, and analysis.</li>
+<li><strong>CLI</strong>: The command-line interface for local development and CI/CD integration.</li>
+<li><strong>WASM Module</strong>: The core engine compiled to WebAssembly, enabling Sruja to run in the browser and VS Code.</li>
+<li><strong>Language Service</strong>: Provides IDE features like syntax highlighting, auto-completion, and diagnostics.</li>
+<li><strong>Studio &#x26; Viewer</strong>: Web-based tools for visualizing and interacting with your architecture.</li>
+</ol>
+<h2 id="architecture-diagram">Architecture Diagram</h2>
+<p>Explore the Sruja architecture itself using the interactive viewer below. This diagram is defined in Sruja DSL!</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	description "The Sruja Architecture-as-Code Platform"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	User = person "Architect/Developer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		description "Uses Sruja to design and document systems"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	Sruja = system "Sruja Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		description "Tools for defining, visualizing, and analyzing software architecture"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		CLI = container "Sruja CLI" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Command-line interface (cmd/sruja)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Engine = container "Core Engine" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Core logic for validation, scoring, and analysis (pkg/engine)"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			Validation = component "Validation Engine" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				description "Validates AST against rules (pkg/engine/rules)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			Scorer = component "Scoring Engine" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				description "Calculates architecture health score (pkg/engine/scorer.go)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			Policy = component "Policy Engine" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">				description "Enforces custom policies (future: OPA/Rego)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			Scorer -> Validation "uses results from"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			Validation -> Policy "checks against"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Language = container "Language Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "Go"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Parser, AST, and LSP implementation (pkg/language)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		WASM = container "WASM Module" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "Go/WASM"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "WebAssembly build of the core engine (cmd/wasm)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		VSCode = container "VS Code Extension" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "TypeScript"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Editor extension (apps/vscode-extension)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Designer = container "Sruja Designer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "React/Vite"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Interactive architecture design tool (apps/designer)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Website = container "Documentation Site" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			technology "Astro"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			description "Project documentation and guides (apps/website)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		// Internal Dependencies</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		CLI -> Language "parses DSL using"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		CLI -> Engine "validates using"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		CLI -> WASM "builds"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		WASM -> Language "embeds"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		WASM -> Engine "embeds"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		VSCode -> Language "uses LSP"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		VSCode -> WASM "uses for LSP and preview"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Designer -> WASM "uses for parsing/rendering"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		Website -> Designer "embeds"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	User -> Sruja.CLI "runs commands"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	User -> Sruja.VSCode "writes DSL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	User -> Sruja.Designer "designs architecture"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	User -> Sruja.Website "reads docs"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	Browser = system "Web Browser" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		description "User's web browser environment"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">			tags ["external"]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		LocalStore = datastore "Local Storage"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	// ADRs</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	adr ADR001 "Use WASM for Client-Side Execution" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		status "Accepted"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		context "We need to run validation and parsing in the browser and VS Code without a backend server."</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		decision "Compile the Go core engine to WebAssembly."</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">		consequences "Ensures consistent logic across all platforms but increases build complexity."</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">	}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Deployment</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  deployment Production "Production Environment" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    node GitHubPages "GitHub Pages" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      containerInstance Pages</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    node Marketplace "VS Code Marketplace" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      containerInstance VSCode</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    node Releases "GitHub Releases" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      containerInstance Releases</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  GitHub = system "GitHub Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Source control, CI/CD, and hosting"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Actions = container "GitHub Actions" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      technology "YAML/Node"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "CI/CD workflows"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Pages = container "GitHub Pages" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      technology "Static Hosting"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "Hosts documentation site"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Releases = container "GitHub Releases" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      technology "File Hosting"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      description "Hosts CLI binaries"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Actions -> Pages "deploys to"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Actions -> Releases "publishes to"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  User -> GitHub "pushes code to" [Git]</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Component Stories</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  story DesignerStory "Using Sruja Designer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Website "visits designer"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Website -> Sruja.Designer "initializes"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "loads engine"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "parses DSL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "renders interactive diagram"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  story DesignerExports "Exporting from Designer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "clicks export"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "requests JSON"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.WASM -> Sruja.Designer "returns JSON data"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "downloads file"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Designer-specific Scenarios</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerShare "Share From Designer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "edits DSL code"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser "updates URL with code"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "clicks Share button"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser "copies shareable URL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> User "shares URL with team"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerFormatPreview "Preview Multiple Formats" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "loads architecture"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "switches to JSON preview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "parses DSL to JSON"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "displays JSON export"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerResizePanels "Resize Editor and Preview" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "opens split view"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "shows editor and preview side-by-side"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "drags resize handle"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "adjusts panel sizes"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser "saves panel preference"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerLoadExample "Load Example Architecture" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "opens examples dropdown"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "shows available examples"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "selects example"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.Website "loads example file"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Website -> Sruja.Designer "returns DSL content"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "parses DSL"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "displays architecture"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser "updates URL with code"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerURLState "URL State Management" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "edits DSL code" [Input]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser "debounces URL update" [Timeout]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Browser -> Browser "updates URL hash with code" [HistoryAPI]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Browser "refreshes page" [Event]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Browser -> Sruja.Designer "loads code from URL" [HashParse]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "parses DSL from URL" [FunctionCall]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "restores architecture state" [DOM]</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  story DesignerEditingStory "Visual Editing in Designer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "opens editor"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "loads engine"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "types DSL code"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Sruja.WASM "validates code"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.WASM -> Sruja.Designer "returns diagnostics"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "shows errors/diagram"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario DesignerAutosave "Autosave on Close" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser.LocalStore "save DSL snapshot"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "closes tab"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Designer "reopens designer"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> Browser.LocalStore "load DSL snapshot"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Designer -> User "restores session"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  story DocsStory "Reading Documentation" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> Sruja.Website "navigates to page"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Website -> GitHub.Pages "serves content"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Sruja.Website -> User "displays text &#x26; code blocks"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Specific Scenarios (The Behavior)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario CIDev "Continuous Integration (Dev)" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub "pushes to main"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub -> GitHub.Actions "triggers CI"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> Sruja "builds &#x26; tests"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub.Pages "deploys dev site"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario ReleaseStaging "Release Candidate (Staging)" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub.Actions "dispatches release workflow"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub "creates release/&#x3C;semVer> branch"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub "creates PR to prod"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub "creates &#x3C;semVer>-RC1 tag"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> Sruja.VSCode "publishes pre-release extension"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario ReleaseFixes "Release Candidate Fixes" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub "commits fix to release/&#x3C;semVer>"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub -> GitHub.Actions "triggers CI"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub "creates &#x3C;semVer>-RC2 tag"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> Sruja.VSCode "updates pre-release extension"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario ReleaseProd "Production Release" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub "merges PR to prod"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub -> GitHub.Actions "triggers release"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub.Pages "deploys prod site"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> Sruja.VSCode "publishes extension"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub.Releases "publishes CLI binaries"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  scenario HotfixProd "Hotfix to Production" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub.Actions "dispatches hotfix workflow"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub "creates hotfix branch"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    User -> GitHub "merges hotfix to prod"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> GitHub.Pages "deploys prod site"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    GitHub.Actions -> Sruja.VSCode "publishes patch update"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
+<h2 id="key-components">Key Components</h2>
+<h3 id="core-engine-go">Core Engine (Go)</h3>
+<p>The <a href="https://github.com/sruja-ai/sruja/tree/main/pkg/engine"><code>pkg/engine</code></a> and <a href="https://github.com/sruja-ai/sruja/tree/main/pkg/language"><code>pkg/language</code></a> packages form the foundation. They define the DSL grammar, parse input files into an AST (Abstract Syntax Tree), and run validation rules (like cycle detection and layer enforcement).</p>
+<h3 id="webassembly-wasm">WebAssembly (WASM)</h3>
+<p>To ensure a consistent experience across all tools, we compile the Go engine to WebAssembly (<a href="https://github.com/sruja-ai/sruja/tree/main/cmd/wasm"><code>cmd/wasm</code></a>). This allows the <strong>exact same parsing and validation logic</strong> to run in:</p>
+<ul>
+<li><strong>Sruja Designer</strong>: For instant feedback in the browser.</li>
+<li><strong>VS Code Extension</strong>: For local preview without needing a binary.</li>
+<li><strong>Documentation Site</strong>: For embedding interactive diagrams in documentation (like the one above!).</li>
+</ul>
+<h3 id="cli--cicd">CLI &#x26; CI/CD</h3>
+<p>The <code>sruja</code> CLI (<a href="https://github.com/sruja-ai/sruja/tree/main/cmd/sruja"><code>cmd/sruja</code></a>) is a static binary that wraps the core engine. It’s designed for:</p>
+<ul>
+<li><strong>Local Development</strong>: <code>sruja fmt</code>, <code>sruja lint</code>, <code>sruja compile</code>.</li>
+<li><strong>CI/CD</strong>: <code>sruja score</code> to enforce architectural quality in your pipelines.</li>
+<li><strong>Export</strong>: <code>sruja export json</code> to export architecture to JSON format.</li>
+<li><strong>Import</strong>: <code>sruja import json</code> to import architecture from JSON format.</li>
+</ul></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/docs/beginner-path" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Beginner Path</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/docs" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/docs/concepts/architecture" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Architecture</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav> </div>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html> 

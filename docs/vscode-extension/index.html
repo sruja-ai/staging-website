@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Full-featured Language Server Protocol (LSP) support for Sruja DSL in VS Code."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>VS Code Extension | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r4" component-url="/_astro/PosthogInit.BoH09UBR.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInit&quot;,&quot;value&quot;:true}"></astro-island><script>
+      (function() {
+        const applyTheme = () => {
+          const theme = localStorage.getItem('sruja-theme-mode') || 'system';
+          const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          const root = document.documentElement;
+          if (isDark) {
+            root.style.setProperty('--color-primary', '#a78bfa');
+            root.style.setProperty('--color-primary-hover', '#c4b5fd');
+            root.style.setProperty('--color-primary-active', '#8b5cf6');
+            root.style.setProperty('--color-background', '#0f172a');
+            root.style.setProperty('--color-text-primary', '#f1f5f9');
+          } else {
+            root.style.setProperty('--color-primary', '#7c3aed');
+            root.style.setProperty('--color-primary-hover', '#6d28d9');
+            root.style.setProperty('--color-primary-active', '#5b21b6');
+            root.style.setProperty('--color-background', '#ffffff');
+            root.style.setProperty('--color-text-primary', '#0f172a');
+          }
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        };
+        applyTheme();
+        try {
+          window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+          window.addEventListener('storage', applyTheme);
+          window.addEventListener('theme-change', applyTheme);
+          const mo = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+          });
+          mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch {}
+      })();
+    </script><link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
+</style>
+<link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
+<link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
+<style>.docs-page[data-astro-cid-uadgga6g]{max-width:1400px;margin:0 auto;padding:2rem}@media(max-width:1024px){.docs-page[data-astro-cid-uadgga6g]{padding:1.5rem}}@media(max-width:768px){.docs-page[data-astro-cid-uadgga6g]{padding:1rem}}@media(max-width:640px){.docs-page[data-astro-cid-uadgga6g]{padding:.75rem}}
+.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
+</style>
+<link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
+<link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css">
+<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DN2bXDbT.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="docs-page" data-astro-cid-uadgga6g> <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>VS Code Extension</h1><p class="summary" data-astro-cid-mjrgpu27>Full-featured Language Server Protocol (LSP) support for Sruja DSL in VS Code.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="vs-code-extension">VS Code Extension</h1>
+<p>The Sruja VS Code extension provides comprehensive language support for <code>.sruja</code> files with full LSP (Language Server Protocol) features powered by WebAssembly.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="from-vs-code-marketplace">From VS Code Marketplace</h3>
+<ol>
+<li>Open VS Code</li>
+<li>Go to Extensions (<code>Cmd+Shift+X</code> or <code>Ctrl+Shift+X</code>)</li>
+<li>Search for “Sruja”</li>
+<li>Click <strong>Install</strong> on “Sruja DSL Language Support”</li>
+</ol>
+<h3 id="from-vsix-file">From VSIX File</h3>
+<ol>
+<li>Download the <code>.vsix</code> file from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a></li>
+<li>In VS Code, go to Extensions</li>
+<li>Click the <code>...</code> menu → “Install from VSIX…”</li>
+<li>Select the downloaded <code>.vsix</code> file</li>
+</ol>
+<h2 id="features">Features</h2>
+<p>The extension provides a complete LSP implementation with the following features:</p>
+<h3 id="-core-lsp-features">✨ Core LSP Features</h3>
+<h4 id="1-diagnostics-errors--warnings">1. <strong>Diagnostics</strong> (Errors &#x26; Warnings)</h4>
+<ul>
+<li>Real-time error detection as you type</li>
+<li>Syntax errors highlighted immediately</li>
+<li>Validation errors (duplicate IDs, invalid references, etc.)</li>
+<li>Hover over errors to see detailed messages</li>
+</ul>
+<h4 id="2-hover-information">2. <strong>Hover Information</strong></h4>
+<ul>
+<li>Hover over any symbol to see its definition</li>
+<li>Shows system/container/component information</li>
+<li>Displays labels and descriptions</li>
+</ul>
+<p><strong>Usage</strong>: Hover your mouse over any identifier</p>
+<h4 id="3-autocomplete-intellisense">3. <strong>Autocomplete</strong> (IntelliSense)</h4>
+<ul>
+<li>Keyword suggestions (<code>architecture</code>, <code>system</code>, <code>container</code>, etc.)</li>
+<li>Symbol completion (suggests existing systems, containers, components)</li>
+<li>Context-aware suggestions</li>
+</ul>
+<p><strong>Usage</strong>: Type <code>Ctrl+Space</code> (or <code>Cmd+Space</code> on Mac) to trigger autocomplete</p>
+<h4 id="4-go-to-definition">4. <strong>Go to Definition</strong></h4>
+<ul>
+<li>Navigate to symbol definitions with <code>F12</code> or <code>Cmd+Click</code></li>
+<li>Works with qualified names (e.g., <code>App.API</code>)</li>
+<li>Supports both root and child paths in FQNs</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>F12</code> - Go to definition</li>
+<li><code>Cmd+Click</code> (Mac) or <code>Ctrl+Click</code> (Windows/Linux) - Go to definition</li>
+<li><code>Cmd+F12</code> - Go to implementation</li>
+</ul>
+<h4 id="5-find-all-references">5. <strong>Find All References</strong></h4>
+<ul>
+<li>Find all places where a symbol is used</li>
+<li>Shows references in relations and qualified names</li>
+<li>Opens in the References panel</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>Shift+F12</code> - Find all references</li>
+<li>Right-click → “Find All References”</li>
+</ul>
+<h4 id="6-rename-symbol">6. <strong>Rename Symbol</strong></h4>
+<ul>
+<li>Rename a symbol and all its references</li>
+<li>Updates both definitions and usages</li>
+<li>Handles qualified names correctly</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>F2</code> - Rename symbol</li>
+<li>Right-click → “Rename Symbol”</li>
+</ul>
+<h4 id="7-document-symbols-outline">7. <strong>Document Symbols</strong> (Outline)</h4>
+<ul>
+<li>View all symbols in the current file</li>
+<li>Navigate quickly through your architecture</li>
+<li>Shows hierarchy: systems → containers → components</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>Cmd+Shift+O</code> (Mac) or <code>Ctrl+Shift+O</code> (Windows/Linux) - Go to symbol in file</li>
+<li>View → Outline</li>
+</ul>
+<h4 id="8-workspace-symbols">8. <strong>Workspace Symbols</strong></h4>
+<ul>
+<li>Search for symbols across all open files</li>
+<li>Quick navigation to any symbol in your workspace</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>Cmd+T</code> (Mac) or <code>Ctrl+T</code> (Windows/Linux) - Go to symbol in workspace</li>
+</ul>
+<h4 id="9-code-formatting">9. <strong>Code Formatting</strong></h4>
+<ul>
+<li>Format your Sruja DSL code</li>
+<li>Consistent indentation and spacing</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li><code>Shift+Alt+F</code> (Windows/Linux) or <code>Shift+Option+F</code> (Mac) - Format document</li>
+<li>Right-click → “Format Document”</li>
+</ul>
+<h3 id="-additional-features">🎨 Additional Features</h3>
+<h4 id="syntax-highlighting">Syntax Highlighting</h4>
+<ul>
+<li>Color-coded keywords, strings, and identifiers</li>
+<li>Makes code easier to read and understand</li>
+</ul>
+<h4 id="preview-architecture">Preview Architecture</h4>
+<ul>
+<li>Generate visual previews of your architecture</li>
+<li>Opens in VS Code’s markdown preview</li>
+</ul>
+<p><strong>Usage</strong>:</p>
+<ul>
+<li>Right-click on a <code>.sruja</code> file → “Preview Sruja Architecture”</li>
+<li>Or use the command palette: <code>Cmd+Shift+P</code> → “Sruja: Preview Architecture”</li>
+</ul>
+<h2 id="keyboard-shortcuts">Keyboard Shortcuts</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Feature</th><th>Mac</th><th>Windows/Linux</th></tr></thead><tbody><tr><td>Go to Definition</td><td><code>F12</code> or <code>Cmd+Click</code></td><td><code>F12</code> or <code>Ctrl+Click</code></td></tr><tr><td>Find All References</td><td><code>Shift+F12</code></td><td><code>Shift+F12</code></td></tr><tr><td>Rename Symbol</td><td><code>F2</code></td><td><code>F2</code></td></tr><tr><td>Go to Symbol in File</td><td><code>Cmd+Shift+O</code></td><td><code>Ctrl+Shift+O</code></td></tr><tr><td>Go to Symbol in Workspace</td><td><code>Cmd+T</code></td><td><code>Ctrl+T</code></td></tr><tr><td>Format Document</td><td><code>Shift+Option+F</code></td><td><code>Shift+Alt+F</code></td></tr><tr><td>Trigger Autocomplete</td><td><code>Cmd+Space</code></td><td><code>Ctrl+Space</code></td></tr></tbody></table>
+<h2 id="configuration">Configuration</h2>
+<p>The extension supports the following settings:</p>
+<h3 id="formatting-options">Formatting Options</h3>
+<ul>
+<li><code>sruja.formatting.enabled</code> (default: <code>true</code>) - Enable automatic formatting</li>
+<li><code>sruja.formatting.tabSize</code> (default: <code>2</code>) - Number of spaces per indentation level</li>
+<li><code>sruja.formatting.insertSpaces</code> (default: <code>true</code>) - Use spaces instead of tabs</li>
+</ul>
+<p>To configure:</p>
+<ol>
+<li>Open Settings (<code>Cmd+,</code> or <code>Ctrl+,</code>)</li>
+<li>Search for “Sruja”</li>
+<li>Adjust the formatting options as needed</li>
+</ol>
+<h2 id="debugging">Debugging</h2>
+<p>If you encounter issues with the extension:</p>
+<h3 id="check-output-channel">Check Output Channel</h3>
+<ol>
+<li>Open Output panel: <code>View → Output</code></li>
+<li>Select “Sruja WASM LSP” from the dropdown</li>
+<li>Check for error messages or initialization issues</li>
+</ol>
+<h3 id="debug-command">Debug Command</h3>
+<ol>
+<li>Open Command Palette: <code>Cmd+Shift+P</code> (Mac) or <code>Ctrl+Shift+P</code> (Windows/Linux)</li>
+<li>Run: “Sruja: Debug WASM LSP”</li>
+<li>This will test all LSP functions and show results in the output channel</li>
+</ol>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>Extension not working?</strong></p>
+<ul>
+<li>Check the “Sruja WASM LSP” output channel for errors</li>
+<li>Ensure WASM files are present (should be installed automatically)</li>
+<li>Try reloading the window: <code>Cmd+Shift+P</code> → “Developer: Reload Window”</li>
+</ul>
+<p><strong>LSP features not responding?</strong></p>
+<ul>
+<li>Check if the file has a <code>.sruja</code> extension</li>
+<li>Verify the language mode is set to “Sruja” (bottom-right of VS Code)</li>
+<li>Run the debug command to see which functions are failing</li>
+</ul>
+<p><strong>Rename not working?</strong></p>
+<ul>
+<li>Make sure you’re clicking on a valid symbol (not a keyword)</li>
+<li>Check the output channel for error messages</li>
+<li>Try the debug command to test rename functionality</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>The extension uses <strong>WebAssembly (WASM)</strong> for all LSP functionality, which means:</p>
+<ul>
+<li>✅ <strong>No CLI dependency</strong> - Works without installing the Sruja CLI</li>
+<li>✅ <strong>Fast</strong> - WASM provides near-native performance</li>
+<li>✅ <strong>Portable</strong> - Same code runs in browser and VS Code</li>
+<li>✅ <strong>Self-contained</strong> - All functionality bundled in the extension</li>
+</ul>
+<p>The LSP implementation is powered by the same Go codebase that runs the CLI, compiled to WASM for use in Node.js environments.</p>
+<h2 id="whats-next">What’s Next?</h2>
+<ul>
+<li><strong>Learn the DSL</strong>: Check out the <a href="/docs/reference/syntax">Syntax Reference</a></li>
+<li><strong>See Examples</strong>: Browse <a href="/docs/examples">Example Architectures</a></li>
+<li><strong>Get Help</strong>: Join <a href="https://discord.gg/VNrvHPV5">Discord</a> or <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a></li>
+</ul>
+<h2 id="contributing">Contributing</h2>
+<p>Found a bug or have a feature request?</p>
+<ul>
+<li><strong>Report Issues</strong>: <a href="https://github.com/sruja-ai/sruja/issues">GitHub Issues</a></li>
+<li><strong>Suggest Features</strong>: <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a></li>
+<li><strong>Contribute Code</strong>: See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/CONTRIBUTING.md">Contribution Guide</a></li>
+</ul></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r5" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r6" component-url="/_astro/CodeBlockActions.qWQCurr9.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r7" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/docs/concepts/container" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Container</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/docs" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/docs/concepts/person" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Person</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav> </div>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+© 2025 Sruja. All rights reserved.
+</div> </footer> </body></html> 
