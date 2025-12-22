@@ -1,0 +1,108 @@
+// examples/course/ecommerce.sruja
+// E-Commerce System
+
+specification {
+  element person
+  element system
+  element container
+  element component
+  element database
+  element queue
+}
+
+model {
+  // Module 2: Context
+  customer = person "Online Customer" {
+    description "Browses and buys products."
+  }
+
+  paymentGateway = system "Stripe"
+  emailService = system "SendGrid"
+
+  ecommerce = system "E-Commerce Platform" {
+    description "Allows customers to buy products online."
+
+    // Module 3: Containers
+    webApp = container "Storefront" {
+      technology "React"
+      tags ["frontend"]
+      
+      // Module 7: Properties & Styles
+      properties {
+        "framework" "Next.js"
+        "hosting" "Vercel"
+      }
+      style {
+        shape "browser"
+      }
+    }
+
+    api = container "Product API" {
+      technology "Go"
+      tags ["backend"]
+
+      // Module 4: Components
+      productController = component "Product Controller" {
+        technology "Gin"
+      }
+      productService = component "Product Service"
+      productRepo = component "Product Repository"
+
+      productController -> productService "uses"
+      productService -> productRepo "uses"
+    }
+
+    db = database "Product Database" {
+      technology "PostgreSQL"
+      properties {
+        "version" "15"
+        "storage" "100GB"
+      }
+    }
+
+    events = queue "Order Events" {
+      technology "Kafka"
+    }
+
+    // Internal Relations
+    webApp -> api "fetches data from"
+    api -> db "reads and writes to"
+    api -> events "publishes to"
+  }
+
+  // Context Relations
+  customer -> ecommerce.webApp "browses via"
+  ecommerce.api -> paymentGateway "processes payments through"
+  ecommerce.api -> emailService "sends emails via"
+
+  // Module 5: Scenarios
+  scenario CheckoutFlow "Checkout Flow" {
+    description "User checkout process"
+    step customer -> ecommerce.webApp "clicks checkout"
+    step ecommerce.webApp -> ecommerce.api "POST /checkout"
+    step ecommerce.api -> ecommerce.db "saves order to"
+    step ecommerce.api -> paymentGateway "charges card via"
+    step ecommerce.api -> ecommerce.events "publishes order created to"
+  }
+
+  // Module 7: NFRs
+  requirement R1 performance "API latency < 100ms"
+  adr ADR001 "Use Microservices" {
+    status "Accepted"
+    context "Need independent scaling"
+    decision "Adopt microservices architecture"
+    consequences "Better scalability, increased complexity"
+  }
+}
+
+views {
+  view index {
+    title "E-Commerce System"
+    include *
+  }
+  
+  view containers of ecommerce {
+    title "E-Commerce Containers"
+    include ecommerce.*
+  }
+}
