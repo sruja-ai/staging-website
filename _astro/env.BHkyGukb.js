@@ -1,1 +1,0 @@
-function t(){{const n="production".toLowerCase();if(n==="production"||n==="staging"||n==="development")return n}{const n="https://sruja.ai";return n.includes("staging")||n.includes("stage")||n.includes("stg")?"staging":"production"}}function e(){return{env:t(),siteUrl:"https://sruja.ai",baseUrl:"/"}}const r=e();export{r as e};

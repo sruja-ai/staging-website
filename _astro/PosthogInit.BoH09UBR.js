@@ -1,1 +1,0 @@
-import{r}from"./index.DM7nOceM.js";import{i}from"./posthog.D98OsGe_.js";import{e as n}from"./auto.CWr9037W.js";import"./preload-helper.BlTxHScW.js";function e({apiKey:t,host:o}){return r.useEffect(()=>{t&&(async()=>(await i({apiKey:t,host:o}),n()))()},[t,o]),null}export{e as PosthogInit};

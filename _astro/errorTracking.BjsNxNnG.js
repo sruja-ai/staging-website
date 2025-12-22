@@ -1,0 +1,1 @@
+import{c as o}from"./posthog.Dnn64KkL.js";import{l as a}from"./wasmAdapter.DXXc9gb7.js";function c(t,e,i={}){const n=`interaction.${e}.${t}`,r={component:e,action:t,...i};typeof window<"u"&&(r.timestamp=new Date().toISOString()),o(n,r),a.debug(`Interaction: ${e}.${t}`,r)}export{c as t};
