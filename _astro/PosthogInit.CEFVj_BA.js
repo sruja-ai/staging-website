@@ -1,1 +1,0 @@
-import{r as t}from"./index.DM7nOceM.js";import{i as n}from"./posthog.Dnn64KkL.js";import{e as i}from"./auto.D_we1LVG.js";import{e}from"./env.DcWn_g7b.js";import"./preload-helper.BlTxHScW.js";function p({apiKey:o,host:r}){return t.useEffect(()=>{o&&(async()=>(await n({apiKey:o,host:r,environment:e.env}),i()))()},[o,r]),null}export{p as PosthogInit};

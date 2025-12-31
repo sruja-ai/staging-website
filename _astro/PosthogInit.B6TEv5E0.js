@@ -1,0 +1,1 @@
+import{r as t}from"./index.BkaWJOLo.js";import{i as r,e}from"./auto.qXY55obW.js";import{e as i}from"./env.DcWn_g7b.js";function m({apiKey:n,host:o}){return t.useEffect(()=>{n&&(async()=>(await r({apiKey:n,host:o,environment:i.env}),e()))()},[n,o]),null}export{m as PosthogInit};

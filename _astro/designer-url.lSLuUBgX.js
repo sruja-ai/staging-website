@@ -1,0 +1,1 @@
+import{e as l}from"./env.DcWn_g7b.js";function f(e="",r){const t="/designer";let s=t;return e&&(e.startsWith("?")?s=`${t}${e}`:e.startsWith("/")?s=`${t}${e}`:s=`${t}?${e}`),typeof window<"u"&&l.env!=="development"&&l.siteUrl?`${l.siteUrl.replace(/\/$/,"")}${s}`:s}export{f as g};

@@ -1,1 +1,0 @@
-import"./index.DM7nOceM.js";import{c as r}from"./posthog.Dnn64KkL.js";import{t as a}from"./errorTracking.BjsNxNnG.js";function s(t,n){if(!(typeof window>"u"))try{window.dispatchEvent(new CustomEvent("sruja:event",{detail:{type:t,...n}})),r(`event.${t}`,n||{})}catch(e){console.warn("Failed to track event:",e)}}function f(t,n,e){a(t,n,{...e})}export{f as a,s as t};

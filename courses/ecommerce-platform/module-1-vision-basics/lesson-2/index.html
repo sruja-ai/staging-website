@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Initializing the project structure and creating the first architecture file with product requirements."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Lesson 2: Setting up the Workspace | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r5" component-url="/_astro/PosthogInit.CEFVj_BA.js" component-export="PosthogInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInitComponent&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z1Ey2Xg" prefix="r6" component-url="/_astro/SentryInit.BbBDyP5x.js" component-export="SentryInit" renderer-url="/_astro/client.DSmJt5vq.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;SentryInitComponent&quot;,&quot;value&quot;:true}"></astro-island><script>
+<!DOCTYPE html><html lang="en" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="description" content="Initializing the project structure and creating the first architecture file with product requirements."><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/sruja-logo.svg"><meta name="generator" content="Astro v5.16.5"><title>Lesson 2: Setting up the Workspace | Sruja</title><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="JSOeC" prefix="r5" component-url="/_astro/PosthogInit.B6TEv5E0.js" component-export="PosthogInit" renderer-url="/_astro/client.CdeOJAu1.js" props="{&quot;apiKey&quot;:[0],&quot;host&quot;:[0]}" ssr client="load" opts="{&quot;name&quot;:&quot;PosthogInitComponent&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z1Ey2Xg" prefix="r6" component-url="/_astro/SentryInit.Dl_wXjCF.js" component-export="SentryInit" renderer-url="/_astro/client.CdeOJAu1.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;SentryInitComponent&quot;,&quot;value&quot;:true}"></astro-island><script>
       (function() {
         const applyTheme = () => {
           const theme = localStorage.getItem('sruja-theme-mode') || 'system';
@@ -41,14 +41,14 @@
       })();
     </script><style>.content-navigation[data-astro-cid-wjxr2sqp]{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--color-border, #e2e8f0);transition:border-color .2s}.nav-link[data-astro-cid-wjxr2sqp]{display:flex;align-items:center;gap:.75rem;padding:1rem 1.25rem;border:1px solid var(--color-border, #e2e8f0);border-radius:.5rem;text-decoration:none;color:var(--color-text-secondary, #475569);background:var(--color-background, #ffffff);transition:all .2s;font-size:.9375rem}.nav-link[data-astro-cid-wjxr2sqp]:hover{border-color:var(--color-primary, #3b82f6);color:var(--color-text-primary, #0f172a);background:var(--color-surface, #f8fafc);box-shadow:0 2px 4px #0000000d}.nav-link[data-astro-cid-wjxr2sqp]:hover{box-shadow:var(--shadow-md)}.nav-link-prev[data-astro-cid-wjxr2sqp]{flex-direction:row;text-align:left}.nav-link-next[data-astro-cid-wjxr2sqp]{flex-direction:row-reverse;text-align:right;margin-left:auto}.nav-link-all[data-astro-cid-wjxr2sqp]{flex-direction:column;align-items:center;gap:.5rem;padding:.75rem 1rem;min-width:100px;justify-content:center}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{visibility:hidden}.nav-link-label[data-astro-cid-wjxr2sqp]{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-tertiary, #64748b);transition:color .2s}.nav-link[data-astro-cid-wjxr2sqp]:hover .nav-link-label[data-astro-cid-wjxr2sqp]{color:var(--color-primary, #3b82f6)}.nav-link-title[data-astro-cid-wjxr2sqp]{font-weight:500;color:inherit;transition:color .2s}.nav-link-icon[data-astro-cid-wjxr2sqp]{flex-shrink:0;transition:transform .2s}.nav-link-prev[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(-2px)}.nav-link-next[data-astro-cid-wjxr2sqp]:hover .nav-link-icon[data-astro-cid-wjxr2sqp]{transform:translate(2px)}@media(max-width:768px){.content-navigation[data-astro-cid-wjxr2sqp]{grid-template-columns:1fr;gap:.75rem}.nav-link-next[data-astro-cid-wjxr2sqp]{margin-left:0}.nav-link-placeholder[data-astro-cid-wjxr2sqp]{display:none}.nav-link-all[data-astro-cid-wjxr2sqp]{order:-1}}
 </style>
-<link rel="stylesheet" href="/_astro/index.BBXFU6SJ.css">
+<link rel="stylesheet" href="/_astro/index.CG9KTiRs.css">
 <link rel="stylesheet" href="/_astro/_slug_.Dl7u1P0V.css">
 <link rel="stylesheet" href="/_astro/_slug_.Dm455DX4.css">
 <style>.tags[data-astro-cid-tfork32i]{display:flex;gap:.5rem;flex-wrap:wrap}.tag[data-astro-cid-tfork32i]{background:var(--color-surface);padding:.25rem .75rem;border-radius:.375rem;font-size:.875rem;color:var(--color-text-secondary);transition:background-color .2s,color .2s}@media(max-width:640px){.tag[data-astro-cid-tfork32i]{font-size:.8125rem;padding:.1875rem .5rem}}
 </style>
 <link rel="stylesheet" href="/_astro/index.BgIV59R8.css">
 <link rel="stylesheet" href="/_astro/Navbar.BaGi5ldt.css">
-<link rel="stylesheet" href="/_astro/index.BSIjbAR_.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.B9bVFVxp.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Lesson 2: Setting up the Workspace</h1><p class="summary" data-astro-cid-mjrgpu27>Initializing the project structure and creating the first architecture file with product requirements.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="lesson-2-setting-up-the-workspace">Lesson 2: Setting up the Workspace</h1>
+<link rel="stylesheet" href="/_astro/index.Ca6z-zOU.css"></head> <body data-astro-cid-sckkx6r4> <script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><astro-island uid="GEL62" component-url="/_astro/Navbar.DzusGdi_.js" component-export="default" renderer-url="/_astro/client.CdeOJAu1.js" props="{&quot;data-astro-cid-sckkx6r4&quot;:[0,true]}" ssr client="only" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island> <main data-astro-cid-sckkx6r4>  <div class="content-page-wrapper" data-astro-cid-mjrgpu27><article class="content-detail" data-astro-cid-mjrgpu27><header class="content-header" data-astro-cid-mjrgpu27><h1 data-astro-cid-mjrgpu27>Lesson 2: Setting up the Workspace</h1><p class="summary" data-astro-cid-mjrgpu27>Initializing the project structure and creating the first architecture file with product requirements.</p></header><div class="content-wrapper" data-astro-cid-mjrgpu27><div class="content-body" data-astro-cid-mjrgpu27><h1 id="lesson-2-setting-up-the-workspace">Lesson 2: Setting up the Workspace</h1>
 <p>Let’s get our hands dirty. We will set up a professional project structure that separates our architectural definitions from our implementation code, and aligns with product requirements.</p>
 <h2 id="real-world-scenario-starting-a-new-product">Real-World Scenario: Starting a New Product</h2>
 <p><strong>Context</strong>: You’re building Shopify-lite, a multi-tenant e-commerce platform. Before writing code, you need to:</p>
@@ -99,150 +99,138 @@
 <p>Create your first file at <code>architecture/main.sruja</code>. We’ll start with a high-level <strong>Context View</strong> to define the boundaries of our system.</p>
 <h3 id="product-requirements-first">Product Requirements First</h3>
 <p>Before modeling architecture, let’s capture product requirements:</p>
-<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element queue</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Product Requirements (from product team)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R1 functional "Merchants can create and manage online stores"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R2 functional "Shoppers can browse products and make purchases"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R3 functional "Platform processes payments securely"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R4 nonfunctional "Platform must support 10,000+ stores"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R5 nonfunctional "Checkout must complete in &#x3C; 3 seconds"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R6 nonfunctional "99.9% uptime SLA"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Business Goals (for product/executive alignment)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">metadata {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    businessGoal "Enable small businesses to sell online"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    targetMarket "Small to medium businesses (SMBs)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    successMetrics "Number of active stores, GMV (Gross Merchandise Value)"</span></span>
 <span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // Product Requirements (from product team)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R1 functional "Merchants can create and manage online stores"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R2 functional "Shoppers can browse products and make purchases"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R3 functional "Platform processes payments securely"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R4 nonfunctional "Platform must support 10,000+ stores"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R5 nonfunctional "Checkout must complete in &#x3C; 3 seconds"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R6 nonfunctional "99.9% uptime SLA"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // Business Goals (for product/executive alignment)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    metadata {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        businessGoal "Enable small businesses to sell online"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        targetMarket "Small to medium businesses (SMBs)"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        successMetrics "Number of active stores, GMV (Gross Merchandise Value)"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include *</span></span>
 <span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <h3 id="the-architecture-context">The Architecture Context</h3>
 <p>Now let’s model the system context:</p>
-<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">specification {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element person</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element system</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element container</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element component</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element datastore</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  element queue</span></span>
+<pre class="astro-code astro-code-themes github-light github-dark" style="background-color:#fff;--shiki-dark-bg:#24292e;color:#24292e;--shiki-dark:#e1e4e8; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sruja"><code><span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element person</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element container</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element component</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element datastore</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">element queue</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Product Requirements</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R1 functional "Merchants can create and manage online stores"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R2 functional "Shoppers can browse products and make purchases"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R3 functional "Platform processes payments securely"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R4 nonfunctional "Platform must support 10,000+ stores"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R5 nonfunctional "Checkout must complete in &#x3C; 3 seconds"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">requirement R6 nonfunctional "99.9% uptime SLA"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 1. The System</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Platform = system "E-Commerce Platform" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "The core multi-tenant e-commerce engine that enables merchants to create stores and shoppers to make purchases."</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // Link to requirements</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R1</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R2</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R3</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R4</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R5</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R6</span></span>
 <span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">model {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // Product Requirements</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R1 functional "Merchants can create and manage online stores"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R2 functional "Shoppers can browse products and make purchases"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R3 functional "Platform processes payments securely"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R4 nonfunctional "Platform must support 10,000+ stores"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R5 nonfunctional "Checkout must complete in &#x3C; 3 seconds"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    requirement R6 nonfunctional "99.9% uptime SLA"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // 1. The System</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Platform = system "E-Commerce Platform" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "The core multi-tenant e-commerce engine that enables merchants to create stores and shoppers to make purchases."</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        // Link to requirements</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R1</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R2</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R3</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R4</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R5</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        requirement R6</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // 2. The Users (from product personas)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant = person "Store Owner" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Small business owner who creates and manages their online store"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Shopper = person "Customer" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "End customer who browses products and makes purchases"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // 3. External Systems (from product integrations)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Stripe = system "Payment Gateway" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        external</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Third-party payment processor (PCI-compliant)"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    EmailService = system "Email Service" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        external</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Sends transactional emails (order confirmations, etc.)"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // 4. High-Level Interactions (user journeys)</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant -> Platform "Manages Store" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Creates products, manages inventory, views analytics"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Shopper -> Platform "Browses &#x26; Buys" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Browses products, adds to cart, completes checkout"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Platform -> Stripe "Processes Payments" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Secure payment processing for customer orders"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Platform -> EmailService "Sends Notifications" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        description "Order confirmations, shipping updates"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    // 5. Model user journeys as scenarios</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    scenario ShopperCheckout "Shopper Checkout Journey" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Shopper -> Platform "Browses products"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Shopper -> Platform "Adds items to cart"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Shopper -> Platform "Initiates checkout"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Platform -> Stripe "Processes payment"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Stripe -> Platform "Confirms payment"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Platform -> EmailService "Sends order confirmation"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        EmailService -> Shopper "Delivers confirmation email"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    scenario MerchantManagement "Merchant Store Management" {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Merchant -> Platform "Logs into admin dashboard"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Merchant -> Platform "Creates new product"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Merchant -> Platform "Updates inventory"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">        Merchant -> Platform "Views sales analytics"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 2. The Users (from product personas)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Merchant = person "Store Owner" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Small business owner who creates and manages their online store"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Shopper = person "Customer" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "End customer who browses products and makes purchases"</span></span>
 <span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
 <span class="line"></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">views {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Executive view: Business context</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view executive {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Executive Overview"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Merchant Shopper</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Platform Stripe EmailService</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Product view: User journeys</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view product {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Product View - User Experience"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Merchant Shopper</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Platform</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Stripe EmailService</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Technical view: System integrations</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view technical {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Technical View - System Integration"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include Platform Stripe EmailService</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    exclude Merchant Shopper</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  </span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  // Default view: Complete system</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  view index {</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    title "Complete System View"</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    include *</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 3. External Systems (from product integrations)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Stripe = system "Payment Gateway" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    external</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Third-party payment processor (PCI-compliant)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">EmailService = system "Email Service" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    external</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Sends transactional emails (order confirmations, etc.)"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 4. High-Level Interactions (user journeys)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Merchant -> Platform "Manages Store" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Creates products, manages inventory, views analytics"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Shopper -> Platform "Browses &#x26; Buys" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Browses products, adds to cart, completes checkout"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Platform -> Stripe "Processes Payments" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Secure payment processing for customer orders"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">Platform -> EmailService "Sends Notifications" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    description "Order confirmations, shipping updates"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// 5. Model user journeys as scenarios</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">scenario ShopperCheckout "Shopper Checkout Journey" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Shopper -> Platform "Browses products"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Shopper -> Platform "Adds items to cart"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Shopper -> Platform "Initiates checkout"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Platform -> Stripe "Processes payment"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Stripe -> Platform "Confirms payment"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Platform -> EmailService "Sends order confirmation"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    EmailService -> Shopper "Delivers confirmation email"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">scenario MerchantManagement "Merchant Store Management" {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant -> Platform "Logs into admin dashboard"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant -> Platform "Creates new product"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant -> Platform "Updates inventory"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">    Merchant -> Platform "Views sales analytics"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Executive view: Business context</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view executive {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">title "Executive Overview"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include Merchant Shopper</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include Platform Stripe EmailService</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Product view: User journeys</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view product {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">title "Product View - User Experience"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include Merchant Shopper</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include Platform</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">exclude Stripe EmailService</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Technical view: System integrations</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view technical {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">title "Technical View - System Integration"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include Platform Stripe EmailService</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">exclude Merchant Shopper</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">// Default view: Complete system</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">view index {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">title "Complete System View"</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">include *</span></span>
 <span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">}</span></span></code></pre>
 <h3 id="why-this-approach">Why This Approach?</h3>
 <p><strong>For Product Teams:</strong></p>
@@ -298,10 +286,10 @@
 <span class="line"><span style="color:#005CC5;--shiki-dark:#79B8FF">on</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  push</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    paths</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'architecture/**'</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"architecture/**"</span></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  pull_request</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">    paths</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
-<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">'architecture/**'</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E1E4E8">      - </span><span style="color:#032F62;--shiki-dark:#9ECBFF">"architecture/**"</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">jobs</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
 <span class="line"><span style="color:#22863A;--shiki-dark:#85E89D">  validate</span><span style="color:#24292E;--shiki-dark:#E1E4E8">:</span></span>
@@ -348,6 +336,6 @@
 <li>Tutorial: <a href="/tutorials/basic/validation-linting">Validation &#x26; Linting</a></li>
 <li>Docs: <a href="/docs/concepts/requirements">Requirements Concepts</a></li>
 <li>Course: <a href="/courses/system-design-101/module-1-fundamentals">System Design 101 - Module 1: Fundamentals</a></li>
-</ul></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r7" component-url="/_astro/TableOfContents.GGFfE0mr.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r8" component-url="/_astro/CodeBlockActions.BcdU45jF.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r9" component-url="/_astro/EngagementTracker.HVc9XGWV.js" component-export="default" renderer-url="/_astro/client.DSmJt5vq.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/courses/advanced-architects/module-1-policy-as-code/lesson-2" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 2: Enforcing Policies in CI/CD</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/courses" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/courses/ecommerce-platform/module-3-architecture-tech/lesson-2" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 2: Selecting the Stack</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
+</ul></div><aside class="toc-sidebar" data-astro-cid-mjrgpu27><astro-island uid="Z1djC3E" prefix="r7" component-url="/_astro/TableOfContents.ZTIHQAOu.js" component-export="default" renderer-url="/_astro/client.CdeOJAu1.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;TableOfContents&quot;,&quot;value&quot;:true}"></astro-island></aside></div><!-- Inject toolbar for sruja code blocks --><astro-island uid="2dS3BF" prefix="r8" component-url="/_astro/CodeBlockActions.BgoBwltN.js" component-export="default" renderer-url="/_astro/client.CdeOJAu1.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;CodeBlockActions&quot;,&quot;value&quot;:true}"></astro-island><astro-island uid="Z3rdUt" prefix="r9" component-url="/_astro/EngagementTracker.Cscsk7VR.js" component-export="default" renderer-url="/_astro/client.CdeOJAu1.js" props="{&quot;data-astro-cid-mjrgpu27&quot;:[0,true]}" ssr client="load" opts="{&quot;name&quot;:&quot;EngagementTracker&quot;,&quot;value&quot;:true}"></astro-island></article></div> <nav class="content-navigation" data-astro-cid-wjxr2sqp><a href="/courses/advanced-architects/module-1-policy-as-code/lesson-2" class="nav-link nav-link-prev" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Previous</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 2: Enforcing Policies in CI/CD</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m9 12-4-4 4-4" data-astro-cid-wjxr2sqp></path></svg></a><a href="/courses" class="nav-link nav-link-all" data-astro-cid-wjxr2sqp><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-wjxr2sqp><rect x="2" y="2" width="12" height="12" rx="1" data-astro-cid-wjxr2sqp></rect><path d="M6 8h4M8 6v4" data-astro-cid-wjxr2sqp></path></svg><span data-astro-cid-wjxr2sqp>View All</span></a><a href="/courses/ecommerce-platform/module-3-architecture-tech/lesson-2" class="nav-link nav-link-next" data-astro-cid-wjxr2sqp><div class="nav-link-label" data-astro-cid-wjxr2sqp>Next</div><div class="nav-link-title" data-astro-cid-wjxr2sqp>Lesson 2: Selecting the Stack</div><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-link-icon" data-astro-cid-wjxr2sqp><path d="m7 4 4 4-4 4" data-astro-cid-wjxr2sqp></path></svg></a></nav>  </main> <footer class="footer" data-astro-cid-sckkx6r4> <div class="footer-container" data-astro-cid-sckkx6r4> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Docs</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/docs/intro" data-astro-cid-sckkx6r4>Introduction</a></li> <li data-astro-cid-sckkx6r4><a href="/courses" data-astro-cid-sckkx6r4>Courses</a></li> <li data-astro-cid-sckkx6r4><a href="/tutorials" data-astro-cid-sckkx6r4>Tutorials</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>Community</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="https://github.com/sruja-ai/sruja" target="_blank" rel="noopener noreferrer" data-astro-cid-sckkx6r4>GitHub</a></li> </ul> </div> <div class="footer-section" data-astro-cid-sckkx6r4> <h3 data-astro-cid-sckkx6r4>More</h3> <ul data-astro-cid-sckkx6r4> <li data-astro-cid-sckkx6r4><a href="/blogs" data-astro-cid-sckkx6r4>Blogs</a></li> <li data-astro-cid-sckkx6r4><a href="/investors" data-astro-cid-sckkx6r4>Investors</a></li> </ul> </div> </div> <div class="footer-copyright" data-astro-cid-sckkx6r4>
 © 2025 Sruja. All rights reserved.
 </div> </footer> </body></html>
