@@ -1,1 +1,0 @@
-import"./index.BkaWJOLo.js";import{c as r}from"./auto.qXY55obW.js";import{t as a}from"./modelToDsl.BxOr51Sn.js";function s(t,n){if(!(typeof window>"u"))try{window.dispatchEvent(new CustomEvent("sruja:event",{detail:{type:t,...n}})),r(`event.${t}`,n||{})}catch(e){console.warn("Failed to track event:",e)}}function f(t,n,e){a(t,n,{...e})}export{f as a,s as t};
