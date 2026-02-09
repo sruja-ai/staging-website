@@ -37,10 +37,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-ddfb1346.js";
+            window.path_to_searchindex_js = "searchindex-9fa4b910.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-bdc93060.js"></script>
+        <script src="toc-f200db4f.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,7 +180,47 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="sruja"><a class="header" href="#sruja">Sruja</a></h1>
-<p><strong>Architecture-as-code for the AI SDLC process.</strong> Define architecture in <code>.sruja</code> files; validate, document, and keep it in sync with your workflow. We’re a tool for the lifecycle—not a diagramming product.</p>
+<p><strong>Architecture-as-code for the AI SDLC process.</strong> Define architecture in <code>.sruja</code> files; validate, document, and keep it in sync with your workflow. We're a tool for the lifecycle—not a diagramming product.</p>
+<h2 id="why-sruja"><a class="header" href="#why-sruja">Why Sruja?</a></h2>
+<h3 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h3>
+<p>Most architecture tools make you choose:</p>
+<ul>
+<li><strong>Visual-only tools</strong> (Draw.io) – no code, no version control, hard to maintain</li>
+<li><strong>Code-only tools</strong> (Mermaid, PlantUML) – no visual editing, steep learning curve</li>
+<li><strong>One-way sync</strong> (Structurizr) – code → view only, no visual editing</li>
+<li><strong>Stale diagrams</strong> – architecture drifts from reality, documentation gets outdated</li>
+</ul>
+<h3 id="our-solution"><a class="header" href="#our-solution">Our Solution</a></h3>
+<p>Sruja gives you <strong>both</strong> visual editing and code-backed architecture:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Feature</th><th>What you get</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Bidirectional sync</strong></td><td>Edit visually → code updates instantly; edit code → diagrams update automatically</td></tr>
+<tr><td><strong>Version-controlled</strong></td><td><code>.sruja</code> files in Git, with proper code review workflows</td></tr>
+<tr><td><strong>Team-friendly</strong></td><td>Designers, developers, PMs all work in their preferred way</td></tr>
+<tr><td><strong>Built-in validation</strong></td><td>Catch architecture issues before they reach production</td></tr>
+<tr><td><strong>Multiple exports</strong></td><td>JSON, Markdown, Mermaid – integrate into your existing toolchain</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="who-its-for"><a class="header" href="#who-its-for">Who It's For</a></h3>
+<ul>
+<li><strong>Engineering teams</strong> who need architecture as part of their SDLC</li>
+<li><strong>Tech leads</strong> who want to enforce architectural standards</li>
+<li><strong>Platform engineers</strong> building guardrails for distributed teams</li>
+<li><strong>AI agents</strong> that need to reason about system architecture</li>
+</ul>
+<h2 id="how-we-work"><a class="header" href="#how-we-work">How We Work</a></h2>
+<ol>
+<li><strong>Define</strong> your architecture in <code>.sruja</code> files (or use the visual designer)</li>
+<li><strong>Validate</strong> with built-in checks (cycles, orphans, unique IDs)</li>
+<li><strong>Export</strong> to JSON, Markdown, or diagrams</li>
+<li><strong>Integrate</strong> into CI/CD, docs, and your IDE workflow</li>
+</ol>
+<p>We're <strong>ultra simple</strong> – minimal surface area, no unnecessary apps or frameworks – and <strong>highly functional</strong> – what we ship works reliably for its scope.</p>
 <h2 id="stack"><a class="header" href="#stack">Stack</a></h2>
 <ul>
 <li><strong>Rust</strong> – CLI, engine, LSP, WASM (single language for core)</li>
@@ -261,7 +301,7 @@ weight: 0</a></h2>
 <blockquote>
 <p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path">Beginner path</a> (2–3 hours). It helps teams define, validate, and evolve software architecture in code—so architecture stays in sync with design, review, CI, and docs. We are <strong>not</strong> a diagramming tool; diagrams are one output, not the product.</p>
 </blockquote>
-<h2 id="why-sruja"><a class="header" href="#why-sruja">Why Sruja?</a></h2>
+<h2 id="why-sruja-1"><a class="header" href="#why-sruja-1">Why Sruja?</a></h2>
 <p>Most teams document architecture in static diagrams (Miro, LucidChart, Visio) or inconsistent Wiki pages. These suffer from:</p>
 <ol>
 <li><strong>Drift:</strong> The code changes, but the diagram doesn't.</li>
@@ -17334,10 +17374,10 @@ weight: 80
 summary: "The CLI is implemented in Rust with clap. Add or change subcommands in crates/sruja-cli."
 tags: ["cli", "rust", "advanced"]</a></h2>
 <h1 id="extending-the-cli-rust"><a class="header" href="#extending-the-cli-rust">Extending the CLI (Rust)</a></h1>
-<p>Sruja’s CLI lives in <code>crates/sruja-cli</code> and uses <a href="https://docs.rs/clap">clap</a> for argument parsing. To add or change subcommands:</p>
+<p>Sruja's CLI lives in <code>crates/sruja-cli</code> and uses <a href="https://docs.rs/clap">clap</a> for argument parsing. To add or change subcommands:</p>
 <ol>
 <li><strong>Open</strong> <code>crates/sruja-cli/src/main.rs</code> (or the relevant module) and see how existing commands (e.g. <code>lint</code>, <code>export</code>) are defined.</li>
-<li><strong>Add a subcommand</strong> using clap’s <code>Subcommand</code> enum and match on it in the main entrypoint; run your logic and return <code>Result</code> with <code>?</code> for errors.</li>
+<li><strong>Add a subcommand</strong> using clap's <code>Subcommand</code> enum and match on it in the main entrypoint; run your logic and return <code>Result</code> with <code>?</code> for errors.</li>
 <li><strong>Run and test</strong> with <code>cargo run -p sruja-cli -- &lt;subcommand&gt; ...</code>.</li>
 </ol>
 <p>Shell completions are available:</p>
@@ -17345,7 +17385,7 @@ tags: ["cli", "rust", "advanced"]</a></h2>
 sruja completion zsh
 sruja completion fish
 </code></pre>
-<p>For patterns and conventions, see the repo’s <a href="https://github.com/sruja-ai/sruja/blob/main/AGENTS.md">AGENTS.md</a> (Rust skills) and <a href="https://github.com/sruja-ai/sruja/blob/main/docs/CODING_GUIDELINES.md">docs/CODING_GUIDELINES.md</a>.</p>
+<p>For patterns and conventions, see the repo's <a href="https://github.com/sruja-ai/sruja/blob/main/AGENTS.md">AGENTS.md</a> (Rust skills) and <a href="https://github.com/sruja-ai/sruja/blob/main/docs/CODING_GUIDELINES.md">docs/CODING_GUIDELINES.md</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="challenges"><a class="header" href="#challenges">Challenges</a></h1>
 <p>Hands-on exercises to practice Sruja. Each challenge has a goal and optional hints.</p>
