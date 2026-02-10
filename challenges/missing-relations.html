@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -180,62 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<p>title: "Healthcare Portal: Connect Patient to System"
-summary: "A patient needs to book an appointment! Model the complete flow: Patient uses the Portal, Portal calls the Appointment API, and API stores data in the database."
-difficulty: beginner
-topic: relations
-estimatedTime: "5-10 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Patient = person "Healthcare Patient"</p>
-<p>HealthPortal = system "Healthcare Portal" {
-Portal = container "Patient Portal"
-AppointmentAPI = container "Appointment Service"
-RecordsDB = datastore "Patient Records Database"
-}</p>
-<p>// TODO: Connect Patient -&gt; Portal -&gt; AppointmentAPI -&gt; RecordsDB
-// Think about what each interaction represents
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: Patient
-target: Portal
-message: "Add relation Patient -&gt; Portal"</li>
-<li>type: relationExists
-source: Portal
-target: AppointmentAPI
-message: "Add relation Portal -&gt; AppointmentAPI"</li>
-<li>type: relationExists
-source: AppointmentAPI
-target: RecordsDB
-message: "Add relation AppointmentAPI -&gt; RecordsDB"
-hints:</li>
-<li>'Start with Patient -&gt; Portal "Books appointment"'</li>
-<li>'Then Portal -&gt; AppointmentAPI "Requests appointment"'</li>
-<li>'Finally AppointmentAPI -&gt; RecordsDB "Stores appointment"'</li>
-<li>"Remember: all relation labels must be in quotes"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Patient = person "Healthcare Patient"</p>
-<p>HealthPortal = system "Healthcare Portal" {
-Portal = container "Patient Portal"
-AppointmentAPI = container "Appointment Service"
-RecordsDB = datastore "Patient Records Database"
-}</p>
-<h2 id="patient---healthportalportal-books-appointment-healthportalportal---healthportalappointmentapi-requests-appointment-healthportalappointmentapi---healthportalrecordsdb-stores-appointment"><a class="header" href="#patient---healthportalportal-books-appointment-healthportalportal---healthportalappointmentapi-requests-appointment-healthportalappointmentapi---healthportalrecordsdb-stores-appointment">Patient -&gt; HealthPortal.Portal "Books appointment"
-HealthPortal.Portal -&gt; HealthPortal.AppointmentAPI "Requests appointment"
-HealthPortal.AppointmentAPI -&gt; HealthPortal.RecordsDB "Stores appointment"</a></h2>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

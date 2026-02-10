@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -180,59 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<p>title: "Code Review: Fix the Ride-Sharing App"
-summary: "A junior developer wrote this code for a ride-sharing app, but it has syntax errors. Find and fix all the issues to get it compiling!"
-difficulty: beginner
-topic: validation
-estimatedTime: "5-8 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Rider = person "App User"</p>
-<p>RideApp = system "RideApp" {
-MobileApp = container "Mobile Application"
-MatchingService = container "Driver Matching"
-LocationDB = datastore "Location Database"
-}</p>
-<p>Rider -&gt; RideApp.MobileApp "Requests ride"
-RideApp.MobileApp -&gt; RideApp.MatchingService Finds driver  // Missing quotes
-RideApp.MatchingService -&gt; RideApp.LocationDB "Queries locations"
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: MobileApp
-target: MatchingService
-message: "Fix relation MobileApp -&gt; MatchingService"</li>
-<li>type: relationExists
-source: MatchingService
-target: LocationDB
-message: "Ensure relation MatchingService -&gt; LocationDB exists"
-hints:</li>
-<li>"Check the MatchingService container definition - is it properly closed?"</li>
-<li>"Look at the relation 'MobileApp -&gt; MatchingService Finds driver' - what's missing?"</li>
-<li>"All relation labels must be wrapped in double quotes"</li>
-<li>"Container definitions need proper closing braces"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Rider = person "App User"</p>
-<p>RideApp = system "RideApp" {
-MobileApp = container "Mobile Application"
-MatchingService = container "Driver Matching"
-LocationDB = datastore "Location Database"
-}</p>
-<h2 id="rider---rideappmobileapp-requests-ride-rideappmobileapp---rideappmatchingservice-finds-driver-rideappmatchingservice---rideapplocationdb-queries-locations"><a class="header" href="#rider---rideappmobileapp-requests-ride-rideappmobileapp---rideappmatchingservice-finds-driver-rideappmatchingservice---rideapplocationdb-queries-locations">Rider -&gt; RideApp.MobileApp "Requests ride"
-RideApp.MobileApp -&gt; RideApp.MatchingService "Finds driver"
-RideApp.MatchingService -&gt; RideApp.LocationDB "Queries locations"</a></h2>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

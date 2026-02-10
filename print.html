@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -230,7 +230,7 @@
 <li><strong>Docs</strong> – This book (mdBook, Rust-based; no TypeScript/Node)</li>
 </ul>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path">Beginner path</a> (2–3 hours).</p>
+<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> (2–3 hours).</p>
 </blockquote>
 <p>See <a href="#quick-start">Quick start</a> to install the CLI and create your first <code>.sruja</code> file. For a single entry point to <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="#navigate">Navigate</a>. The <strong>left sidebar</strong> lists everything; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 <blockquote>
@@ -239,7 +239,7 @@
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="navigate"><a class="header" href="#navigate">Navigate</a></h1>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> first (about 5 min), then the <a href="#beginner-path">Beginner path</a> (2–3 hours). Everything else is below.</p>
+<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> first (about 5 min), then the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> (2–3 hours). Everything else is below.</p>
 </blockquote>
 <p>Use one entry point below. The <strong>sidebar</strong> always lists the full structure.</p>
 <div class="table-wrapper">
@@ -248,7 +248,7 @@
 <tr><th>Where</th><th>Link</th><th>What you get</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Documentation</strong></td><td><a href="#introduction-1">Docs →</a></td><td>Concepts, reference, how Sruja works, adoption guides</td></tr>
+<tr><td><strong>Documentation</strong></td><td><a href="#introduction">Docs →</a></td><td>Concepts, reference, how Sruja works, adoption guides</td></tr>
 <tr><td><strong>Tutorials</strong></td><td><a href="#tutorials-1">Tutorials →</a></td><td>Step-by-step: CLI, DSL, validation, export, CI/CD, more</td></tr>
 <tr><td><strong>Courses</strong></td><td><a href="#courses">Courses →</a></td><td>Structured courses: systems thinking, system design, ecommerce, production, AI</td></tr>
 </tbody>
@@ -258,7 +258,7 @@
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
 <h2 id="install-cli"><a class="header" href="#install-cli">Install CLI</a></h2>
 <p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
-<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 </code></pre>
 <p><strong>Option B – from Git (requires Rust):</strong></p>
 <pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
@@ -269,7 +269,7 @@ make build
 </code></pre>
 <p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
 <h2 id="create-a-sruja-file"><a class="header" href="#create-a-sruja-file">Create a <code>.sruja</code> file</a></h2>
-<p>This is the <strong>minimal style</strong> (explicit kinds, no import). The full <a href="#getting-started-full">Getting started (full)</a> uses <code>import { * } from 'sruja.ai/stdlib'</code> for less boilerplate — both work.</p>
+<p>This is the <strong>minimal style</strong> (explicit kinds, no import). The full <a href="#your-first-architecture">Getting started (full)</a> uses <code>import { * } from 'sruja.ai/stdlib'</code> for less boilerplate — both work.</p>
 <pre><code class="language-sruja">person = kind "Person"
 system = kind "System"
 container = kind "Container"
@@ -288,7 +288,7 @@ sruja export markdown example.sruja
 <h2 id="vs-code"><a class="header" href="#vs-code">VS Code</a></h2>
 <p>Install the <strong>Sruja</strong> extension for syntax, diagnostics, and optional diagram preview in the editor.</p>
 <hr>
-<p><strong>Next:</strong> <a href="#beginner-path">Beginner path</a> builds on this in 7 steps (2–3 hours). For a longer "first architecture" walkthrough with a view and stdlib import, see <a href="#getting-started-full">Getting started (full)</a>.</p>
+<p><strong>Next:</strong> <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> builds on this in 7 steps (2–3 hours). For a longer "first architecture" walkthrough with a view and stdlib import, see <a href="#your-first-architecture">Getting started (full)</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="vs-code-extension"><a class="header" href="#vs-code-extension">VS Code extension</a></h1>
 <p>The Sruja VS Code extension provides:</p>
@@ -297,16 +297,12 @@ sruja export markdown example.sruja
 <li><strong>Diagnostics</strong> (errors, warnings) via the language server</li>
 <li><strong>WASM-based diagram preview</strong> – render diagrams from your DSL in the editor (no web server)</li>
 </ul>
-<p>Install from the <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a> (search for "Sruja") or build from source in <code>extension/</code>.</p>
+<p>Install from the <a href="https://marketplace.visualstudio.com/items?itemName=SrujaAI.sruja">VS Code Marketplace</a> or build from source in <code>extension/</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="introduction-1"><a href="#introduction-1" class="header">Introduction</a></h1>
-<hr>
-<h2 id="title-introduction-weight-0"><a class="header" href="#title-introduction-weight-0">title: "Introduction"
-weight: 0</a></h2>
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>Sruja is an <strong>open source</strong> architecture-as-code tool for the <strong>AI SDLC process</strong>.</p>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path">Beginner path</a> (2–3 hours). It helps teams define, validate, and evolve software architecture in code—so architecture stays in sync with design, review, CI, and docs. We are <strong>not</strong> a diagramming tool; diagrams are one output, not the product.</p>
+<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> (2–3 hours). It helps teams define, validate, and evolve software architecture in code—so architecture stays in sync with design, review, CI, and docs. We are <strong>not</strong> a diagramming tool; diagrams are one output, not the product.</p>
 </blockquote>
 <h2 id="why-sruja-1"><a class="header" href="#why-sruja-1">Why Sruja?</a></h2>
 <p>Most teams document architecture in static diagrams (Miro, LucidChart, Visio) or inconsistent Wiki pages. These suffer from:</p>
@@ -382,20 +378,13 @@ view index {
 <li><strong>Ready to build?</strong> Use the <a href="#vs-code-extension">VS Code extension</a> for diagram preview</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="getting-started-full"><a href="#getting-started-full" class="header">Getting started (full)</a></h1>
-<hr>
-<h2 id="title-getting-started-weight-1-summary-from-zero-to-architecture-in-5-minutes-install-sruja-and-deploy-your-first-diagram-difficulty-beginner-estimatedtime-5-minutes"><a class="header" href="#title-getting-started-weight-1-summary-from-zero-to-architecture-in-5-minutes-install-sruja-and-deploy-your-first-diagram-difficulty-beginner-estimatedtime-5-minutes">title: "Getting Started"
-weight: 1
-summary: "From zero to architecture in 5 minutes. Install Sruja and deploy your first diagram."
-difficulty: "beginner"
-estimatedTime: "5 minutes"</a></h2>
 <h1 id="your-first-architecture"><a class="header" href="#your-first-architecture">Your First Architecture</a></h1>
 <p>Welcome to the future of system design.</p>
 <p>Sruja allows you to define your software architecture as code. No more dragging boxes around. No more outdated PNGs on a wiki. <strong>You write code, Sruja draws the maps.</strong></p>
 <h2 id="1-installation"><a class="header" href="#1-installation">1. Installation</a></h2>
 <p>Install the Sruja CLI to compile, validate, and export your diagrams.</p>
 <h3 id="option-a--install-script-downloads-from-github-releases"><a class="header" href="#option-a--install-script-downloads-from-github-releases">Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>)</a></h3>
-<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 </code></pre>
 <h3 id="option-b--from-git-requires-rust"><a class="header" href="#option-b--from-git-requires-rust">Option B – from Git (requires Rust)</a></h3>
 <pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
@@ -488,10 +477,6 @@ view index {
 <li>🛠 <strong>Master the CLI</strong>: Learn how to validate constraints in <strong><a href="docs/tutorials/basic/cli-basics.html">CLI Basics</a></strong>.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="how-sruja-works-1"><a href="#how-sruja-works-1" class="header">How Sruja works</a></h1>
-<hr>
-<h2 id="title-how-sruja-works-weight-3"><a class="header" href="#title-how-sruja-works-weight-3">title: "How Sruja Works"
-weight: 3</a></h2>
 <h1 id="how-sruja-works"><a class="header" href="#how-sruja-works">How Sruja Works</a></h1>
 <p>Sruja is built to be a <strong>tool for the AI SDLC process</strong>: architecture in code that fits into your lifecycle—IDE, CI/CD, and documentation. We are not a diagramming product; we provide parse, validate, export, and optional preview.</p>
 <h2 id="the-sruja-platform"><a class="header" href="#the-sruja-platform">The Sruja Platform</a></h2>
@@ -680,11 +665,6 @@ view index {
 <li><strong>Export</strong>: <code>sruja export json</code>, <code>sruja export markdown</code>, <code>sruja export dot</code>, and more.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="examples-3"><a href="#examples-3" class="header">Examples</a></h1>
-<hr>
-<h2 id="title-usage-examples-weight-80-summary-production-ready-architectures-learn-how-to-model-fintech-e-commerce-and-saas-systems-with-sruja"><a class="header" href="#title-usage-examples-weight-80-summary-production-ready-architectures-learn-how-to-model-fintech-e-commerce-and-saas-systems-with-sruja">title: "Usage Examples"
-weight: 80
-summary: "Production-ready architectures. Learn how to model Fintech, E-Commerce, and SaaS systems with Sruja."</a></h2>
 <h1 id="examples--patterns"><a class="header" href="#examples--patterns">Examples &amp; Patterns</a></h1>
 <p>Theory is good, but code is better. Below are <strong>production-grade</strong> Sruja models that you can copy, paste, and adapt.</p>
 <p>Every example here follows our <a href="docs/docs/style-guide.html">"FAANG-level" quality standards</a>:</p>
@@ -850,13 +830,6 @@ include *
 <li><strong>Need more depth?</strong> See <a href="docs/courses/system-design-101/course-overview.html">Courses</a> and <a href="docs/tutorials/basic/cli-basics.html">Tutorials</a>.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="beginner-path"><a href="#beginner-path" class="header">Beginner path</a></h1>
-<hr>
-<h2 id="title-beginner-path-weight-2-summary-a-7step-plan-to-learn-sruja-without-overwhelm-difficulty-beginner-estimatedtime-23-hours-total"><a class="header" href="#title-beginner-path-weight-2-summary-a-7step-plan-to-learn-sruja-without-overwhelm-difficulty-beginner-estimatedtime-23-hours-total">title: "Beginner Path"
-weight: 2
-summary: "A 7‑step plan to learn Sruja without overwhelm."
-difficulty: "beginner"
-estimatedTime: "~2–3 hours total"</a></h2>
 <h1 id="beginner-path-learn-sruja-without-overwhelm"><a class="header" href="#beginner-path-learn-sruja-without-overwhelm">Beginner Path: Learn Sruja Without Overwhelm</a></h1>
 <p>If you just did <a href="#quick-start">Quick start</a>, you already have your first diagram — the 7 steps below build on that and take about <strong>2–3 hours total</strong>. Each step has a clear outcome, takes 10–30 minutes, and gives immediate feedback.</p>
 <blockquote class="blockquote-tag blockquote-tag-tip">
@@ -865,7 +838,7 @@ estimatedTime: "~2–3 hours total"</a></h2>
 </blockquote>
 <h2 id="step-1-getting-started--2030-min"><a class="header" href="#step-1-getting-started--2030-min">Step 1: Getting Started ⏱️ 20–30 min</a></h2>
 <ul>
-<li><input disabled="" type="checkbox"> Do: <a href="#quick-start">Quick start</a> (minimal style). Optional: <a href="#getting-started-full">Getting started (full)</a> (stdlib import).</li>
+<li><input disabled="" type="checkbox"> Do: <a href="#quick-start">Quick start</a> (minimal style). Optional: <a href="#your-first-architecture">Getting started (full)</a> (stdlib import).</li>
 <li><strong>Outcome:</strong> CLI installed, first model created</li>
 <li><strong>What you'll do:</strong> Install Sruja CLI and create your first architecture file</li>
 <li><strong>Success check:</strong> You can run <code>sruja lint</code> and <code>sruja export mermaid</code> on your file and get a diagram</li>
@@ -933,11 +906,6 @@ estimatedTime: "~2–3 hours total"</a></h2>
 <hr>
 <p><strong>Note</strong>: Sruja is <strong>free and open source</strong> (Apache 2.0 licensed). Join the community on <a href="https://discord.gg/VNrvHPV5">Discord</a> or <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a> for help and to contribute.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="concepts"><a href="#concepts" class="header">Concepts</a></h1>
-<hr>
-<h2 id="title-overview-weight-12-summary-summarize-systems-with-highlevel-context-for-readers-and-diagrams"><a class="header" href="#title-overview-weight-12-summary-summarize-systems-with-highlevel-context-for-readers-and-diagrams">title: "Overview"
-weight: 12
-summary: "Summarize systems with high‑level context for readers and diagrams."</a></h2>
 <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
 <p>Use <code>overview</code> to provide a concise system description shown in docs/exports.</p>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
@@ -959,11 +927,6 @@ include *
 <li>Use <code>overview</code> at architecture root; prefer <code>description</code> inside elements for details.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="architecture-1"><a href="#architecture-1" class="header">Architecture</a></h1>
-<hr>
-<h2 id="title-architecture-weight-10-summary-the-architecture-block-is-the-root-element-of-any-sruja-model"><a class="header" href="#title-architecture-weight-10-summary-the-architecture-block-is-the-root-element-of-any-sruja-model">title: "Architecture"
-weight: 10
-summary: "The architecture block is the root element of any Sruja model."</a></h2>
 <h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
 <p>The <code>architecture</code> block is the root element of a Sruja model. It represents the entire scope of what you are modeling.</p>
 <h2 id="syntax-1"><a class="header" href="#syntax-1">Syntax</a></h2>
@@ -991,11 +954,6 @@ User = person "User"
 <li><strong>Naming</strong>: Gives a name to the overall architecture.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="c4-model-1"><a href="#c4-model-1" class="header">C4 model</a></h1>
-<hr>
-<h2 id="title-the-c4-model-weight-1-summary-understand-the-core-concepts-behind-srujas-architecture-modeling"><a class="header" href="#title-the-c4-model-weight-1-summary-understand-the-core-concepts-behind-srujas-architecture-modeling">title: "The C4 Model"
-weight: 1
-summary: "Understand the core concepts behind Sruja's architecture modeling."</a></h2>
 <h1 id="the-c4-model"><a class="header" href="#the-c4-model">The C4 Model</a></h1>
 <p>Sruja is built on the <strong>C4 model</strong>, a hierarchical approach to software architecture diagrams. If you are new to architecture-as-code, it helps to understand these four levels of abstraction.</p>
 <p>Think of it like <strong>Google Maps</strong> for your code: you can zoom out to see the whole world (System Context), or zoom in to see individual streets (Code).</p>
@@ -1076,11 +1034,6 @@ App = system "My App" {
 <li><strong>Zoom Levels:</strong> Avoids the "one giant messy diagram" problem. You can view the system at the level of detail relevant to you.</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="system-3"><a href="#system-3" class="header">System</a></h1>
-<hr>
-<h2 id="title-system-weight-11-summary-a-system-represents-a-software-system-the-highest-level-of-abstraction-in-the-c4-model"><a class="header" href="#title-system-weight-11-summary-a-system-represents-a-software-system-the-highest-level-of-abstraction-in-the-c4-model">title: "System"
-weight: 11
-summary: "A System represents a software system, the highest level of abstraction in the C4 model."</a></h2>
 <h1 id="system"><a class="header" href="#system">System</a></h1>
 <p>A <strong>System</strong> represents a software system, which is the highest level of abstraction in the C4 model. A system delivers value to its users, whether they are human or other systems.</p>
 <h2 id="syntax-2"><a class="header" href="#syntax-2">Syntax</a></h2>
@@ -1105,11 +1058,6 @@ description "Allows customers to view accounts and make payments."
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="container-3"><a href="#container-3" class="header">Container</a></h1>
-<hr>
-<h2 id="title-container-weight-14-summary-a-container-represents-an-application-or-a-data-store"><a class="header" href="#title-container-weight-14-summary-a-container-represents-an-application-or-a-data-store">title: "Container"
-weight: 14
-summary: "A Container represents an application or a data store."</a></h2>
 <h1 id="container"><a class="header" href="#container">Container</a></h1>
 <p>A <strong>Container</strong> represents an application or a data store. It is something that needs to be running in order for the overall software system to work.</p>
 <p><strong>Note</strong>: In C4, "Container" does <em>not</em> mean a Docker container. It means a deployable unit like:</p>
@@ -1163,11 +1111,6 @@ scale {
 </ul>
 <p>This helps document your auto-scaling strategy and can be used by deployment tools.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="component-4"><a href="#component-4" class="header">Component</a></h1>
-<hr>
-<h2 id="title-component-weight-13-summary-a-component-is-a-grouping-of-related-functionality-encapsulated-behind-a-well-defined-interface"><a class="header" href="#title-component-weight-13-summary-a-component-is-a-grouping-of-related-functionality-encapsulated-behind-a-well-defined-interface">title: "Component"
-weight: 13
-summary: "A Component is a grouping of related functionality encapsulated behind a well-defined interface."</a></h2>
 <h1 id="component"><a class="header" href="#component">Component</a></h1>
 <p>A <strong>Component</strong> is a grouping of related functionality encapsulated behind a well-defined interface. Components reside inside Containers.</p>
 <h2 id="syntax-4"><a class="header" href="#syntax-4">Syntax</a></h2>
@@ -1189,11 +1132,6 @@ description "Handles user login and registration."
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="person-3"><a href="#person-3" class="header">Person</a></h1>
-<hr>
-<h2 id="title-person-weight-15-summary-a-person-represents-a-human-user-of-your-software-system"><a class="header" href="#title-person-weight-15-summary-a-person-represents-a-human-user-of-your-software-system">title: "Person"
-weight: 15
-summary: "A Person represents a human user of your software system."</a></h2>
 <h1 id="person"><a class="header" href="#person">Person</a></h1>
 <p>A <strong>Person</strong> represents a human user of your software system (e.g., "Customer", "Admin", "Employee").</p>
 <h2 id="syntax-5"><a class="header" href="#syntax-5">Syntax</a></h2>
@@ -1216,11 +1154,6 @@ description "A customer of the bank with personal accounts."
 <pre><code>
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="relations-2"><a href="#relations-2" class="header">Relations</a></h1>
-<hr>
-<h2 id="title-relations-weight-20-summary-relations-describe-how-elements-interact-with-each-other"><a class="header" href="#title-relations-weight-20-summary-relations-describe-how-elements-interact-with-each-other">title: "Relations"
-weight: 20
-summary: "Relations describe how elements interact with each other."</a></h2>
 <h1 id="relations"><a class="header" href="#relations">Relations</a></h1>
 <p><strong>Relations</strong> describe how elements interact with each other. They are the lines connecting the boxes in your diagram.</p>
 <h2 id="syntax-6"><a class="header" href="#syntax-6">Syntax</a></h2>
@@ -1258,11 +1191,6 @@ BankingSystem.WebApp -&gt; BankingSystem.DB "Reads Data"
 <li><a href="docs/concepts/docs/concepts/validation.html">Validation</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="views-1"><a href="#views-1" class="header">Views</a></h1>
-<hr>
-<h2 id="title-views-weight-36-summary-create-focused-visualizations-using-includes-excludes-and-perview-styles"><a class="header" href="#title-views-weight-36-summary-create-focused-visualizations-using-includes-excludes-and-perview-styles">title: "Views"
-weight: 36
-summary: "Create focused visualizations using includes, excludes, and per‑view styles."</a></h2>
 <h1 id="views"><a class="header" href="#views">Views</a></h1>
 <p>Define <code>views</code> to customize what elements appear and how they render.</p>
 <h2 id="syntax-7"><a class="header" href="#syntax-7">Syntax</a></h2>
@@ -1310,11 +1238,6 @@ view index {
 <li><code>style</code> block for global defaults</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="validation-1"><a href="#validation-1" class="header">Validation</a></h1>
-<hr>
-<h2 id="title-validation-weight-35-summary-automatic-checks-ids-references-cycles-layering-externals"><a class="header" href="#title-validation-weight-35-summary-automatic-checks-ids-references-cycles-layering-externals">title: "Validation"
-weight: 35
-summary: "Automatic checks: IDs, references, cycles, layering, externals."</a></h2>
 <h1 id="validation"><a class="header" href="#validation">Validation</a></h1>
 <p>Sruja validates your model to catch issues early.</p>
 <h2 id="common-checks"><a class="header" href="#common-checks">Common Checks</a></h2>
@@ -1353,11 +1276,6 @@ include *
 <li><a href="docs/concepts/docs/concepts/scenario.html">Scenario</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="deployment-4"><a href="#deployment-4" class="header">Deployment</a></h1>
-<hr>
-<h2 id="title-deployment-weight-33-summary-the-deployment-view-allows-you-to-map-your-software-containers-to-infrastructure"><a class="header" href="#title-deployment-weight-33-summary-the-deployment-view-allows-you-to-map-your-software-containers-to-infrastructure">title: "Deployment"
-weight: 33
-summary: "The Deployment view allows you to map your software containers to infrastructure."</a></h2>
 <h1 id="deployment"><a class="header" href="#deployment">Deployment</a></h1>
 <p>The <strong>Deployment</strong> view allows you to map your software containers to infrastructure. This corresponds to the C4 Deployment Diagram.</p>
 <h2 id="deployment-node"><a class="header" href="#deployment-node">Deployment Node</a></h2>
@@ -1398,11 +1316,6 @@ summary: "The Deployment view allows you to map your software containers to infr
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="requirements-5"><a href="#requirements-5" class="header">Requirements</a></h1>
-<hr>
-<h2 id="title-requirements-weight-31-summary-model-functional-and-nonfunctional-requirements-directly-in-sruja-dsl"><a class="header" href="#title-requirements-weight-31-summary-model-functional-and-nonfunctional-requirements-directly-in-sruja-dsl">title: "Requirements"
-weight: 31
-summary: "Model functional and non‑functional requirements directly in Sruja DSL."</a></h2>
 <h1 id="requirements"><a class="header" href="#requirements">Requirements</a></h1>
 <p>Use <code>requirement</code> to capture functional, performance, security, and constraint requirements. Requirements are declared at the architecture root only.</p>
 <h2 id="syntax-9"><a class="header" href="#syntax-9">Syntax</a></h2>
@@ -1434,11 +1347,6 @@ view index {
 <li><code>adr</code> for decision records</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="scenario-3"><a href="#scenario-3" class="header">Scenario</a></h1>
-<hr>
-<h2 id="title-scenario-weight-22-summary-describe-behavioral-flows-as-steps-between-elements"><a class="header" href="#title-scenario-weight-22-summary-describe-behavioral-flows-as-steps-between-elements">title: "Scenario"
-weight: 22
-summary: "Describe behavioral flows as steps between elements."</a></h2>
 <h1 id="scenario"><a class="header" href="#scenario">Scenario</a></h1>
 <p>Scenarios describe behavioral flows as ordered steps. They focus on interactions rather than data pipelines.</p>
 <h2 id="syntax-10"><a class="header" href="#syntax-10">Syntax</a></h2>
@@ -1519,11 +1427,6 @@ OrderProcess = flow "Order Processing" {
 <li><a href="docs/concepts/docs/concepts/validation.html">Validation</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="adr"><a href="#adr" class="header">ADR</a></h1>
-<hr>
-<h2 id="title-architecture-decision-records-adr-weight-51-summary-capture-architecture-decisions-directly-in-your-model"><a class="header" href="#title-architecture-decision-records-adr-weight-51-summary-capture-architecture-decisions-directly-in-your-model">title: "Architecture Decision Records (ADR)"
-weight: 51
-summary: "Capture architecture decisions directly in your model."</a></h2>
 <h1 id="architecture-decision-records-adr"><a class="header" href="#architecture-decision-records-adr">Architecture Decision Records (ADR)</a></h1>
 <p>Sruja allows you to capture <strong>Architecture Decision Records (ADRs)</strong> directly within your architecture model. This keeps the "why" close to the "what".</p>
 <h2 id="syntax-11"><a class="header" href="#syntax-11">Syntax</a></h2>
@@ -1563,11 +1466,6 @@ ADR003 = adr "Deferred Decision"
 <li><strong>Consequences</strong>: The pros, cons, and implications of the decision.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="policy-1"><a href="#policy-1" class="header">Policy</a></h1>
-<hr>
-<h2 id="title-policy-weight-50-summary-define-architectural-rules-and-constraints-that-must-be-followed"><a class="header" href="#title-policy-weight-50-summary-define-architectural-rules-and-constraints-that-must-be-followed">title: "Policy"
-weight: 50
-summary: "Define architectural rules and constraints that must be followed."</a></h2>
 <h1 id="policy"><a class="header" href="#policy">Policy</a></h1>
 <p>Policies define architectural rules, standards, and constraints that your system must follow. They help enforce best practices, compliance requirements, and organizational standards directly in your architecture model.</p>
 <h2 id="syntax-12"><a class="header" href="#syntax-12">Syntax</a></h2>
@@ -1675,11 +1573,6 @@ view index {
 <li><a href="docs/concepts/docs/concepts/adr.html">ADR</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="reference-syntax"><a href="#reference-syntax" class="header">Reference: syntax</a></h1>
-<hr>
-<h2 id="title-syntax-reference-weight-51-summary-core-constructs-and-fields-for-sruja-dsl"><a class="header" href="#title-syntax-reference-weight-51-summary-core-constructs-and-fields-for-sruja-dsl">title: "Syntax Reference"
-weight: 51
-summary: "Core constructs and fields for Sruja DSL."</a></h2>
 <h1 id="syntax-reference"><a class="header" href="#syntax-reference">Syntax Reference</a></h1>
 <h2 id="elements"><a class="header" href="#elements">Elements</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -1722,11 +1615,6 @@ MySystem = system "MySystem" {
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="reference-patterns-1"><a href="#reference-patterns-1" class="header">Reference: patterns</a></h1>
-<hr>
-<h2 id="title-architecture-patterns-weight-53-summary-reusable-patterns-requestresponse-event-driven-saga-cqrs"><a class="header" href="#title-architecture-patterns-weight-53-summary-reusable-patterns-requestresponse-event-driven-saga-cqrs">title: "Architecture Patterns"
-weight: 53
-summary: "Reusable patterns: request/response, event-driven, saga, CQRS."</a></h2>
 <h1 id="architecture-patterns"><a class="header" href="#architecture-patterns">Architecture Patterns</a></h1>
 <h2 id="requestresponse"><a class="header" href="#requestresponse">Request/Response</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -1839,10 +1727,6 @@ include *
 </code></pre>
 <p>See <code>examples/pattern_agentic_ai.sruja</code> for a complete agent graph.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="cheatsheet"><a href="#cheatsheet" class="header">Cheatsheet</a></h1>
-<hr>
-<h2 id="title-sruja-cheatsheet-summary-quick-syntax-and-common-patterns-for-fast-modeling"><a class="header" href="#title-sruja-cheatsheet-summary-quick-syntax-and-common-patterns-for-fast-modeling">title: "Sruja Cheatsheet"
-summary: "Quick syntax and common patterns for fast modeling."</a></h2>
 <h1 id="sruja-cheatsheet"><a class="header" href="#sruja-cheatsheet">Sruja Cheatsheet</a></h1>
 <h2 id="elements-1"><a class="header" href="#elements-1">Elements</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -1905,11 +1789,6 @@ scenario Checkout "Checkout Flow" {
 <h2 id="try-it"><a class="header" href="#try-it">Try it</a></h2>
 <p>Use the <a href="#vs-code-extension">VS Code extension</a> to paste these snippets into a <code>.sruja</code> file and see the diagram preview.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="adoption-guide"><a href="#adoption-guide" class="header">Adoption guide</a></h1>
-<hr>
-<h2 id="title-adoption-guide-weight-21-summary-complete-guide-to-evaluating-and-adopting-sruja-for-your-organization"><a class="header" href="#title-adoption-guide-weight-21-summary-complete-guide-to-evaluating-and-adopting-sruja-for-your-organization">title: "Adoption Guide"
-weight: 21
-summary: "Complete guide to evaluating and adopting Sruja for your organization."</a></h2>
 <h1 id="sruja-adoption-guide"><a class="header" href="#sruja-adoption-guide">Sruja Adoption Guide</a></h1>
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
 <p>For a short, practical guide (install CLI, add to your project, CI, AI, multi-repo), see <strong><a href="#using-sruja-in-your-project">Using Sruja in your project</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
@@ -2029,7 +1908,7 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p><strong>Activities:</strong></p>
 <ol>
 <li>Review Sruja documentation</li>
-<li>Install CLI: <code>curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</code> (or from Git: <code>cargo install sruja-cli --git https://github.com/sruja-ai/sruja</code>; or build from source: <code>git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build</code>)</li>
+<li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code> (or from Git: <code>cargo install sruja-cli --git https://github.com/sruja-ai/sruja</code>; or build from source: <code>git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build</code>)</li>
 <li>Model a simple existing system</li>
 <li>Install VS Code extension for syntax highlighting and diagnostics</li>
 </ol>
@@ -2206,11 +2085,6 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p><strong>Note</strong>: This guide helps you evaluate whether Sruja is the right fit for your organization and how to adopt it successfully.</p>
 <p><strong>Ready to evaluate Sruja? Start with the Self-Assessment above.</strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="adoption-playbook-1"><a href="#adoption-playbook-1" class="header">Adoption playbook</a></h1>
-<hr>
-<h2 id="title-adoption-playbook-weight-22-summary-practical-steps-to-roll-out-sruja-across-teams-and-ci"><a class="header" href="#title-adoption-playbook-weight-22-summary-practical-steps-to-roll-out-sruja-across-teams-and-ci">title: "Adoption Playbook"
-weight: 22
-summary: "Practical steps to roll out Sruja across teams and CI."</a></h2>
 <h1 id="adoption-playbook"><a class="header" href="#adoption-playbook">Adoption Playbook</a></h1>
 <h2 id="week-1-baseline--ci"><a class="header" href="#week-1-baseline--ci">Week 1: Baseline &amp; CI</a></h2>
 <ul>
@@ -2265,7 +2139,7 @@ jobs:
 <h2 id="1-install-your-machine-andor-ci"><a class="header" href="#1-install-your-machine-andor-ci">1. Install (your machine and/or CI)</a></h2>
 <h3 id="cli"><a class="header" href="#cli">CLI</a></h3>
 <p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
-<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 </code></pre>
 <p><strong>Option B – from Git (requires Rust):</strong></p>
 <pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
@@ -2371,7 +2245,7 @@ jobs:
 <li><strong>Language specification</strong> – <a href="#sruja-language-specification">Language specification</a> (full DSL reference in this book)</li>
 <li><strong>AI editors and catching bugs</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo</li>
 <li><strong>Reviewing AI-generated code</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/REVIEWING_AI_GENERATED_CODE.md">Reviewing AI-generated code</a> in the repo</li>
-<li><strong>Adoption and rollout</strong> – <a href="#adoption-guide">Adoption guide</a> and <a href="#adoption-playbook-1">Adoption playbook</a> in this book</li>
+<li><strong>Adoption and rollout</strong> – <a href="#sruja-adoption-guide">Adoption guide</a> and <a href="#adoption-playbook">Adoption playbook</a> in this book</li>
 <li><strong>Examples</strong> – <a href="https://github.com/sruja-ai/sruja/tree/main/examples">examples/</a> in the Sruja repo</li>
 </ul>
 <p>Sruja is open source. To report issues or suggest improvements, use <a href="https://github.com/sruja-ai/sruja/issues">GitHub Issues</a> or <a href="https://github.com/sruja-ai/sruja/discussions">Discussions</a>.</p>
@@ -2881,11 +2755,6 @@ scenario PaymentFlow "Payment Processing" {
 </ol>
 <p><strong>Key Principle</strong>: <strong>Less is more</strong>. Don't add complexity unless it clearly helps developers learn system design better. The goal is to build confidence through simplicity, not complexity through features.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="glossary-1"><a href="#glossary-1" class="header">Glossary</a></h1>
-<hr>
-<h2 id="title-glossary-weight-100-summary-definitions-of-key-terms-and-concepts-used-in-sruja"><a class="header" href="#title-glossary-weight-100-summary-definitions-of-key-terms-and-concepts-used-in-sruja">title: "Glossary"
-weight: 100
-summary: "Definitions of key terms and concepts used in Sruja."</a></h2>
 <h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
 <p>Quick reference for technical terms and concepts used throughout Sruja documentation.</p>
 <h2 id="a"><a class="header" href="#a">A</a></h2>
@@ -3044,12 +2913,6 @@ App.Web -&gt; App.API "Calls"
 <li><a href="docs/docs/getting-started.html">Getting Started Guide</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="style-guide"><a href="#style-guide" class="header">Style guide</a></h1>
-<hr>
-<h2 id="title-documentation-style-guide-weight-100-summary-standards-for-tutorials-howtos-reference-and-explanation-tags-docs-style-quality"><a class="header" href="#title-documentation-style-guide-weight-100-summary-standards-for-tutorials-howtos-reference-and-explanation-tags-docs-style-quality">title: "Documentation Style Guide"
-weight: 100
-summary: "Standards for tutorials, how‑tos, reference, and explanation."
-tags: ["docs", "style", "quality"]</a></h2>
 <h1 id="documentation-style-guide"><a class="header" href="#documentation-style-guide">Documentation Style Guide</a></h1>
 <h2 id="goals"><a class="header" href="#goals">Goals</a></h2>
 <ul>
@@ -3122,11 +2985,6 @@ tags: ["docs", "style", "quality"]</a></h2>
 <li>Outcome preview or screenshot included where appropriate</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="community-1"><a href="#community-1" class="header">Community</a></h1>
-<hr>
-<h2 id="title-community-weight-90-summary-join-the-sruja-community-contribute-and-help-shape-the-future-of-architecture-as-code"><a class="header" href="#title-community-weight-90-summary-join-the-sruja-community-contribute-and-help-shape-the-future-of-architecture-as-code">title: "Community"
-weight: 90
-summary: "Join the Sruja community, contribute, and help shape the future of architecture-as-code."</a></h2>
 <h1 id="sruja-community"><a class="header" href="#sruja-community">Sruja Community</a></h1>
 <p>Welcome to the Sruja community! Sruja is an open source project built by and for developers who care about software architecture. Whether you're here to learn, contribute, or get help, we're glad you're here.</p>
 <h2 id="join-the-conversation"><a class="header" href="#join-the-conversation">Join the Conversation</a></h2>
@@ -3317,16 +3175,16 @@ summary: "Join the Sruja community, contribute, and help shape the future of arc
 </thead>
 <tbody>
 <tr><td><a href="#systems-thinking-101">Systems Thinking 101</a></td><td>Fundamentals, parts &amp; relationships, boundaries, flows, feedback loops, context</td></tr>
-<tr><td><a href="#system-design-101">System Design 101</a></td><td>Fundamentals, building blocks, advanced modeling, production readiness</td></tr>
-<tr><td><a href="#system-design-201">System Design 201</a></td><td>High throughput, real-time, data-intensive, consistency</td></tr>
-<tr><td><a href="#ecommerce-platform">Ecommerce Platform</a></td><td>Vision, architecture, SDLC, ops, evolution, governance</td></tr>
-<tr><td><a href="#production-architecture">Production Architecture</a></td><td>Performance, modular design, governance</td></tr>
-<tr><td><a href="#agentic-ai">Agentic AI</a></td><td>Fundamentals, patterns, modeling for AI systems</td></tr>
-<tr><td><a href="#advanced-architects">Advanced Architects</a></td><td>Policy as code and advanced topics</td></tr>
+<tr><td><a href="#system-design-101-fundamentals">System Design 101</a></td><td>Fundamentals, building blocks, advanced modeling, production readiness</td></tr>
+<tr><td><a href="#system-design-201-advanced-systems">System Design 201</a></td><td>High throughput, real-time, data-intensive, consistency</td></tr>
+<tr><td><a href="#ecommerce-platform-architecture-and-operations">Ecommerce Platform</a></td><td>Vision, architecture, SDLC, ops, evolution, governance</td></tr>
+<tr><td><a href="#system-design-interview-mastery">Production Architecture</a></td><td>Performance, modular design, governance</td></tr>
+<tr><td><a href="#agentic-ai-with-sruja">Agentic AI</a></td><td>Fundamentals, patterns, modeling for AI systems</td></tr>
+<tr><td><a href="#quick-start-for-seasoned-software-architects">Advanced Architects</a></td><td>Policy as code and advanced topics</td></tr>
 </tbody>
 </table>
 </div>
-<p>Start with <strong>Systems Thinking 101</strong> or <strong>System Design 101</strong> if you're new; use the <a href="#beginner-path">Beginner path</a> to combine courses with tutorials and challenges.</p>
+<p>Start with <strong>Systems Thinking 101</strong> or <strong>System Design 101</strong> if you're new; use the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> to combine courses with tutorials and challenges.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="systems-thinking-101"><a class="header" href="#systems-thinking-101">Systems Thinking 101</a></h1>
 <p>Learn to model systems holistically with Sruja. Master the five core systems thinking concepts: parts and relationships, boundaries, flows, feedback loops, and context.</p>
@@ -3343,8 +3201,8 @@ summary: "Join the Sruja community, contribute, and help shape the future of arc
 </ul>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <ul>
-<li>Basic familiarity with Sruja DSL (or complete <a href="#cli-basics-1">CLI Basics</a>)</li>
-<li>Understanding of <a href="#c4-model-1">C4 Model concepts</a></li>
+<li>Basic familiarity with Sruja DSL (or complete <a href="#cli-basics">CLI Basics</a>)</li>
+<li>Understanding of <a href="#the-c4-model">C4 Model concepts</a></li>
 </ul>
 <h2 id="learning-path"><a class="header" href="#learning-path">Learning Path</a></h2>
 <p>Each module contains hands-on examples with Sruja syntax. You'll write <code>.sruja</code> files, validate them with <code>sruja lint</code>, and export to Mermaid diagrams with <code>sruja export mermaid</code>.</p>
@@ -3359,7 +3217,7 @@ summary: "Join the Sruja community, contribute, and help shape the future of arc
 <h2 id="course-duration"><a class="header" href="#course-duration">Course Duration</a></h2>
 <p>Approximately 6-8 hours to complete all modules and exercises.</p>
 <h2 id="next-steps-2"><a class="header" href="#next-steps-2">Next Steps</a></h2>
-<p>Start with <a href="#module-1-fundamentals">Module 1: Fundamentals</a> or review the <a href="#beginner-path">Beginner path</a> for a complete learning journey.</p>
+<p>Start with <a href="#module-1-fundamentals">Module 1: Fundamentals</a> or review the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> for a complete learning journey.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="module-1-fundamentals"><a class="header" href="#module-1-fundamentals">Module 1: Fundamentals</a></h1>
 <h2 id="overview-1"><a class="header" href="#overview-1">Overview</a></h2>
@@ -8438,11 +8296,6 @@ ADR002 = adr "Use Stripe for payments" {
 </ul>
 <p>Congratulations on completing the course! 🚀</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="system-design-101"><a href="#system-design-101" class="header">System Design 101</a></h1>
-<hr>
-<h2 id="title-system-design-101-fundamentals-summary-master-the-art-of-designing-scalable-reliable-and-maintainable-systems-from-load-balancers-to-caching-strategies-learn-the-building-blocks-of-modern-architecture-weight-1"><a class="header" href="#title-system-design-101-fundamentals-summary-master-the-art-of-designing-scalable-reliable-and-maintainable-systems-from-load-balancers-to-caching-strategies-learn-the-building-blocks-of-modern-architecture-weight-1">title: "System Design 101: Fundamentals"
-summary: "Master the art of designing scalable, reliable, and maintainable systems. From load balancers to caching strategies, learn the building blocks of modern architecture."
-weight: 1</a></h2>
 <h1 id="system-design-101-fundamentals"><a class="header" href="#system-design-101-fundamentals">System Design 101: Fundamentals</a></h1>
 <blockquote class="blockquote-tag blockquote-tag-note">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
@@ -8489,11 +8342,6 @@ weight: 1</a></h2>
 <h2 id="lets-begin"><a class="header" href="#lets-begin">Let's Begin</a></h2>
 <p>Start your journey with <strong><a href="courses/system-design-101/courses/system-design-101/module-1-fundamentals.html">Module 1: Fundamentals</a></strong>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="fundamentals"><a href="#fundamentals" class="header">Fundamentals</a></h1>
-<hr>
-<h2 id="title-module-1-fundamentals-weight-0-summary-lay-the-groundwork-learn-the-language-of-system-design-how-to-dissect-problems-and-master-the-art-of-trade-offs"><a class="header" href="#title-module-1-fundamentals-weight-0-summary-lay-the-groundwork-learn-the-language-of-system-design-how-to-dissect-problems-and-master-the-art-of-trade-offs">title: "Module 1: Fundamentals"
-weight: 0
-summary: "Lay the groundwork. Learn the language of system design, how to dissect problems, and master the art of trade-offs."</a></h2>
 <h1 id="module-1-fundamentals-1"><a class="header" href="#module-1-fundamentals-1">Module 1: Fundamentals</a></h1>
 <blockquote class="blockquote-tag blockquote-tag-tip">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
@@ -8519,19 +8367,6 @@ summary: "Lay the groundwork. Learn the language of system design, how to dissec
 <h2 id="ready"><a class="header" href="#ready">Ready?</a></h2>
 <p>Let's start your journey with <strong><a href="courses/system-design-101/module-1-fundamentals/lesson-1">Lesson 1: What is System Design?</a></strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<hr>
-<p>title: "Lesson 1: The Mindset"
-weight: 1
-summary: "Stop coding. Start designing. Why system design is different from application development."
-learning_objectives:</p>
-<ul>
-<li>Understand the difference between coding and system design</li>
-<li>Learn the 'House vs Skyscraper' analogy</li>
-<li>Master the Functional vs Non-Functional distinction
-estimated_time: "15 minutes"
-difficulty: "beginner"</li>
-</ul>
-<hr>
 <h1 id="lesson-1-the-mindset"><a class="header" href="#lesson-1-the-mindset">Lesson 1: The Mindset</a></h1>
 <h2 id="the-shift"><a class="header" href="#the-shift">The Shift</a></h2>
 <p>When you write code, you are building a single room. You care about the furniture (variables), the flow (logic), and the usability (UI).</p>
@@ -8677,19 +8512,6 @@ include Twitter.TimelineAPI Twitter.TweetDB
 <p>Now that we have the mindset, let's learn the language.
 👉 <strong><a href="courses/system-design-101/module-1-fundamentals/lesson-2">Lesson 2: The Vocabulary of Scale</a></strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<hr>
-<p>title: "Lesson 2: The Vocabulary of Scale"
-weight: 2
-summary: "Vertical vs. Horizontal Scaling, Latency vs. Throughput. The words you need to know."
-learning_objectives:</p>
-<ul>
-<li>Explain Vertical vs Horizontal scaling</li>
-<li>Understand why distributed systems are hard</li>
-<li>Master the difference between Latency and Throughput
-estimated_time: "15 minutes"
-difficulty: "beginner"</li>
-</ul>
-<hr>
 <h1 id="lesson-2-the-vocabulary-of-scale"><a class="header" href="#lesson-2-the-vocabulary-of-scale">Lesson 2: The Vocabulary of Scale</a></h1>
 <p>To design big systems, you need to speak the language.</p>
 <h2 id="1-scaling-up-vs-out"><a class="header" href="#1-scaling-up-vs-out">1. Scaling: Up vs Out</a></h2>
@@ -8779,11 +8601,6 @@ include *
 <p>We have the mindset, and we have the words. Now let's draw.
 👉 <strong><a href="courses/system-design-101/module-1-fundamentals/lesson-3">Lesson 3: The C4 Model (Visualizing Architecture)</a></strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3"><a href="#lesson-3" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-availability--reliability-weight-3-summary-redundancy-failover-and-slas"><a class="header" href="#title-lesson-3-availability--reliability-weight-3-summary-redundancy-failover-and-slas">title: "Lesson 3: Availability &amp; Reliability"
-weight: 3
-summary: "Redundancy, Failover, and SLAs."</a></h2>
 <h1 id="lesson-3-availability--reliability"><a class="header" href="#lesson-3-availability--reliability">Lesson 3: Availability &amp; Reliability</a></h1>
 <h2 id="reliability-vs-availability"><a class="header" href="#reliability-vs-availability">Reliability vs. Availability</a></h2>
 <ul>
@@ -8847,11 +8664,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-4"><a href="#lesson-4" class="header">Lesson 4</a></h1>
-<hr>
-<h2 id="title-lesson-4-cap-theorem--consistency-weight-4-summary-consistency-availability-and-partition-tolerance"><a class="header" href="#title-lesson-4-cap-theorem--consistency-weight-4-summary-consistency-availability-and-partition-tolerance">title: "Lesson 4: CAP Theorem &amp; Consistency"
-weight: 4
-summary: "Consistency, Availability, and Partition Tolerance."</a></h2>
 <h1 id="lesson-4-cap-theorem--consistency"><a class="header" href="#lesson-4-cap-theorem--consistency">Lesson 4: CAP Theorem &amp; Consistency</a></h1>
 <h2 id="the-cap-theorem"><a class="header" href="#the-cap-theorem">The CAP Theorem</a></h2>
 <p>Proposed by Eric Brewer, the CAP theorem states that a distributed data store can only provide <strong>two</strong> of the following three guarantees:</p>
@@ -8899,11 +8711,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-5"><a href="#lesson-5" class="header">Lesson 5</a></h1>
-<hr>
-<h2 id="title-lesson-5-user-scenarios-weight-5-summary-modeling-user-flows-and-interactions"><a class="header" href="#title-lesson-5-user-scenarios-weight-5-summary-modeling-user-flows-and-interactions">title: "Lesson 5: User Scenarios"
-weight: 5
-summary: "Modeling user flows and interactions."</a></h2>
 <h1 id="lesson-5-user-scenarios"><a class="header" href="#lesson-5-user-scenarios">Lesson 5: User Scenarios</a></h1>
 <h2 id="understanding-user-journeys"><a class="header" href="#understanding-user-journeys">Understanding User Journeys</a></h2>
 <p>A <strong>User Scenario</strong> describes the series of steps a user takes to achieve a specific goal within your system. While static architecture diagrams show <em>structure</em>, user scenarios show <em>behavior</em>.</p>
@@ -8958,11 +8765,6 @@ include *
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="building-blocks"><a class="header" href="#building-blocks">Building Blocks</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1"><a href="#lesson-1" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-load-balancers-weight-1-summary-l4-vs-l7-load-balancing-algorithms"><a class="header" href="#title-lesson-1-load-balancers-weight-1-summary-l4-vs-l7-load-balancing-algorithms">title: "Lesson 1: Load Balancers"
-weight: 1
-summary: "L4 vs L7 Load Balancing, Algorithms."</a></h2>
 <h1 id="lesson-1-load-balancers"><a class="header" href="#lesson-1-load-balancers">Lesson 1: Load Balancers</a></h1>
 <h2 id="what-is-a-load-balancer"><a class="header" href="#what-is-a-load-balancer">What is a Load Balancer?</a></h2>
 <p>A load balancer sits between clients and servers, distributing incoming network traffic across a group of backend servers. This ensures that no single server bears too much load.</p>
@@ -9010,11 +8812,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2"><a href="#lesson-2" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-databases-weight-2-summary-sql-vs-nosql-replication-and-sharding"><a class="header" href="#title-lesson-2-databases-weight-2-summary-sql-vs-nosql-replication-and-sharding">title: "Lesson 2: Databases"
-weight: 2
-summary: "SQL vs NoSQL, Replication, and Sharding."</a></h2>
 <h1 id="lesson-2-databases"><a class="header" href="#lesson-2-databases">Lesson 2: Databases</a></h1>
 <h2 id="sql-vs-nosql"><a class="header" href="#sql-vs-nosql">SQL vs. NoSQL</a></h2>
 <h3 id="sql-relational-databases"><a class="header" href="#sql-relational-databases">SQL (Relational Databases)</a></h3>
@@ -9068,11 +8865,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-1"><a href="#lesson-3-1" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-caching-weight-3-summary-caching-strategies-and-eviction-policies"><a class="header" href="#title-lesson-3-caching-weight-3-summary-caching-strategies-and-eviction-policies">title: "Lesson 3: Caching"
-weight: 3
-summary: "Caching strategies and eviction policies."</a></h2>
 <h1 id="lesson-3-caching"><a class="header" href="#lesson-3-caching">Lesson 3: Caching</a></h1>
 <h2 id="why-cache"><a class="header" href="#why-cache">Why Cache?</a></h2>
 <p>Caching is the process of storing copies of data in a temporary storage location (cache) so that future requests for that data can be served faster.</p>
@@ -9146,11 +8938,6 @@ include *
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="advanced-modeling"><a class="header" href="#advanced-modeling">Advanced Modeling</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-1"><a href="#lesson-1-1" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-microservices-architecture-weight-1-summary-monolith-vs-microservices-service-boundaries"><a class="header" href="#title-lesson-1-microservices-architecture-weight-1-summary-monolith-vs-microservices-service-boundaries">title: "Lesson 1: Microservices Architecture"
-weight: 1
-summary: "Monolith vs Microservices, Service Boundaries."</a></h2>
 <h1 id="lesson-1-microservices-architecture"><a class="header" href="#lesson-1-microservices-architecture">Lesson 1: Microservices Architecture</a></h1>
 <h2 id="monolith-vs-microservices"><a class="header" href="#monolith-vs-microservices">Monolith vs. Microservices</a></h2>
 <h3 id="monolithic-architecture"><a class="header" href="#monolithic-architecture">Monolithic Architecture</a></h3>
@@ -9255,11 +9042,6 @@ exclude Customer
 <li><strong>Documentation</strong>: Multiple views serve as different types of documentation</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-1"><a href="#lesson-2-1" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-event-driven-architecture-weight-2-summary-pubsub-message-queues-event-sourcing"><a class="header" href="#title-lesson-2-event-driven-architecture-weight-2-summary-pubsub-message-queues-event-sourcing">title: "Lesson 2: Event-Driven Architecture"
-weight: 2
-summary: "Pub/Sub, Message Queues, Event Sourcing."</a></h2>
 <h1 id="lesson-2-event-driven-architecture"><a class="header" href="#lesson-2-event-driven-architecture">Lesson 2: Event-Driven Architecture</a></h1>
 <h2 id="synchronous-vs-asynchronous"><a class="header" href="#synchronous-vs-asynchronous">Synchronous vs. Asynchronous</a></h2>
 <ul>
@@ -9367,11 +9149,6 @@ exclude Notifications.AuthService Notifications.UserEvents
 <li><strong>Views</strong> let you focus on different aspects (events vs data vs user experience)</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-2"><a href="#lesson-3-2" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-advanced-scenarios-weight-3-summary-modeling-user-journeys-and-technical-sequences-with-scenarios"><a class="header" href="#title-lesson-3-advanced-scenarios-weight-3-summary-modeling-user-journeys-and-technical-sequences-with-scenarios">title: "Lesson 3: Advanced Scenarios"
-weight: 3
-summary: "Modeling user journeys and technical sequences with Scenarios."</a></h2>
 <h1 id="lesson-3-advanced-scenarios"><a class="header" href="#lesson-3-advanced-scenarios">Lesson 3: Advanced Scenarios</a></h1>
 <p>In Sruja, use <code>scenario</code> (and its alias <code>story</code>) to model runtime interactions: user journeys and technical sequences.</p>
 <h2 id="when-to-use-scenarios"><a class="header" href="#when-to-use-scenarios">When to Use Scenarios</a></h2>
@@ -9521,11 +9298,6 @@ include *
 <h2 id="data-oriented-scenarios"><a class="header" href="#data-oriented-scenarios">Data-Oriented Scenarios</a></h2>
 <p>Use <code>scenario</code> for data‑oriented flows too—keep steps focused on interactions and outcomes between elements.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-4-1"><a href="#lesson-4-1" class="header">Lesson 4</a></h1>
-<hr>
-<h2 id="title-lesson-4-architectural-perspectives-weight-4-summary-understanding-context-containers-and-components-without-special-dsl-keywords"><a class="header" href="#title-lesson-4-architectural-perspectives-weight-4-summary-understanding-context-containers-and-components-without-special-dsl-keywords">title: "Lesson 4: Architectural Perspectives"
-weight: 4
-summary: "Understanding context, containers, and components without special DSL keywords."</a></h2>
 <h1 id="lesson-4-architectural-perspectives"><a class="header" href="#lesson-4-architectural-perspectives">Lesson 4: Architectural Perspectives</a></h1>
 <p>As your system grows, a single diagram becomes too cluttered. You need different "maps" for different audiences:</p>
 <ul>
@@ -9635,11 +9407,6 @@ include *
 <li><strong>Presentations</strong>: Switch views during presentations to zoom in/out</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-5-1"><a href="#lesson-5-1" class="header">Lesson 5</a></h1>
-<hr>
-<h2 id="title-lesson-5-views--styling-weight-5-summary-focus-diagrams-with-views-improve-legibility-with-styling"><a class="header" href="#title-lesson-5-views--styling-weight-5-summary-focus-diagrams-with-views-improve-legibility-with-styling">title: "Lesson 5: Views &amp; Styling"
-weight: 5
-summary: "Focus diagrams with views; improve legibility with styling."</a></h2>
 <h1 id="lesson-5-views--styling"><a class="header" href="#lesson-5-views--styling">Lesson 5: Views &amp; Styling</a></h1>
 <h2 id="why-views"><a class="header" href="#why-views">Why Views?</a></h2>
 <p>Views let you spotlight specific paths (API, data, auth) without redrawing the whole system.</p>
@@ -9744,11 +9511,6 @@ style {
 <li>Use view <code>styles</code> to highlight critical edges.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-6"><a href="#lesson-6" class="header">Lesson 6</a></h1>
-<hr>
-<h2 id="title-lesson-6-advanced-dsl-features-weight-6-summary-master-views-scenarios-flows-and-element-kinds-to-create-production-ready-models"><a class="header" href="#title-lesson-6-advanced-dsl-features-weight-6-summary-master-views-scenarios-flows-and-element-kinds-to-create-production-ready-models">title: "Lesson 6: Advanced DSL Features"
-weight: 6
-summary: "Master views, scenarios, flows, and element kinds to create production-ready models."</a></h2>
 <h1 id="lesson-6-advanced-dsl-features"><a class="header" href="#lesson-6-advanced-dsl-features">Lesson 6: Advanced DSL Features</a></h1>
 <p>The Sruja DSL provides a <strong>flat syntax</strong> where all declarations—from element kinds to views—are top-level. This lesson covers the advanced capabilities that make your models more maintainable, understandable, and useful.</p>
 <h2 id="kinds-and-types-your-foundation"><a class="header" href="#kinds-and-types-your-foundation">Kinds and Types: Your Foundation</a></h2>
@@ -10085,11 +9847,6 @@ include *
 </ul>
 <p>👉 <strong><a href="courses/system-design-101/module-4-production-readiness/lesson-1">Module 4: Production Readiness</a></strong> - Learn how to make your architecture production-ready.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-7"><a href="#lesson-7" class="header">Lesson 7</a></h1>
-<hr>
-<h2 id="title-lesson-7-views-best-practices-weight-7-summary-master-the-art-of-creating-effective-views-for-different-audiences-and-purposes"><a class="header" href="#title-lesson-7-views-best-practices-weight-7-summary-master-the-art-of-creating-effective-views-for-different-audiences-and-purposes">title: "Lesson 7: Views Best Practices"
-weight: 7
-summary: "Master the art of creating effective views for different audiences and purposes."</a></h2>
 <h1 id="lesson-7-views-best-practices"><a class="header" href="#lesson-7-views-best-practices">Lesson 7: Views Best Practices</a></h1>
 <p>Views are one of the most powerful features in Sruja DSL. They let you create multiple perspectives from a single model, making your architecture documentation accessible to different audiences. This lesson covers best practices for creating effective views.</p>
 <h2 id="the-power-of-views"><a class="header" href="#the-power-of-views">The Power of Views</a></h2>
@@ -10478,11 +10235,6 @@ exclude Customer Admin ECommerce.WebApp ECommerce.ProductDB ECommerce.EventQueue
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="production-readiness"><a class="header" href="#production-readiness">Production Readiness</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-2"><a href="#lesson-1-2" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-documenting-decisions-adrs-weight-1-summary-why-document-what-is-an-adr"><a class="header" href="#title-lesson-1-documenting-decisions-adrs-weight-1-summary-why-document-what-is-an-adr">title: "Lesson 1: Documenting Decisions (ADRs)"
-weight: 1
-summary: "Why document? What is an ADR?"</a></h2>
 <h1 id="lesson-1-documenting-decisions-adrs"><a class="header" href="#lesson-1-documenting-decisions-adrs">Lesson 1: Documenting Decisions (ADRs)</a></h1>
 <h2 id="what-is-an-adr"><a class="header" href="#what-is-an-adr">What is an ADR?</a></h2>
 <p>An <strong>Architecture Decision Record (ADR)</strong> is a document that captures an important architectural decision made along with its context and consequences.</p>
@@ -10539,11 +10291,6 @@ include *
 </code></pre>
 <p>This ensures that your documentation lives right next to the code it describes, making it harder to ignore or lose.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-2"><a href="#lesson-2-2" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-deployment-architecture-weight-2-summary-cloud-on-prem-containers-and-real-world-deployment-strategies"><a class="header" href="#title-lesson-2-deployment-architecture-weight-2-summary-cloud-on-prem-containers-and-real-world-deployment-strategies">title: "Lesson 2: Deployment Architecture"
-weight: 2
-summary: "Cloud, On-prem, Containers, and real-world deployment strategies."</a></h2>
 <h1 id="lesson-2-deployment-architecture"><a class="header" href="#lesson-2-deployment-architecture">Lesson 2: Deployment Architecture</a></h1>
 <h2 id="real-world-scenario-startup-to-scale"><a class="header" href="#real-world-scenario-startup-to-scale">Real-World Scenario: Startup to Scale</a></h2>
 <p><strong>Context</strong>: A fintech startup begins with a single server, grows to 10M users, and needs to plan deployment architecture.</p>
@@ -10892,11 +10639,6 @@ ECommerce.API -&gt; Observability.Jaeger "Sends traces"
 <li>Course: <a href="courses/system-design-101/module-4-production-readiness/courses/ecommerce-platform/module-5-ops.html">E-Commerce Platform - Module 5: Ops</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-3"><a href="#lesson-3-3" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-governance-as-code-weight-3-summary-automating-architectural-compliance-with-policies-and-rules"><a class="header" href="#title-lesson-3-governance-as-code-weight-3-summary-automating-architectural-compliance-with-policies-and-rules">title: "Lesson 3: Governance as Code"
-weight: 3
-summary: "Automating architectural compliance with Policies and Rules."</a></h2>
 <h1 id="lesson-3-governance-as-code"><a class="header" href="#lesson-3-governance-as-code">Lesson 3: Governance as Code</a></h1>
 <p>As your organization scales, manually reviewing every architectural change becomes impossible. You need automated guardrails to ensure consistency and security.</p>
 <h2 id="what-is-governance-as-code"><a class="header" href="#what-is-governance-as-code">What is Governance as Code?</a></h2>
@@ -10995,11 +10737,6 @@ description "Shows components with compliance tags"
 </code></pre>
 <p>This ensures that your architecture isn't just a diagram—it's a specification that is continuously verified.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-4-2"><a href="#lesson-4-2" class="header">Lesson 4</a></h1>
-<hr>
-<h2 id="title-lesson-4-slos--scale-integration-weight-4-summary-define-slos-and-align-scale-to-meet-targets"><a class="header" href="#title-lesson-4-slos--scale-integration-weight-4-summary-define-slos-and-align-scale-to-meet-targets">title: "Lesson 4: SLOs &amp; Scale Integration"
-weight: 4
-summary: "Define SLOs and align scale to meet targets."</a></h2>
 <h1 id="lesson-4-slos--scale-integration"><a class="header" href="#lesson-4-slos--scale-integration">Lesson 4: SLOs &amp; Scale Integration</a></h1>
 <h2 id="why-slos"><a class="header" href="#why-slos">Why SLOs?</a></h2>
 <p>SLOs set measurable targets (availability, latency, error rate, throughput). They guide capacity and design.</p>
@@ -11088,11 +10825,6 @@ include ECommerce.API ECommerce.Database
 <li>Adjust <code>scale</code> bounds to keep <code>throughput</code> above target.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-5-2"><a href="#lesson-5-2" class="header">Lesson 5</a></h1>
-<hr>
-<h2 id="title-lesson-5-tracking-architecture-evolution-weight-5-summary-track-architecture-evolution-using-git-adrs-and-slos"><a class="header" href="#title-lesson-5-tracking-architecture-evolution-weight-5-summary-track-architecture-evolution-using-git-adrs-and-slos">title: "Lesson 5: Tracking Architecture Evolution"
-weight: 5
-summary: "Track architecture evolution using Git, ADRs, and SLOs."</a></h2>
 <h1 id="lesson-5-tracking-architecture-evolution"><a class="header" href="#lesson-5-tracking-architecture-evolution">Lesson 5: Tracking Architecture Evolution</a></h1>
 <h2 id="why-track-changes"><a class="header" href="#why-track-changes">Why Track Changes?</a></h2>
 <p>Keeping a history of changes improves communication, auditability, and onboarding. Sruja integrates with Git to provide automatic change tracking, while ADRs document decisions and SLOs track evolution over time.</p>
@@ -11316,11 +11048,6 @@ view index {
 <li><code>deployment</code> for tracking runtime topology changes</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="system-design-201"><a href="#system-design-201" class="header">System Design 201</a></h1>
-<hr>
-<h2 id="title-system-design-201-advanced-systems-summary-deep-dive-into-high-throughput-real-time-data-intensive-patterns-and-consistency-trade-offs-weight-1"><a class="header" href="#title-system-design-201-advanced-systems-summary-deep-dive-into-high-throughput-real-time-data-intensive-patterns-and-consistency-trade-offs-weight-1">title: "System Design 201: Advanced Systems"
-summary: "Deep dive into high throughput, real-time, data-intensive patterns, and consistency trade-offs."
-weight: 1</a></h2>
 <h1 id="system-design-201-advanced-systems"><a class="header" href="#system-design-201-advanced-systems">System Design 201: Advanced Systems</a></h1>
 <h2 id="overview-7"><a class="header" href="#overview-7">Overview</a></h2>
 <ul>
@@ -11351,11 +11078,6 @@ weight: 1</a></h2>
 <li>Begin with Module 1 to build scaling foundations, then proceed in order</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="high-throughput"><a href="#high-throughput" class="header">High Throughput</a></h1>
-<hr>
-<h2 id="title-module-overview-high-throughput-systems-weight-0-summary-master-high-throughput-interview-questions-queues-sharding-and-scaling-patterns"><a class="header" href="#title-module-overview-high-throughput-systems-weight-0-summary-master-high-throughput-interview-questions-queues-sharding-and-scaling-patterns">title: "Module Overview: High Throughput Systems"
-weight: 0
-summary: "Master high-throughput interview questions: queues, sharding, and scaling patterns."</a></h2>
 <h1 id="module-overview-high-throughput-systems"><a class="header" href="#module-overview-high-throughput-systems">Module Overview: High Throughput Systems</a></h1>
 <p><strong>"Design a system that handles 1 million requests per second."</strong></p>
 <p>This module covers advanced scaling patterns needed for high-throughput systems - a common interview topic at top tech companies.</p>
@@ -11389,11 +11111,6 @@ summary: "Master high-throughput interview questions: queues, sharding, and scal
 <li><input disabled="" type="checkbox"> Can explain trade-offs clearly</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-3"><a href="#lesson-1-3" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-design-a-url-shortener-weight-1-summary-tinyurl-hashing-key-value-stores-redirection"><a class="header" href="#title-lesson-1-design-a-url-shortener-weight-1-summary-tinyurl-hashing-key-value-stores-redirection">title: "Lesson 1: Design a URL Shortener"
-weight: 1
-summary: "TinyURL: Hashing, Key-Value Stores, Redirection."</a></h2>
 <h1 id="lesson-1-design-a-url-shortener"><a class="header" href="#lesson-1-design-a-url-shortener">Lesson 1: Design a URL Shortener</a></h1>
 <p><strong>Goal:</strong> Design a service like TinyURL that takes a long URL and converts it into a short alias (e.g., <code>http://tiny.url/xyz</code>).</p>
 <h2 id="requirements-1"><a class="header" href="#requirements-1">Requirements</a></h2>
@@ -11493,11 +11210,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-3"><a href="#lesson-2-3" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-design-a-rate-limiter-weight-2-summary-token-bucket-distributed-caching-middleware"><a class="header" href="#title-lesson-2-design-a-rate-limiter-weight-2-summary-token-bucket-distributed-caching-middleware">title: "Lesson 2: Design a Rate Limiter"
-weight: 2
-summary: "Token Bucket, Distributed Caching, Middleware."</a></h2>
 <h1 id="lesson-2-design-a-rate-limiter"><a class="header" href="#lesson-2-design-a-rate-limiter">Lesson 2: Design a Rate Limiter</a></h1>
 <p><strong>Goal:</strong> Design a system to limit the number of requests a client can send to an API within a time window (e.g., 10 requests per second).</p>
 <h2 id="why-rate-limit"><a class="header" href="#why-rate-limit">Why Rate Limit?</a></h2>
@@ -11583,11 +11295,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-4"><a href="#lesson-3-4" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-views-for-critical-throughput-paths-weight-3-summary-use-views-to-isolate-and-analyze-highvolume-flows"><a class="header" href="#title-lesson-3-views-for-critical-throughput-paths-weight-3-summary-use-views-to-isolate-and-analyze-highvolume-flows">title: "Lesson 3: Views for Critical Throughput Paths"
-weight: 3
-summary: "Use views to isolate and analyze high‑volume flows."</a></h2>
 <h1 id="lesson-3-views-for-critical-throughput-paths"><a class="header" href="#lesson-3-views-for-critical-throughput-paths">Lesson 3: Views for Critical Throughput Paths</a></h1>
 <h2 id="why-views-for-throughput"><a class="header" href="#why-views-for-throughput">Why Views for Throughput?</a></h2>
 <p>Focus on hot paths to reason about scaling, backpressure, and caching. High-throughput systems have critical paths that need isolation for analysis.</p>
@@ -11669,11 +11376,6 @@ exclude Pipeline.OutputDB
 <li>Use scenarios to model high-volume flows.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="real-time"><a href="#real-time" class="header">Real Time</a></h1>
-<hr>
-<h2 id="title-lesson-1-design-a-chat-application-weight-1-summary-whatsapp-websockets-pubsub-message-persistence"><a class="header" href="#title-lesson-1-design-a-chat-application-weight-1-summary-whatsapp-websockets-pubsub-message-persistence">title: "Lesson 1: Design a Chat Application"
-weight: 1
-summary: "WhatsApp: WebSockets, Pub/Sub, Message Persistence."</a></h2>
 <h1 id="lesson-1-design-a-chat-application"><a class="header" href="#lesson-1-design-a-chat-application">Lesson 1: Design a Chat Application</a></h1>
 <p><strong>Goal:</strong> Design a real-time chat service like WhatsApp or Slack that supports 1-on-1 and Group messaging.</p>
 <h2 id="requirements-2"><a class="header" href="#requirements-2">Requirements</a></h2>
@@ -11795,11 +11497,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="data-intensive"><a href="#data-intensive" class="header">Data Intensive</a></h1>
-<hr>
-<h2 id="title-lesson-1-design-a-video-streaming-service-weight-1-summary-youtube-transcoding-cdns-adaptive-streaming"><a class="header" href="#title-lesson-1-design-a-video-streaming-service-weight-1-summary-youtube-transcoding-cdns-adaptive-streaming">title: "Lesson 1: Design a Video Streaming Service"
-weight: 1
-summary: "YouTube: Transcoding, CDNs, Adaptive Streaming."</a></h2>
 <h1 id="lesson-1-design-a-video-streaming-service"><a class="header" href="#lesson-1-design-a-video-streaming-service">Lesson 1: Design a Video Streaming Service</a></h1>
 <p><strong>Goal:</strong> Design a video sharing platform like YouTube or Netflix where users can upload and watch videos.</p>
 <h2 id="requirements-3"><a class="header" href="#requirements-3">Requirements</a></h2>
@@ -11948,11 +11645,6 @@ description "Focuses on video processing components"
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="consistency-1"><a href="#consistency-1" class="header">Consistency</a></h1>
-<hr>
-<h2 id="title-lesson-1-design-a-distributed-counter-weight-1-summary-sharding-write-behind-eventual-consistency"><a class="header" href="#title-lesson-1-design-a-distributed-counter-weight-1-summary-sharding-write-behind-eventual-consistency">title: "Lesson 1: Design a Distributed Counter"
-weight: 1
-summary: "Sharding, Write-Behind, Eventual Consistency."</a></h2>
 <h1 id="lesson-1-design-a-distributed-counter"><a class="header" href="#lesson-1-design-a-distributed-counter">Lesson 1: Design a Distributed Counter</a></h1>
 <p><strong>Goal:</strong> Design a system to count events (e.g., YouTube views, Facebook likes) at a massive scale (e.g., 1 million writes/sec).</p>
 <h2 id="the-problem-with-a-single-database"><a class="header" href="#the-problem-with-a-single-database">The Problem with a Single Database</a></h2>
@@ -12028,11 +11720,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-4"><a href="#lesson-2-4" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-consistency-via-constraints--conventions-weight-2-summary-use-constraints-and-conventions-to-manage-consistency-tradeoffs"><a class="header" href="#title-lesson-2-consistency-via-constraints--conventions-weight-2-summary-use-constraints-and-conventions-to-manage-consistency-tradeoffs">title: "Lesson 2: Consistency via Constraints &amp; Conventions"
-weight: 2
-summary: "Use constraints and conventions to manage consistency trade‑offs."</a></h2>
 <h1 id="lesson-2-consistency-via-constraints--conventions"><a class="header" href="#lesson-2-consistency-via-constraints--conventions">Lesson 2: Consistency via Constraints &amp; Conventions</a></h1>
 <h2 id="why-constraints"><a class="header" href="#why-constraints">Why Constraints?</a></h2>
 <p>They document trade‑offs and prevent accidental coupling across services.</p>
@@ -12059,11 +11746,6 @@ include *
 <li>Capture conventions for retries, idempotency, and naming.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="ecommerce-platform"><a href="#ecommerce-platform" class="header">Ecommerce Platform</a></h1>
-<hr>
-<h2 id="title-ecommerce-platform-architecture-and-operations-summary-from-vision-and-basics-to-architecture-tech-sdlc-operations-evolution-and-governance-weight-1"><a class="header" href="#title-ecommerce-platform-architecture-and-operations-summary-from-vision-and-basics-to-architecture-tech-sdlc-operations-evolution-and-governance-weight-1">title: "Ecommerce Platform: Architecture and Operations"
-summary: "From vision and basics to architecture tech, SDLC, operations, evolution, and governance."
-weight: 1</a></h2>
 <h1 id="ecommerce-platform-architecture-and-operations"><a class="header" href="#ecommerce-platform-architecture-and-operations">Ecommerce Platform: Architecture and Operations</a></h1>
 <h2 id="overview-8"><a class="header" href="#overview-8">Overview</a></h2>
 <ul>
@@ -12095,11 +11777,6 @@ weight: 1</a></h2>
 <li>Begin with Module 1 to align vision and fundamentals, then proceed in order</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="vision-basics"><a href="#vision-basics" class="header">Vision Basics</a></h1>
-<hr>
-<h2 id="title-module-overview-vision--basics-weight-0-summary-goals-outcomes-and-a-quick-checklist-for-module-1"><a class="header" href="#title-module-overview-vision--basics-weight-0-summary-goals-outcomes-and-a-quick-checklist-for-module-1">title: "Module Overview: Vision &amp; Basics"
-weight: 0
-summary: "Goals, outcomes, and a quick checklist for Module 1."</a></h2>
 <h1 id="module-overview-vision--basics"><a class="header" href="#module-overview-vision--basics">Module Overview: Vision &amp; Basics</a></h1>
 <p>Goals:</p>
 <ul>
@@ -12115,11 +11792,6 @@ summary: "Goals, outcomes, and a quick checklist for Module 1."</a></h2>
 <li>Initial system map in Sruja</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-4"><a href="#lesson-1-4" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-introduction-to-the-project-weight-1-summary-defining-the-scope-of-our-shopify-lite-platform"><a class="header" href="#title-lesson-1-introduction-to-the-project-weight-1-summary-defining-the-scope-of-our-shopify-lite-platform">title: "Lesson 1: Introduction to the Project"
-weight: 1
-summary: "Defining the scope of our Shopify-lite platform."</a></h2>
 <h1 id="lesson-1-introduction-to-the-project"><a class="header" href="#lesson-1-introduction-to-the-project">Lesson 1: Introduction to the Project</a></h1>
 <p>In this course, we are building <strong>Shopify-lite</strong>. Let's define what that means.</p>
 <h2 id="the-concept"><a class="header" href="#the-concept">The Concept</a></h2>
@@ -12144,11 +11816,6 @@ summary: "Defining the scope of our Shopify-lite platform."</a></h2>
 <p>Most tutorials start by running <code>npx create-next-app</code>. <strong>We will not do that yet.</strong></p>
 <p>We will start by creating a <code>sruja</code> file. Why? Because we need to agree on the <em>structure</em> before we get lost in the <em>details</em>. Sruja will be our shared whiteboard, our documentation, and our validator.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-5"><a href="#lesson-2-5" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-setting-up-the-workspace-weight-2-summary-initializing-the-project-structure-and-creating-the-first-architecture-file-with-product-requirements"><a class="header" href="#title-lesson-2-setting-up-the-workspace-weight-2-summary-initializing-the-project-structure-and-creating-the-first-architecture-file-with-product-requirements">title: "Lesson 2: Setting up the Workspace"
-weight: 2
-summary: "Initializing the project structure and creating the first architecture file with product requirements."</a></h2>
 <h1 id="lesson-2-setting-up-the-workspace"><a class="header" href="#lesson-2-setting-up-the-workspace">Lesson 2: Setting up the Workspace</a></h1>
 <p>Let's get our hands dirty. We will set up a professional project structure that separates our architectural definitions from our implementation code, and aligns with product requirements.</p>
 <h2 id="real-world-scenario-starting-a-new-product"><a class="header" href="#real-world-scenario-starting-a-new-product">Real-World Scenario: Starting a New Product</a></h2>
@@ -12441,11 +12108,6 @@ jobs:
 <li>Course: <a href="courses/ecommerce-platform/module-1-vision-basics/courses/system-design-101/module-1-fundamentals.html">System Design 101 - Module 1: Fundamentals</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="architecture-tech"><a href="#architecture-tech" class="header">Architecture Tech</a></h1>
-<hr>
-<h2 id="title-module-overview-architecture--tech-weight-0-summary-model-the-architecture-and-pick-enabling-technologies"><a class="header" href="#title-module-overview-architecture--tech-weight-0-summary-model-the-architecture-and-pick-enabling-technologies">title: "Module Overview: Architecture &amp; Tech"
-weight: 0
-summary: "Model the architecture and pick enabling technologies."</a></h2>
 <h1 id="module-overview-architecture--tech"><a class="header" href="#module-overview-architecture--tech">Module Overview: Architecture &amp; Tech</a></h1>
 <p>Goals:</p>
 <ul>
@@ -12461,11 +12123,6 @@ summary: "Model the architecture and pick enabling technologies."</a></h2>
 <li>ADR drafts</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-5"><a href="#lesson-1-5" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-monolith-vs-microservices-adrs-weight-1-summary-using-architecture-decision-records-to-document-critical-choices"><a class="header" href="#title-lesson-1-monolith-vs-microservices-adrs-weight-1-summary-using-architecture-decision-records-to-document-critical-choices">title: "Lesson 1: Monolith vs. Microservices (ADRs)"
-weight: 1
-summary: "Using Architecture Decision Records to document critical choices."</a></h2>
 <h1 id="lesson-1-monolith-vs-microservices"><a class="header" href="#lesson-1-monolith-vs-microservices">Lesson 1: Monolith vs. Microservices</a></h1>
 <p>This is the most debated topic in software engineering. Should we start with a monolith or microservices?</p>
 <h2 id="the-trade-off"><a class="header" href="#the-trade-off">The Trade-off</a></h2>
@@ -12565,11 +12222,6 @@ include Platform.APIModule Platform.OrderDB
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-6"><a href="#lesson-2-6" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-selecting-the-stack-weight-2-summary-choosing-technologies-and-documenting-them-in-containers"><a class="header" href="#title-lesson-2-selecting-the-stack-weight-2-summary-choosing-technologies-and-documenting-them-in-containers">title: "Lesson 2: Selecting the Stack"
-weight: 2
-summary: "Choosing technologies and documenting them in Containers."</a></h2>
 <h1 id="lesson-2-selecting-the-stack"><a class="header" href="#lesson-2-selecting-the-stack">Lesson 2: Selecting the Stack</a></h1>
 <p>We have our domains. Now we need to pick the tools to build them.</p>
 <h2 id="the-stack"><a class="header" href="#the-stack">The Stack</a></h2>
@@ -12605,11 +12257,6 @@ API -&gt; Database "SQL/TCP"
 </code></pre>
 <p>By documenting <code>technology</code>, we make it clear to new developers what skills they need.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-5"><a href="#lesson-3-5" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-api-first-design-weight-3-summary-design-first-api-development-using-openapi-and-sruja-together"><a class="header" href="#title-lesson-3-api-first-design-weight-3-summary-design-first-api-development-using-openapi-and-sruja-together">title: "Lesson 3: API-First Design"
-weight: 3
-summary: "Design-first API development using OpenAPI and Sruja together."</a></h2>
 <h1 id="lesson-3-api-first-design"><a class="header" href="#lesson-3-api-first-design">Lesson 3: API-First Design</a></h1>
 <p>Before frontend and backend teams start working, they need to agree on the API. This is where <strong>API-First Design</strong> comes in.</p>
 <h2 id="api-first-design"><a class="header" href="#api-first-design">API-First Design</a></h2>
@@ -12654,11 +12301,6 @@ view index {
 <li><strong>Code Generation</strong>: Generate Rust types, TypeScript interfaces, and client SDKs from OpenAPI</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-4-3"><a href="#lesson-4-3" class="header">Lesson 4</a></h1>
-<hr>
-<h2 id="title-lesson-4-api-design--integration-weight-4-summary-design-stable-apis-and-integrate-with-external-services"><a class="header" href="#title-lesson-4-api-design--integration-weight-4-summary-design-stable-apis-and-integrate-with-external-services">title: "Lesson 4: API Design &amp; Integration"
-weight: 4
-summary: "Design stable APIs and integrate with external services."</a></h2>
 <h1 id="lesson-4-api-design--integration"><a class="header" href="#lesson-4-api-design--integration">Lesson 4: API Design &amp; Integration</a></h1>
 <h2 id="why-api-design-matters"><a class="header" href="#why-api-design-matters">Why API Design Matters</a></h2>
 <p>Well-designed APIs define stable interfaces between services; they reduce coupling and surprises. However, <strong>API schemas belong in OpenAPI, not in Sruja</strong>.</p>
@@ -12696,11 +12338,6 @@ customer -&gt; ecommerce.api "uses"
 <li>Show how they work together</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="sdlc"><a href="#sdlc" class="header">SDLC</a></h1>
-<hr>
-<h2 id="title-lesson-1-the-local-loop-weight-1-summary-using-sruja-for-local-development-and-testing"><a class="header" href="#title-lesson-1-the-local-loop-weight-1-summary-using-sruja-for-local-development-and-testing">title: "Lesson 1: The Local Loop"
-weight: 1
-summary: "Using Sruja for local development and testing."</a></h2>
 <h1 id="lesson-1-the-local-loop"><a class="header" href="#lesson-1-the-local-loop">Lesson 1: The Local Loop</a></h1>
 <p>How do you use Sruja while you code?</p>
 <h2 id="1-the-blueprint"><a class="header" href="#1-the-blueprint">1. The Blueprint</a></h2>
@@ -12722,11 +12359,6 @@ summary: "Using Sruja for local development and testing."</a></h2>
 <li><strong>Policy Violations</strong>: Did you accidentally introduce a circular dependency?</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-7"><a href="#lesson-2-7" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-environments-deployment-nodes-weight-2-summary-modeling-dev-staging-and-production-environments"><a class="header" href="#title-lesson-2-environments-deployment-nodes-weight-2-summary-modeling-dev-staging-and-production-environments">title: "Lesson 2: Environments (Deployment Nodes)"
-weight: 2
-summary: "Modeling Dev, Staging, and Production environments."</a></h2>
 <h1 id="lesson-2-environments"><a class="header" href="#lesson-2-environments">Lesson 2: Environments</a></h1>
 <p>Your software runs differently in Production than it does on your laptop. Sruja models this using <strong>Deployment Nodes</strong>.</p>
 <h2 id="modeling-production"><a class="header" href="#modeling-production">Modeling Production</a></h2>
@@ -12755,11 +12387,6 @@ summary: "Modeling Dev, Staging, and Production environments."</a></h2>
 <h2 id="why-model-this"><a class="header" href="#why-model-this">Why model this?</a></h2>
 <p>It helps you visualize the <em>physical</em> differences. Maybe in Prod you have a Load Balancer that doesn't exist locally. Sruja makes these differences explicit.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-6"><a href="#lesson-3-6" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-cicd-pipeline-validation-weight-3-summary-automating-architectural-checks-in-your-pipeline"><a class="header" href="#title-lesson-3-cicd-pipeline-validation-weight-3-summary-automating-architectural-checks-in-your-pipeline">title: "Lesson 3: CI/CD Pipeline (Validation)"
-weight: 3
-summary: "Automating architectural checks in your pipeline."</a></h2>
 <h1 id="lesson-3-cicd-pipeline"><a class="header" href="#lesson-3-cicd-pipeline">Lesson 3: CI/CD Pipeline</a></h1>
 <p>Architecture compliance shouldn't be a manual review process. It should be a build step.</p>
 <h2 id="the-pipeline"><a class="header" href="#the-pipeline">The Pipeline</a></h2>
@@ -12778,11 +12405,6 @@ summary: "Automating architectural checks in your pipeline."</a></h2>
 <p>If a developer introduces a violation (e.g., "Frontend talks directly to Database"), <code>sruja validate</code> will exit with a non-zero code, failing the build.</p>
 <p>This is <strong>Governance as Code</strong>. You stop architectural drift before it merges.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="ops"><a href="#ops" class="header">Ops</a></h1>
-<hr>
-<h2 id="title-lesson-1-deployment-strategies-weight-1-summary-production-ready-deployment-strategies-bluegreen-canary-and-real-world-patterns"><a class="header" href="#title-lesson-1-deployment-strategies-weight-1-summary-production-ready-deployment-strategies-bluegreen-canary-and-real-world-patterns">title: "Lesson 1: Deployment Strategies"
-weight: 1
-summary: "Production-ready deployment strategies: Blue/Green, Canary, and real-world patterns."</a></h2>
 <h1 id="lesson-1-deployment-strategies"><a class="header" href="#lesson-1-deployment-strategies">Lesson 1: Deployment Strategies</a></h1>
 <h2 id="real-world-problem-black-friday-deployment"><a class="header" href="#real-world-problem-black-friday-deployment">Real-World Problem: Black Friday Deployment</a></h2>
 <p><strong>Scenario</strong>: You need to deploy a critical payment fix on Black Friday morning. The system handles $10M/hour in transactions. How do you deploy without risking downtime?</p>
@@ -13079,11 +12701,6 @@ deployment Production "Production Environment" {
 <li>Docs: <a href="courses/ecommerce-platform/module-5-ops/docs/concepts/deployment.html">Deployment Concepts</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-8"><a href="#lesson-2-8" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-debugging-performance-structural-analysis-weight-2-summary-using-your-architecture-diagram-to-find-bottlenecks"><a class="header" href="#title-lesson-2-debugging-performance-structural-analysis-weight-2-summary-using-your-architecture-diagram-to-find-bottlenecks">title: "Lesson 2: Debugging Performance (Structural Analysis)"
-weight: 2
-summary: "Using your architecture diagram to find bottlenecks."</a></h2>
 <h1 id="lesson-2-debugging-performance"><a class="header" href="#lesson-2-debugging-performance">Lesson 2: Debugging Performance</a></h1>
 <p><strong>Scenario</strong>: It's Black Friday. The "Checkout" page is loading in 5 seconds. Why?</p>
 <h2 id="the-wrong-way"><a class="header" href="#the-wrong-way">The Wrong Way</a></h2>
@@ -13177,11 +12794,6 @@ exclude Customer
 </code></pre>
 <p>By visualizing the flow, the bottleneck (and the fix) becomes obvious.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-7"><a href="#lesson-3-7" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-observability-weight-3-summary-mapping-metrics-and-logs-to-your-architecture"><a class="header" href="#title-lesson-3-observability-weight-3-summary-mapping-metrics-and-logs-to-your-architecture">title: "Lesson 3: Observability"
-weight: 3
-summary: "Mapping metrics and logs to your architecture."</a></h2>
 <h1 id="lesson-3-observability"><a class="header" href="#lesson-3-observability">Lesson 3: Observability</a></h1>
 <p>You can't fix what you can't see. Observability is about understanding the internal state of your system from the outside.</p>
 <h2 id="the-three-pillars"><a class="header" href="#the-three-pillars">The Three Pillars</a></h2>
@@ -13206,11 +12818,6 @@ summary: "Mapping metrics and logs to your architecture."</a></h2>
 </code></pre>
 <p>This ensures every new service you build comes with the necessary hooks for monitoring.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-4-4"><a href="#lesson-4-4" class="header">Lesson 4</a></h1>
-<hr>
-<h2 id="title-lesson-4-ops-slos--monitoring-weight-4-summary-set-slo-targets-and-align-alerts-and-dashboards"><a class="header" href="#title-lesson-4-ops-slos--monitoring-weight-4-summary-set-slo-targets-and-align-alerts-and-dashboards">title: "Lesson 4: Ops SLOs &amp; Monitoring"
-weight: 4
-summary: "Set SLO targets and align alerts and dashboards."</a></h2>
 <h1 id="lesson-4-ops-slos--monitoring"><a class="header" href="#lesson-4-ops-slos--monitoring">Lesson 4: Ops SLOs &amp; Monitoring</a></h1>
 <h2 id="slos-in-ops"><a class="header" href="#slos-in-ops">SLOs in Ops</a></h2>
 <p>Translate business expectations into measurable targets; build dashboards around them.</p>
@@ -13235,11 +12842,6 @@ include *
 <li>Map alerts to SLO windows; define runbooks for breaches.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="evolution"><a href="#evolution" class="header">Evolution</a></h1>
-<hr>
-<h2 id="title-lesson-1-the-good-problem-traffic-spikes-weight-1-summary-refactoring-from-monolith-to-microservices-when-necessary"><a class="header" href="#title-lesson-1-the-good-problem-traffic-spikes-weight-1-summary-refactoring-from-monolith-to-microservices-when-necessary">title: 'Lesson 1: The "Good" Problem (Traffic Spikes)'
-weight: 1
-summary: "Refactoring from Monolith to Microservices when necessary."</a></h2>
 <h1 id="lesson-1-the-good-problem"><a class="header" href="#lesson-1-the-good-problem">Lesson 1: The "Good" Problem</a></h1>
 <p>You have too many users. Your single database is melting. It's time to scale.</p>
 <h2 id="the-bottleneck"><a class="header" href="#the-bottleneck">The Bottleneck</a></h2>
@@ -13273,11 +12875,6 @@ OrderService -&gt; InventoryService "gRPC CheckStock"
 <h2 id="why-sruja-helps"><a class="header" href="#why-sruja-helps">Why Sruja helps</a></h2>
 <p>Refactoring is dangerous. Sruja helps you visualize the <em>impact</em> of the change before you write code. You can see exactly which other systems depend on Inventory and ensure you don't break them.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-9"><a href="#lesson-2-9" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-managing-technical-debt-weight-2-summary-using-deprecation-and-adrs-to-manage-legacy-code"><a class="header" href="#title-lesson-2-managing-technical-debt-weight-2-summary-using-deprecation-and-adrs-to-manage-legacy-code">title: "Lesson 2: Managing Technical Debt"
-weight: 2
-summary: "Using Deprecation and ADRs to manage legacy code."</a></h2>
 <h1 id="lesson-2-managing-technical-debt"><a class="header" href="#lesson-2-managing-technical-debt">Lesson 2: Managing Technical Debt</a></h1>
 <p>Every codebase has skeletons. The key is to label them.</p>
 <h2 id="deprecating-components"><a class="header" href="#deprecating-components">Deprecating Components</a></h2>
@@ -13310,11 +12907,6 @@ policy Migration "No New Stripe Integrations" {
 </code></pre>
 <p>This prevents developers from accidentally adding dependencies to the system you are trying to kill.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="governance-1"><a href="#governance-1" class="header">Governance</a></h1>
-<hr>
-<h2 id="title-lesson-1-security-by-design-weight-1-summary-modeling-security-standards-with-tags-and-metadata-validated-in-ci"><a class="header" href="#title-lesson-1-security-by-design-weight-1-summary-modeling-security-standards-with-tags-and-metadata-validated-in-ci">title: "Lesson 1: Security by Design"
-weight: 1
-summary: "Modeling security standards with tags and metadata, validated in CI."</a></h2>
 <h1 id="lesson-1-security-by-design"><a class="header" href="#lesson-1-security-by-design">Lesson 1: Security by Design</a></h1>
 <p>Security isn't something you "add on" at the end. It must be baked into the architecture.</p>
 <h2 id="the-requirement"><a class="header" href="#the-requirement">The Requirement</a></h2>
@@ -13340,11 +12932,6 @@ include *
 <h2 id="validating-in-ci"><a class="header" href="#validating-in-ci">Validating in CI</a></h2>
 <p>Run <code>sruja validate</code> in CI to enforce architectural rules (unique IDs, valid references, layering, external boundary checks). Combine with linters to flag missing tags for sensitive resources. This is <strong>Compliance as Code</strong>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-10"><a href="#lesson-2-10" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-cost-optimization-weight-2-summary-tracking-and-controlling-infrastructure-costs"><a class="header" href="#title-lesson-2-cost-optimization-weight-2-summary-tracking-and-controlling-infrastructure-costs">title: "Lesson 2: Cost Optimization"
-weight: 2
-summary: "Tracking and controlling infrastructure costs."</a></h2>
 <h1 id="lesson-2-cost-optimization"><a class="header" href="#lesson-2-cost-optimization">Lesson 2: Cost Optimization</a></h1>
 <p>Cloud bills kill startups. Sruja helps you visualize where the money is going.</p>
 <h2 id="modeling-cost"><a class="header" href="#modeling-cost">Modeling Cost</a></h2>
@@ -13371,11 +12958,6 @@ summary: "Tracking and controlling infrastructure costs."</a></h2>
 </code></pre>
 <p>Add a CI rule to flag dev nodes exceeding budget thresholds.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-8"><a href="#lesson-3-8" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-audit-readiness-soc-2-weight-3-summary-using-sruja-as-evidence-for-auditors"><a class="header" href="#title-lesson-3-audit-readiness-soc-2-weight-3-summary-using-sruja-as-evidence-for-auditors">title: "Lesson 3: Audit Readiness (SOC 2)"
-weight: 3
-summary: "Using Sruja as evidence for auditors."</a></h2>
 <h1 id="lesson-3-audit-readiness-soc-2"><a class="header" href="#lesson-3-audit-readiness-soc-2">Lesson 3: Audit Readiness (SOC 2)</a></h1>
 <p>Congratulations! You are now big enough to need a SOC 2 audit. The auditor asks: "Show me your system diagram and prove that all changes are reviewed."</p>
 <h2 id="sruja-as-evidence"><a class="header" href="#sruja-as-evidence">Sruja as Evidence</a></h2>
@@ -13389,11 +12971,6 @@ summary: "Using Sruja as evidence for auditors."</a></h2>
 <p>You have built a scalable, secure, and compliant e-commerce platform. And you did it with a blueprint.</p>
 <p><strong>Happy Architecting!</strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="production-architecture"><a href="#production-architecture" class="header">Production Architecture</a></h1>
-<hr>
-<h2 id="title-system-design-interview-mastery-weight-0-summary-ace-your-system-design-interviews-with-real-world-scenarios-and-sruja-modeling"><a class="header" href="#title-system-design-interview-mastery-weight-0-summary-ace-your-system-design-interviews-with-real-world-scenarios-and-sruja-modeling">title: "System Design Interview Mastery"
-weight: 0
-summary: "Ace your system design interviews with real-world scenarios and Sruja modeling."</a></h2>
 <h1 id="system-design-interview-mastery"><a class="header" href="#system-design-interview-mastery">System Design Interview Mastery</a></h1>
 <p><strong>Crack your next system design interview.</strong> This course teaches you how to approach, design, and model systems that impress interviewers at FAANG companies and top tech firms.</p>
 <h2 id="why-this-course"><a class="header" href="#why-this-course">Why This Course?</a></h2>
@@ -13485,11 +13062,6 @@ summary: "Ace your system design interviews with real-world scenarios and Sruja 
 </ul>
 <p><strong>Ready to ace your next interview? Let's get started! 🎯</strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="performance"><a href="#performance" class="header">Performance</a></h1>
-<hr>
-<h2 id="title-module-overview-scaling--performance-interview-questions-weight-0-summary-master-the-most-common-system-design-interview-questions-about-scaling-and-performance"><a class="header" href="#title-module-overview-scaling--performance-interview-questions-weight-0-summary-master-the-most-common-system-design-interview-questions-about-scaling-and-performance">title: "Module Overview: Scaling &amp; Performance Interview Questions"
-weight: 0
-summary: "Master the most common system design interview questions about scaling and performance."</a></h2>
 <h1 id="module-overview-scaling--performance-interview-questions"><a class="header" href="#module-overview-scaling--performance-interview-questions">Module Overview: Scaling &amp; Performance Interview Questions</a></h1>
 <p><strong>"Design a system that handles 10 million concurrent users."</strong></p>
 <p>This is one of the most common system design interview questions. In this module, you'll learn how to answer scaling and performance questions confidently.</p>
@@ -13534,11 +13106,6 @@ summary: "Master the most common system design interview questions about scaling
 <li><input disabled="" type="checkbox"> Practice explaining trade-offs clearly</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-6"><a href="#lesson-1-6" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-interview-question---design-a-video-streaming-platform-weight-1-summary-master-scaling-questions-by-designing-youtubenetflix-style-systems"><a class="header" href="#title-lesson-1-interview-question---design-a-video-streaming-platform-weight-1-summary-master-scaling-questions-by-designing-youtubenetflix-style-systems">title: "Lesson 1: Interview Question - Design a Video Streaming Platform"
-weight: 1
-summary: "Master scaling questions by designing YouTube/Netflix-style systems."</a></h2>
 <h1 id="lesson-1-interview-question---design-a-video-streaming-platform"><a class="header" href="#lesson-1-interview-question---design-a-video-streaming-platform">Lesson 1: Interview Question - Design a Video Streaming Platform</a></h1>
 <h2 id="the-interview-question"><a class="header" href="#the-interview-question">The Interview Question</a></h2>
 <p><strong>"Design a video streaming platform like YouTube or Netflix that can handle millions of concurrent viewers."</strong></p>
@@ -13764,11 +13331,6 @@ include *
 <h2 id="next-steps-7"><a class="header" href="#next-steps-7">Next Steps</a></h2>
 <p>In the next lesson, we'll learn about SLOs (Service Level Objectives) - another common interview topic about defining performance targets.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-11"><a href="#lesson-2-11" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-interview-question---design-a-high-performance-payment-system-weight-2-summary-answer-slo-and-performance-questions-with-confidence"><a class="header" href="#title-lesson-2-interview-question---design-a-high-performance-payment-system-weight-2-summary-answer-slo-and-performance-questions-with-confidence">title: "Lesson 2: Interview Question - Design a High-Performance Payment System"
-weight: 2
-summary: "Answer SLO and performance questions with confidence."</a></h2>
 <h1 id="lesson-2-interview-question---design-a-high-performance-payment-system"><a class="header" href="#lesson-2-interview-question---design-a-high-performance-payment-system">Lesson 2: Interview Question - Design a High-Performance Payment System</a></h1>
 <h2 id="the-interview-question-1"><a class="header" href="#the-interview-question-1">The Interview Question</a></h2>
 <p><strong>"Design a payment processing system that can handle 1 million transactions per second with 99.99% availability and &lt; 100ms latency."</strong></p>
@@ -14099,11 +13661,6 @@ include *
 <h2 id="next-steps-8"><a class="header" href="#next-steps-8">Next Steps</a></h2>
 <p>You've learned how to handle performance and SLO questions. In the next module, we'll tackle modular architecture questions - another common interview topic!</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-3-9"><a href="#lesson-3-9" class="header">Lesson 3</a></h1>
-<hr>
-<h2 id="title-lesson-3-slo-enforcement-in-practice-weight-3-summary-use-slos-to-drive-scaling-alerting-and-design-tradeoffs"><a class="header" href="#title-lesson-3-slo-enforcement-in-practice-weight-3-summary-use-slos-to-drive-scaling-alerting-and-design-tradeoffs">title: "Lesson 3: SLO Enforcement in Practice"
-weight: 3
-summary: "Use SLOs to drive scaling, alerting, and design trade‑offs."</a></h2>
 <h1 id="lesson-3-slo-enforcement-in-practice"><a class="header" href="#lesson-3-slo-enforcement-in-practice">Lesson 3: SLO Enforcement in Practice</a></h1>
 <h2 id="slodriven-operations"><a class="header" href="#slodriven-operations">SLO‑Driven Operations</a></h2>
 <p>Use SLOs to set thresholds for alerts and capacity changes.</p>
@@ -14136,11 +13693,6 @@ include *
 <li>Set alert thresholds aligned to SLO windows.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="modular"><a href="#modular" class="header">Modular</a></h1>
-<hr>
-<h2 id="title-module-overview-microservices--distributed-systems-interview-questions-weight-0-summary-master-microservices-and-distributed-system-design-interview-questions"><a class="header" href="#title-module-overview-microservices--distributed-systems-interview-questions-weight-0-summary-master-microservices-and-distributed-system-design-interview-questions">title: "Module Overview: Microservices &amp; Distributed Systems Interview Questions"
-weight: 0
-summary: "Master microservices and distributed system design interview questions."</a></h2>
 <h1 id="module-overview-microservices--distributed-systems-interview-questions"><a class="header" href="#module-overview-microservices--distributed-systems-interview-questions">Module Overview: Microservices &amp; Distributed Systems Interview Questions</a></h1>
 <p><strong>"Design an e-commerce platform using microservices."</strong></p>
 <p>This is a <strong>very common interview question</strong> that tests your understanding of:</p>
@@ -14191,11 +13743,6 @@ summary: "Master microservices and distributed system design interview questions
 <li><input disabled="" type="checkbox"> Discuss distributed system challenges</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-7"><a href="#lesson-1-7" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-interview-question---design-an-e-commerce-platform-microservices-weight-1-summary-master-microservices-questions-by-designing-amazon-style-platforms"><a class="header" href="#title-lesson-1-interview-question---design-an-e-commerce-platform-microservices-weight-1-summary-master-microservices-questions-by-designing-amazon-style-platforms">title: "Lesson 1: Interview Question - Design an E-Commerce Platform (Microservices)"
-weight: 1
-summary: "Master microservices questions by designing Amazon-style platforms."</a></h2>
 <h1 id="lesson-1-interview-question---design-an-e-commerce-platform-microservices"><a class="header" href="#lesson-1-interview-question---design-an-e-commerce-platform-microservices">Lesson 1: Interview Question - Design an E-Commerce Platform (Microservices)</a></h1>
 <h2 id="the-interview-question-2"><a class="header" href="#the-interview-question-2">The Interview Question</a></h2>
 <p><strong>"Design an e-commerce platform like Amazon that can handle millions of users and products. Use a microservices architecture."</strong></p>
@@ -14559,11 +14106,6 @@ include *
 <h2 id="next-steps-9"><a class="header" href="#next-steps-9">Next Steps</a></h2>
 <p>You've learned how to design microservices architectures. In the next module, we'll cover governance and policies - important for senior/staff level interviews!</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="governance-2"><a href="#governance-2" class="header">Governance</a></h1>
-<hr>
-<h2 id="title-module-overview-seniorstaff-level-interview-questions-weight-0-summary-answer-governance-compliance-and-architecture-leadership-questions"><a class="header" href="#title-module-overview-seniorstaff-level-interview-questions-weight-0-summary-answer-governance-compliance-and-architecture-leadership-questions">title: "Module Overview: Senior/Staff Level Interview Questions"
-weight: 0
-summary: "Answer governance, compliance, and architecture leadership questions."</a></h2>
 <h1 id="module-overview-seniorstaff-level-interview-questions"><a class="header" href="#module-overview-seniorstaff-level-interview-questions">Module Overview: Senior/Staff Level Interview Questions</a></h1>
 <p><strong>"How do you ensure architectural standards across a large organization?"</strong></p>
 <p>This module covers questions typically asked in <strong>senior/staff engineer interviews</strong>. These test your ability to:</p>
@@ -14614,11 +14156,6 @@ summary: "Answer governance, compliance, and architecture leadership questions."
 <li><input disabled="" type="checkbox"> Explain enforcement strategies</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-8"><a href="#lesson-1-8" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-interview-question---design-a-hipaa-compliant-healthcare-system-weight-1-summary-answer-compliance-and-governance-questions-for-senior-level-interviews"><a class="header" href="#title-lesson-1-interview-question---design-a-hipaa-compliant-healthcare-system-weight-1-summary-answer-compliance-and-governance-questions-for-senior-level-interviews">title: "Lesson 1: Interview Question - Design a HIPAA-Compliant Healthcare System"
-weight: 1
-summary: "Answer compliance and governance questions for senior-level interviews."</a></h2>
 <h1 id="lesson-1-interview-question---design-a-hipaa-compliant-healthcare-system"><a class="header" href="#lesson-1-interview-question---design-a-hipaa-compliant-healthcare-system">Lesson 1: Interview Question - Design a HIPAA-Compliant Healthcare System</a></h1>
 <h2 id="the-interview-question-3"><a class="header" href="#the-interview-question-3">The Interview Question</a></h2>
 <p><strong>"Design a healthcare platform that stores patient data and must comply with HIPAA regulations. How do you ensure compliance across all services?"</strong></p>
@@ -14913,11 +14450,6 @@ include *
 </ul>
 <p><strong>Keep practicing with real interview questions!</strong> 🎯</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-12"><a href="#lesson-2-12" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-policies-constraints-conventions-weight-2-summary-codify-guardrails-and-agreements-enforce-consistency"><a class="header" href="#title-lesson-2-policies-constraints-conventions-weight-2-summary-codify-guardrails-and-agreements-enforce-consistency">title: "Lesson 2: Policies, Constraints, Conventions"
-weight: 2
-summary: "Codify guardrails and agreements; enforce consistency."</a></h2>
 <h1 id="lesson-2-policies-constraints-conventions"><a class="header" href="#lesson-2-policies-constraints-conventions">Lesson 2: Policies, Constraints, Conventions</a></h1>
 <h2 id="why-governance"><a class="header" href="#why-governance">Why Governance?</a></h2>
 <p>Governance ensures systems remain secure, maintainable, and consistent as they evolve.</p>
@@ -14949,26 +14481,9 @@ include *
 <li>Capture 2–3 constraints and conventions used by your team.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="agentic-ai"><a href="#agentic-ai" class="header">Agentic AI</a></h1>
-<hr>
-<h2 id="title-agentic-ai-with-sruja-summary-model-agent-systems-rag-pipelines-and-governance-with-sruja-dsl-difficulty-advanced-topic-ai-description-a-practical-course-on-architecting-agentic-ai-systems-using-sruja-foundations-rag-orchestration-and-production-governance-estimatedtime-34-hours"><a class="header" href="#title-agentic-ai-with-sruja-summary-model-agent-systems-rag-pipelines-and-governance-with-sruja-dsl-difficulty-advanced-topic-ai-description-a-practical-course-on-architecting-agentic-ai-systems-using-sruja-foundations-rag-orchestration-and-production-governance-estimatedtime-34-hours">title: "Agentic AI with Sruja"
-summary: "Model agent systems, RAG pipelines, and governance with Sruja DSL."
-difficulty: "advanced"
-topic: "ai"
-description: "A practical course on architecting agentic AI systems using Sruja: foundations, RAG, orchestration, and production governance."
-estimatedTime: "3–4 hours"</a></h2>
 <h1 id="agentic-ai-with-sruja"><a class="header" href="#agentic-ai-with-sruja">Agentic AI with Sruja</a></h1>
 <p>Learn to design agent-based AI systems with clear boundaries, interfaces, and governance using Sruja DSL.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="fundamentals-1"><a href="#fundamentals-1" class="header">Fundamentals</a></h1>
-<hr>
-<h2 id="title-fundamentals-of-agentic-ai-weight-10-summary-understand-the-core-concepts-of-ai-agents-tools-and-cognitive-architectures-description-this-module-covers-the-building-blocks-of-agentic-ai-systems-distinguishing-them-from-traditional-llm-chains-difficulty-intermediate-topic-agentic-ai-estimatedtime-30-mins"><a class="header" href="#title-fundamentals-of-agentic-ai-weight-10-summary-understand-the-core-concepts-of-ai-agents-tools-and-cognitive-architectures-description-this-module-covers-the-building-blocks-of-agentic-ai-systems-distinguishing-them-from-traditional-llm-chains-difficulty-intermediate-topic-agentic-ai-estimatedtime-30-mins">title: "Fundamentals of Agentic AI"
-weight: 10
-summary: "Understand the core concepts of AI agents, tools, and cognitive architectures."
-description: "This module covers the building blocks of Agentic AI systems, distinguishing them from traditional LLM chains."
-difficulty: "intermediate"
-topic: "agentic-ai"
-estimatedTime: "30 mins"</a></h2>
 <h1 id="fundamentals-of-agentic-ai"><a class="header" href="#fundamentals-of-agentic-ai">Fundamentals of Agentic AI</a></h1>
 <p>Welcome to the first module of the Agentic AI Architecture course. In this module, we will explore what makes an AI system "agentic" and how to model its components using Sruja.</p>
 <h2 id="learning-objectives-6"><a class="header" href="#learning-objectives-6">Learning Objectives</a></h2>
@@ -14984,14 +14499,6 @@ estimatedTime: "30 mins"</a></h2>
 <li><a href="courses/agentic-ai/module-1-fundamentals/lesson-2">Core Components</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-9"><a href="#lesson-1-9" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-what-is-agentic-ai-weight-10-summary-defining-agentic-ai-and-its-shift-from-static-chains-to-dynamic-loops-difficulty-intermediate-topic-agentic-ai-estimatedtime-10-mins"><a class="header" href="#title-what-is-agentic-ai-weight-10-summary-defining-agentic-ai-and-its-shift-from-static-chains-to-dynamic-loops-difficulty-intermediate-topic-agentic-ai-estimatedtime-10-mins">title: "What is Agentic AI?"
-weight: 10
-summary: "Defining Agentic AI and its shift from static chains to dynamic loops."
-difficulty: "intermediate"
-topic: "agentic-ai"
-estimatedTime: "10 mins"</a></h2>
 <h1 id="what-is-agentic-ai"><a class="header" href="#what-is-agentic-ai">What is Agentic AI?</a></h1>
 <p>Traditional LLM applications often follow a linear chain: Prompt -&gt; LLM -&gt; Output. <strong>Agentic AI</strong> breaks this linearity by introducing a control loop where the model decides <strong>what to do next</strong>.</p>
 <h2 id="the-control-loop"><a class="header" href="#the-control-loop">The Control Loop</a></h2>
@@ -15040,14 +14547,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-13"><a href="#lesson-2-13" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-core-components-agents-tools-memory-weight-20-summary-deep-dive-into-the-anatomy-of-an-ai-agent-difficulty-intermediate-topic-agentic-ai-estimatedtime-15-mins"><a class="header" href="#title-core-components-agents-tools-memory-weight-20-summary-deep-dive-into-the-anatomy-of-an-ai-agent-difficulty-intermediate-topic-agentic-ai-estimatedtime-15-mins">title: "Core Components: Agents, Tools, Memory"
-weight: 20
-summary: "Deep dive into the anatomy of an AI agent."
-difficulty: "intermediate"
-topic: "agentic-ai"
-estimatedTime: "15 mins"</a></h2>
 <h1 id="core-components"><a class="header" href="#core-components">Core Components</a></h1>
 <p>Every agentic system consists of a few fundamental building blocks.</p>
 <h2 id="1-the-agent-the-brain"><a class="header" href="#1-the-agent-the-brain">1. The Agent (The Brain)</a></h2>
@@ -15099,15 +14598,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="patterns"><a href="#patterns" class="header">Patterns</a></h1>
-<hr>
-<h2 id="title-agentic-patterns-weight-20-summary-common-architectural-patterns-for-building-reliable-agents-description-learn-about-react-plan-and-solve-and-multi-agent-orchestration-difficulty-advanced-topic-agentic-ai-estimatedtime-45-mins"><a class="header" href="#title-agentic-patterns-weight-20-summary-common-architectural-patterns-for-building-reliable-agents-description-learn-about-react-plan-and-solve-and-multi-agent-orchestration-difficulty-advanced-topic-agentic-ai-estimatedtime-45-mins">title: "Agentic Patterns"
-weight: 20
-summary: "Common architectural patterns for building reliable agents."
-description: "Learn about ReAct, Plan-and-Solve, and Multi-Agent Orchestration."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "45 mins"</a></h2>
 <h1 id="agentic-patterns"><a class="header" href="#agentic-patterns">Agentic Patterns</a></h1>
 <p>Single-loop agents are powerful, but complex tasks often require structured patterns or multiple agents working together.</p>
 <h2 id="learning-objectives-7"><a class="header" href="#learning-objectives-7">Learning Objectives</a></h2>
@@ -15122,14 +14612,6 @@ estimatedTime: "45 mins"</a></h2>
 <li><a href="courses/agentic-ai/module-2-patterns/lesson-2">Multi-Agent Orchestration</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-10"><a href="#lesson-1-10" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-the-react-pattern-weight-10-summary-modeling-the-reason--act-loop-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins"><a class="header" href="#title-the-react-pattern-weight-10-summary-modeling-the-reason--act-loop-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins">title: "The ReAct Pattern"
-weight: 10
-summary: "Modeling the Reason + Act loop."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "15 mins"</a></h2>
 <h1 id="the-react-pattern"><a class="header" href="#the-react-pattern">The ReAct Pattern</a></h1>
 <p><strong>ReAct</strong> (Reasoning + Acting) is a prompting strategy where the model explicitly generates:</p>
 <ol>
@@ -15166,14 +14648,6 @@ include *
 </code></pre>
 <p>This visualization helps stakeholders understand the latency and cost implications of the multiple steps involved in a single user request.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-14"><a href="#lesson-2-14" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-multi-agent-orchestration-weight-20-summary-supervisor-hierarchical-and-mesh-architectures-difficulty-advanced-topic-agentic-ai-estimatedtime-20-mins"><a class="header" href="#title-multi-agent-orchestration-weight-20-summary-supervisor-hierarchical-and-mesh-architectures-difficulty-advanced-topic-agentic-ai-estimatedtime-20-mins">title: "Multi-Agent Orchestration"
-weight: 20
-summary: "Supervisor, Hierarchical, and Mesh architectures."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "20 mins"</a></h2>
 <h1 id="multi-agent-orchestration"><a class="header" href="#multi-agent-orchestration">Multi-Agent Orchestration</a></h1>
 <p>For complex domains, a single agent can get confused. <strong>Multi-Agent Systems (MAS)</strong> split responsibilities among specialized agents.</p>
 <h2 id="supervisor-pattern"><a class="header" href="#supervisor-pattern">Supervisor Pattern</a></h2>
@@ -15205,15 +14679,6 @@ include *
 <h2 id="networkmesh"><a class="header" href="#networkmesh">Network/Mesh</a></h2>
 <p>Agents communicate directly with each other without a central supervisor. This is more decentralized but harder to debug. Sruja's relationship visualization shines here by mapping the allowable communication paths.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="modeling"><a href="#modeling" class="header">Modeling</a></h1>
-<hr>
-<h2 id="title-modeling-agents-in-sruja-weight-30-summary-best-practices-for-documenting-agentic-systems-description-learn-how-to-use-srujas-features-to-effectively-model-ai-architectures-difficulty-advanced-topic-agentic-ai-estimatedtime-30-mins"><a class="header" href="#title-modeling-agents-in-sruja-weight-30-summary-best-practices-for-documenting-agentic-systems-description-learn-how-to-use-srujas-features-to-effectively-model-ai-architectures-difficulty-advanced-topic-agentic-ai-estimatedtime-30-mins">title: "Modeling Agents in Sruja"
-weight: 30
-summary: "Best practices for documenting Agentic systems."
-description: "Learn how to use Sruja's features to effectively model AI architectures."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "30 mins"</a></h2>
 <h1 id="modeling-agents-in-sruja"><a class="header" href="#modeling-agents-in-sruja">Modeling Agents in Sruja</a></h1>
 <p>In this final module, we will bring everything together and learn the best practices for modeling agentic systems in Sruja.</p>
 <h2 id="learning-objectives-8"><a class="header" href="#learning-objectives-8">Learning Objectives</a></h2>
@@ -15228,14 +14693,6 @@ estimatedTime: "30 mins"</a></h2>
 <li><a href="courses/agentic-ai/module-3-modeling/lesson-2">Governance and Safety</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-11"><a href="#lesson-1-11" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-modeling-strategies-weight-10-summary-choosing-the-right-abstraction-level-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins"><a class="header" href="#title-modeling-strategies-weight-10-summary-choosing-the-right-abstraction-level-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins">title: "Modeling Strategies"
-weight: 10
-summary: "Choosing the right abstraction level."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "15 mins"</a></h2>
 <h1 id="modeling-strategies"><a class="header" href="#modeling-strategies">Modeling Strategies</a></h1>
 <p>How should you represent an agent in Sruja? It depends on the scope of your diagram.</p>
 <h2 id="level-1-system-context"><a class="header" href="#level-1-system-context">Level 1: System Context</a></h2>
@@ -15288,14 +14745,6 @@ SearchAgent = container "Search Agent" {
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-15"><a href="#lesson-2-15" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-governance-and-safety-weight-20-summary-defining-constraints-and-policies-for-autonomous-agents-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins"><a class="header" href="#title-governance-and-safety-weight-20-summary-defining-constraints-and-policies-for-autonomous-agents-difficulty-advanced-topic-agentic-ai-estimatedtime-15-mins">title: "Governance and Safety"
-weight: 20
-summary: "Defining constraints and policies for autonomous agents."
-difficulty: "advanced"
-topic: "agentic-ai"
-estimatedTime: "15 mins"</a></h2>
 <h1 id="governance-and-safety"><a class="header" href="#governance-and-safety">Governance and Safety</a></h1>
 <p>Autonomous agents can be unpredictable. Architecture-as-Code allows us to define <strong>constraints</strong> to ensure safety.</p>
 <h2 id="defining-requirements"><a class="header" href="#defining-requirements">Defining Requirements</a></h2>
@@ -15334,11 +14783,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="advanced-architects"><a href="#advanced-architects" class="header">Advanced Architects</a></h1>
-<hr>
-<h2 id="title-quick-start-for-seasoned-software-architects-weight-0-summary-5-minute-masterclass-enforce-architectural-standards-prevent-drift-and-scale-governance-across-teams"><a class="header" href="#title-quick-start-for-seasoned-software-architects-weight-0-summary-5-minute-masterclass-enforce-architectural-standards-prevent-drift-and-scale-governance-across-teams">title: "Quick Start for Seasoned Software Architects"
-weight: 0
-summary: "5-minute masterclass: Enforce architectural standards, prevent drift, and scale governance across teams."</a></h2>
 <h1 id="quick-start-for-seasoned-software-architects"><a class="header" href="#quick-start-for-seasoned-software-architects">Quick Start for Seasoned Software Architects</a></h1>
 <p><strong>For senior architects who need to enforce standards across large organizations.</strong></p>
 <p>This 5-minute course teaches you how to use Sruja to codify architectural policies, prevent drift, and scale governance across multiple teams—without slowing down development.</p>
@@ -15405,11 +14849,6 @@ summary: "5-minute masterclass: Enforce architectural standards, prevent drift, 
 </ul>
 <p><strong>Ready to scale your architecture governance? Let's go! 🚀</strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="policy-as-code-1"><a href="#policy-as-code-1" class="header">Policy As Code</a></h1>
-<hr>
-<h2 id="title-module-overview-policy-as-code-weight-0-summary-codify-architectural-standards-as-executable-policies-that-prevent-violations-automatically"><a class="header" href="#title-module-overview-policy-as-code-weight-0-summary-codify-architectural-standards-as-executable-policies-that-prevent-violations-automatically">title: "Module Overview: Policy as Code"
-weight: 0
-summary: "Codify architectural standards as executable policies that prevent violations automatically."</a></h2>
 <h1 id="module-overview-policy-as-code"><a class="header" href="#module-overview-policy-as-code">Module Overview: Policy as Code</a></h1>
 <p><strong>Turn architectural standards into executable code that runs in CI/CD.</strong></p>
 <p>This module teaches you how to write architectural policies as code, enforce them automatically, and scale governance across large organizations.</p>
@@ -15459,11 +14898,6 @@ summary: "Codify architectural standards as executable policies that prevent vio
 <li><input disabled="" type="checkbox"> Can track compliance across services</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-1-12"><a href="#lesson-1-12" class="header">Lesson 1</a></h1>
-<hr>
-<h2 id="title-lesson-1-writing-constraints-and-conventions-weight-1-summary-codify-architectural-rules-as-executable-constraints-that-prevent-violations"><a class="header" href="#title-lesson-1-writing-constraints-and-conventions-weight-1-summary-codify-architectural-rules-as-executable-constraints-that-prevent-violations">title: "Lesson 1: Writing Constraints and Conventions"
-weight: 1
-summary: "Codify architectural rules as executable constraints that prevent violations."</a></h2>
 <h1 id="lesson-1-writing-constraints-and-conventions"><a class="header" href="#lesson-1-writing-constraints-and-conventions">Lesson 1: Writing Constraints and Conventions</a></h1>
 <h2 id="the-problem-architectural-drift"><a class="header" href="#the-problem-architectural-drift">The Problem: Architectural Drift</a></h2>
 <p>As teams grow, architectural standards drift. Services violate boundaries, dependencies become circular, and compliance requirements are missed. Manual reviews don't scale.</p>
@@ -15666,11 +15100,6 @@ jobs:
 </ul>
 <p><strong>You now know how to codify architectural policies. Let's enforce them automatically!</strong></p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="lesson-2-16"><a href="#lesson-2-16" class="header">Lesson 2</a></h1>
-<hr>
-<h2 id="title-lesson-2-enforcing-policies-in-cicd-weight-2-summary-integrate-architectural-validation-into-your-cicd-pipeline-to-prevent-violations-automatically"><a class="header" href="#title-lesson-2-enforcing-policies-in-cicd-weight-2-summary-integrate-architectural-validation-into-your-cicd-pipeline-to-prevent-violations-automatically">title: "Lesson 2: Enforcing Policies in CI/CD"
-weight: 2
-summary: "Integrate architectural validation into your CI/CD pipeline to prevent violations automatically."</a></h2>
 <h1 id="lesson-2-enforcing-policies-in-cicd"><a class="header" href="#lesson-2-enforcing-policies-in-cicd">Lesson 2: Enforcing Policies in CI/CD</a></h1>
 <h2 id="the-goal-automatic-enforcement"><a class="header" href="#the-goal-automatic-enforcement">The Goal: Automatic Enforcement</a></h2>
 <p>Policies are useless if they're not enforced. This lesson shows you how to integrate Sruja validation into CI/CD so violations are caught <strong>before</strong> they reach production.</p>
@@ -15830,34 +15259,28 @@ service-repo/
 <p>Step-by-step guides to get things done with Sruja.</p>
 <h2 id="basic"><a class="header" href="#basic">Basic</a></h2>
 <ul>
-<li><a href="#cli-basics-1">CLI basics</a></li>
-<li><a href="#dsl-basics-1">DSL basics</a></li>
-<li><a href="#validation--linting-1">Validation &amp; linting</a></li>
-<li><a href="#export-diagrams-1">Export diagrams</a></li>
-<li><a href="#systems-thinking-1">Systems thinking</a></li>
-<li><a href="#design-mode">Design mode</a></li>
-<li><a href="#demo-script">Demo script</a></li>
+<li><a href="#cli-basics">CLI basics</a></li>
+<li><a href="#dsl-basics">DSL basics</a></li>
+<li><a href="#validation--linting">Validation &amp; linting</a></li>
+<li><a href="#export-diagrams">Export diagrams</a></li>
+<li><a href="#systems-thinking">Systems thinking</a></li>
+<li><a href="#design-mode-workflow">Design mode</a></li>
+<li><a href="#demo-script-quick-10-minute-walkthrough">Demo script</a></li>
 </ul>
 <h2 id="advanced"><a class="header" href="#advanced">Advanced</a></h2>
 <ul>
-<li><a href="#deployment-modeling-1">Deployment modeling</a></li>
-<li><a href="#cicd-integration-2">CI/CD integration</a></li>
-<li><a href="#agentic-ai-modeling-1">Agentic AI modeling</a></li>
-<li><a href="#extending-the-cli-rust-1">Extending the CLI (Rust)</a></li>
+<li><a href="#deployment-modeling">Deployment modeling</a></li>
+<li><a href="#cicd-integration-1">CI/CD integration</a></li>
+<li><a href="#agentic-ai-modeling">Agentic AI modeling</a></li>
+<li><a href="#extending-the-cli-rust">Extending the CLI (Rust)</a></li>
 </ul>
-<p>Combine with the <a href="#beginner-path">Beginner path</a> or <a href="tutorials/courses/overview.html">Courses</a> for a full learning path.</p>
+<p>Combine with the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> or <a href="tutorials/courses/overview.html">Courses</a> for a full learning path.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="cli-basics-1"><a href="#cli-basics-1" class="header">CLI basics</a></h1>
-<hr>
-<h2 id="title-cli-basics-weight-10-summary-install-verify-and-use-the-sruja-cli-to-work-with-architecture-models-tags-cli-getting-started"><a class="header" href="#title-cli-basics-weight-10-summary-install-verify-and-use-the-sruja-cli-to-work-with-architecture-models-tags-cli-getting-started">title: "CLI Basics"
-weight: 10
-summary: "Install, verify, and use the Sruja CLI to work with architecture models."
-tags: ["cli", "getting-started"]</a></h2>
 <h1 id="cli-basics"><a class="header" href="#cli-basics">CLI Basics</a></h1>
 <p>This tutorial teaches the essential Sruja CLI commands for day‑to‑day work.</p>
 <h2 id="install-and-verify"><a class="header" href="#install-and-verify">Install and Verify</a></h2>
 <p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
-<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 sruja --version
 </code></pre>
 <p><strong>Option B – from Git (requires Rust):</strong></p>
@@ -15901,12 +15324,6 @@ sruja compile example.sruja
 <pre><code class="language-bash">sruja export d2 example.sruja &gt; example.d2
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="dsl-basics-1"><a href="#dsl-basics-1" class="header">DSL basics</a></h1>
-<hr>
-<h2 id="title-dsl-basics-weight-20-summary-learn-sruja-syntax-systems-containers-persons-relations-and-descriptions-tags-dsl-modeling"><a class="header" href="#title-dsl-basics-weight-20-summary-learn-sruja-syntax-systems-containers-persons-relations-and-descriptions-tags-dsl-modeling">title: "DSL Basics"
-weight: 20
-summary: "Learn Sruja syntax: systems, containers, persons, relations, and descriptions."
-tags: ["dsl", "modeling"]</a></h2>
 <h1 id="dsl-basics"><a class="header" href="#dsl-basics">DSL Basics</a></h1>
 <p>Sruja is an architecture DSL. This tutorial introduces its core elements.</p>
 <h2 id="elements-2"><a class="header" href="#elements-2">Elements</a></h2>
@@ -15957,15 +15374,9 @@ Web = container "Web" {
 <h2 id="next-steps-13"><a class="header" href="#next-steps-13">Next Steps</a></h2>
 <ul>
 <li>Learn <a href="tutorials/basic/tutorials/advanced/deployment-modeling.html">Deployment Modeling</a> for infrastructure perspective</li>
-<li>Test yourself: see <a href="#beginner-path">Beginner path</a> for optional quiz references.</li>
+<li>Test yourself: see <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> for optional quiz references.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="validation--linting-1"><a href="#validation--linting-1" class="header">Validation &amp; linting</a></h1>
-<hr>
-<h2 id="title-validation--linting-weight-30-summary-use-srujas-validator-to-catch-errors-orphan-elements-and-bad-references-includes-troubleshooting-guide-tags-validation-linting-troubleshooting"><a class="header" href="#title-validation--linting-weight-30-summary-use-srujas-validator-to-catch-errors-orphan-elements-and-bad-references-includes-troubleshooting-guide-tags-validation-linting-troubleshooting">title: "Validation &amp; Linting"
-weight: 30
-summary: "Use Sruja's validator to catch errors, orphan elements, and bad references. Includes troubleshooting guide."
-tags: ["validation", "linting", "troubleshooting"]</a></h2>
 <h1 id="validation--linting"><a class="header" href="#validation--linting">Validation &amp; Linting</a></h1>
 <p>Sruja ships with a validation engine that helps keep architectures healthy. This tutorial covers how to use it effectively and troubleshoot common issues.</p>
 <h2 id="quick-start-1"><a class="header" href="#quick-start-1">Quick Start</a></h2>
@@ -16291,12 +15702,6 @@ include *
 <li>Course: <a href="tutorials/basic/courses/system-design-101/module-4-production-readiness.html">System Design 101 - Module 4: Production Readiness</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="export-diagrams-1"><a href="#export-diagrams-1" class="header">Export diagrams</a></h1>
-<hr>
-<h2 id="title-export-diagrams-mermaid--studio-weight-40-summary-export-architecture-to-mermaid-markdown-or-interactive-studio-tags-export-diagrams-studio-mermaid"><a class="header" href="#title-export-diagrams-mermaid--studio-weight-40-summary-export-architecture-to-mermaid-markdown-or-interactive-studio-tags-export-diagrams-studio-mermaid">title: "Export Diagrams: Mermaid &amp; Studio"
-weight: 40
-summary: "Export architecture to Mermaid (Markdown) or interactive Studio."
-tags: ["export", "diagrams", "studio", "mermaid"]</a></h2>
 <h1 id="export-diagrams"><a class="header" href="#export-diagrams">Export Diagrams</a></h1>
 <p>Sruja currently supports export to <strong>Mermaid</strong> (for Markdown) and interactive visualization in <strong>Studio</strong>.</p>
 <h2 id="export-formats"><a class="header" href="#export-formats">Export Formats</a></h2>
@@ -16335,12 +15740,6 @@ See the Mermaid exporter in <code>crates/sruja-export/src/mermaid/</code> for op
 <li><strong>Studio</strong>: For interactive exploration and richer documentation</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="systems-thinking-1"><a href="#systems-thinking-1" class="header">Systems thinking</a></h1>
-<hr>
-<h2 id="title-systems-thinking-weight-25-summary-learn-to-model-systems-holistically-parts-boundaries-flows-feedback-loops-and-context-tags-systems-modeling"><a class="header" href="#title-systems-thinking-weight-25-summary-learn-to-model-systems-holistically-parts-boundaries-flows-feedback-loops-and-context-tags-systems-modeling">title: "Systems Thinking"
-weight: 25
-summary: "Learn to model systems holistically: parts, boundaries, flows, feedback loops, and context."
-tags: ["systems", "modeling"]</a></h2>
 <h1 id="systems-thinking"><a class="header" href="#systems-thinking">Systems Thinking</a></h1>
 <p>Systems thinking helps you understand how components interact as part of a whole. Sruja supports five core systems thinking concepts.</p>
 <h2 id="1-parts-and-relationships-1"><a class="header" href="#1-parts-and-relationships-1">1. Parts and Relationships</a></h2>
@@ -16653,12 +16052,6 @@ ECommerce -&gt; EmailService "Sends notifications"
 <li>Learn <a href="tutorials/basic/tutorials/advanced/deployment-modeling.html">Deployment Modeling</a> for infrastructure perspective</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="design-mode"><a href="#design-mode" class="header">Design mode</a></h1>
-<hr>
-<h2 id="title-design-mode-workflow-weight-6-summary-a-guided-layered-workflow-to-design-architectures-stepbystep-and-share-focused-views-tags-workflow-design-studio"><a class="header" href="#title-design-mode-workflow-weight-6-summary-a-guided-layered-workflow-to-design-architectures-stepbystep-and-share-focused-views-tags-workflow-design-studio">title: "Design Mode Workflow"
-weight: 6
-summary: "A guided, layered workflow to design architectures step‑by‑step and share focused views."
-tags: ["workflow", "design", "studio"]</a></h2>
 <h1 id="design-mode-workflow"><a class="header" href="#design-mode-workflow">Design Mode Workflow</a></h1>
 <p>Design Mode helps you build architecture assets step by step, starting with high‑level context and progressively adding detail. It also lets you focus on a specific system or container and share audience‑specific views.</p>
 <h2 id="workflow-steps"><a class="header" href="#workflow-steps">Workflow Steps</a></h2>
@@ -16755,12 +16148,6 @@ include *
 <li><a href="tutorials/basic/docs/concepts/scenario.html">Scenario</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="demo-script"><a href="#demo-script" class="header">Demo script</a></h1>
-<hr>
-<h2 id="title-demo-script-weight-5-summary-10minute-walkthrough-model-validate-and-export-tags-demo-getting-started-walkthrough"><a class="header" href="#title-demo-script-weight-5-summary-10minute-walkthrough-model-validate-and-export-tags-demo-getting-started-walkthrough">title: "Demo Script"
-weight: 5
-summary: "10‑minute walkthrough: model, validate, and export."
-tags: ["demo", "getting-started", "walkthrough"]</a></h2>
 <h1 id="demo-script-quick-10-minute-walkthrough"><a class="header" href="#demo-script-quick-10-minute-walkthrough">Demo Script: Quick 10-Minute Walkthrough</a></h1>
 <p>This tutorial provides a quick 10-minute walkthrough to demonstrate Sruja's core capabilities: modeling, validation, and export.</p>
 <h2 id="1-model-2-minutes"><a class="header" href="#1-model-2-minutes">1) Model (2 minutes)</a></h2>
@@ -16832,12 +16219,6 @@ sruja export svg architecture.sruja
 <hr>
 <p><strong>Note</strong>: Sruja is <strong>free and open source</strong> (Apache 2.0 licensed). Need help with adoption? Professional consulting services are available. Contact the team through <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a> to learn more.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="deployment-modeling-1"><a href="#deployment-modeling-1" class="header">Deployment modeling</a></h1>
-<hr>
-<h2 id="title-deployment-modeling-weight-70-summary-map-logical-elements-to-deployment-nodes-for-environment-diagrams-tags-deployment-infrastructure"><a class="header" href="#title-deployment-modeling-weight-70-summary-map-logical-elements-to-deployment-nodes-for-environment-diagrams-tags-deployment-infrastructure">title: "Deployment Modeling"
-weight: 70
-summary: "Map logical elements to deployment nodes for environment diagrams."
-tags: ["deployment", "infrastructure"]</a></h2>
 <h1 id="deployment-modeling"><a class="header" href="#deployment-modeling">Deployment Modeling</a></h1>
 <p>Model production environments and map containers onto infrastructure nodes.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -16867,14 +16248,6 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="cicd-integration-2"><a href="#cicd-integration-2" class="header">CI/CD integration</a></h1>
-<hr>
-<h2 id="title-cicd-integration-weight-50-summary-integrate-sruja-validation-and-documentation-into-your-cicd-pipelines-for-automated-architecture-governance-tags-devops-cicd-automation-governance-difficulty-intermediate-estimatedtime-20-min"><a class="header" href="#title-cicd-integration-weight-50-summary-integrate-sruja-validation-and-documentation-into-your-cicd-pipelines-for-automated-architecture-governance-tags-devops-cicd-automation-governance-difficulty-intermediate-estimatedtime-20-min">title: "CI/CD Integration"
-weight: 50
-summary: "Integrate Sruja validation and documentation into your CI/CD pipelines for automated architecture governance."
-tags: ["devops", "cicd", "automation", "governance"]
-difficulty: "intermediate"
-estimatedTime: "20 min"</a></h2>
 <h1 id="cicd-integration-1"><a class="header" href="#cicd-integration-1">CI/CD Integration</a></h1>
 <p>Integrate Sruja into your CI/CD pipeline to automatically validate architecture, enforce standards, and generate documentation on every commit.</p>
 <h2 id="why-cicd-integration"><a class="header" href="#why-cicd-integration">Why CI/CD Integration?</a></h2>
@@ -17315,14 +16688,6 @@ jobs:
 <li>Course: <a href="tutorials/advanced/courses/advanced-architects/module-1-policy-as-code.html">Advanced Architects - Policy as Code</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="agentic-ai-modeling-1"><a href="#agentic-ai-modeling-1" class="header">Agentic AI modeling</a></h1>
-<hr>
-<h2 id="title-agentic-ai-modeling-weight-40-summary-model-agent-orchestration-tools-and-memory-using-sruja-dsl-tags-ai-agents-rag-modeling-difficulty-advanced-estimatedtime-30-min"><a class="header" href="#title-agentic-ai-modeling-weight-40-summary-model-agent-orchestration-tools-and-memory-using-sruja-dsl-tags-ai-agents-rag-modeling-difficulty-advanced-estimatedtime-30-min">title: "Agentic AI Modeling"
-weight: 40
-summary: "Model agent orchestration, tools, and memory using Sruja DSL."
-tags: ["ai", "agents", "rag", "modeling"]
-difficulty: "advanced"
-estimatedTime: "30 min"</a></h2>
 <h1 id="agentic-ai-modeling"><a class="header" href="#agentic-ai-modeling">Agentic AI Modeling</a></h1>
 <p>This tutorial shows how to model agent-based systems with orchestrators, planners, executors, tools, and memory.</p>
 <h2 id="core-structure"><a class="header" href="#core-structure">Core Structure</a></h2>
@@ -17382,12 +16747,6 @@ RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 <li>Use views to present developer vs. executive perspectives</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="extending-the-cli-rust-1"><a href="#extending-the-cli-rust-1" class="header">Extending the CLI (Rust)</a></h1>
-<hr>
-<h2 id="title-extending-the-cli-rust-weight-80-summary-the-cli-is-implemented-in-rust-with-clap-add-or-change-subcommands-in-cratessruja-cli-tags-cli-rust-advanced"><a class="header" href="#title-extending-the-cli-rust-weight-80-summary-the-cli-is-implemented-in-rust-with-clap-add-or-change-subcommands-in-cratessruja-cli-tags-cli-rust-advanced">title: "Extending the CLI (Rust)"
-weight: 80
-summary: "The CLI is implemented in Rust with clap. Add or change subcommands in crates/sruja-cli."
-tags: ["cli", "rust", "advanced"]</a></h2>
 <h1 id="extending-the-cli-rust"><a class="header" href="#extending-the-cli-rust">Extending the CLI (Rust)</a></h1>
 <p>Sruja's CLI lives in <code>crates/sruja-cli</code> and uses <a href="https://docs.rs/clap">clap</a> for argument parsing. To add or change subcommands:</p>
 <ol>
@@ -17420,427 +16779,21 @@ sruja completion fish
 </tbody>
 </table>
 </div>
-<p>See the <a href="#beginner-path">Beginner path</a> for a suggested order with tutorials and courses.</p>
+<p>See the <a href="#beginner-path-learn-sruja-without-overwhelm">Beginner path</a> for a suggested order with tutorials and courses.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="add-component"><a href="#add-component" class="header">Add Component</a></h1>
-<hr>
-<p>title: "Social Feed: Add Recommendation Engine"
-summary: "Your social media platform needs personalized content! Add a Recommendation component to the FeedService container that suggests posts based on user interests."
-difficulty: beginner
-topic: components
-estimatedTime: "5-10 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-database = kind "Database"</p>
-<p>User = person "Social Media User"</p>
-<p>SocialApp = system "Social App" {
-FeedService = container "Feed Service" {
-technology "Python, FastAPI"
-// TODO: Add component Recommendation "Recommendation Engine" here
-}
-UserDB = database "MongoDB"
-}</p>
-<p>User -&gt; SocialApp.FeedService "Views feed"
-SocialApp.FeedService -&gt; SocialApp.UserDB "Queries user data"
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: Recommendation
-message: "Create Recommendation component in FeedService"
-hints:</li>
-<li>"Components are defined inside containers using curly braces"</li>
-<li>'Add component Recommendation "Recommendation Engine" inside the FeedService block'</li>
-<li>"Make sure to open the FeedService container block with { before adding the component"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-database = kind "Database"</li>
-</ul>
-<p>User = person "Social Media User"</p>
-<p>SocialApp = system "Social App" {
-FeedService = container "Feed Service" {
-technology "Python, FastAPI"
-Recommendation = component "Recommendation Engine"
-}
-UserDB = database "MongoDB"
-}</p>
-<h2 id="user---socialappfeedservice-views-feed-socialappfeedservice---socialappuserdb-queries-user-data"><a class="header" href="#user---socialappfeedservice-views-feed-socialappfeedservice---socialappuserdb-queries-user-data">User -&gt; SocialApp.FeedService "Views feed"
-SocialApp.FeedService -&gt; SocialApp.UserDB "Queries user data"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="deployment-architecture"><a href="#deployment-architecture" class="header">Deployment Architecture</a></h1>
-<hr>
-<p>title: "CDN Architecture: Add Cache Layer"
-summary: "Your content delivery network needs a caching layer! Add a Cache datastore and connect it to both the API and CDN edge servers for faster content delivery."
-difficulty: intermediate
-topic: deployment
-estimatedTime: "15-20 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Viewer = person "Content Viewer"</p>
-<p>CDN = system "CDN" {
-EdgeServer = container "Edge Server"
-API = container "Origin API"
-OriginDB = datastore "Origin Database"
-}</p>
-<p>Viewer -&gt; CDN.EdgeServer "Requests content"
-CDN.EdgeServer -&gt; CDN.API "Fetches from origin"
-CDN.API -&gt; CDN.OriginDB "Reads content"</p>
-<p>// TODO: Add Cache datastore and connect EdgeServer -&gt; Cache and API -&gt; Cache
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: Cache
-message: "Add Cache datastore"</li>
-<li>type: relationExists
-source: EdgeServer
-target: Cache
-message: "Add relation EdgeServer -&gt; Cache"</li>
-<li>type: relationExists
-source: API
-target: Cache
-message: "Add relation API -&gt; Cache"
-hints:</li>
-<li>'Add datastore Cache "Redis Cache" inside the CDN system'</li>
-<li>'EdgeServer reads from cache: EdgeServer -&gt; Cache "Reads cached content"'</li>
-<li>'API writes to cache: API -&gt; Cache "Writes content"'</li>
-<li>"Cache sits between EdgeServer and API to reduce origin load"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Viewer = person "Content Viewer"</p>
-<p>CDN = system "CDN" {
-EdgeServer = container "Edge Server"
-API = container "Origin API"
-Cache = datastore "Redis Cache"
-OriginDB = datastore "Origin Database"
-}</p>
-<h2 id="viewer---cdnedgeserver-requests-content-cdnedgeserver---cdnapi-fetches-from-origin-cdnedgeserver---cdncache-reads-cached-content-cdnapi---cdnorigindb-reads-content-cdnapi---cdncache-writes-content"><a class="header" href="#viewer---cdnedgeserver-requests-content-cdnedgeserver---cdnapi-fetches-from-origin-cdnedgeserver---cdncache-reads-cached-content-cdnapi---cdnorigindb-reads-content-cdnapi---cdncache-writes-content">Viewer -&gt; CDN.EdgeServer "Requests content"
-CDN.EdgeServer -&gt; CDN.API "Fetches from origin"
-CDN.EdgeServer -&gt; CDN.Cache "Reads cached content"
-CDN.API -&gt; CDN.OriginDB "Reads content"
-CDN.API -&gt; CDN.Cache "Writes content"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="external-service"><a href="#external-service" class="header">External Service</a></h1>
-<hr>
-<p>title: "Weather App: Integrate Weather API"
-summary: "Your weather app needs real-time weather data! Integrate an external weather service (like OpenWeatherMap) that your API can query for current conditions."
-difficulty: intermediate
-topic: integration
-estimatedTime: "10-15 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-database = kind "Database"</p>
-<p>User = person "App User"</p>
-<p>WeatherApp = system "Weather App" {
-MobileApp = container "Mobile App"
-WeatherAPI = container "Weather Service API"
-UserPrefs = database "User Preferences DB"
-}</p>
-<p>User -&gt; WeatherApp.MobileApp "Checks weather"
-WeatherApp.MobileApp -&gt; WeatherApp.WeatherAPI "Requests forecast"
-WeatherApp.WeatherAPI -&gt; WeatherApp.UserPrefs "Loads preferences"</p>
-<p>// TODO: Add external WeatherService system with tags and connect WeatherAPI -&gt; WeatherService
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: WeatherService
-message: "Add external WeatherService"</li>
-<li>type: relationExists
-source: WeatherAPI
-target: WeatherService
-message: "Connect WeatherAPI -&gt; WeatherService"
-hints:</li>
-<li>'External services are represented as systems with tags ["external"]'</li>
-<li>'Use: WeatherService = system "OpenWeatherMap" { tags ["external"] }'</li>
-<li>"External services represent third-party APIs you don't control"</li>
-<li>'Add relation: WeatherApp.WeatherAPI -&gt; WeatherService "Fetches weather data"'
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-database = kind "Database"</li>
-</ul>
-<p>User = person "App User"</p>
-<p>WeatherApp = system "Weather App" {
-MobileApp = container "Mobile App"
-WeatherAPI = container "Weather Service API"
-UserPrefs = database "User Preferences DB"
-}</p>
-<p>WeatherService = system "OpenWeatherMap" {
-tags ["external"]
-}</p>
-<h2 id="user---weatherappmobileapp-checks-weather-weatherappmobileapp---weatherappweatherapi-requests-forecast-weatherappweatherapi---weatherappuserprefs-loads-preferences-weatherappweatherapi---weatherservice-fetches-weather-data"><a class="header" href="#user---weatherappmobileapp-checks-weather-weatherappmobileapp---weatherappweatherapi-requests-forecast-weatherappweatherapi---weatherappuserprefs-loads-preferences-weatherappweatherapi---weatherservice-fetches-weather-data">User -&gt; WeatherApp.MobileApp "Checks weather"
-WeatherApp.MobileApp -&gt; WeatherApp.WeatherAPI "Requests forecast"
-WeatherApp.WeatherAPI -&gt; WeatherApp.UserPrefs "Loads preferences"
-WeatherApp.WeatherAPI -&gt; WeatherService "Fetches weather data"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="fix-relations"><a href="#fix-relations" class="header">Fix Relations</a></h1>
-<hr>
-<p>title: "Microservices: Connect Service Mesh"
-summary: "You're building a microservices architecture! Connect the UserService, OrderService, and PaymentService so they can communicate. Each service has its own database."
-difficulty: beginner
-topic: relations
-estimatedTime: "5-10 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Customer = person "Online Customer"</p>
-<p>ECommerce = system "E-Commerce" {
-UserService = container "User Management"
-OrderService = container "Order Processing"
-PaymentService = container "Payment Processing"
-UserDB = datastore "User Database"
-OrderDB = datastore "Order Database"
-PaymentDB = datastore "Payment Database"
-}</p>
-<p>Customer -&gt; ECommerce.UserService "Logs in"</p>
-<p>// TODO: Connect services in order flow: UserService -&gt; OrderService -&gt; PaymentService
-// TODO: Connect each service to its database
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: UserService
-target: OrderService
-message: "Add relation UserService -&gt; OrderService"</li>
-<li>type: relationExists
-source: OrderService
-target: PaymentService
-message: "Add relation OrderService -&gt; PaymentService"</li>
-<li>type: relationExists
-source: UserService
-target: UserDB
-message: "Add relation UserService -&gt; UserDB"</li>
-<li>type: relationExists
-source: OrderService
-target: OrderDB
-message: "Add relation OrderService -&gt; OrderDB"</li>
-<li>type: relationExists
-source: PaymentService
-target: PaymentDB
-message: "Add relation PaymentService -&gt; PaymentDB"
-hints:</li>
-<li>'Order flow: UserService -&gt; OrderService "Creates order"'</li>
-<li>'Then: OrderService -&gt; PaymentService "Processes payment"'</li>
-<li>'Each service connects to its own DB: Service -&gt; DB "Reads/Writes"'</li>
-<li>"Use descriptive labels for each relation"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Customer = person "Online Customer"</p>
-<p>ECommerce = system "E-Commerce" {
-UserService = container "User Management"
-OrderService = container "Order Processing"
-PaymentService = container "Payment Processing"
-UserDB = datastore "User Database"
-OrderDB = datastore "Order Database"
-PaymentDB = datastore "Payment Database"
-}</p>
-<h2 id="customer---ecommerceuserservice-logs-in-ecommerceuserservice---ecommerceorderservice-creates-order-ecommerceorderservice---ecommercepaymentservice-processes-payment-ecommerceuserservice---ecommerceuserdb-readswrites-ecommerceorderservice---ecommerceorderdb-readswrites-ecommercepaymentservice---ecommercepaymentdb-readswrites"><a class="header" href="#customer---ecommerceuserservice-logs-in-ecommerceuserservice---ecommerceorderservice-creates-order-ecommerceorderservice---ecommercepaymentservice-processes-payment-ecommerceuserservice---ecommerceuserdb-readswrites-ecommerceorderservice---ecommerceorderdb-readswrites-ecommercepaymentservice---ecommercepaymentdb-readswrites">Customer -&gt; ECommerce.UserService "Logs in"
-ECommerce.UserService -&gt; ECommerce.OrderService "Creates order"
-ECommerce.OrderService -&gt; ECommerce.PaymentService "Processes payment"
-ECommerce.UserService -&gt; ECommerce.UserDB "Reads/Writes"
-ECommerce.OrderService -&gt; ECommerce.OrderDB "Reads/Writes"
-ECommerce.PaymentService -&gt; ECommerce.PaymentDB "Reads/Writes"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="missing-relations"><a href="#missing-relations" class="header">Missing Relations</a></h1>
-<hr>
-<p>title: "Healthcare Portal: Connect Patient to System"
-summary: "A patient needs to book an appointment! Model the complete flow: Patient uses the Portal, Portal calls the Appointment API, and API stores data in the database."
-difficulty: beginner
-topic: relations
-estimatedTime: "5-10 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Patient = person "Healthcare Patient"</p>
-<p>HealthPortal = system "Healthcare Portal" {
-Portal = container "Patient Portal"
-AppointmentAPI = container "Appointment Service"
-RecordsDB = datastore "Patient Records Database"
-}</p>
-<p>// TODO: Connect Patient -&gt; Portal -&gt; AppointmentAPI -&gt; RecordsDB
-// Think about what each interaction represents
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: Patient
-target: Portal
-message: "Add relation Patient -&gt; Portal"</li>
-<li>type: relationExists
-source: Portal
-target: AppointmentAPI
-message: "Add relation Portal -&gt; AppointmentAPI"</li>
-<li>type: relationExists
-source: AppointmentAPI
-target: RecordsDB
-message: "Add relation AppointmentAPI -&gt; RecordsDB"
-hints:</li>
-<li>'Start with Patient -&gt; Portal "Books appointment"'</li>
-<li>'Then Portal -&gt; AppointmentAPI "Requests appointment"'</li>
-<li>'Finally AppointmentAPI -&gt; RecordsDB "Stores appointment"'</li>
-<li>"Remember: all relation labels must be in quotes"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Patient = person "Healthcare Patient"</p>
-<p>HealthPortal = system "Healthcare Portal" {
-Portal = container "Patient Portal"
-AppointmentAPI = container "Appointment Service"
-RecordsDB = datastore "Patient Records Database"
-}</p>
-<h2 id="patient---healthportalportal-books-appointment-healthportalportal---healthportalappointmentapi-requests-appointment-healthportalappointmentapi---healthportalrecordsdb-stores-appointment"><a class="header" href="#patient---healthportalportal-books-appointment-healthportalportal---healthportalappointmentapi-requests-appointment-healthportalappointmentapi---healthportalrecordsdb-stores-appointment">Patient -&gt; HealthPortal.Portal "Books appointment"
-HealthPortal.Portal -&gt; HealthPortal.AppointmentAPI "Requests appointment"
-HealthPortal.AppointmentAPI -&gt; HealthPortal.RecordsDB "Stores appointment"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="queue-worker"><a href="#queue-worker" class="header">Queue Worker</a></h1>
-<hr>
-<p>title: "Email Notification System: Build Async Processor"
-summary: "Your app sends too many emails synchronously, causing slow responses! Create an async email processing system with a queue and worker to handle notifications in the background."
-difficulty: intermediate
-topic: async
-estimatedTime: "10-15 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-queue = kind "Queue"</p>
-<p>App = system "App" {
-API = container "Main API" {
-// TODO: Add component EmailWorker "Email Processor" here
-}
-EmailQueue = queue "RabbitMQ"
-}</p>
-<p>// TODO: Connect App.EmailQueue -&gt; App.API.EmailWorker for async processing
-// TODO: Add external EmailService system with tags and connect App.API.EmailWorker -&gt; EmailService
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: EmailWorker
-message: "Create EmailWorker component"</li>
-<li>type: relationExists
-source: EmailQueue
-target: EmailWorker
-message: "Connect EmailQueue -&gt; EmailWorker"</li>
-<li>type: elementExists
-name: EmailService
-message: "Add external EmailService"</li>
-<li>type: relationExists
-source: EmailWorker
-target: EmailService
-message: "Connect EmailWorker -&gt; EmailService"
-hints:</li>
-<li>'Add component EmailWorker "Email Processor" inside the API container'</li>
-<li>'Queues deliver messages to workers: App.EmailQueue -&gt; App.API.EmailWorker "Delivers email job"'</li>
-<li>'Add external EmailService as a system with tags ["external"] outside the App system block'</li>
-<li>'Worker sends emails: App.API.EmailWorker -&gt; EmailService "Sends email"'
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-queue = kind "Queue"</li>
-</ul>
-<p>App = system "App" {
-API = container "Main API" {
-EmailWorker = component "Email Processor"
-}
-EmailQueue = queue "RabbitMQ"
-}</p>
-<p>EmailService = system "SendGrid" {
-tags ["external"]
-}</p>
-<h2 id="appemailqueue---appapiemailworker-delivers-email-job-appapiemailworker---emailservice-sends-email"><a class="header" href="#appemailqueue---appapiemailworker-delivers-email-job-appapiemailworker---emailservice-sends-email">App.EmailQueue -&gt; App.API.EmailWorker "Delivers email job"
-App.API.EmailWorker -&gt; EmailService "Sends email"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="syntax-error"><a href="#syntax-error" class="header">Syntax Error</a></h1>
-<hr>
-<p>title: "Code Review: Fix the Ride-Sharing App"
-summary: "A junior developer wrote this code for a ride-sharing app, but it has syntax errors. Find and fix all the issues to get it compiling!"
-difficulty: beginner
-topic: validation
-estimatedTime: "5-8 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Rider = person "App User"</p>
-<p>RideApp = system "RideApp" {
-MobileApp = container "Mobile Application"
-MatchingService = container "Driver Matching"
-LocationDB = datastore "Location Database"
-}</p>
-<p>Rider -&gt; RideApp.MobileApp "Requests ride"
-RideApp.MobileApp -&gt; RideApp.MatchingService Finds driver  // Missing quotes
-RideApp.MatchingService -&gt; RideApp.LocationDB "Queries locations"
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: MobileApp
-target: MatchingService
-message: "Fix relation MobileApp -&gt; MatchingService"</li>
-<li>type: relationExists
-source: MatchingService
-target: LocationDB
-message: "Ensure relation MatchingService -&gt; LocationDB exists"
-hints:</li>
-<li>"Check the MatchingService container definition - is it properly closed?"</li>
-<li>"Look at the relation 'MobileApp -&gt; MatchingService Finds driver' - what's missing?"</li>
-<li>"All relation labels must be wrapped in double quotes"</li>
-<li>"Container definitions need proper closing braces"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Rider = person "App User"</p>
-<p>RideApp = system "RideApp" {
-MobileApp = container "Mobile Application"
-MatchingService = container "Driver Matching"
-LocationDB = datastore "Location Database"
-}</p>
-<h2 id="rider---rideappmobileapp-requests-ride-rideappmobileapp---rideappmatchingservice-finds-driver-rideappmatchingservice---rideapplocationdb-queries-locations"><a class="header" href="#rider---rideappmobileapp-requests-ride-rideappmobileapp---rideappmatchingservice-finds-driver-rideappmatchingservice---rideapplocationdb-queries-locations">Rider -&gt; RideApp.MobileApp "Requests ride"
-RideApp.MobileApp -&gt; RideApp.MatchingService "Finds driver"
-RideApp.MatchingService -&gt; RideApp.LocationDB "Queries locations"</a></h2>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="cli-reference"><a class="header" href="#cli-reference">CLI reference</a></h1>
 <p>Core commands:</p>

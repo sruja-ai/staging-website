@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -180,68 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<p>title: "Email Notification System: Build Async Processor"
-summary: "Your app sends too many emails synchronously, causing slow responses! Create an async email processing system with a queue and worker to handle notifications in the background."
-difficulty: intermediate
-topic: async
-estimatedTime: "10-15 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-queue = kind "Queue"</p>
-<p>App = system "App" {
-API = container "Main API" {
-// TODO: Add component EmailWorker "Email Processor" here
-}
-EmailQueue = queue "RabbitMQ"
-}</p>
-<p>// TODO: Connect App.EmailQueue -&gt; App.API.EmailWorker for async processing
-// TODO: Add external EmailService system with tags and connect App.API.EmailWorker -&gt; EmailService
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: EmailWorker
-message: "Create EmailWorker component"</li>
-<li>type: relationExists
-source: EmailQueue
-target: EmailWorker
-message: "Connect EmailQueue -&gt; EmailWorker"</li>
-<li>type: elementExists
-name: EmailService
-message: "Add external EmailService"</li>
-<li>type: relationExists
-source: EmailWorker
-target: EmailService
-message: "Connect EmailWorker -&gt; EmailService"
-hints:</li>
-<li>'Add component EmailWorker "Email Processor" inside the API container'</li>
-<li>'Queues deliver messages to workers: App.EmailQueue -&gt; App.API.EmailWorker "Delivers email job"'</li>
-<li>'Add external EmailService as a system with tags ["external"] outside the App system block'</li>
-<li>'Worker sends emails: App.API.EmailWorker -&gt; EmailService "Sends email"'
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-component = kind "Component"
-queue = kind "Queue"</li>
-</ul>
-<p>App = system "App" {
-API = container "Main API" {
-EmailWorker = component "Email Processor"
-}
-EmailQueue = queue "RabbitMQ"
-}</p>
-<p>EmailService = system "SendGrid" {
-tags ["external"]
-}</p>
-<h2 id="appemailqueue---appapiemailworker-delivers-email-job-appapiemailworker---emailservice-sends-email"><a class="header" href="#appemailqueue---appapiemailworker-delivers-email-job-appapiemailworker---emailservice-sends-email">App.EmailQueue -&gt; App.API.EmailWorker "Delivers email job"
-App.API.EmailWorker -&gt; EmailService "Sends email"</a></h2>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

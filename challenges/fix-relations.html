@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -180,80 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<p>title: "Microservices: Connect Service Mesh"
-summary: "You're building a microservices architecture! Connect the UserService, OrderService, and PaymentService so they can communicate. Each service has its own database."
-difficulty: beginner
-topic: relations
-estimatedTime: "5-10 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</p>
-<p>Customer = person "Online Customer"</p>
-<p>ECommerce = system "E-Commerce" {
-UserService = container "User Management"
-OrderService = container "Order Processing"
-PaymentService = container "Payment Processing"
-UserDB = datastore "User Database"
-OrderDB = datastore "Order Database"
-PaymentDB = datastore "Payment Database"
-}</p>
-<p>Customer -&gt; ECommerce.UserService "Logs in"</p>
-<p>// TODO: Connect services in order flow: UserService -&gt; OrderService -&gt; PaymentService
-// TODO: Connect each service to its database
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: relationExists
-source: UserService
-target: OrderService
-message: "Add relation UserService -&gt; OrderService"</li>
-<li>type: relationExists
-source: OrderService
-target: PaymentService
-message: "Add relation OrderService -&gt; PaymentService"</li>
-<li>type: relationExists
-source: UserService
-target: UserDB
-message: "Add relation UserService -&gt; UserDB"</li>
-<li>type: relationExists
-source: OrderService
-target: OrderDB
-message: "Add relation OrderService -&gt; OrderDB"</li>
-<li>type: relationExists
-source: PaymentService
-target: PaymentDB
-message: "Add relation PaymentService -&gt; PaymentDB"
-hints:</li>
-<li>'Order flow: UserService -&gt; OrderService "Creates order"'</li>
-<li>'Then: OrderService -&gt; PaymentService "Processes payment"'</li>
-<li>'Each service connects to its own DB: Service -&gt; DB "Reads/Writes"'</li>
-<li>"Use descriptive labels for each relation"
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-datastore = kind "Datastore"</li>
-</ul>
-<p>Customer = person "Online Customer"</p>
-<p>ECommerce = system "E-Commerce" {
-UserService = container "User Management"
-OrderService = container "Order Processing"
-PaymentService = container "Payment Processing"
-UserDB = datastore "User Database"
-OrderDB = datastore "Order Database"
-PaymentDB = datastore "Payment Database"
-}</p>
-<h2 id="customer---ecommerceuserservice-logs-in-ecommerceuserservice---ecommerceorderservice-creates-order-ecommerceorderservice---ecommercepaymentservice-processes-payment-ecommerceuserservice---ecommerceuserdb-readswrites-ecommerceorderservice---ecommerceorderdb-readswrites-ecommercepaymentservice---ecommercepaymentdb-readswrites"><a class="header" href="#customer---ecommerceuserservice-logs-in-ecommerceuserservice---ecommerceorderservice-creates-order-ecommerceorderservice---ecommercepaymentservice-processes-payment-ecommerceuserservice---ecommerceuserdb-readswrites-ecommerceorderservice---ecommerceorderdb-readswrites-ecommercepaymentservice---ecommercepaymentdb-readswrites">Customer -&gt; ECommerce.UserService "Logs in"
-ECommerce.UserService -&gt; ECommerce.OrderService "Creates order"
-ECommerce.OrderService -&gt; ECommerce.PaymentService "Processes payment"
-ECommerce.UserService -&gt; ECommerce.UserDB "Reads/Writes"
-ECommerce.OrderService -&gt; ECommerce.OrderDB "Reads/Writes"
-ECommerce.PaymentService -&gt; ECommerce.PaymentDB "Reads/Writes"</a></h2>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

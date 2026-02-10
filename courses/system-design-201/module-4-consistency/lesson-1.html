@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,11 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<h2 id="title-lesson-1-design-a-distributed-counter-weight-1-summary-sharding-write-behind-eventual-consistency"><a class="header" href="#title-lesson-1-design-a-distributed-counter-weight-1-summary-sharding-write-behind-eventual-consistency">title: "Lesson 1: Design a Distributed Counter"
-weight: 1
-summary: "Sharding, Write-Behind, Eventual Consistency."</a></h2>
-<h1 id="lesson-1-design-a-distributed-counter"><a class="header" href="#lesson-1-design-a-distributed-counter">Lesson 1: Design a Distributed Counter</a></h1>
+                        <h1 id="lesson-1-design-a-distributed-counter"><a class="header" href="#lesson-1-design-a-distributed-counter">Lesson 1: Design a Distributed Counter</a></h1>
 <p><strong>Goal:</strong> Design a system to count events (e.g., YouTube views, Facebook likes) at a massive scale (e.g., 1 million writes/sec).</p>
 <h2 id="the-problem-with-a-single-database"><a class="header" href="#the-problem-with-a-single-database">The Problem with a Single Database</a></h2>
 <p>A standard SQL database (like PostgreSQL) can handle ~2k-5k writes/sec. If we try to update a single row (<code>UPDATE videos SET views = views + 1 WHERE id = 123</code>) for every view, the database will lock the row and become a bottleneck.</p>

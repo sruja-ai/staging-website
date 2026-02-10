@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-e8acc242.js";
+            window.path_to_searchindex_js = "../searchindex-9f7a5a1f.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -180,63 +180,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <hr>
-<p>title: "Weather App: Integrate Weather API"
-summary: "Your weather app needs real-time weather data! Integrate an external weather service (like OpenWeatherMap) that your API can query for current conditions."
-difficulty: intermediate
-topic: integration
-estimatedTime: "10-15 min"
-initialDsl: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-database = kind "Database"</p>
-<p>User = person "App User"</p>
-<p>WeatherApp = system "Weather App" {
-MobileApp = container "Mobile App"
-WeatherAPI = container "Weather Service API"
-UserPrefs = database "User Preferences DB"
-}</p>
-<p>User -&gt; WeatherApp.MobileApp "Checks weather"
-WeatherApp.MobileApp -&gt; WeatherApp.WeatherAPI "Requests forecast"
-WeatherApp.WeatherAPI -&gt; WeatherApp.UserPrefs "Loads preferences"</p>
-<p>// TODO: Add external WeatherService system with tags and connect WeatherAPI -&gt; WeatherService
-checks:</p>
-<ul>
-<li>type: noErrors
-message: "DSL parsed successfully"</li>
-<li>type: elementExists
-name: WeatherService
-message: "Add external WeatherService"</li>
-<li>type: relationExists
-source: WeatherAPI
-target: WeatherService
-message: "Connect WeatherAPI -&gt; WeatherService"
-hints:</li>
-<li>'External services are represented as systems with tags ["external"]'</li>
-<li>'Use: WeatherService = system "OpenWeatherMap" { tags ["external"] }'</li>
-<li>"External services represent third-party APIs you don't control"</li>
-<li>'Add relation: WeatherApp.WeatherAPI -&gt; WeatherService "Fetches weather data"'
-solution: |
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-database = kind "Database"</li>
-</ul>
-<p>User = person "App User"</p>
-<p>WeatherApp = system "Weather App" {
-MobileApp = container "Mobile App"
-WeatherAPI = container "Weather Service API"
-UserPrefs = database "User Preferences DB"
-}</p>
-<p>WeatherService = system "OpenWeatherMap" {
-tags ["external"]
-}</p>
-<h2 id="user---weatherappmobileapp-checks-weather-weatherappmobileapp---weatherappweatherapi-requests-forecast-weatherappweatherapi---weatherappuserprefs-loads-preferences-weatherappweatherapi---weatherservice-fetches-weather-data"><a class="header" href="#user---weatherappmobileapp-checks-weather-weatherappmobileapp---weatherappweatherapi-requests-forecast-weatherappweatherapi---weatherappuserprefs-loads-preferences-weatherappweatherapi---weatherservice-fetches-weather-data">User -&gt; WeatherApp.MobileApp "Checks weather"
-WeatherApp.MobileApp -&gt; WeatherApp.WeatherAPI "Requests forecast"
-WeatherApp.WeatherAPI -&gt; WeatherApp.UserPrefs "Loads preferences"
-WeatherApp.WeatherAPI -&gt; WeatherService "Fetches weather data"</a></h2>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
