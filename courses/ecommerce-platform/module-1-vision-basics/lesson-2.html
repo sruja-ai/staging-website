@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-c1773059.js";
+            window.path_to_searchindex_js = "../../../searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -224,10 +224,10 @@ cd shopify-lite
 </ul>
 <h2 id="2-installing-sruja"><a class="header" href="#2-installing-sruja">2. Installing Sruja</a></h2>
 <p>If you haven't already, install the Sruja CLI:</p>
-<pre><code class="language-bash"># Quick install
-curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash"># From Git (requires Rust)
+cargo install sruja-cli --git https://github.com/sruja-ai/sruja
 
-# Or from source: cargo install --path crates/sruja-cli (from repo root)
+# Or build from source: git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
 
 # Verify installation
 sruja --version
@@ -436,9 +436,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Sruja
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-          echo "$HOME/go/bin" &gt;&gt; $GITHUB_PATH
+        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
       - name: Validate Architecture
         run: sruja lint architecture/main.sruja
       - name: Generate Docs

@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-c1773059.js";
+            window.path_to_searchindex_js = "../../searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-f200db4f.js"></script>
@@ -188,13 +188,20 @@ tags: ["cli", "getting-started"]</a></h2>
 <h1 id="cli-basics"><a class="header" href="#cli-basics">CLI Basics</a></h1>
 <p>This tutorial teaches the essential Sruja CLI commands for day‑to‑day work.</p>
 <h2 id="install-and-verify"><a class="header" href="#install-and-verify">Install and Verify</a></h2>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 sruja --version
 </code></pre>
-<p>If <code>sruja</code> is not found, ensure the install directory is in your <code>PATH</code>:</p>
-<pre><code class="language-bash"># If installed via install script, ensure ~/.local/bin (or script’s target) is in PATH
-export PATH="$HOME/.local/bin:$PATH"
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+sruja --version
 </code></pre>
+<p><strong>Option C – build from source:</strong></p>
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+# Add target/release to PATH or copy target/release/sruja to a directory on PATH
+sruja --version
+</code></pre>
+<p>If <code>sruja</code> is not found, ensure the install directory is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default; Option B uses <code>~/.cargo/bin</code>; Option C uses <code>target/release</code>).</p>
 <h2 id="create-a-model"><a class="header" href="#create-a-model">Create a Model</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 

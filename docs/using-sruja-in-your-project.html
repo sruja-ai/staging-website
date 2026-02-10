@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-c1773059.js";
+            window.path_to_searchindex_js = "../searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-f200db4f.js"></script>
@@ -191,12 +191,16 @@
 </ul>
 <h2 id="1-install-your-machine-andor-ci"><a class="header" href="#1-install-your-machine-andor-ci">1. Install (your machine and/or CI)</a></h2>
 <h3 id="cli"><a class="header" href="#cli">CLI</a></h3>
-<p><strong>Option A – from Git (recommended for now):</strong></p>
-<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
-</code></pre>
-<p><strong>Option B – install script (if available in repo):</strong></p>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 </code></pre>
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+</code></pre>
+<p><strong>Option C – build from source:</strong></p>
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+</code></pre>
+<p>Ensure the install directory is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default; Option B uses <code>~/.cargo/bin</code>; Option C uses <code>target/release</code>).</p>
 <p><strong>Check:</strong></p>
 <pre><code class="language-bash">sruja --help
 sruja lint --help

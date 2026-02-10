@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-c1773059.js";
+            window.path_to_searchindex_js = "../../../searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -193,7 +193,7 @@ summary: "Automating architectural checks in your pipeline."</a></h2>
     uses: actions/checkout@v3
 
   - name: Install Sruja
-    run: curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+    run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
 
   - name: Validate Architecture
     run: sruja validate architecture/

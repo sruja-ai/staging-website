@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c1773059.js";
+            window.path_to_searchindex_js = "searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -182,12 +182,17 @@
                     <main>
                         <h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
 <h2 id="install-cli"><a class="header" href="#install-cli">Install CLI</a></h2>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 </code></pre>
-<p>Or build from source (requires Rust):</p>
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+</code></pre>
+<p><strong>Option C – build from source:</strong></p>
 <pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja
 make build
 </code></pre>
+<p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
 <h2 id="create-a-sruja-file"><a class="header" href="#create-a-sruja-file">Create a <code>.sruja</code> file</a></h2>
 <p>This is the <strong>minimal style</strong> (explicit kinds, no import). The full <a href="docs/getting-started.html">Getting started (full)</a> uses <code>import { * } from 'sruja.ai/stdlib'</code> for less boilerplate — both work.</p>
 <pre><code class="language-sruja">person = kind "Person"

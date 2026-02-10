@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c1773059.js";
+            window.path_to_searchindex_js = "searchindex-17c0164a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -254,12 +254,17 @@
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h1>
 <h2 id="install-cli"><a class="header" href="#install-cli">Install CLI</a></h2>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 </code></pre>
-<p>Or build from source (requires Rust):</p>
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+</code></pre>
+<p><strong>Option C – build from source:</strong></p>
 <pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja
 make build
 </code></pre>
+<p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
 <h2 id="create-a-sruja-file"><a class="header" href="#create-a-sruja-file">Create a <code>.sruja</code> file</a></h2>
 <p>This is the <strong>minimal style</strong> (explicit kinds, no import). The full <a href="#getting-started-full">Getting started (full)</a> uses <code>import { * } from 'sruja.ai/stdlib'</code> for less boilerplate — both work.</p>
 <pre><code class="language-sruja">person = kind "Person"
@@ -386,13 +391,17 @@ estimatedTime: "5 minutes"</a></h2>
 <p>Sruja allows you to define your software architecture as code. No more dragging boxes around. No more outdated PNGs on a wiki. <strong>You write code, Sruja draws the maps.</strong></p>
 <h2 id="1-installation"><a class="header" href="#1-installation">1. Installation</a></h2>
 <p>Install the Sruja CLI to compile, validate, and export your diagrams.</p>
-<h3 id="mac--linux"><a class="header" href="#mac--linux">Mac / Linux</a></h3>
+<h3 id="option-a--install-script-downloads-from-github-releases"><a class="header" href="#option-a--install-script-downloads-from-github-releases">Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>)</a></h3>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 </code></pre>
-<h3 id="from-source-rust"><a class="header" href="#from-source-rust">From Source (Rust)</a></h3>
+<h3 id="option-b--from-git-requires-rust"><a class="header" href="#option-b--from-git-requires-rust">Option B – from Git (requires Rust)</a></h3>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+</code></pre>
+<h3 id="option-c--build-from-source"><a class="header" href="#option-c--build-from-source">Option C – build from source</a></h3>
 <pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja
 make build
 </code></pre>
+<p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
 <p><em>Verify installation:</em></p>
 <pre><code class="language-bash">sruja --version
 # Should output something like: sruja version v0.2.0
@@ -2017,7 +2026,7 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p><strong>Activities:</strong></p>
 <ol>
 <li>Review Sruja documentation</li>
-<li>Install CLI: <code>curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</code></li>
+<li>Install CLI: <code>curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash</code> (or from Git: <code>cargo install sruja-cli --git https://github.com/sruja-ai/sruja</code>; or build from source: <code>git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build</code>)</li>
 <li>Model a simple existing system</li>
 <li>Install VS Code extension for syntax highlighting and diagnostics</li>
 </ol>
@@ -2252,12 +2261,16 @@ jobs:
 </ul>
 <h2 id="1-install-your-machine-andor-ci"><a class="header" href="#1-install-your-machine-andor-ci">1. Install (your machine and/or CI)</a></h2>
 <h3 id="cli"><a class="header" href="#cli">CLI</a></h3>
-<p><strong>Option A – from Git (recommended for now):</strong></p>
-<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
-</code></pre>
-<p><strong>Option B – install script (if available in repo):</strong></p>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 </code></pre>
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+</code></pre>
+<p><strong>Option C – build from source:</strong></p>
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+</code></pre>
+<p>Ensure the install directory is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default; Option B uses <code>~/.cargo/bin</code>; Option C uses <code>target/release</code>).</p>
 <p><strong>Check:</strong></p>
 <pre><code class="language-bash">sruja --help
 sruja lint --help
@@ -12173,10 +12186,10 @@ cd shopify-lite
 </ul>
 <h2 id="2-installing-sruja"><a class="header" href="#2-installing-sruja">2. Installing Sruja</a></h2>
 <p>If you haven't already, install the Sruja CLI:</p>
-<pre><code class="language-bash"># Quick install
-curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+<pre><code class="language-bash"># From Git (requires Rust)
+cargo install sruja-cli --git https://github.com/sruja-ai/sruja
 
-# Or from source: cargo install --path crates/sruja-cli (from repo root)
+# Or build from source: git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
 
 # Verify installation
 sruja --version
@@ -12385,9 +12398,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Sruja
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-          echo "$HOME/go/bin" &gt;&gt; $GITHUB_PATH
+        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
       - name: Validate Architecture
         run: sruja lint architecture/main.sruja
       - name: Generate Docs
@@ -12755,7 +12766,7 @@ summary: "Automating architectural checks in your pipeline."</a></h2>
     uses: actions/checkout@v3
 
   - name: Install Sruja
-    run: curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+    run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
 
   - name: Validate Architecture
     run: sruja validate architecture/
@@ -15628,7 +15639,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Sruja
-        run: curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
+        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
       - name: Validate Architecture
         run: sruja lint architecture.sruja
       - name: Check Constraints
@@ -15678,9 +15689,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Install Sruja
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-          echo "$HOME/.local/bin" &gt;&gt; $GITHUB_PATH
+        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
       
       - name: Validate Architecture
         run: |
@@ -15698,9 +15707,9 @@ jobs:
 architecture-validation:
   image: alpine:latest
   before_script:
-    - apk add --no-cache curl bash
-    - curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-    - export PATH="$HOME/.local/bin:$PATH"
+    - apk add --no-cache rust cargo
+    - cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
+    - export PATH="$HOME/.cargo/bin:$PATH"
   script:
     - sruja fmt architecture.sruja
     - sruja lint architecture.sruja
@@ -15745,8 +15754,8 @@ architecture-validation:
 
 # Install Sruja if not available
 if ! command -v sruja &amp;&gt; /dev/null; then
-  curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-  export PATH="$HOME/.local/bin:$PATH"
+  cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
+  export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # Validate architecture
@@ -15844,13 +15853,20 @@ tags: ["cli", "getting-started"]</a></h2>
 <h1 id="cli-basics"><a class="header" href="#cli-basics">CLI Basics</a></h1>
 <p>This tutorial teaches the essential Sruja CLI commands for day‑to‑day work.</p>
 <h2 id="install-and-verify"><a class="header" href="#install-and-verify">Install and Verify</a></h2>
+<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
 <pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
 sruja --version
 </code></pre>
-<p>If <code>sruja</code> is not found, ensure the install directory is in your <code>PATH</code>:</p>
-<pre><code class="language-bash"># If installed via install script, ensure ~/.local/bin (or script’s target) is in PATH
-export PATH="$HOME/.local/bin:$PATH"
+<p><strong>Option B – from Git (requires Rust):</strong></p>
+<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
+sruja --version
 </code></pre>
+<p><strong>Option C – build from source:</strong></p>
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+# Add target/release to PATH or copy target/release/sruja to a directory on PATH
+sruja --version
+</code></pre>
+<p>If <code>sruja</code> is not found, ensure the install directory is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default; Option B uses <code>~/.cargo/bin</code>; Option C uses <code>target/release</code>).</p>
 <h2 id="create-a-model"><a class="header" href="#create-a-model">Create a Model</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
@@ -16153,9 +16169,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Sruja
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/sruja-ai/sruja/main/scripts/install.sh | bash
-          export PATH="$HOME/go/bin:$PATH"
+        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
 
       - name: Lint Architecture
         run: |
