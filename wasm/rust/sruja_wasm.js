@@ -40,30 +40,31 @@ export function sruja_calculate_architecture_score(dsl) {
 }
 
 /**
- * @param {string} dsl
- * @param {number | null} [view_level]
- * @param {string | null} [target_id]
- * @param {string | null} [node_sizes_json]
- * @param {string | null} [view_id]
- * @param {string | null} [filename]
+ * DOT export was removed. Use Mermaid export instead.
+ * @param {string} _dsl
+ * @param {number | null} [_view_level]
+ * @param {string | null} [_target_id]
+ * @param {string | null} [_node_sizes_json]
+ * @param {string | null} [_view_id]
+ * @param {string | null} [_filename]
  * @returns {string}
  */
-export function sruja_dsl_to_dot(dsl, view_level, target_id, node_sizes_json, view_id, filename) {
+export function sruja_dsl_to_dot(_dsl, _view_level, _target_id, _node_sizes_json, _view_id, _filename) {
     let deferred7_0;
     let deferred7_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const ptr0 = passStringToWasm0(_dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
-        var ptr1 = isLikeNone(target_id) ? 0 : passStringToWasm0(target_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr1 = isLikeNone(_target_id) ? 0 : passStringToWasm0(_target_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len1 = WASM_VECTOR_LEN;
-        var ptr2 = isLikeNone(node_sizes_json) ? 0 : passStringToWasm0(node_sizes_json, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr2 = isLikeNone(_node_sizes_json) ? 0 : passStringToWasm0(_node_sizes_json, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len2 = WASM_VECTOR_LEN;
-        var ptr3 = isLikeNone(view_id) ? 0 : passStringToWasm0(view_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr3 = isLikeNone(_view_id) ? 0 : passStringToWasm0(_view_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len3 = WASM_VECTOR_LEN;
-        var ptr4 = isLikeNone(filename) ? 0 : passStringToWasm0(filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr4 = isLikeNone(_filename) ? 0 : passStringToWasm0(_filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len4 = WASM_VECTOR_LEN;
-        wasm.sruja_dsl_to_dot(retptr, ptr0, len0, isLikeNone(view_level) ? 0xFFFFFF : view_level, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4);
+        wasm.sruja_dsl_to_dot(retptr, ptr0, len0, isLikeNone(_view_level) ? 0xFFFFFF : _view_level, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
@@ -84,31 +85,31 @@ export function sruja_dsl_to_dot(dsl, view_level, target_id, node_sizes_json, vi
 }
 
 /**
- * Export DOT and return JSON with both DOT string and projected relations
- * @param {string} dsl
- * @param {number | null} [view_level]
- * @param {string | null} [target_id]
- * @param {string | null} [node_sizes_json]
- * @param {string | null} [view_id]
- * @param {string | null} [filename]
+ * DOT export with relations was removed. Use Mermaid export instead.
+ * @param {string} _dsl
+ * @param {number | null} [_view_level]
+ * @param {string | null} [_target_id]
+ * @param {string | null} [_node_sizes_json]
+ * @param {string | null} [_view_id]
+ * @param {string | null} [_filename]
  * @returns {string}
  */
-export function sruja_dsl_to_dot_with_relations(dsl, view_level, target_id, node_sizes_json, view_id, filename) {
+export function sruja_dsl_to_dot_with_relations(_dsl, _view_level, _target_id, _node_sizes_json, _view_id, _filename) {
     let deferred7_0;
     let deferred7_1;
     try {
         const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-        const ptr0 = passStringToWasm0(dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const ptr0 = passStringToWasm0(_dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         const len0 = WASM_VECTOR_LEN;
-        var ptr1 = isLikeNone(target_id) ? 0 : passStringToWasm0(target_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr1 = isLikeNone(_target_id) ? 0 : passStringToWasm0(_target_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len1 = WASM_VECTOR_LEN;
-        var ptr2 = isLikeNone(node_sizes_json) ? 0 : passStringToWasm0(node_sizes_json, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr2 = isLikeNone(_node_sizes_json) ? 0 : passStringToWasm0(_node_sizes_json, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len2 = WASM_VECTOR_LEN;
-        var ptr3 = isLikeNone(view_id) ? 0 : passStringToWasm0(view_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr3 = isLikeNone(_view_id) ? 0 : passStringToWasm0(_view_id, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len3 = WASM_VECTOR_LEN;
-        var ptr4 = isLikeNone(filename) ? 0 : passStringToWasm0(filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var ptr4 = isLikeNone(_filename) ? 0 : passStringToWasm0(_filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len4 = WASM_VECTOR_LEN;
-        wasm.sruja_dsl_to_dot_with_relations(retptr, ptr0, len0, isLikeNone(view_level) ? 0xFFFFFF : view_level, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4);
+        wasm.sruja_dsl_to_dot(retptr, ptr0, len0, isLikeNone(_view_level) ? 0xFFFFFF : _view_level, ptr1, len1, ptr2, len2, ptr3, len3, ptr4, len4);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
@@ -242,6 +243,74 @@ export function sruja_get_diagnostics(dsl, filename) {
         var ptr1 = isLikeNone(filename) ? 0 : passStringToWasm0(filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
         var len1 = WASM_VECTOR_LEN;
         wasm.sruja_get_diagnostics(retptr, ptr0, len0, ptr1, len1);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+        var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+        var ptr3 = r0;
+        var len3 = r1;
+        if (r3) {
+            ptr3 = 0; len3 = 0;
+            throw takeObject(r2);
+        }
+        deferred4_0 = ptr3;
+        deferred4_1 = len3;
+        return getStringFromWasm0(ptr3, len3);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred4_0, deferred4_1, 1);
+    }
+}
+
+/**
+ * @param {string} dsl
+ * @param {string | null} [filename]
+ * @returns {string}
+ */
+export function sruja_get_document_symbols(dsl, filename) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        var ptr1 = isLikeNone(filename) ? 0 : passStringToWasm0(filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var len1 = WASM_VECTOR_LEN;
+        wasm.sruja_get_document_symbols(retptr, ptr0, len0, ptr1, len1);
+        var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+        var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+        var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+        var r3 = getDataViewMemory0().getInt32(retptr + 4 * 3, true);
+        var ptr3 = r0;
+        var len3 = r1;
+        if (r3) {
+            ptr3 = 0; len3 = 0;
+            throw takeObject(r2);
+        }
+        deferred4_0 = ptr3;
+        deferred4_1 = len3;
+        return getStringFromWasm0(ptr3, len3);
+    } finally {
+        wasm.__wbindgen_add_to_stack_pointer(16);
+        wasm.__wbindgen_export3(deferred4_0, deferred4_1, 1);
+    }
+}
+
+/**
+ * @param {string} dsl
+ * @param {string | null} [filename]
+ * @returns {string}
+ */
+export function sruja_get_elements(dsl, filename) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+        const ptr0 = passStringToWasm0(dsl, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        const len0 = WASM_VECTOR_LEN;
+        var ptr1 = isLikeNone(filename) ? 0 : passStringToWasm0(filename, wasm.__wbindgen_export, wasm.__wbindgen_export2);
+        var len1 = WASM_VECTOR_LEN;
+        wasm.sruja_get_elements(retptr, ptr0, len0, ptr1, len1);
         var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
         var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
         var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);

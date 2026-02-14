@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -181,227 +181,1005 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-5-tracking-architecture-evolution"><a class="header" href="#lesson-5-tracking-architecture-evolution">Lesson 5: Tracking Architecture Evolution</a></h1>
-<h2 id="why-track-changes"><a class="header" href="#why-track-changes">Why Track Changes?</a></h2>
-<p>Keeping a history of changes improves communication, auditability, and onboarding. Sruja integrates with Git to provide automatic change tracking, while ADRs document decisions and SLOs track evolution over time.</p>
-<h2 id="git-automatic-change-tracking"><a class="header" href="#git-automatic-change-tracking">Git: Automatic Change Tracking</a></h2>
-<p>Git automatically tracks all changes to your architecture files. No special syntax needed!</p>
-<h3 id="viewing-change-history"><a class="header" href="#viewing-change-history">Viewing Change History</a></h3>
-<pre><code class="language-bash"># View all changes to architecture file
+<p>I spent three weeks as an architecture archaeologist.</p>
+<p>A new VP of Engineering joined our company and asked a simple question: "How did our architecture get to where it is today? What decisions shaped it?"</p>
+<p>I thought it would be easy. I'd just look at the architecture documentation and tell the story.</p>
+<p><strong>The problem:</strong> There was no architecture documentation. Not really. We had:</p>
+<ul>
+<li>An outdated Confluence wiki with diagrams from 2019</li>
+<li>A Google Drive folder with PowerPoint slides from various presentations</li>
+<li>A Figma board with "current architecture" that hadn't been updated in 8 months</li>
+<li>Various README files scattered across 47 repositories</li>
+<li>And, if I was lucky, some comments in code</li>
+</ul>
+<p>I spent three weeks digging through Git history, Slack archives, Jira tickets, and interviewing the five engineers who'd been there longest. I reconstructed a partial history. But most of the "why" was lost. The people who made the decisions had left. The Slack channels had been archived. The context was gone.</p>
+<p><strong>What I learned:</strong> Architecture without history is just a snapshot. It tells you WHAT the system looks like, but not HOW it got there or WHY. And without that context, you're destined to repeat the same mistakes.</p>
+<p>This lesson is about tracking architecture evolution: not just what your architecture is, but how it changes over time and why. It's also the final lesson in this course, so we'll wrap up everything you've learned.</p>
+<h2 id="why-track-architecture-evolution"><a class="header" href="#why-track-architecture-evolution">Why Track Architecture Evolution?</a></h2>
+<h3 id="the-five-problems-of-lost-history"><a class="header" href="#the-five-problems-of-lost-history">The Five Problems of Lost History</a></h3>
+<p><strong>1. Onboarding Takes Forever</strong></p>
+<p>New engineer joins. Wants to understand the system. Without history:</p>
+<ul>
+<li>"Why do we have three different caching layers?" "I don't know, they were here when I joined."</li>
+<li>"Why is this service written in Go and that one in Rust?" "Historical reasons."</li>
+<li>"Why can't we just use PostgreSQL?" "We tried once. It didn't work. I think. Not sure why."</li>
+</ul>
+<p><strong>With history:</strong> New engineer reads ADRs, reviews evolution, understands context. Onboarding: 2 weeks instead of 2 months.</p>
+<p><strong>2. We Repeat Mistakes</strong></p>
+<p>Without history, we make the same decisions over and over:</p>
+<ul>
+<li>"Let's use MongoDB!" (We did in 2019. Switched to PostgreSQL in 2020. See ADR-023.)</li>
+<li>"Let's build a monolith!" (We did in 2018. Spent 2019-2021 breaking it apart. See ADRs 1-15.)</li>
+<li>"Let's skip tests!" (We did in 2017. Spent 2018-2019 recovering. See post-mortem PM-007.)</li>
+</ul>
+<p><strong>With history:</strong> "Wait, we tried this in ADR-023. It failed because X. Has anything changed?"</p>
+<p><strong>3. Audits Become Archaeology</strong></p>
+<p>SOC 2 auditor asks: "Show me how your architecture has evolved to meet security requirements."</p>
+<p><strong>Without tracking:</strong> Weeks of digging. Reconstructing history. Hoping you can find evidence.</p>
+<p><strong>With tracking:</strong> "Here's our architecture repo with complete Git history, ADRs for every security-related decision, and SLO evolution showing continuous improvement."</p>
+<p><strong>4. Decisions Get Re-litigated</strong></p>
+<p>New architect joins. Wants to change everything.</p>
+<p><strong>Without history:</strong> "Why is it this way? This seems stupid. Let's change it."</p>
+<p><strong>With history:</strong> "Let me show you ADR-042. We considered that approach. Here's why we didn't choose it. If circumstances have changed, we can revisit. But let's understand why first."</p>
+<p><strong>5. We Can't Measure Progress</strong></p>
+<p>"Are we getting better?"</p>
+<p><strong>Without tracking:</strong> "I think so? Feels better?"</p>
+<p><strong>With tracking:</strong> "Our availability SLO improved from 99.5% to 99.9% over 12 months. Latency p95 dropped from 500ms to 200ms. Error rate halved. Here's the commit history showing what changes drove each improvement."</p>
+<h2 id="the-three-legged-stool-of-evolution-tracking"><a class="header" href="#the-three-legged-stool-of-evolution-tracking">The Three-Legged Stool of Evolution Tracking</a></h2>
+<p>Architecture evolution needs three things working together:</p>
+<h3 id="leg-1-git-what-changed"><a class="header" href="#leg-1-git-what-changed">Leg 1: Git (What Changed)</a></h3>
+<p>Git tracks <strong>what</strong> changed and <strong>when</strong>:</p>
+<pre><code class="language-bash"># What changed in the architecture?
 git log --oneline --follow architecture.sruja
 
-# See what changed in a specific commit
-git show &lt;commit&gt; -- architecture.sruja
-
-# Compare two versions
-git diff v1.0..v2.0 -- architecture.sruja
-
-# View changes by author
-git log --author="alice" -- architecture.sruja
+# Output:
+e4f8c2a Add Redis cache layer (see ADR-005)
+a3b7d1f Split payment service from main API
+9c2e5f3 Increase API replicas to 10 (SLO improvement)
+7d1a4b6 Initial architecture baseline
 </code></pre>
-<h3 id="version-tagging"><a class="header" href="#version-tagging">Version Tagging</a></h3>
-<pre><code class="language-bash"># Tag major versions
-git tag -a v2025.01 -m "Post-Black Friday stabilization"
-git tag -a v2025.02 -m "After caching improvements"
-
-# View architecture at specific version
-git show v2025.01:architecture.sruja | sruja export
-
-# Compare versions
-git diff v2025.01..v2025.02 -- architecture.sruja
-</code></pre>
-<p><strong>Advantages:</strong></p>
+<p><strong>What Git tells you:</strong></p>
 <ul>
-<li>✅ <strong>Automatic</strong> - Every change is tracked</li>
-<li>✅ <strong>Powerful queries</strong> - Git log, blame, diff</li>
-<li>✅ <strong>Attribution</strong> - Know who made changes</li>
-<li>✅ <strong>Context</strong> - PR reviews, discussions</li>
-<li>✅ <strong>Standard</strong> - Every developer knows Git</li>
+<li>Exact changes made</li>
+<li>When they were made</li>
+<li>Who made them</li>
+<li>Commit messages (hopefully descriptive)</li>
+<li>Pull request context (if linked)</li>
 </ul>
-<h2 id="slos-track-evolution-over-time"><a class="header" href="#slos-track-evolution-over-time">SLOs: Track Evolution Over Time</a></h2>
-<p>SLOs naturally track evolution through <code>target</code> vs <code>current</code> values:</p>
+<p><strong>What Git doesn't tell you:</strong></p>
+<ul>
+<li>Why the change was made</li>
+<li>What alternatives were considered</li>
+<li>What impact it had</li>
+<li>Whether it was the right decision</li>
+</ul>
+<h3 id="leg-2-adrs-why-it-changed"><a class="header" href="#leg-2-adrs-why-it-changed">Leg 2: ADRs (Why It Changed)</a></h3>
+<p>ADRs track <strong>why</strong> changes were made:</p>
+<pre><code class="language-sruja">ADR005 = adr "Add Redis cache layer" {
+  status "accepted"
+  accepted_date "2024-03-15"
+  
+  context "
+    API latency p95 is 500ms, target is 200ms.
+    Database queries are the bottleneck.
+    Current database CPU at 85%.
+  "
+  
+  decision "
+    Add Redis cache for hot paths:
+    - Product catalog queries
+    - User session data
+    - Frequently accessed configuration
+  "
+  
+  alternatives {
+    option "Database read replicas" {
+      pros "Familiar technology"
+      cons "Still high latency, doesn't scale as well"
+      rejected_because "Latency improvement insufficient"
+    }
+    
+    option "Application-level caching" {
+      pros "No new infrastructure"
+      cons "Cache invalidation complex, not shared across instances"
+      rejected_because "Doesn't work with horizontal scaling"
+    }
+    
+    option "Redis cache" {
+      pros "Fast (sub-millisecond), proven technology"
+      cons "New operational complexity, cache invalidation logic needed"
+      selected true
+    }
+  }
+  
+  consequences {
+    positive "
+      - Latency p95 improved from 500ms to 250ms
+      - Database CPU dropped to 45%
+      - Cost: $500/month for Redis cluster
+    "
+    
+    negative "
+      - Added operational complexity (new system to monitor)
+      - Cache invalidation bugs took 2 weeks to iron out
+      - Occasional cache stampedes during deployment
+    "
+    
+    neutral "
+      - Team needed Redis training
+      - Monitoring dashboards updated
+    "
+  }
+  
+  related_adrs [ADR003, ADR004]  // Related to scaling decisions
+  related_commits ["e4f8c2a"]    // Link to Git commits
+}
+</code></pre>
+<p><strong>What ADRs tell you:</strong></p>
+<ul>
+<li>Context (what problem we were solving)</li>
+<li>Decision (what we chose to do)</li>
+<li>Alternatives (what else we considered)</li>
+<li>Consequences (what happened as a result)</li>
+<li>Links to related decisions and commits</li>
+</ul>
+<p><strong>What ADRs don't tell you:</strong></p>
+<ul>
+<li>Quantitative impact over time</li>
+<li>Whether SLOs improved</li>
+<li>Long-term effectiveness</li>
+</ul>
+<h3 id="leg-3-slos-what-impact-it-had"><a class="header" href="#leg-3-slos-what-impact-it-had">Leg 3: SLOs (What Impact It Had)</a></h3>
+<p>SLOs track the <strong>impact</strong> of changes:</p>
+<pre><code class="language-sruja">API = container "API Service" {
+  slo {
+    latency {
+      p95 "200ms"
+      window "7 days"
+      
+      // Track evolution over time
+      history {
+        "2024-01-15" {
+          current "500ms"
+          note "Baseline before Redis"
+        }
+        
+        "2024-03-20" {
+          current "250ms"
+          note "After Redis (ADR-005)"
+        }
+        
+        "2024-05-10" {
+          current "200ms"
+          note "After query optimization (ADR-006)"
+        }
+        
+        "2024-07-01" {
+          current "180ms"
+          note "Current - target met"
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>What SLOs tell you:</strong></p>
+<ul>
+<li>Quantitative metrics over time</li>
+<li>Whether changes had positive impact</li>
+<li>Progress toward targets</li>
+<li>Correlation between changes and outcomes</li>
+</ul>
+<p><strong>What SLOs don't tell you:</strong></p>
+<ul>
+<li>Why changes were made</li>
+<li>What alternatives were considered</li>
+<li>Implementation details</li>
+</ul>
+<h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
+<p><strong>The complete picture:</strong></p>
+<pre><code>Git Commit → ADR → SLO Impact
+    ↓          ↓         ↓
+  WHAT       WHY      RESULT
+</code></pre>
+<p><strong>Example timeline:</strong></p>
+<ol>
+<li><strong>Git:</strong> Commit <code>e4f8c2a</code> "Add Redis cache layer"</li>
+<li><strong>ADR:</strong> ADR-005 explains why (latency too high, database bottleneck)</li>
+<li><strong>SLO:</strong> Latency improved from 500ms to 250ms, then 200ms</li>
+</ol>
+<p><strong>Query:</strong> "Why do we have Redis?"</p>
+<p><strong>Answer:</strong> "See commit <code>e4f8c2a</code> from March 2024. It was added per ADR-005 to address latency issues. Our p95 latency dropped from 500ms to 200ms over 3 months. Here's the SLO history showing the improvement."</p>
+<h2 id="real-world-evolution-tracking"><a class="header" href="#real-world-evolution-tracking">Real-World Evolution Tracking</a></h2>
+<h3 id="netflix-architecture-decision-logs"><a class="header" href="#netflix-architecture-decision-logs">Netflix: Architecture Decision Logs</a></h3>
+<p>Netflix maintains detailed Architecture Decision Logs (ADLs) - their version of ADRs. Every significant decision is documented with:</p>
+<ul>
+<li>Context and problem statement</li>
+<li>Options considered</li>
+<li>Decision made</li>
+<li>Expected consequences</li>
+<li>Actual outcomes (updated over time)</li>
+</ul>
+<p><strong>Their approach:</strong> ADLs are living documents. When a decision is made, they document expected consequences. Six months later, they update with actual consequences. This creates a feedback loop.</p>
+<p><strong>Example:</strong> "In ADL-342, we predicted moving to Chaos Engineering would cause 10% more incidents in Q1 but 50% fewer in Q2-Q4. Actual: 12% more in Q1, 60% fewer in Q2-Q4. Prediction was accurate. Decision validated."</p>
+<h3 id="amazon-working-backwards-with-history"><a class="header" href="#amazon-working-backwards-with-history">Amazon: Working Backwards with History</a></h3>
+<p>Amazon's "Working Backwards" approach starts with the customer experience. Their architecture evolution tracking works similarly:</p>
+<ol>
+<li><strong>Start with customer impact:</strong> "What customer metric are we trying to improve?"</li>
+<li><strong>Document in architecture:</strong> Link every change to customer-facing metrics</li>
+<li><strong>Track over time:</strong> Show how architecture changes moved customer metrics</li>
+</ol>
+<p><strong>Example:</strong> "In 2023 Q1, we optimized the checkout flow (commit <code>a1b2c3d</code>, ADR-789). Cart abandonment dropped 15%. Revenue increased $2M/month."</p>
+<h3 id="google-slo-evolution-as-history"><a class="header" href="#google-slo-evolution-as-history">Google: SLO Evolution as History</a></h3>
+<p>Google tracks SLO evolution meticulously. They don't just track current vs target - they track the entire history:</p>
+<pre><code>Service: Gmail
+SLO: Availability 99.99%
+
+Evolution:
+- 2005: 99.5% (early days)
+- 2008: 99.9% (after infrastructure improvements)
+- 2012: 99.95% (after multi-region deployment)
+- 2018: 99.99% (after chaos engineering adoption)
+- 2024: 99.99% (maintained)
+</code></pre>
+<p><strong>Key insight:</strong> The history shows continuous improvement. It's not just "we're at 99.99%", it's "we've systematically improved from 99.5% to 99.99% over 20 years."</p>
+<h3 id="stripe-git-driven-architecture"><a class="header" href="#stripe-git-driven-architecture">Stripe: Git-Driven Architecture</a></h3>
+<p>Stripe keeps architecture diagrams in Git alongside code. Every architecture change goes through the same PR process as code changes:</p>
+<ol>
+<li>Architecture change proposed in PR</li>
+<li>Architecture review (separate from code review)</li>
+<li>ADR linked in PR description</li>
+<li>SLO impact predicted</li>
+<li>After merge: SLO impact measured</li>
+<li>Update PR with actual results</li>
+</ol>
+<p><strong>Result:</strong> Complete history of architecture evolution, linked to code changes, with measured impact.</p>
+<h2 id="evolution-tracking-framework-track"><a class="header" href="#evolution-tracking-framework-track">Evolution Tracking Framework: TRACK</a></h2>
+<p>Use this framework to track architecture evolution:</p>
+<p><strong>T - Tag Versions</strong></p>
+<p>Tag significant architecture states:</p>
+<pre><code class="language-bash"># Tag major versions
+git tag -a v2024.01 -m "Post-microservices migration"
+git tag -a v2024.02 -m "After multi-region deployment"
+git tag -a v2024.03 -m "Post-caching layer addition"
+
+# View architecture at any point in time
+git show v2024.01:architecture.sruja | sruja export
+</code></pre>
+<p><strong>R - Record Decisions</strong></p>
+<p>Create ADR for every significant change:</p>
+<pre><code class="language-sruja">ADR### = adr "[Title]" {
+  // Standard ADR format
+  context "..."
+  decision "..."
+  consequences "..."
+  
+  // Evolution tracking extras
+  created_date "YYYY-MM-DD"
+  related_commits ["abc123"]
+  slo_impact ["latency improved 50ms"]
+}
+</code></pre>
+<p><strong>A - Analyze Impact</strong></p>
+<p>Measure SLO changes after architectural changes:</p>
+<pre><code class="language-sruja">slo {
+  latency {
+    p95 "200ms"
+    history {
+      "2024-03-01" {
+        current "500ms"
+        note "Before change"
+      }
+      "2024-03-15" {
+        current "250ms"
+        note "After Redis (ADR-005)"
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>C - Connect the Dots</strong></p>
+<p>Link Git commits → ADRs → SLO changes:</p>
+<pre><code class="language-sruja">// In ADR
+related_commits ["e4f8c2a"]
+slo_impact ["latency p95: 500ms → 250ms"]
+
+// In commit message
+git commit -m "Add Redis cache layer (ADR-005)"
+
+// In SLO history
+note "After Redis (ADR-005, commit e4f8c2a)"
+</code></pre>
+<p><strong>K - Keep Updating</strong></p>
+<p>Architecture evolution tracking is never "done":</p>
+<ul>
+<li>Update SLOs monthly</li>
+<li>Review ADRs quarterly (are they still relevant?)</li>
+<li>Tag versions for major changes</li>
+<li>Measure and document impact</li>
+</ul>
+<h2 id="common-evolution-tracking-mistakes"><a class="header" href="#common-evolution-tracking-mistakes">Common Evolution Tracking Mistakes</a></h2>
+<h3 id="mistake-1-architecture-in-a-drawer"><a class="header" href="#mistake-1-architecture-in-a-drawer">Mistake #1: Architecture in a Drawer</a></h3>
+<p><strong>What happens:</strong> Architecture diagrams exist but aren't updated.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Confluence page created in 2021: "Current Architecture"</li>
+<li>Last updated: March 2021</li>
+<li>Actual architecture: Completely different (migrated to microservices, changed databases, etc.)</li>
+</ul>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Documentation becomes wrong</li>
+<li>People stop trusting it</li>
+<li>New architecture created in ad-hoc ways (whiteboard photos, Slack drawings)</li>
+<li>History is lost</li>
+</ul>
+<p><strong>The fix:</strong> Architecture lives in Git. Changes go through PR process. Documentation is always current.</p>
+<h3 id="mistake-2-adrs-without-context"><a class="header" href="#mistake-2-adrs-without-context">Mistake #2: ADRs Without Context</a></h3>
+<p><strong>What happens:</strong> ADRs exist but lack key information.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">// BAD: No context
+ADR042 = adr "Use PostgreSQL" {
+  decision "Use PostgreSQL"
+}
+</code></pre>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>"Why did we choose this?" → "I don't know, ADR-042 just says 'use PostgreSQL'"</li>
+<li>"What alternatives did we consider?" → "No idea"</li>
+<li>"Was it the right decision?" → "Who knows"</li>
+</ul>
+<p><strong>The fix:</strong> Every ADR needs context, alternatives, and consequences.</p>
+<h3 id="mistake-3-slos-without-history"><a class="header" href="#mistake-3-slos-without-history">Mistake #3: SLOs Without History</a></h3>
+<p><strong>What happens:</strong> You track current SLOs but not their evolution.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Current SLO: 99.9% availability</li>
+<li>Target SLO: 99.9% availability</li>
+<li>Result: ✅ Target met</li>
+</ul>
+<p><strong>What's missing:</strong> How did we get here? Did we improve? Get worse? What changes drove the improvement?</p>
+<p><strong>The fix:</strong> Track SLO history. Show the journey, not just the destination.</p>
+<h3 id="mistake-4-git-history-without-documentation"><a class="header" href="#mistake-4-git-history-without-documentation">Mistake #4: Git History Without Documentation</a></h3>
+<p><strong>What happens:</strong> Git commits exist but aren't linked to decisions.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">git log --oneline
+# e4f8c2a Fix stuff
+# a3b7d1f More fixes
+# 9c2e5f3 Update things
+</code></pre>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>"What did this commit do?" → "Fixed stuff"</li>
+<li>"Why was it needed?" → "Don't know"</li>
+<li>"What impact did it have?" → "No idea"</li>
+</ul>
+<p><strong>The fix:</strong> Descriptive commit messages linked to ADRs.</p>
+<h3 id="mistake-5-no-regular-reviews"><a class="header" href="#mistake-5-no-regular-reviews">Mistake #5: No Regular Reviews</a></h3>
+<p><strong>What happens:</strong> Evolution tracking is set up but never reviewed.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>ADRs created but never read</li>
+<li>SLO history tracked but never analyzed</li>
+<li>Git tags created but never used</li>
+</ul>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Tracking without review is just data collection</li>
+<li>No insights generated</li>
+<li>No learning happens</li>
+</ul>
+<p><strong>The fix:</strong> Monthly architecture reviews that examine evolution.</p>
+<h3 id="mistake-6-tracking-everything"><a class="header" href="#mistake-6-tracking-everything">Mistake #6: Tracking Everything</a></h3>
+<p><strong>What happens:</strong> You try to track every minor change.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>ADR for changing a log message</li>
+<li>ADR for updating a dependency version</li>
+<li>ADR for renaming a variable</li>
+</ul>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Information overload</li>
+<li>ADRs become noise</li>
+<li>Important decisions get lost</li>
+</ul>
+<p><strong>The fix:</strong> Track significant decisions. Use judgment on what matters.</p>
+<h2 id="evolution-review-process"><a class="header" href="#evolution-review-process">Evolution Review Process</a></h2>
+<p>Monthly architecture evolution review:</p>
+<p><strong>Attendees:</strong> Architects, Tech Leads, interested engineers</p>
+<p><strong>Agenda:</strong></p>
+<ol>
+<li>
+<p><strong>Review Recent Changes (15 min)</strong></p>
+<ul>
+<li>Git log: What architecture changes were made?</li>
+<li>ADRs: Any new decisions documented?</li>
+<li>SLOs: Any significant metric changes?</li>
+</ul>
+</li>
+<li>
+<p><strong>Analyze Impact (15 min)</strong></p>
+<ul>
+<li>For each significant change: What was the predicted impact? What was the actual impact?</li>
+<li>Any surprises? Any decisions we'd reverse?</li>
+</ul>
+</li>
+<li>
+<p><strong>Identify Patterns (10 min)</strong></p>
+<ul>
+<li>What types of changes are we making frequently?</li>
+<li>Are we improving? Getting worse? Stagnating?</li>
+<li>Any recurring problems?</li>
+</ul>
+</li>
+<li>
+<p><strong>Update Documentation (10 min)</strong></p>
+<ul>
+<li>Update SLO history with current values</li>
+<li>Update ADR consequences with actual outcomes</li>
+<li>Tag any major versions</li>
+</ul>
+</li>
+<li>
+<p><strong>Action Items (10 min)</strong></p>
+<ul>
+<li>What do we need to change?</li>
+<li>What decisions need revisiting?</li>
+<li>What experiments should we run?</li>
+</ul>
+</li>
+</ol>
+<p><strong>Output:</strong> Monthly architecture evolution report</p>
+<h2 id="the-architecture-timeline"><a class="header" href="#the-architecture-timeline">The Architecture Timeline</a></h2>
+<p>Keep a high-level timeline of your architecture's evolution:</p>
+<pre><code># Architecture Evolution Timeline
+
+## 2024
+
+### Q1 (January - March)
+- Migrated to microservices (ADR-001 to ADR-015)
+- Split monolith into 12 services
+- Added API gateway
+- SLO Impact: Availability 99.5% → 99.7%
+
+### Q2 (April - June)
+- Implemented Redis caching (ADR-016)
+- Optimized database queries (ADR-017)
+- Added circuit breakers (ADR-018)
+- SLO Impact: Latency p95 500ms → 200ms
+
+### Q3 (July - September)
+- Multi-region deployment (ADR-019)
+- Implemented Chaos Engineering (ADR-020)
+- Added comprehensive monitoring (ADR-021)
+- SLO Impact: Availability 99.7% → 99.9%
+
+### Q4 (October - December)
+- [Current quarter - tracking in progress]
+</code></pre>
+<p><strong>Value:</strong></p>
+<ul>
+<li>Quick reference for "when did we do X?"</li>
+<li>Shows progression over time</li>
+<li>Useful for onboarding</li>
+<li>Helpful for audits</li>
+</ul>
+<h2 id="complete-example-e-commerce-platform-evolution"><a class="header" href="#complete-example-e-commerce-platform-evolution">Complete Example: E-Commerce Platform Evolution</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-Shop = system "E-Commerce Shop" {
+// ============ ARCHITECTURE DEFINITION ============
+
+ECommerce = system "E-Commerce Platform" {
   API = container "API Service" {
     technology "Rust"
-
-    // SLOs show evolution: target vs current
+    
+    description "
+      Core API service. Evolved from monolith (2023 Q4) to 
+      microservices (2024 Q1). See ADR-001 through ADR-015.
+    "
+    
     slo {
       availability {
         target "99.9%"
         window "30 days"
-        current "99.85%"
+        current "99.92%"
+        
+        history {
+          "2023-10-01" {
+            current "99.5%"
+            note "Monolith baseline"
+          }
+          "2024-03-01" {
+            current "99.7%"
+            note "Post-microservices migration (ADR-001 to ADR-015)"
+          }
+          "2024-06-01" {
+            current "99.85%"
+            note "Post-caching (ADR-016)"
+          }
+          "2024-09-01" {
+            current "99.92%"
+            note "Post-multi-region (ADR-019)"
+          }
+        }
       }
+      
       latency {
         p95 "200ms"
         p99 "500ms"
         window "7 days"
         current {
-          p95 "250ms"  // Improved from 300ms after adding Redis
-          p99 "600ms"  // Improved from 700ms
+          p95 "180ms"
+          p99 "420ms"
         }
-      }
-      errorRate {
-        target "&lt; 0.1%"
-        window "30 days"
-        current "0.12%"
-      }
-    }
-  }
-
-  Cache = database "Redis Cache" {
-    technology "Redis"
-    description "Added to improve latency SLO (see ADR-005)"
-  }
-
-  Database = database "PostgreSQL" {
-    technology "PostgreSQL"
-  }
-
-  API -&gt; Cache "Reads"
-  API -&gt; Database "Reads/Writes"
-}
-
-view index {
-  title "Shop System with SLO Tracking"
-  include *
-}
-</code></pre>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>✅ <strong>Quantitative tracking</strong> - Actual metrics over time</li>
-<li>✅ <strong>In context</strong> - SLOs live with the components they measure</li>
-<li>✅ <strong>Self-documenting</strong> - Current vs target shows progress</li>
-<li>✅ <strong>Link to ADRs</strong> - Reference decisions that affected SLOs</li>
-</ul>
-<h2 id="adrs-document-decisions-and-rationale"><a class="header" href="#adrs-document-decisions-and-rationale">ADRs: Document Decisions and Rationale</a></h2>
-<p>ADRs link architectural changes to their rationale:</p>
-<pre><code class="language-sruja">ADR005 = adr "Add Redis cache for latency SLO" {
-  status "accepted"
-  context "Latency SLO not met - p95 was 300ms, target is 200ms. Database queries are bottleneck."
-  decision "Introduce Redis cache for hot paths (product catalog, user sessions)"
-  consequences "Latency improved to 250ms p95 (still above target but progress). Reduced database load by 40%. Trade-off: Added operational complexity for cache invalidation."
-}
-
-ADR006 = adr "Optimize database queries" {
-  status "accepted"
-  context "Latency still above target (250ms vs 200ms). Cache helped but not enough."
-  decision "Add database indexes, optimize N+1 queries, implement query result caching"
-  consequences "Latency improved to 200ms p95 (target met!). Database CPU usage reduced. Trade-off: More complex queries, slower schema migrations."
-}
-</code></pre>
-<p><strong>Advantages:</strong></p>
-<ul>
-<li>✅ <strong>Rich context</strong> - Why decisions were made</li>
-<li>✅ <strong>Status tracking</strong> - accepted, rejected, superseded</li>
-<li>✅ <strong>Link to SLOs</strong> - Connect decisions to measurable outcomes</li>
-<li>✅ <strong>Historical record</strong> - Understand evolution of architecture</li>
-</ul>
-<h2 id="complete-example-tracking-evolution"><a class="header" href="#complete-example-tracking-evolution">Complete Example: Tracking Evolution</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-Shop = system "E-Commerce Shop" {
-  API = container "API Service" {
-    technology "Rust"
-    slo {
-      latency {
-        p95 "200ms"
-        window "7 days"
-        current {
-          p95 "200ms"  // Improved from 300ms (see ADR-005, ADR-006)
+        
+        history {
+          "2023-10-01" {
+            p95 "800ms"
+            note "Monolith baseline"
+          }
+          "2024-03-01" {
+            p95 "500ms"
+            note "Post-microservices"
+          }
+          "2024-06-01" {
+            p95 "200ms"
+            note "Post-caching and query optimization (ADR-016, ADR-017)"
+          }
         }
       }
     }
+    
+    metadata {
+      owner "platform-team"
+      created "2023-10-01"
+      last_updated "2024-09-15"
+    }
   }
-
+  
   Cache = database "Redis Cache" {
     technology "Redis"
-    description "Added per ADR-005 to improve latency"
+    
+    description "
+      Added 2024-04-15 per ADR-016. Reduced database load by 60%.
+      Improved latency p95 from 500ms to 200ms.
+    "
+    
+    metadata {
+      added_date "2024-04-15"
+      related_adr "ADR-016"
+      related_commits ["e4f8c2a", "b5d9e1f"]
+    }
   }
-
+  
   Database = database "PostgreSQL" {
     technology "PostgreSQL"
-    description "Optimized per ADR-006"
+    
+    description "
+      Primary database. Query optimization completed 2024-05-20 
+      per ADR-017. Database CPU reduced from 85% to 45%.
+    "
+    
+    metadata {
+      created "2023-10-01"
+      optimization_date "2024-05-20"
+      related_adr "ADR-017"
+    }
   }
-
-  API -&gt; Cache "Reads"
-  API -&gt; Database "Reads/Writes"
 }
 
-// Link decisions to changes
-ADR005 = adr "Add Redis cache for latency SLO" {
+// Relationships
+ECommerce.API -&gt; ECommerce.Cache "Queries (added 2024-04-15)"
+ECommerce.API -&gt; ECommerce.Database "Reads/Writes"
+
+// ============ ARCHITECTURE DECISION RECORDS ============
+
+ADR016 = adr "Add Redis caching layer" {
   status "accepted"
-  context "Latency SLO not met - p95 was 300ms, target is 200ms"
-  decision "Introduce Redis cache for hot paths"
-  consequences "Latency improved to 250ms p95, reduced DB load by 40%"
+  created_date "2024-04-01"
+  accepted_date "2024-04-05"
+  implemented_date "2024-04-15"
+  
+  context "
+    API latency p95 is 500ms, target is 200ms.
+    Database CPU at 85%, causing performance issues.
+    Peak traffic causing database connection exhaustion.
+  "
+  
+  decision "
+    Implement Redis caching for:
+    - Product catalog queries (hot path)
+    - User session data
+    - Configuration lookups
+    - Frequently accessed data
+  "
+  
+  alternatives {
+    option "Database read replicas" {
+      pros "Familiar, ACID compliant"
+      cons "Latency still high (200ms+), expensive at scale"
+      rejected_because "Insufficient latency improvement"
+    }
+    
+    option "In-memory application cache" {
+      pros "No new infrastructure"
+      cons "Not shared across instances, complex invalidation"
+      rejected_because "Doesn't work with horizontal scaling"
+    }
+    
+    option "Redis" {
+      pros "Sub-millisecond latency, proven at scale"
+      cons "New operational complexity, cache invalidation logic"
+      selected true
+    }
+  }
+  
+  consequences {
+    actual_positive "
+      - Latency p95: 500ms → 200ms (target met!)
+      - Database CPU: 85% → 45%
+      - Database connections: 400 → 150
+      - User experience significantly improved
+    "
+    
+    actual_negative "
+      - 2 weeks to debug cache invalidation issues
+      - 3 cache stampede incidents during deployment
+      - Added operational complexity (monitoring, alerting)
+      - Cost: $500/month for Redis cluster
+    "
+    
+    lessons_learned "
+      - Start with conservative TTLs (5 minutes), not aggressive (1 hour)
+      - Implement cache warming before traffic shifts
+      - Need better cache monitoring before deploying
+    "
+  }
+  
+  related_commits ["e4f8c2a", "b5d9e1f", "c6a0d2e"]
+  slo_impact ["latency p95: 500ms → 200ms"]
+  tags ["performance", "caching", "redis"]
 }
 
-ADR006 = adr "Optimize database queries" {
+ADR017 = adr "Optimize database queries" {
   status "accepted"
-  context "Latency still above target (250ms vs 200ms)"
-  decision "Add indexes, optimize N+1 queries"
-  consequences "Latency improved to 200ms p95 - target met!"
+  created_date "2024-05-10"
+  implemented_date "2024-05-20"
+  
+  context "
+    After Redis (ADR-016), latency improved to 250ms but still above target.
+    Analysis shows remaining latency from:
+    - N+1 queries in order processing
+    - Missing indexes on frequently queried columns
+    - Inefficient joins in reporting queries
+  "
+  
+  decision "
+    Database optimization:
+    - Add indexes on frequently queried columns
+    - Fix N+1 queries with eager loading
+    - Denormalize frequently joined tables
+    - Add query result caching (application-level)
+  "
+  
+  consequences {
+    actual_positive "
+      - Latency p95: 250ms → 200ms (target met!)
+      - Query execution time: 150ms average → 50ms average
+      - Database CPU: 60% → 45%
+    "
+    
+    actual_negative "
+      - Migration took 4 hours (downtime required)
+      - Slower INSERT operations due to indexes (10% slower)
+      - More complex query logic
+    "
+  }
+  
+  related_adrs [ADR016]  // Built on caching work
+  related_commits ["f7b3c1d", "g8d4e2f"]
+  slo_impact ["latency p95: 250ms → 200ms"]
 }
+
+// ============ VIEWS ============
 
 view index {
-  title "Shop System with Evolution Tracking"
+  title "E-Commerce Platform - Current Architecture"
   include *
 }
+
+view evolution {
+  title "Architecture Evolution (2024)"
+  include ECommerce.API ECommerce.Cache ECommerce.Database
+  description "
+    Shows evolution from monolith to microservices, 
+    with caching and optimization layers added.
+  "
+}
+
+view slos {
+  title "SLO Evolution Dashboard"
+  include ECommerce.API
+  description "Track SLO improvement over time"
+}
+
+// ============ EVOLUTION METADATA ============
+
+metadata {
+  last_architecture_review "2024-09-15"
+  next_scheduled_review "2024-10-15"
+  
+  evolution_summary {
+    total_adrs 21
+    active_adrs 19
+    deprecated_adrs 2
+    
+    slo_improvements [
+      "availability: 99.5% → 99.9%",
+      "latency p95: 800ms → 180ms",
+      "error rate: 0.5% → 0.08%"
+    ]
+  }
+}
 </code></pre>
-<h2 id="best-practices"><a class="header" href="#best-practices">Best Practices</a></h2>
-<h3 id="1-use-git-for-change-tracking"><a class="header" href="#1-use-git-for-change-tracking">1. Use Git for Change Tracking</a></h3>
-<ul>
-<li>✅ Commit architecture changes with descriptive messages</li>
-<li>✅ Use semantic versioning tags for major releases</li>
-<li>✅ Link PR descriptions to ADRs when making architectural changes</li>
-<li>✅ Use <code>git log</code> and <code>git diff</code> to view evolution</li>
-</ul>
-<h3 id="2-document-decisions-with-adrs"><a class="header" href="#2-document-decisions-with-adrs">2. Document Decisions with ADRs</a></h3>
-<ul>
-<li>✅ Create ADR for each significant architectural decision</li>
-<li>✅ Link ADRs to SLOs in descriptions (<code>"see ADR-005"</code>)</li>
-<li>✅ Include context, decision, and consequences</li>
-<li>✅ Update ADR status when decisions are superseded</li>
-</ul>
-<h3 id="3-track-evolution-with-slos"><a class="header" href="#3-track-evolution-with-slos">3. Track Evolution with SLOs</a></h3>
-<ul>
-<li>✅ Include both <code>target</code> and <code>current</code> values</li>
-<li>✅ Add descriptions linking to ADRs</li>
-<li>✅ Update <code>current</code> values as metrics improve</li>
-<li>✅ Document improvements in descriptions</li>
-</ul>
-<h3 id="4-connect-the-pieces"><a class="header" href="#4-connect-the-pieces">4. Connect the Pieces</a></h3>
-<ul>
-<li><strong>Git commits</strong> → Track who changed what, when</li>
-<li><strong>ADRs</strong> → Document why changes were made</li>
-<li><strong>SLOs</strong> → Measure the impact of changes</li>
-</ul>
-<h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
+<p><strong>Run validation:</strong></p>
+<pre><code class="language-bash"># Validate current architecture
+sruja validate architecture.sruja
+
+# View evolution over time
+git log --oneline --follow architecture.sruja
+
+# Compare versions
+git diff v2024.01..HEAD -- architecture.sruja
+
+# Export specific version
+git show v2024.01:architecture.sruja | sruja export
+</code></pre>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
 <ol>
 <li>
-<p><strong>View your architecture history:</strong></p>
-<pre><code class="language-bash">git log --oneline architecture.sruja
-</code></pre>
+<p><strong>Architecture without history is incomplete</strong> - You need to know how you got here, not just where you are</p>
 </li>
 <li>
-<p><strong>Create an ADR</strong> documenting a recent architectural decision</p>
+<p><strong>Three-legged stool: Git + ADRs + SLOs</strong> - Each tracks something different, together they tell the complete story</p>
 </li>
 <li>
-<p><strong>Update SLOs</strong> with current values and link to ADRs</p>
+<p><strong>Git tracks WHAT changed</strong> - Automatic, but needs good commit messages</p>
 </li>
 <li>
-<p><strong>Tag a version:</strong></p>
-<pre><code class="language-bash">git tag -a v1.0 -m "Initial architecture baseline"
-</code></pre>
+<p><strong>ADRs track WHY it changed</strong> - Manual, but essential for context</p>
+</li>
+<li>
+<p><strong>SLOs track IMPACT</strong> - Quantitative evidence of improvement (or degradation)</p>
+</li>
+<li>
+<p><strong>Link everything together</strong> - Commits reference ADRs, ADRs reference SLOs, SLOs reference both</p>
+</li>
+<li>
+<p><strong>Review regularly</strong> - Monthly evolution reviews keep history alive and useful</p>
+</li>
+<li>
+<p><strong>Track significant decisions, not everything</strong> - Focus on what matters</p>
+</li>
+<li>
+<p><strong>Update as you learn</strong> - ADRs should include actual consequences, not just predicted</p>
+</li>
+<li>
+<p><strong>Architecture is a journey, not a destination</strong> - Evolution tracking shows the journey</p>
 </li>
 </ol>
-<h2 id="related"><a class="header" href="#related">Related</a></h2>
+<h2 id="when-to-start-tracking-evolution"><a class="header" href="#when-to-start-tracking-evolution">When to Start Tracking Evolution</a></h2>
+<p><strong>Phase 1: New Project</strong></p>
 <ul>
-<li><code>adr</code> for documenting decisions</li>
-<li><code>slo</code> for tracking service level objectives</li>
-<li>Git for automatic change tracking</li>
-<li><code>deployment</code> for tracking runtime topology changes</li>
+<li>Start with Git from day one</li>
+<li>Create first ADR for initial architecture decisions</li>
+<li>Set baseline SLOs</li>
 </ul>
+<p><strong>Phase 2: Growing System</strong></p>
+<ul>
+<li>Formalize ADR process</li>
+<li>Start tracking SLO evolution</li>
+<li>Tag major versions</li>
+</ul>
+<p><strong>Phase 3: Mature System</strong></p>
+<ul>
+<li>Regular evolution reviews</li>
+<li>Comprehensive ADR history</li>
+<li>Multi-year SLO tracking</li>
+</ul>
+<p><strong>Phase 4: Legacy System</strong></p>
+<ul>
+<li>Start tracking now (better late than never)</li>
+<li>Create retrospective ADRs for major decisions (if you can reconstruct them)</li>
+<li>Begin SLO baseline and track forward</li>
+</ul>
+<h2 id="practical-exercise"><a class="header" href="#practical-exercise">Practical Exercise</a></h2>
+<p>Track your architecture's evolution:</p>
+<p><strong>Step 1: Review Git History (30 min)</strong></p>
+<pre><code class="language-bash">git log --oneline --follow architecture.sruja
+</code></pre>
+<ul>
+<li>List 10 most significant changes</li>
+<li>Identify what's missing (no ADR? unclear commit message?)</li>
+</ul>
+<p><strong>Step 2: Create Missing ADRs (60 min)</strong></p>
+<ul>
+<li>For the 3 most important changes, create retrospective ADRs</li>
+<li>Document context, decision, consequences</li>
+<li>Link to commits</li>
+</ul>
+<p><strong>Step 3: Add SLO History (30 min)</strong></p>
+<ul>
+<li>Update SLO definitions with history</li>
+<li>Show evolution over time</li>
+<li>Link to ADRs</li>
+</ul>
+<p><strong>Step 4: Create Timeline (30 min)</strong></p>
+<ul>
+<li>Build architecture evolution timeline</li>
+<li>Major events, decisions, improvements</li>
+<li>Keep it high-level (one page)</li>
+</ul>
+<p><strong>Step 5: Schedule Reviews</strong></p>
+<ul>
+<li>Set up monthly architecture evolution review</li>
+<li>Add to team calendar</li>
+<li>Create template for review notes</li>
+</ul>
+<hr>
+<h1 id="-course-complete-system-design-101"><a class="header" href="#-course-complete-system-design-101">🎉 Course Complete: System Design 101</a></h1>
+<p>Congratulations! You've completed the entire System Design 101 course. Let's reflect on what you've learned.</p>
+<h2 id="your-journey"><a class="header" href="#your-journey">Your Journey</a></h2>
+<p>You started as someone who wanted to understand system design better. You've now mastered:</p>
+<h3 id="module-1-fundamentals-5-lessons"><a class="header" href="#module-1-fundamentals-5-lessons">Module 1: Fundamentals (5 lessons)</a></h3>
+<ul>
+<li>✅ <strong>Thinking in Systems</strong> - Decomposition, boundaries, emergence</li>
+<li>✅ <strong>Stakeholders &amp; Requirements</strong> - Who needs what and why</li>
+<li>✅ <strong>Architecture Patterns</strong> - Monoliths, microservices, layers, and more</li>
+<li>✅ <strong>Technology Selection</strong> - Choosing the right tools</li>
+<li>✅ <strong>Risk-Driven Architecture</strong> - Prioritizing what matters</li>
+</ul>
+<p><strong>Key insight:</strong> Architecture is about making decisions under uncertainty. Start with risks, choose patterns that mitigate them.</p>
+<h3 id="module-2-modeling-with-sruja-3-lessons"><a class="header" href="#module-2-modeling-with-sruja-3-lessons">Module 2: Modeling with Sruja (3 lessons)</a></h3>
+<ul>
+<li>✅ <strong>Sruja Fundamentals</strong> - DSL basics, elements, relationships</li>
+<li>✅ <strong>System Context</strong> - Boundaries, external dependencies</li>
+<li>✅ <strong>Container Architecture</strong> - Services, datastores, deployment units</li>
+</ul>
+<p><strong>Key insight:</strong> Good models communicate clearly. Use Sruja to create living documentation that stays current.</p>
+<h3 id="module-3-advanced-modeling-7-lessons"><a class="header" href="#module-3-advanced-modeling-7-lessons">Module 3: Advanced Modeling (7 lessons)</a></h3>
+<ul>
+<li>✅ <strong>Microservices Architecture</strong> - Service boundaries, distributed systems</li>
+<li>✅ <strong>Event-Driven Architecture</strong> - Async patterns, event sourcing</li>
+<li>✅ <strong>Advanced Scenarios</strong> - Complex relationship patterns</li>
+<li>✅ <strong>Architectural Perspectives</strong> - Multiple views for different audiences</li>
+<li>✅ <strong>Views &amp; Styling</strong> - Visual hierarchy, clarity</li>
+<li>✅ <strong>Advanced DSL Features</strong> - Scenarios, flows, requirements</li>
+<li>✅ <strong>Views Best Practices</strong> - Governance, lifecycle, organization</li>
+</ul>
+<p><strong>Key insight:</strong> Real systems are complex. Advanced modeling techniques help you manage that complexity effectively.</p>
+<h3 id="module-4-production-readiness-5-lessons"><a class="header" href="#module-4-production-readiness-5-lessons">Module 4: Production Readiness (5 lessons)</a></h3>
+<ul>
+<li>✅ <strong>Documenting Decisions (ADRs)</strong> - Why we made the choices we made</li>
+<li>✅ <strong>Deployment Architecture</strong> - Where code runs, how it scales</li>
+<li>✅ <strong>Governance as Code</strong> - Automated compliance and guardrails</li>
+<li>✅ <strong>SLOs &amp; Scale Integration</strong> - Reliability targets and capacity</li>
+<li>✅ <strong>Tracking Architecture Evolution</strong> - History, learning, improvement</li>
+</ul>
+<p><strong>Key insight:</strong> Production systems need more than good design. They need documentation, deployment, governance, reliability, and evolution tracking.</p>
+<h2 id="the-complete-picture"><a class="header" href="#the-complete-picture">The Complete Picture</a></h2>
+<p>You now understand the full lifecycle of architecture:</p>
+<pre><code>1. THINK    → Understand the problem, identify risks
+2. MODEL    → Create clear, communicable architecture
+3. ADVANCE  → Handle complexity with advanced techniques
+4. PRODUCE  → Make it real, reliable, and maintainable
+5. EVOLVE   → Track changes, learn, improve
+</code></pre>
+<h2 id="what-makes-you-different"><a class="header" href="#what-makes-you-different">What Makes You Different</a></h2>
+<p>Most engineers know <strong>how to build systems</strong>. You now also know:</p>
+<ul>
+<li><strong>How to think about systems</strong> - Not just implement, but design</li>
+<li><strong>How to communicate architecture</strong> - Clear models, multiple views</li>
+<li><strong>How to make decisions</strong> - Documented, reasoned, reviewed</li>
+<li><strong>How to ensure reliability</strong> - SLOs, error budgets, monitoring</li>
+<li><strong>How to maintain architecture</strong> - Evolution tracking, governance</li>
+<li><strong>How to learn from history</strong> - ADRs, retrospective analysis</li>
+</ul>
+<h2 id="the-best-architects"><a class="header" href="#the-best-architects">The Best Architects</a></h2>
+<p>The best architects I know aren't the ones who know the most patterns or can draw the prettiest diagrams. They're the ones who:</p>
+<ul>
+<li><strong>Communicate clearly</strong> - Anyone can understand their architecture</li>
+<li><strong>Make decisions transparently</strong> - Everyone knows why choices were made</li>
+<li><strong>Learn from mistakes</strong> - Architecture evolves based on evidence</li>
+<li><strong>Balance trade-offs</strong> - No perfect solutions, only good compromises</li>
+<li><strong>Keep it simple</strong> - Complexity is a cost, not a feature</li>
+</ul>
+<p>You now have the tools to be that kind of architect.</p>
+<h2 id="your-next-steps"><a class="header" href="#your-next-steps">Your Next Steps</a></h2>
+<h3 id="immediate-this-week"><a class="header" href="#immediate-this-week">Immediate (This Week)</a></h3>
+<ol>
+<li><strong>Apply what you learned</strong> - Pick one system you work on</li>
+<li><strong>Create an architecture model</strong> - Start simple, add detail</li>
+<li><strong>Write your first ADR</strong> - Document a recent decision</li>
+<li><strong>Define one SLO</strong> - Pick your most critical service</li>
+</ol>
+<h3 id="short-term-this-month"><a class="header" href="#short-term-this-month">Short-Term (This Month)</a></h3>
+<ol>
+<li><strong>Model your entire system</strong> - Full architecture in Sruja</li>
+<li><strong>Create multiple views</strong> - Different audiences</li>
+<li><strong>Implement governance</strong> - At least critical policies</li>
+<li><strong>Start tracking evolution</strong> - Git, ADRs, SLOs together</li>
+</ol>
+<h3 id="long-term-this-year"><a class="header" href="#long-term-this-year">Long-Term (This Year)</a></h3>
+<ol>
+<li><strong>Build architecture culture</strong> - Team-wide adoption</li>
+<li><strong>Regular architecture reviews</strong> - Monthly cadence</li>
+<li><strong>Continuous improvement</strong> - Learn from evolution data</li>
+<li><strong>Mentor others</strong> - Share what you've learned</li>
+</ol>
+<h2 id="continuing-your-journey"><a class="header" href="#continuing-your-journey">Continuing Your Journey</a></h2>
+<p>This course gave you the foundation. Here's where to go next:</p>
+<h3 id="deepen-your-skills"><a class="header" href="#deepen-your-skills">Deepen Your Skills</a></h3>
+<ul>
+<li><strong>Books:</strong> "Designing Data-Intensive Applications" (Kleppmann), "Building Evolutionary Architectures" (Ford et al)</li>
+<li><strong>Practice:</strong> Model real systems you work with</li>
+<li><strong>Community:</strong> Join architecture communities, share your models</li>
+</ul>
+<h3 id="expand-your-knowledge"><a class="header" href="#expand-your-knowledge">Expand Your Knowledge</a></h3>
+<ul>
+<li><strong>Domain-specific patterns:</strong> Read about patterns in your industry</li>
+<li><strong>Case studies:</strong> Study how companies like Netflix, Amazon, Google architect their systems</li>
+<li><strong>New technologies:</strong> Keep learning about new tools and approaches</li>
+</ul>
+<h3 id="specialize"><a class="header" href="#specialize">Specialize</a></h3>
+<ul>
+<li><strong>Data architecture:</strong> Databases, data pipelines, analytics</li>
+<li><strong>Security architecture:</strong> Authentication, authorization, encryption</li>
+<li><strong>Cloud architecture:</strong> AWS, GCP, Azure-specific patterns</li>
+<li><strong>ML/AI architecture:</strong> Machine learning systems, model serving</li>
+</ul>
+<h2 id="final-thoughts"><a class="header" href="#final-thoughts">Final Thoughts</a></h2>
+<p>Architecture is not about perfection. It's about making good decisions with the information you have, documenting those decisions clearly, and learning from what happens.</p>
+<p>The systems you build will outlast your time with them. Other engineers will maintain them, extend them, and wonder why you made the choices you made.</p>
+<p><strong>With what you've learned in this course, they won't have to wonder.</strong> They'll have clear models, documented decisions, tracked evolution, and the context they need to continue your work.</p>
+<p>That's the real value of architecture: not just building systems, but building systems that can be understood, maintained, and evolved by others.</p>
+<p>Go build great systems. Document your decisions. Track your evolution. Learn from your mistakes. And help others do the same.</p>
+<p><strong>You're ready.</strong> 🚀</p>
+<hr>
+<h2 id="course-statistics"><a class="header" href="#course-statistics">Course Statistics</a></h2>
+<p><strong>Total Lessons:</strong> 24 (Module 1: 5, Module 2: 3, Module 3: 7, Module 4: 5, plus overview and summary)</p>
+<p><strong>What You Learned:</strong></p>
+<ul>
+<li>Architecture fundamentals and thinking</li>
+<li>Modeling with Sruja DSL</li>
+<li>Advanced patterns and techniques</li>
+<li>Production readiness</li>
+</ul>
+<p><strong>Skills Acquired:</strong></p>
+<ul>
+<li>System decomposition and analysis</li>
+<li>Architecture modeling and documentation</li>
+<li>Decision documentation (ADRs)</li>
+<li>Reliability engineering (SLOs)</li>
+<li>Governance and compliance</li>
+<li>Evolution tracking</li>
+</ul>
+<p><strong>Frameworks Mastered:</strong></p>
+<ul>
+<li>VIEW framework (for architectural perspectives)</li>
+<li>STYLE framework (for visual clarity)</li>
+<li>COMPLETE framework (for production models)</li>
+<li>GOVERN framework (for governance)</li>
+<li>RELIABLE framework (for SLOs)</li>
+<li>TRACK framework (for evolution)</li>
+</ul>
+<h2 id="thank-you"><a class="header" href="#thank-you">Thank You</a></h2>
+<p>Thank you for completing this journey. I hope this course has made you a better architect, a clearer communicator, and a more thoughtful engineer.</p>
+<p>Remember: every system tells a story. Make yours worth reading.</p>
+<hr>
+<p><strong>Course Complete!</strong> 🎓</p>
+<p><em>You've mastered System Design 101. Now go apply it.</em></p>
 
                     </main>
 
@@ -456,9 +1234,11 @@ view index {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

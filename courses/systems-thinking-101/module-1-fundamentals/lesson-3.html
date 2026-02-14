@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,241 +180,145 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-3-why-systems-thinking-matters"><a class="header" href="#lesson-3-why-systems-thinking-matters">Lesson 3: Why Systems Thinking Matters</a></h1>
+                        <h1 id="lesson-3-every-app-is-a-system-of-systems"><a class="header" href="#lesson-3-every-app-is-a-system-of-systems">Lesson 3: Every App is a System of Systems</a></h1>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Understand the benefits of systems thinking for software architecture</li>
-<li>Recognize problems that systems thinking prevents</li>
-<li>Apply systems thinking to real architecture challenges</li>
+<li>Identify the layers that make up a software system</li>
+<li>Recognize when you're ignoring dependencies or organizational factors</li>
+<li>Understand how Conway's Law affects your architecture</li>
+<li>Model systems holistically in Sruja</li>
 </ul>
-<h2 id="the-architecture-problem"><a class="header" href="#the-architecture-problem">The Architecture Problem</a></h2>
-<p>Traditional architecture approaches often lead to:</p>
-<ul>
-<li><strong>Siloed thinking</strong>: Components designed in isolation</li>
-<li><strong>Hidden dependencies</strong>: Unforeseen coupling</li>
-<li><strong>Brittle systems</strong>: Break when one thing changes</li>
-<li><strong>Misaligned with business</strong>: Doesn't support actual user journeys</li>
-<li><strong>Hard to scale</strong>: Performance and reliability issues</li>
-</ul>
-<p>Systems thinking addresses these root causes.</p>
-<h2 id="benefit-1-holistic-understanding"><a class="header" href="#benefit-1-holistic-understanding">Benefit 1: Holistic Understanding</a></h2>
-<p>See the whole system, not just parts.</p>
-<h3 id="example-e-commerce-checkout"><a class="header" href="#example-e-commerce-checkout">Example: E-Commerce Checkout</a></h3>
-<p><strong>Component-focused view</strong>:</p>
-<ul>
-<li>Shopping cart service</li>
-<li>Payment service</li>
-<li>Inventory service</li>
-<li>Notification service</li>
-</ul>
-<p><strong>Systems thinking view</strong>:</p>
-<pre><code>User → Cart Service → Payment Service → Inventory → Notification
-  ↑                                              ↓
-  └────────────── Feedback Loop ─────────────────┘
+<h2 id="seeing-layers-every-app-is-a-system-of-systems"><a class="header" href="#seeing-layers-every-app-is-a-system-of-systems">Seeing Layers: Every App is a System of Systems</a></h2>
+<p>When you design software, what do you think about first? The frontend framework? The backend API? The database schema?</p>
+<p>These are important parts. But they're not the whole system. Every application exists in a context—users who interact with it, dependencies it relies on, processes that keep it running, and data flowing through it.</p>
+<p>Here's what happens when you ignore these layers: You design a perfect API, but your team doesn't know how to deploy it reliably. You optimize database queries, but external payment gateway has rate limits you didn't consider. You build features quickly, but organizational processes create technical debt that slows you down.</p>
+<p>Seeing systems holistically—seeing all the layers—is what prevents these problems.</p>
+<h2 id="the-layers-of-a-software-system"><a class="header" href="#the-layers-of-a-software-system">The Layers of a Software System</a></h2>
+<p>Every application is built from multiple interconnected layers. Let's visualize them:</p>
+<pre><code>┌─────────────────────────────────────┐
+│  People: Users, Developers, Ops      │  ← Stakeholders
+├─────────────────────────────────────┤
+│  Dependencies: APIs, Libraries       │  ← External Systems
+├─────────────────────────────────────┤
+│  Processes: Dev, Deploy, Monitor     │  ← Operational Systems
+├─────────────────────────────────────┤
+│  Data: State, Transactions, Logs     │  ← Information Systems
+├─────────────────────────────────────┤
+│  Application: UI, Logic, Storage     │  ← Your System
+└─────────────────────────────────────┘
 </code></pre>
-<h3 id="in-sruja"><a class="header" href="#in-sruja">In Sruja</a></h3>
-<pre><code class="language-sruja">CheckoutFlow = scenario "Complete Checkout" {
-  User -&gt; CartService "Items ready"
-  CartService -&gt; PaymentService "Process payment"
-  PaymentService -&gt; CartService "Payment result"
-  CartService -&gt; InventoryService "Reserve items"
-  InventoryService -&gt; CartService "Stock confirmed"
-  CartService -&gt; NotificationService "Send confirmation"
-  NotificationService -&gt; User "Order confirmed"
-}
-</code></pre>
-<h3 id="impact"><a class="header" href="#impact">Impact</a></h3>
+<h2 id="why-these-layers-matter"><a class="header" href="#why-these-layers-matter">Why These Layers Matter</a></h2>
+<p>Let's talk about why ignoring these layers causes problems. Here's what happens at each layer:</p>
+<h3 id="dependencies-can-fail"><a class="header" href="#dependencies-can-fail">Dependencies Can Fail</a></h3>
+<p>When you depend on external systems (payment gateways, APIs, libraries), those dependencies can fail. If you don't account for this in your architecture, a single external failure can bring down your entire application.</p>
+<h3 id="teams-shape-architecture-conways-law"><a class="header" href="#teams-shape-architecture-conways-law">Teams Shape Architecture (Conway's Law)</a></h3>
+<p>Ever heard of Conway's Law? It states that "organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations."</p>
+<p>Translation: How your team communicates and is organized will directly influence your architecture. If your team is split into silos, you'll likely build tightly coupled systems. If your team has clear cross-team communication, you'll naturally build more modular, integrated systems.</p>
+<h3 id="operational-processes-determine-reliability"><a class="header" href="#operational-processes-determine-reliability">Operational Processes Determine Reliability</a></h3>
+<p>Your architecture design matters, but so do your processes. How do you deploy? How do you monitor? How do you handle incidents?</p>
+<p>You might design the most resilient architecture possible, but if your deployment process is fragile (manual steps, no testing, no rollbacks), your system will be fragile too.</p>
+<h3 id="data-systems-create-integration-challenges"><a class="header" href="#data-systems-create-integration-challenges">Data Systems Create Integration Challenges</a></h3>
+<p>Data doesn't just sit in one place anymore. It flows between databases, caches, analytics, logs, and external systems. This movement creates integration challenges and consistency requirements.</p>
+<p>If you don't consider these data flows, you'll hit problems: inconsistent data across services, race conditions, synchronization issues.</p>
+<h2 id="common-architecture-layers"><a class="header" href="#common-architecture-layers">Common Architecture Layers</a></h2>
+<p>Now that we understand why layers matter, let's look at common layers you'll encounter in real software systems.</p>
+<h3 id="application-layer-what-you-build"><a class="header" href="#application-layer-what-you-build">Application Layer: What You Build</a></h3>
+<p>This is what most developers think about first—the code and logic. It includes:</p>
 <ul>
-<li>Identifies the full user journey</li>
-<li>Reveals where things can fail</li>
-<li>Shows data dependencies</li>
-<li>Makes success criteria clear</li>
+<li><strong>User interfaces:</strong> Web applications, mobile apps, CLI tools</li>
+<li><strong>Business logic:</strong> APIs, services, domain models</li>
+<li><strong>Data storage:</strong> Databases, caches, file systems</li>
 </ul>
-<h2 id="benefit-2-natural-patterns"><a class="header" href="#benefit-2-natural-patterns">Benefit 2: Natural Patterns</a></h2>
-<p>Model real-world interactions and feedback.</p>
-<h3 id="example-auto-scaling"><a class="header" href="#example-auto-scaling">Example: Auto-Scaling</a></h3>
-<p><strong>Component view</strong>: Configure scaling rules per service.</p>
-<p><strong>Systems thinking view</strong>: Understand the feedback loop.</p>
+<p>This is the visible part of your system—what users interact with and what you spend most of your time building.</p>
+<h3 id="infrastructure-layer-what-runs-your-code"><a class="header" href="#infrastructure-layer-what-runs-your-code">Infrastructure Layer: What Runs Your Code</a></h3>
+<p>Your application doesn't run in a vacuum. It needs infrastructure:</p>
+<ul>
+<li><strong>Compute:</strong> Servers, containers, cloud instances</li>
+<li><strong>Network:</strong> Load balancers, CDNs, firewalls, VPNs</li>
+<li><strong>Monitoring:</strong> Logs, metrics, alerts, dashboards</li>
+</ul>
+<p>Infrastructure determines reliability, scalability, and performance. You might have perfect code, but if your infrastructure can't handle load or lacks monitoring, you won't know when things fail.</p>
+<h3 id="organizational-layer-who-builds-it"><a class="header" href="#organizational-layer-who-builds-it">Organizational Layer: Who Builds It</a></h3>
+<p>This layer often gets overlooked, but it's critical. It includes:</p>
+<ul>
+<li><strong>Teams and responsibilities:</strong> Who owns what? How are decisions made?</li>
+<li><strong>Development workflows:</strong> Code reviews, testing, CI/CD pipelines</li>
+<li><strong>Release processes:</strong> How do features go from idea to production?</li>
+</ul>
+<p>As Conway's Law states, how your organization is structured will influence your architecture. If your team is organized by technical skill (backend team, frontend team, database team), you'll likely build systems that mirror that structure—sometimes creating unnecessary boundaries.</p>
+<h2 id="modeling-systems-holistically-in-sruja"><a class="header" href="#modeling-systems-holistically-in-sruja">Modeling Systems Holistically in Sruja</a></h2>
+<p>Let's see how this looks in practice with a real e-commerce system.</p>
+<h3 id="example-e-commerce-platform"><a class="header" href="#example-e-commerce-platform">Example: E-Commerce Platform</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-App = system "Application" {
+// People (stakeholders)
+Customer = person "Customer"
+Admin = person "Admin"
+
+// External Systems (dependencies)
+PaymentGateway = system "Payment Gateway"
+EmailService = system "Email Service"
+
+// Your System
+ECommerce = system "E-Commerce Platform" {
+  WebApp = container "Web Application" {
+    technology "React"
+  }
   API = container "API Service" {
-    scale {
-      min 2
-      max 10
-      metric "cpu &gt; 80%"
-    }
-    slo {
-      latency {
-        p95 "200ms"
-      }
-    }
+    technology "Node.js"
   }
+  DB = database "PostgreSQL"
 }
 
-Monitor = system "Monitoring System"
-
-// Feedback loop
-Monitor -&gt; App.API "Observes load"
-App.API -&gt; Monitor "Reports metrics"
-Monitor -&gt; App.API "Triggers scale up/down"
+// Relationships show system interactions
+Customer -&gt; ECommerce.WebApp "Browses products"
+ECommerce.WebApp -&gt; ECommerce.API "Fetches data"
+ECommerce.API -&gt; ECommerce.DB "Queries"
+ECommerce.API -&gt; PaymentGateway "Process payment"
+PaymentGateway -&gt; EmailService "Send receipt"
 </code></pre>
-<h3 id="impact-1"><a class="header" href="#impact-1">Impact</a></h3>
+<h3 id="analyzing-this-model"><a class="header" href="#analyzing-this-model">Analyzing This Model</a></h3>
+<p>Notice how this shows multiple layers:</p>
+<p><strong>People layer:</strong> <code>Customer</code> and <code>Admin</code> are stakeholders who use and manage the system.</p>
+<p><strong>Dependencies layer:</strong> <code>PaymentGateway</code> and <code>EmailService</code> are external systems we depend on. If the payment gateway is down, our entire order flow breaks.</p>
+<p><strong>Application layer:</strong> <code>WebApp</code>, <code>API</code>, and <code>DB</code> are containers within our system. This is what we build and control.</p>
+<p><strong>Relationships show dependencies:</strong> The arrows between components show data flow and dependencies. <code>API -&gt; PaymentGateway</code> is a critical dependency. If that external system is slow or fails, we need to handle it gracefully.</p>
+<h3 id="what-this-reveals"><a class="header" href="#what-this-reveals">What This Reveals</a></h3>
+<p>When you model systems holistically like this, you start seeing:</p>
 <ul>
-<li>Self-documenting: The diagram explains the system</li>
-<li>Clear causality: Why do things happen?</li>
-<li>Predictable behavior: What happens under load?</li>
+<li>Single points of failure (like <code>PaymentGateway</code>)</li>
+<li>Team ownership boundaries (what's in our system vs. external)</li>
+<li>Data flow paths (how do orders flow through the system?)</li>
+<li>Integration points (where do we cross system boundaries?)</li>
 </ul>
-<h2 id="benefit-3-clear-boundaries"><a class="header" href="#benefit-3-clear-boundaries">Benefit 3: Clear Boundaries</a></h2>
-<p>Understand what's in scope vs. context.</p>
-<h3 id="example-third-party-integration"><a class="header" href="#example-third-party-integration">Example: Third-Party Integration</a></h3>
-<p><strong>Without boundaries</strong>: Where does your system end and Stripe begin?</p>
-<p><strong>With boundaries in Sruja</strong>:</p>
-<pre><code class="language-sruja">// Inside: Your responsibility
-Shop = system "Shop" {
-  WebApp = container "Web App"
-  API = container "API Service"
-}
-
-// Outside: External dependency
-Stripe = system "Stripe" {
-  metadata {
-    tags ["external", "pci-compliant"]
-  }
-  description "Payment processing service"
-}
-
-// Boundary crossing
-Shop.API -&gt; Stripe "Process payment"
-Stripe -&gt; Shop.API "Payment result"
-</code></pre>
-<h3 id="impact-2"><a class="header" href="#impact-2">Impact</a></h3>
-<ul>
-<li>Clear ownership: Who's responsible for what?</li>
-<li>Risk management: What external dependencies exist?</li>
-<li>Testing boundaries: What needs integration tests vs. unit tests?</li>
-<li>Failure modes: What if the external service goes down?</li>
-</ul>
-<h2 id="benefit-4-flow-visualization"><a class="header" href="#benefit-4-flow-visualization">Benefit 4: Flow Visualization</a></h2>
-<p>See how data and information move.</p>
-<h3 id="example-data-lineage"><a class="header" href="#example-data-lineage">Example: Data Lineage</a></h3>
-<p><strong>Without flows</strong>: Where does this data come from?</p>
-<p><strong>With flows in Sruja</strong>:</p>
-<pre><code class="language-sruja">DataPipeline = flow "Order Analytics" {
-  User -&gt; Shop.WebApp "Submits order"
-  Shop.WebApp -&gt; Shop.API "Order data"
-  Shop.API -&gt; Shop.Database "Persist order"
-  Shop.Database -&gt; Analytics "Extract"
-  Analytics -&gt; DataWarehouse "Transform &amp; load"
-  DataWarehouse -&gt; Dashboard "Visualize"
-  Dashboard -&gt; BusinessTeam "Make decisions"
-}
-</code></pre>
-<h3 id="impact-3"><a class="header" href="#impact-3">Impact</a></h3>
-<ul>
-<li>Traceability: Where does data originate?</li>
-<li>Compliance: What data flows where?</li>
-<li>Performance: Where are bottlenecks?</li>
-<li>Security: Where is sensitive data exposed?</li>
-</ul>
-<h2 id="benefit-5-valid-cycles"><a class="header" href="#benefit-5-valid-cycles">Benefit 5: Valid Cycles</a></h2>
-<p>Feedback loops are natural, not errors.</p>
-<h3 id="example-real-time-updates"><a class="header" href="#example-real-time-updates">Example: Real-Time Updates</a></h3>
-<p><strong>Traditional view</strong>: Cycles are bad (circular dependency).</p>
-<p><strong>Systems thinking view</strong>: Cycles enable real-time behavior.</p>
-<pre><code class="language-sruja">// Real-time collaboration
-CollaborationSystem = system "Collaboration Tool" {
-  Editor = container "Editor App"
-  Sync = container "Sync Service"
-  Database = database "Real-time DB"
-}
-
-// Valid feedback loop
-Editor -&gt; Sync "Local change"
-Sync -&gt; Database "Persist change"
-Database -&gt; Sync "Broadcast to others"
-Sync -&gt; Editor "Receive remote changes"
-Editor -&gt; Database "Acknowledge receipt"
-</code></pre>
-<h3 id="impact-4"><a class="header" href="#impact-4">Impact</a></h3>
-<ul>
-<li>Models real behavior: Systems often have natural cycles</li>
-<li>Enables async patterns: Event-driven architectures</li>
-<li>Simplifies mental model: Don't force acyclic where it doesn't belong</li>
-<li>Better documentation: Shows the true system behavior</li>
-</ul>
-<h2 id="practical-benefits"><a class="header" href="#practical-benefits">Practical Benefits</a></h2>
-<h3 id="for-development"><a class="header" href="#for-development">For Development</a></h3>
-<ul>
-<li><strong>Better communication</strong>: Diagrams that everyone understands</li>
-<li><strong>Faster onboarding</strong>: New team members see the big picture quickly</li>
-<li><strong>Clear requirements</strong>: Scenarios define expected behavior</li>
-<li><strong>Easier testing</strong>: Flows guide test scenarios</li>
-</ul>
-<h3 id="for-operations"><a class="header" href="#for-operations">For Operations</a></h3>
-<ul>
-<li><strong>Better monitoring</strong>: Feedback loops show what to observe</li>
-<li><strong>Clearer incident response</strong>: Understand the failure path</li>
-<li><strong>Capacity planning</strong>: See data flows and bottlenecks</li>
-<li><strong>Change impact</strong>: What breaks if X changes?</li>
-</ul>
-<h3 id="for-business"><a class="header" href="#for-business">For Business</a></h3>
-<ul>
-<li><strong>Aligns with user journeys</strong>: Scenarios mirror real workflows</li>
-<li><strong>Clearer ownership</strong>: Boundaries show responsibility</li>
-<li><strong>Risk visibility</strong>: Dependencies and external factors visible</li>
-<li><strong>Better decisions</strong>: Full picture, not isolated features</li>
-</ul>
-<h2 id="when-to-use-systems-thinking"><a class="header" href="#when-to-use-systems-thinking">When to Use Systems Thinking</a></h2>
-<p><strong>Perfect for:</strong></p>
-<ul>
-<li>System design and architecture</li>
-<li>Migration planning</li>
-<li>Feature impact analysis</li>
-<li>Root cause analysis</li>
-<li>Cross-team coordination</li>
-</ul>
-<p><strong>Less critical for:</strong></p>
-<ul>
-<li>Simple CRUD applications</li>
-<li>Individual feature implementation</li>
-<li>Quick prototypes</li>
-<li>Isolated bug fixes</li>
-</ul>
-<h2 id="common-mistakes"><a class="header" href="#common-mistakes">Common Mistakes</a></h2>
-<h3 id="over-engineering"><a class="header" href="#over-engineering">Over-Engineering</a></h3>
-<p>Don't model everything. Start with the core system and add detail as needed.</p>
-<h3 id="ignoring-context"><a class="header" href="#ignoring-context">Ignoring Context</a></h3>
-<p>Focusing only on technical components and missing stakeholders.</p>
-<h3 id="missing-flows"><a class="header" href="#missing-flows">Missing Flows</a></h3>
-<p>Modeling components but not how data moves between them.</p>
-<h3 id="forcing-cycles-out"><a class="header" href="#forcing-cycles-out">Forcing Cycles Out</a></h3>
-<p>Removing valid feedback loops because "cycles are bad."</p>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Systems thinking prevents common architecture problems</strong></li>
-<li><strong>Benefits span development, operations, and business</strong></li>
-<li><strong>Sruja provides concrete tools for each concept</strong></li>
-<li><strong>Use it appropriately - not everything needs full systems modeling</strong></li>
-<li><strong>Start simple, add detail incrementally</strong></li>
-</ol>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Think of a recent architecture decision or problem you encountered. How would systems thinking have helped?</p>
-<ul>
-<li>Could you have seen the full user journey?</li>
-<li>Were there hidden dependencies?</li>
-<li>Were external dependencies clear?</li>
-<li>Did you understand the data flows?</li>
-<li>Were there feedback loops you missed?</li>
-</ul>
-<h2 id="module-1-complete"><a class="header" href="#module-1-complete">Module 1 Complete</a></h2>
-<p>You've completed the fundamentals module! You now understand:</p>
-<ul>
-<li>What systems thinking is</li>
-<li>The five core concepts</li>
-<li>Why it matters for software architecture</li>
-</ul>
-<p><strong>Next</strong>: Dive into specific concepts starting with <a href="../module-2-parts-relationships/module-overview.html">Module 2: Parts and Relationships</a>.</p>
+<p>This big-picture view helps you design more resilient systems.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>The key insight from this lesson is simple but powerful: Never design in isolation.</p>
+<p>Every application exists in a context—people who use it, dependencies it relies on, processes that keep it running, and data flowing through it. When you ignore these layers, you build fragile systems that work in theory but fail in practice.</p>
+<p>Think of it this way: A car designer who only thinks about the engine and drivetrain, but ignores the fuel system, cooling system, and driver experience, will create a car that can't run reliably.</p>
+<p>The same applies to software. When you see systems holistically—all the layers together—you design better systems. You identify dependencies before they break, you consider team structure before it constrains you, and you plan for failure before it happens.</p>
+<p>This is what systems thinking in architecture looks like: Not just code, but code in context.</p>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you're seeing systems holistically now.</p>
+<h3 id="quick-check"><a class="header" href="#quick-check">Quick Check</a></h3>
+<p><strong>1. Your team is organized by technical role: backend team, frontend team, database team. You're designing a new feature. What's likely to happen to your architecture, based on Conway's Law?</strong></p>
+<p>[ ] A. You'll build a perfectly modular system because roles are clear
+[ ] B. You'll build systems with boundaries that mirror your team structure
+[ ] C. Team organization won't affect your architecture at all
+[ ] D. You'll need to reorganize teams to match a better architecture</p>
+<p><strong>2. You're designing an e-commerce system and decide to use an external payment gateway API. What should you consider, based on this lesson?</strong></p>
+<p>[ ] A. Nothing—it's just another API call
+[ ] B. The gateway might fail or have rate limits, which could break your entire order flow
+[ ] C. Always build your own payment system instead of depending on external services
+[ ] D. Only worry about the API documentation and authentication</p>
+<hr>
+<h3 id="answers--discussion"><a class="header" href="#answers--discussion">Answers &amp; Discussion</a></h3>
+<p><strong>1. B. You'll build systems with boundaries that mirror your team structure</strong> – Conway's Law states that systems mirror the communication structures of the organizations that build them. If your teams are organized by technical role (backend, frontend, database), your architecture will likely have similar boundaries, creating unnecessary coupling and communication challenges.</p>
+<p><strong>2. B. The gateway might fail or have rate limits, which could break your entire order flow</strong> – When you depend on external systems, those dependencies become single points of failure. You need to consider what happens if the gateway is down, has rate limits, or has performance issues. Do you have fallbacks? Retry logic? Degraded service modes? Ignoring these layers leads to fragile systems.</p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next</a></h2>
+<p>Now that you understand every application is a system of systems with multiple layers, let's dive into the specific components that make up these systems. In the next lesson, we'll explore <strong>Parts &amp; Relationships</strong>—how to identify components and model their interactions.</p>
+<p>This is where systems thinking gets practical: You'll learn to model real systems in Sruja with precision and clarity.</p>
 
                     </main>
 
@@ -469,9 +373,11 @@ Editor -&gt; Database "Acknowledge receipt"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

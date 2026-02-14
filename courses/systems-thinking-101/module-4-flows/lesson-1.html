@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,233 +180,555 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-understanding-flows"><a class="header" href="#lesson-1-understanding-flows">Lesson 1: Understanding Flows</a></h1>
+                        <h1 id="seeing-movement-understanding-flows"><a class="header" href="#seeing-movement-understanding-flows">Seeing Movement: Understanding Flows</a></h1>
+<p>Ever watch water flow down a stream? You can see the path it takes, where it speeds up, where it slows down, where it gets stuck. Static diagrams show you the rocks and the banks, but they don't show you how the water actually moves through the system.</p>
+<p>That's what flows are for in architecture—they show you how information, data, and actions move through your system over time. Static relationships tell you what's connected. Flows tell you what happens.</p>
+<p>In this lesson, you'll learn to model flows effectively. You'll discover different types of flows, when to use them, and how they reveal bottlenecks, errors, and opportunities that static diagrams miss.</p>
+<p>Let's start by understanding what flows actually are and why they matter.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Understand what flows are in systems thinking</li>
-<li>Learn when to use flows vs. static relationships</li>
-<li>Recognize different types of flows</li>
+<li>Understand what flows are and how they differ from static relationships</li>
+<li>Recognize different types of flows (data, user journeys, control, event)</li>
+<li>Know when to use flows versus static diagrams</li>
+<li>Model flows at the right level of detail</li>
+<li>Identify common pitfalls and avoid them</li>
 </ul>
-<h2 id="what-are-flows"><a class="header" href="#what-are-flows">What Are Flows?</a></h2>
-<p>Flows show how information, data, and actions move through a system. Unlike static relationships (which show connections), flows show <strong>sequences</strong> and <strong>transformations</strong>.</p>
+<h2 id="what-are-flows-really"><a class="header" href="#what-are-flows-really">What Are Flows, Really?</a></h2>
+<p>At its simplest level, a flow shows <strong>sequence</strong>—how something moves from point A to point B to point C. Unlike static relationships that just say "A is connected to B," flows tell you "A talks to B, then B talks to C, and here's what happens at each step."</p>
 <h3 id="static-relationship-vs-flow"><a class="header" href="#static-relationship-vs-flow">Static Relationship vs. Flow</a></h3>
-<pre><code class="language-sruja">// Static relationship: Shows connection
+<p>Let me show you the difference:</p>
+<pre><code class="language-sruja">// Static relationship: Just shows connection
 Customer -&gt; Shop.WebApp "Uses"
 
-// Flow: Shows sequence
-CheckoutFlow = scenario "Checkout" {
+// Flow: Shows the sequence
+CheckoutFlow = scenario "Customer Checkout" {
   Customer -&gt; Shop.WebApp "Submits order"
   Shop.WebApp -&gt; Shop.API "Sends order data"
   Shop.API -&gt; Shop.Database "Saves order"
+  Shop.API -&gt; PaymentGateway "Processes payment"
+  PaymentGateway -&gt; Shop.API "Returns result"
+  Shop.API -&gt; Shop.WebApp "Confirmation"
+  Shop.WebApp -&gt; Customer "Show success page"
 }
 </code></pre>
-<h2 id="why-flows-matter"><a class="header" href="#why-flows-matter">Why Flows Matter</a></h2>
-<h3 id="1-data-lineage"><a class="header" href="#1-data-lineage">1. Data Lineage</a></h3>
-<p>Where does data come from and where does it go?</p>
-<pre><code class="language-sruja">DataFlow = flow "Order Analytics" {
-  Customer -&gt; Shop.WebApp "Order data"
-  Shop.WebApp -&gt; Shop.API "API request"
-  Shop.API -&gt; Shop.Database "Persist"
-  Shop.Database -&gt; Analytics "Extract"
-  Analytics -&gt; Dashboard "Visualize"
-}
-</code></pre>
-<h3 id="2-process-understanding"><a class="header" href="#2-process-understanding">2. Process Understanding</a></h3>
-<p>What's the sequence of actions?</p>
-<pre><code class="language-sruja">OrderProcess = scenario "Order Processing" {
-  Customer -&gt; Shop.WebApp "Submits order"
-  Shop.WebApp -&gt; Shop.API "Process order"
-  Shop.API -&gt; PaymentGateway "Charge payment"
-  Shop.API -&gt; InventoryService "Reserve items"
-  Shop.API -&gt; EmailService "Send confirmation"
-}
-</code></pre>
-<h3 id="3-bottleneck-identification"><a class="header" href="#3-bottleneck-identification">3. Bottleneck Identification</a></h3>
-<p>Where can things slow down?</p>
-<pre><code class="language-sruja">UploadFlow = scenario "File Upload" {
-  User -&gt; Frontend "Upload file"
-  Frontend -&gt; API "Send file data"
-  API -&gt; Storage "Store file"
-  Storage -&gt; Processing "Process file"  // Potential bottleneck
-  Processing -&gt; Notification "Notify user"
-}
-</code></pre>
-<h3 id="4-error-paths"><a class="header" href="#4-error-paths">4. Error Paths</a></h3>
-<p>What happens when things fail?</p>
-<pre><code class="language-sruja">OrderFlow = scenario "Order Processing" {
-  Customer -&gt; Shop.API "Submit order"
-  Shop.API -&gt; PaymentGateway "Charge payment"
-  PaymentGateway -&gt; Shop.API "Payment result"
-
-  // Success path
-  Shop.API -&gt; Shop.Database "Save order"
-  Shop.API -&gt; EmailService "Send confirmation"
-
-  // Failure path
-  Shop.API -&gt; Shop.WebApp "Return error"
-  Shop.WebApp -&gt; Customer "Display error"
-}
-</code></pre>
-<h2 id="types-of-flows"><a class="header" href="#types-of-flows">Types of Flows</a></h2>
-<h3 id="1-data-flow-dfd-style"><a class="header" href="#1-data-flow-dfd-style">1. Data Flow (DFD Style)</a></h3>
-<p>Shows how data moves through the system:</p>
-<pre><code class="language-sruja">OrderFlow = flow "Order Data Flow" {
+<p>The static relationship just tells you "customer uses the web app." The flow tells you the complete sequence—what the customer does, what the web app does, what the API does, in what order, and what happens at each step.</p>
+<h3 id="why-this-matters"><a class="header" href="#why-this-matters">Why This Matters</a></h3>
+<p>I once worked on a system where we had perfect static diagrams showing all the components. But nobody understood the actual order processing flow. When we debugged issues, we'd spend hours tracing through code because the diagrams didn't show sequence.</p>
+<p>We added flows, and suddenly everything became clear. Developers could see the complete path from customer action to database storage. Product managers could see exactly what users experienced. Everyone had the same mental model of how things moved through the system.</p>
+<h2 id="why-flows-matter-the-real-benefits"><a class="header" href="#why-flows-matter-the-real-benefits">Why Flows Matter: The Real Benefits</a></h2>
+<p>After years of modeling systems, I've found flows reveal things static relationships never can. Let me show you what flows actually surface.</p>
+<h3 id="1-data-lineage-where-does-data-come-from"><a class="header" href="#1-data-lineage-where-does-data-come-from">1. Data Lineage: Where Does Data Come From?</a></h3>
+<p>Flows show you the complete path data takes through your system—where it starts, how it's transformed, and where it ends up.</p>
+<pre><code class="language-sruja">OrderAnalyticsFlow = flow "Order Data Lineage" {
+  // Where data starts
   Customer -&gt; Shop.WebApp "Order details"
-  Shop.WebApp -&gt; Shop.API "Order JSON"
+  
+  // How data flows through system
+  Shop.WebApp -&gt; Shop.API "Order JSON payload"
+  Shop.API -&gt; Shop.Database "Persist order record"
+  
+  // Where data goes for analytics
+  Shop.Database -&gt; Analytics.Extractor "Extract order events"
+  Analytics.Extractor -&gt; Analytics.Processor "Enrich with user data"
+  Analytics.Processor -&gt; Analytics.Warehouse "Store aggregated metrics"
+  
+  // Where data is ultimately used
+  Analytics.Warehouse -&gt; Dashboard.Query "Fetch metrics"
+  Dashboard.Query -&gt; BusinessUser "Display analytics"
+}
+</code></pre>
+<p>This flow tells the complete story: customer creates an order, order flows through the app and API, gets persisted to the database, gets extracted for analytics, gets enriched and aggregated, stored in the data warehouse, and ultimately shows up on a business dashboard.</p>
+<p>Without this flow, would you know the order data goes to a data warehouse? Would you know there's an enrichment step? Would you know business users depend on this data? Probably not.</p>
+<h3 id="2-process-understanding-whats-the-sequence"><a class="header" href="#2-process-understanding-whats-the-sequence">2. Process Understanding: What's the Sequence?</a></h3>
+<p>Flows show you the exact sequence of actions that happen when something occurs. This is crucial for understanding how your system actually works.</p>
+<pre><code class="language-sruja">OrderProcessFlow = scenario "Order Processing Sequence" {
+  // Customer action
+  Customer -&gt; Shop.WebApp "Submits order"
+  
+  // API processing
+  Shop.WebApp -&gt; Shop.API "Validates cart"
+  Shop.API -&gt; Shop.Database "Checks inventory"
+  Shop.Database -&gt; Shop.API "Inventory available"
+  
+  // External integration
+  Shop.API -&gt; PaymentGateway "Charges payment"
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  
+  // Order finalization
+  Shop.API -&gt; Shop.Database "Saves order"
+  Shop.API -&gt; InventoryService "Reserves items"
+  Shop.API -&gt; EmailService "Sends confirmation"
+}
+</code></pre>
+<p>This flow reveals the complete sequence of what happens when an order is submitted. You can see exactly what the API does (validate, check inventory, charge, save, reserve, email). You can see the dependencies between steps (inventory must be available before charging). You can see the external integrations.</p>
+<h3 id="3-bottleneck-identification-where-can-things-slow-down"><a class="header" href="#3-bottleneck-identification-where-can-things-slow-down">3. Bottleneck Identification: Where Can Things Slow Down?</a></h3>
+<p>Flows make bottlenecks obvious. You can see which steps might become slow, where queues might form, and where performance issues will surface first.</p>
+<pre><code class="language-sruja">FileUploadFlow = scenario "File Upload" {
+  // Fast steps
+  User -&gt; Frontend "Selects file and clicks upload"
+  Frontend -&gt; API "Sends file data"
+  API -&gt; Storage "Stores file" [fast]
+  
+  // Potential bottleneck
+  Storage -&gt; ProcessingService "Processes file" [slow, cpu-intensive]
+  
+  // Continues if processing succeeds
+  ProcessingService -&gt; Notification "Sends completion notification"
+  Notification -&gt; User "Receives notification"
+}
+</code></pre>
+<p>Look at this flow. Storage is fast. Processing service is marked as "slow" and "CPU-intensive." This tells you immediately: <strong>the processing service is the bottleneck</strong>. If users complain about slow uploads, you know exactly where to look.</p>
+<p>I've used this pattern countless times. A team would spend weeks optimizing the "fast" parts of the system while ignoring the actual bottleneck. Flows make bottlenecks obvious.</p>
+<h3 id="4-error-paths-what-happens-when-things-fail"><a class="header" href="#4-error-paths-what-happens-when-things-fail">4. Error Paths: What Happens When Things Fail?</a></h3>
+<p>Static relationships show you the happy path. Flows let you model what happens when things go wrong.</p>
+<pre><code class="language-sruja">OrderWithErrorsFlow = scenario "Order Processing with Error Handling" {
+  Customer -&gt; Shop.API "Submits order"
+  Shop.API -&gt; PaymentGateway "Charges payment"
+  
+  // Success path
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  Shop.API -&gt; Shop.Database "Saves order"
+  Shop.API -&gt; EmailService "Sends confirmation"
+  
+  // Failure path
+  PaymentGateway -&gt; Shop.API "Payment declined"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows error message: Payment declined"
+}
+</code></pre>
+<p>This flow models both the success path and the failure path. When the payment gateway returns a decline, the API returns an error to the web app, which displays it to the customer.</p>
+<p>Modeling error paths is crucial. I once worked on a system where we'd only modeled happy paths. When failures occurred, we had no clear strategy for what should happen. Chaos ensued. Model both paths upfront.</p>
+<h2 id="types-of-flows-youll-use"><a class="header" href="#types-of-flows-youll-use">Types of Flows You'll Use</a></h2>
+<p>After modeling systems for years, I've found there are really four main types of flows you'll encounter. Understanding which type you're modeling helps you get the details right.</p>
+<h3 id="1-data-flow-dfd-style"><a class="header" href="#1-data-flow-dfd-style">1. Data Flow (DFD Style)</a></h3>
+<p>Data flows show how data moves and transforms as it passes through your system. Think of them like a pipeline—data goes in one end, gets transformed, and comes out the other.</p>
+<pre><code class="language-sruja">OrderDataFlow = flow "Order Data Pipeline" {
+  // Data originates from customer
+  Customer -&gt; Shop.WebApp "Order details"
+  
+  // Data flows through API as JSON
+  Shop.WebApp -&gt; Shop.API "Order JSON payload"
+  
+  // Data gets persisted as record
   Shop.API -&gt; Shop.Database "Order record"
-  Shop.Database -&gt; Analytics "Order event"
+  
+  // Data extracted as event
+  Shop.Database -&gt; Analytics.EventStream "Order event"
+  
+  // Data aggregated for reporting
+  Analytics.EventStream -&gt; Analytics.Aggregator "Daily aggregation"
+  Analytics.Aggregator -&gt; Analytics.Warehouse "Stored metrics"
 }
 </code></pre>
-<p><strong>Use when</strong>: Modeling data lineage, ETL processes, analytics pipelines</p>
+<p><strong>Use data flows when:</strong></p>
+<ul>
+<li>Modeling data lineage (where data comes from and goes)</li>
+<li>Documenting ETL processes</li>
+<li>Designing analytics pipelines</li>
+<li>Understanding data transformations</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Focus on data, not actions</li>
+<li>Show how data changes shape/form</li>
+<li>Include storage and processing steps</li>
+</ul>
 <h3 id="2-user-journey--scenario-bdd-style"><a class="header" href="#2-user-journey--scenario-bdd-style">2. User Journey / Scenario (BDD Style)</a></h3>
-<p>Shows user interactions and system responses:</p>
-<pre><code class="language-sruja">Checkout = story "User Checkout Flow" {
-  Customer -&gt; Shop.WebApp "Clicks checkout"
-  Shop.WebApp -&gt; Shop.API "Validate cart"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  PaymentGateway -&gt; Shop.API "Payment result"
-  Shop.API -&gt; Shop.WebApp "Order confirmation"
-  Shop.WebApp -&gt; Customer "Show success message"
+<p>User journeys show how a person interacts with your system to achieve a goal. These are behavioral flows from the user's perspective.</p>
+<pre><code class="language-sruja">CheckoutJourney = scenario "Customer Checkout Experience" {
+  // User actions
+  Customer -&gt; Shop.WebApp "Clicks checkout button"
+  Customer -&gt; Shop.WebApp "Enters shipping address"
+  Customer -&gt; Shop.WebApp "Enters payment details"
+  Customer -&gt; Shop.WebApp "Clicks 'Place Order'"
+  
+  // System responses
+  Shop.WebApp -&gt; Shop.API "Validates cart"
+  Shop.API -&gt; PaymentGateway "Processes payment"
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  Shop.API -&gt; Shop.Database "Saves order"
+  
+  // Final user experience
+  Shop.WebApp -&gt; Customer "Shows order confirmation page"
+  Shop.API -&gt; EmailService "Sends confirmation email"
+  EmailService -&gt; Customer "Receives confirmation email"
 }
 </code></pre>
-<p><strong>Use when</strong>: Modeling user stories, test scenarios, requirements</p>
+<p><strong>Use user journeys when:</strong></p>
+<ul>
+<li>Modeling user stories and requirements</li>
+<li>Designing test scenarios</li>
+<li>Understanding customer experience</li>
+<li>Documenting acceptance criteria</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>User's perspective, not system's</li>
+<li>Include both user actions and system responses</li>
+<li>Show the complete experience from start to finish</li>
+</ul>
 <h3 id="3-control-flow"><a class="header" href="#3-control-flow">3. Control Flow</a></h3>
-<p>Shows decision points and branches:</p>
-<pre><code class="language-sruja">ApprovalFlow = scenario "Order Approval" {
-  Order -&gt; ApprovalService "Submit for approval"
-
-  // Branch 1: Auto-approved
-  ApprovalService -&gt; Database "Save order"
-
-  // Branch 2: Manual review
-  ApprovalService -&gt; Manager "Request approval"
-  Manager -&gt; ApprovalService "Approve/Reject"
-  ApprovalService -&gt; Database "Save order"
+<p>Control flows show decision points and branching logic. They model the "if this, then that" parts of your system.</p>
+<pre><code class="language-sruja">ApprovalFlow = scenario "Order Approval Workflow" {
+  Order -&gt; ApprovalService "Submits for approval"
+  
+  // Branch 1: Auto-approved (low value)
+  ApprovalService -&gt; Database "Saves as auto-approved" [if value &lt; $100]
+  
+  // Branch 2: Manual review (high value)
+  ApprovalService -&gt; Manager "Sends approval request" [if value &gt;= $100]
+  Manager -&gt; ApprovalService "Approves order"
+  ApprovalService -&gt; Database "Saves as approved"
+  
+  // Both paths converge
+  Database -&gt; EmailService "Sends order confirmation"
 }
 </code></pre>
-<p><strong>Use when</strong>: Modeling business logic, workflows</p>
+<p><strong>Use control flows when:</strong></p>
+<ul>
+<li>Modeling business logic and rules</li>
+<li>Documenting decision trees</li>
+<li>Understanding conditional paths</li>
+<li>Designing workflow systems</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Show decision points (if/else logic)</li>
+<li>Include multiple branches that may converge</li>
+<li>Document conditions for each branch</li>
+</ul>
 <h3 id="4-event-flow"><a class="header" href="#4-event-flow">4. Event Flow</a></h3>
-<p>Shows events and their propagation:</p>
-<pre><code class="language-sruja">EventFlow = flow "Order Event Flow" {
-  API -&gt; EventBus "Publish order created"
-  EventBus -&gt; NotificationService "Consume event"
-  EventBus -&gt; AnalyticsService "Consume event"
-  EventBus -&gt; EmailService "Consume event"
+<p>Event flows show how events propagate through an event-driven system. They model pub/sub patterns and event sourcing architectures.</p>
+<pre><code class="language-sruja">OrderEventFlow = flow "Order Event Propagation" {
+  // Event published
+  OrderAPI -&gt; EventBus "Publishes OrderCreated event"
+  
+  // Multiple consumers process same event
+  EventBus -&gt; NotificationService "Consumes event (sends confirmation)"
+  EventBus -&gt; AnalyticsService "Consumes event (tracks metrics)"
+  EventBus -&gt; InventoryService "Consumes event (reserves items)"
+  EventBus -&gt; EmailService "Consumes event (sends marketing email)"
 }
 </code></pre>
-<p><strong>Use when</strong>: Event-driven architectures, pub/sub patterns</p>
-<h2 id="flow-characteristics"><a class="header" href="#flow-characteristics">Flow Characteristics</a></h2>
+<p><strong>Use event flows when:</strong></p>
+<ul>
+<li>Modeling event-driven architectures</li>
+<li>Designing pub/sub systems</li>
+<li>Understanding event propagation</li>
+<li>Documenting event sourcing patterns</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>One event, multiple consumers</li>
+<li>Asynchronous processing</li>
+<li>Eventual consistency (events processed at different times)</li>
+</ul>
+<h2 id="flow-patterns-youll-see"><a class="header" href="#flow-patterns-youll-see">Flow Patterns You'll See</a></h2>
+<p>Beyond types, there are structural patterns for how flows behave. Understanding these helps you recognize and model common scenarios.</p>
 <h3 id="linear-flow"><a class="header" href="#linear-flow">Linear Flow</a></h3>
-<pre><code class="language-sruja">LinearFlow = scenario "Simple Process" {
-  Step1 -&gt; Step2
-  Step2 -&gt; Step3
-  Step3 -&gt; Step4
+<p>The simplest pattern—things happen one after another in a straight line.</p>
+<pre><code class="language-sruja">LinearFlow = scenario "Simple Three-Step Process" {
+  Step1 -&gt; Step2 "Process A"
+  Step2 -&gt; Step3 "Process B"
+  Step3 -&gt; End "Process C"
 }
 </code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Easy to understand</li>
+<li>No parallel processing</li>
+<li>Single point of failure</li>
+<li>Common in simple workflows</li>
+</ul>
 <h3 id="branching-flow"><a class="header" href="#branching-flow">Branching Flow</a></h3>
-<pre><code class="language-sruja">BranchingFlow = scenario "With Conditions" {
-  Step1 -&gt; Step2
-
-  // Branch A
-  Step2 -&gt; Step3A
-  Step3A -&gt; Step4
-
-  // Branch B
-  Step2 -&gt; Step3B
-  Step3B -&gt; Step4
+<p>One step branches into multiple possible paths. This is where your control flow logic lives.</p>
+<pre><code class="language-sruja">BranchingFlow = scenario "Conditional Processing" {
+  Start -&gt; DecisionPoint "Initial processing"
+  
+  // Branch A: High priority
+  DecisionPoint -&gt; FastProcessor "Process immediately" [if priority = high]
+  FastProcessor -&gt; End "Complete"
+  
+  // Branch B: Low priority
+  DecisionPoint -&gt; Queue "Add to queue" [if priority = low]
+  Queue -&gt; SlowProcessor "Process when available"
+  SlowProcessor -&gt; End "Complete"
 }
 </code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Multiple possible paths</li>
+<li>Based on conditions</li>
+<li>Paths may have different characteristics</li>
+<li>Common in workflows with approvals</li>
+</ul>
 <h3 id="converging-flow"><a class="header" href="#converging-flow">Converging Flow</a></h3>
+<p>Multiple paths start separately but eventually come back together.</p>
 <pre><code class="language-sruja">ConvergingFlow = scenario "Parallel then Merge" {
-  Step1 -&gt; Step2A
-  Step1 -&gt; Step2B
-  Step2A -&gt; Step3
-  Step2B -&gt; Step3
-  Step3 -&gt; Step4
+  // Parallel paths
+  Start -&gt; PathA "Process A"
+  Start -&gt; PathB "Process B"
+  
+  // Both paths converge
+  PathA -&gt; MergePoint "Contributes data"
+  PathB -&gt; MergePoint "Contributes data"
+  
+  // Single continuation
+  MergePoint -&gt; End "Combine and complete"
 }
 </code></pre>
-<h2 id="flows-in-sruja"><a class="header" href="#flows-in-sruja">Flows in Sruja</a></h2>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Parallel processing possible</li>
+<li>Multiple contributions to single result</li>
+<li>Synchronization point at convergence</li>
+<li>Common in gather-aggregate patterns</li>
+</ul>
+<h3 id="looping-flow"><a class="header" href="#looping-flow">Looping Flow</a></h3>
+<p>A step repeats multiple times until a condition is met.</p>
+<pre><code class="language-sruja">RetryingFlow = scenario "Payment with Retry Logic" {
+  API -&gt; PaymentGateway "Process payment"
+  
+  // First attempt fails
+  PaymentGateway -&gt; API "Payment failed: timeout"
+  
+  // Loop: retry up to 3 times
+  API -&gt; PaymentGateway "Retry payment" [attempt 2]
+  PaymentGateway -&gt; API "Payment failed: timeout"
+  
+  API -&gt; PaymentGateway "Retry payment" [attempt 3]
+  PaymentGateway -&gt; API "Payment successful"
+  
+  // Exit loop
+  API -&gt; Database "Save order"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Repeated execution</li>
+<li>Exit condition required</li>
+<li>Common in retry logic and polling</li>
+</ul>
+<h2 id="creating-flows-in-sruja"><a class="header" href="#creating-flows-in-sruja">Creating Flows in Sruja</a></h2>
+<p>Sruja gives you three keywords for flows, and they're essentially interchangeable. Use whichever makes semantic sense for what you're modeling.</p>
 <h3 id="using-scenario"><a class="header" href="#using-scenario">Using <code>scenario</code></a></h3>
-<pre><code class="language-sruja">MyScenario = scenario "Scenario Title" {
-  Step1 -&gt; Step2 "Action"
-  Step2 -&gt; Step3 "Action"
+<p>Use <code>scenario</code> for behavioral flows, especially user journeys and BDD-style scenarios.</p>
+<pre><code class="language-sruja">MyScenario = scenario "User Logs In" {
+  User -&gt; WebApp "Enters credentials"
+  WebApp -&gt; API "Submits login"
+  API -&gt; Database "Verifies user"
+  Database -&gt; API "User found"
+  API -&gt; WebApp "Returns session token"
+  WebApp -&gt; User "Shows dashboard"
 }
 </code></pre>
-<h3 id="using-story-alias"><a class="header" href="#using-story-alias">Using <code>story</code> (alias)</a></h3>
-<pre><code class="language-sruja">MyStory = story "Story Title" {
-  Step1 -&gt; Step2 "Action"
-  Step2 -&gt; Step3 "Action"
+<h3 id="using-story"><a class="header" href="#using-story">Using <code>story</code></a></h3>
+<p>Use <code>story</code> as an alias for <code>scenario</code>. It's the same thing, just a different keyword that some teams prefer for user stories.</p>
+<pre><code class="language-sruja">MyStory = story "As a customer, I want to purchase products" {
+  Customer -&gt; WebApp "Browses products"
+  Customer -&gt; WebApp "Adds to cart"
+  Customer -&gt; WebApp "Checks out"
+  WebApp -&gt; API "Processes order"
+  API -&gt; Customer "Shows confirmation"
 }
 </code></pre>
 <h3 id="using-flow"><a class="header" href="#using-flow">Using <code>flow</code></a></h3>
-<pre><code class="language-sruja">MyFlow = flow "Flow Title" {
-  Step1 -&gt; Step2 "Data"
-  Step2 -&gt; Step3 "Data"
+<p>Use <code>flow</code> for data-oriented flows, especially DFD-style data flows and event flows.</p>
+<pre><code class="language-sruja">MyFlow = flow "Data Processing Pipeline" {
+  Source -&gt; Ingestion "Raw data"
+  Ingestion -&gt; Processing "Transformed data"
+  Processing -&gt; Storage "Stored data"
+  Storage -&gt; Analytics "Query results"
 }
 </code></pre>
-<h2 id="when-to-use-flows"><a class="header" href="#when-to-use-flows">When to Use Flows</a></h2>
+<h2 id="when-to-use-flows-and-when-not-to"><a class="header" href="#when-to-use-flows-and-when-not-to">When to Use Flows (And When Not To)</a></h2>
+<p>Flows are powerful, but they're not always the right tool. Here's how I decide.</p>
 <h3 id="use-flows-when"><a class="header" href="#use-flows-when">Use Flows When</a></h3>
 <ul>
-<li>You need to show sequence (order matters)</li>
-<li>Modeling data lineage or transformation</li>
-<li>Documenting user journeys</li>
-<li>Understanding process steps</li>
-<li>Identifying bottlenecks</li>
+<li><strong>Sequence matters</strong> — You need to show the order in which things happen</li>
+<li><strong>Modeling data lineage</strong> — You need to track where data comes from and goes</li>
+<li><strong>Documenting user journeys</strong> — You need to understand the user experience</li>
+<li><strong>Understanding process steps</strong> — You need to see the complete workflow</li>
+<li><strong>Identifying bottlenecks</strong> — You need to find where things slow down</li>
+<li><strong>Modeling error paths</strong> — You need to show what happens when things fail</li>
 </ul>
 <h3 id="dont-use-flows-when"><a class="header" href="#dont-use-flows-when">Don't Use Flows When</a></h3>
 <ul>
-<li>Showing general connections (use static relationships)</li>
-<li>High-level overview (too much detail)</li>
-<li>Simple system (relationships suffice)</li>
+<li><strong>Showing general connections</strong> — Static relationships are better for showing overall architecture</li>
+<li><strong>High-level overview</strong> — Flows have too much detail for executive diagrams</li>
+<li><strong>Simple systems</strong> — If everything connects to everything, a flow doesn't add clarity</li>
+<li><strong>Static structure</strong> — If you're showing what components exist, not what they do, use static relationships</li>
 </ul>
-<h2 id="flow-anti-patterns"><a class="header" href="#flow-anti-patterns">Flow Anti-Patterns</a></h2>
-<h3 id="anti-pattern-1-too-detailed"><a class="header" href="#anti-pattern-1-too-detailed">Anti-Pattern 1: Too Detailed</a></h3>
-<pre><code class="language-sruja">// Bad: Too much detail
-Flow = scenario "Login" {
-  User -&gt; UI "Click login button"
+<h2 id="pitfalls-to-avoid-ive-made-all-of-these"><a class="header" href="#pitfalls-to-avoid-ive-made-all-of-these">Pitfalls to Avoid (I've Made All of These)</a></h2>
+<p>Let me share some mistakes I've made and seen others make. Hopefully, you can avoid them.</p>
+<h3 id="mistake-1-too-much-detail"><a class="header" href="#mistake-1-too-much-detail">Mistake 1: Too Much Detail</a></h3>
+<pre><code class="language-sruja">// Bad: Way too detailed
+LoginFlow = scenario "User Login (Too Detailed)" {
+  User -&gt; UI "Clicks login button"
   UI -&gt; API "HTTP POST /login"
-  API -&gt; Database "SELECT * FROM users"
-  Database -&gt; API "User record"
-  API -&gt; Auth "Verify password"
-  Auth -&gt; API "Result"
-  API -&gt; UI "Response"
-  UI -&gt; User "Show dashboard"
+  API -&gt; Database "SELECT * FROM users WHERE email = ?"
+  Database -&gt; API "Returns user record"
+  API -&gt; AuthService "Verifies password hash"
+  AuthService -&gt; API "Password matches"
+  API -&gt; TokenService "Generates JWT token"
+  TokenService -&gt; API "Returns token"
+  API -&gt; UI "JSON response with token"
+  UI -&gt; User "Shows dashboard"
 }
 </code></pre>
-<p><strong>Solution</strong>: Group related steps.</p>
-<h3 id="anti-pattern-2-too-abstract"><a class="header" href="#anti-pattern-2-too-abstract">Anti-Pattern 2: Too Abstract</a></h3>
+<p>This is ridiculous. We're showing database queries, HTTP methods, password hashing. This is implementation detail, not architecture. Nobody reading a diagram needs this level of detail.</p>
+<p><strong>Better approach:</strong> Group related steps together.</p>
+<pre><code class="language-sruja">// Good: Right level of detail
+LoginFlow = scenario "User Login" {
+  User -&gt; UI "Submits credentials"
+  UI -&gt; API "Authenticates user"
+  API -&gt; Database "Verifies credentials"
+  Database -&gt; API "User found"
+  API -&gt; TokenService "Creates session"
+  API -&gt; UI "Returns token"
+  UI -&gt; User "Shows dashboard"
+}
+</code></pre>
+<h3 id="mistake-2-too-abstract"><a class="header" href="#mistake-2-too-abstract">Mistake 2: Too Abstract</a></h3>
 <pre><code class="language-sruja">// Bad: Not useful
-Flow = scenario "Process" {
-  Start -&gt; End "Process completes"
+ProcessFlow = scenario "Data Processing (Too Abstract)" {
+  Start -&gt; End "Data gets processed"
 }
 </code></pre>
-<p><strong>Solution</strong>: Add meaningful intermediate steps.</p>
-<h3 id="anti-pattern-3-mixing-flows-with-static-relationships"><a class="header" href="#anti-pattern-3-mixing-flows-with-static-relationships">Anti-Pattern 3: Mixing Flows with Static Relationships</a></h3>
-<pre><code class="language-sruja">// Bad: Confusing to read
-Customer -&gt; Shop.WebApp "Uses"
-OrderFlow = scenario "Checkout" {
-  Customer -&gt; Shop.WebApp "Submits order"
+<p>This tells you nothing. What kind of data? How is it processed? What happens in between? Useless.</p>
+<p><strong>Better approach:</strong> Add meaningful intermediate steps that explain what's actually happening.</p>
+<pre><code class="language-sruja">// Good: Meaningful steps
+ProcessFlow = scenario "Order Processing" {
+  Order -&gt; API "Submits order"
+  API -&gt; Payment "Processes payment"
+  Payment -&gt; Database "Saves order"
+  Database -&gt; Email "Sends confirmation"
 }
 </code></pre>
-<p><strong>Solution</strong>: Keep flows separate from static architecture.</p>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Identify the type of flow for each scenario:</p>
-<ol>
-<li>"User clicks 'Buy Now', sees payment form, enters card details, sees success page"</li>
-<li>"Order data is sent to API, saved to database, extracted to analytics warehouse"</li>
-<li>"Order is created, event is published, multiple services process the event"</li>
-<li>"Order is submitted, if &gt;$100 requires approval, otherwise auto-approved"</li>
-</ol>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Flows show sequences</strong>: How things happen, not just connections</li>
-<li><strong>Multiple flow types</strong>: Data flows, user journeys, control flows, event flows</li>
-<li><strong>Right level of detail</strong>: Not too detailed, not too abstract</li>
-<li><strong>Use appropriately</strong>: When sequence matters</li>
-<li><strong>Separate from static</strong>: Flows complement, don't replace, relationships</li>
-</ol>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-2.html">Lesson 2</a>, you'll learn how to create data flow diagrams.</p>
+<h3 id="mistake-3-mixing-flows-with-static-relationships"><a class="header" href="#mistake-3-mixing-flows-with-static-relationships">Mistake 3: Mixing Flows with Static Relationships</a></h3>
+<pre><code class="language-sruja">// Bad: Confusing mix
+Customer -&gt; Shop.WebApp "Uses"  // Static relationship
+
+CheckoutFlow = scenario "Checkout" {
+  Customer -&gt; Shop.WebApp "Submits order"  // Flow
+  Shop.WebApp -&gt; Shop.API "Sends data"
+}
+</code></pre>
+<p>This is confusing. You have both a static relationship and a flow between the same elements. Readers won't know which to look at or what the difference is.</p>
+<p><strong>Better approach:</strong> Keep flows and static relationships separate. Use flows for sequences, static relationships for overall structure.</p>
+<pre><code class="language-sruja">// Static architecture view
+view architecture {
+  title "System Architecture"
+  include *
+}
+
+// Flow view
+view checkout_flow {
+  title "Checkout Sequence"
+  CheckoutFlow = scenario "Checkout" {
+    Customer -&gt; Shop.WebApp "Submits order"
+    Shop.WebApp -&gt; Shop.API "Sends data"
+  }
+}
+</code></pre>
+<h3 id="mistake-4-one-path-assumes-success"><a class="header" href="#mistake-4-one-path-assumes-success">Mistake 4: One Path Assumes Success</a></h3>
+<pre><code class="language-sruja">// Bad: Only shows happy path
+OrderFlow = scenario "Order Processing" {
+  Customer -&gt; Shop.API "Submits order"
+  Shop.API -&gt; PaymentGateway "Charges payment"
+  PaymentGateway -&gt; Shop.API "Success"
+  Shop.API -&gt; Database "Saves order"
+}
+</code></pre>
+<p>This only works if everything goes perfectly. But what happens if payment fails? What if the database is down? What if the API times out?</p>
+<p><strong>Better approach:</strong> Model both success and failure paths.</p>
+<pre><code class="language-sruja">// Good: Shows both paths
+OrderFlow = scenario "Order Processing with Errors" {
+  Customer -&gt; Shop.API "Submits order"
+  Shop.API -&gt; PaymentGateway "Charges payment"
+  
+  // Success path
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  Shop.API -&gt; Database "Saves order"
+  Shop.API -&gt; Email "Sends confirmation"
+  
+  // Failure path
+  PaymentGateway -&gt; Shop.API "Payment declined"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows error message"
+}
+</code></pre>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Flows reveal what static relationships cannot. They show sequence, transformation, bottlenecks, and error paths. When you create flows:</p>
+<ul>
+<li><strong>Show the sequence</strong> — Not just what's connected, but in what order</li>
+<li><strong>Model both paths</strong> — Success and failure, not just happy paths</li>
+<li><strong>Use the right type</strong> — Data flow for lineage, user journey for experience, control flow for logic</li>
+<li><strong>Right level of detail</strong> — Not too deep (implementation), not too shallow (useless)</li>
+<li><strong>Label meaningfully</strong> — Describe what's actually happening, not generic actions</li>
+<li><strong>Separate from static</strong> — Flows complement, don't replace, static architecture</li>
+</ul>
+<p>If you take away one thing, let it be this: <strong>flows tell the story of how things move through your system over time</strong>. Static relationships show the stage. Flows show the performance.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding.</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're documenting an order processing system. Which type of flow is most appropriate for modeling the complete customer experience from browsing products to receiving an order confirmation?</p>
+<blockquote>
+<p>"A customer browses products, adds items to cart, proceeds to checkout, enters payment details, and places the order. If payment succeeds, they see a confirmation page and receive a confirmation email. If payment fails, they see an error message."</p>
+</blockquote>
+<p><strong>A)</strong> Data Flow
+<strong>B)</strong> User Journey / Scenario
+<strong>C)</strong> Control Flow
+<strong>D)</strong> Event Flow</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) User Journey / Scenario</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. Data flows focus on how data moves and transforms through the system. While data is involved in this scenario, the focus is on the <strong>customer's experience</strong> and actions, not on data transformations. A data flow would show order data flowing through the API, database, and analytics systems—not the customer's actions.</p>
+<p><strong>B)</strong> Correct! A user journey (or scenario) is the right choice here because:</p>
+<ul>
+<li>The scenario describes <strong>user actions</strong> (browses, adds to cart, proceeds to checkout, enters payment, places order)</li>
+<li>It shows <strong>system responses</strong> to those actions (confirmation page, error message, confirmation email)</li>
+<li>It includes <strong>both success and failure paths</strong> from the user's perspective</li>
+<li>It captures the <strong>complete customer experience</strong> from start to finish</li>
+</ul>
+<p>User journeys are behavioral flows from the user's perspective. They're perfect for modeling user stories, requirements, and customer experiences.</p>
+<p><strong>C)</strong> Incorrect. Control flows show decision points and branching logic (if/else). While this scenario has branching (success vs. failure), the branching is based on external payment gateway response, not internal business logic rules. Control flows are better for modeling things like "if order value &gt; $100, require approval" or "if user is VIP, skip verification."</p>
+<p><strong>D)</strong> Incorrect. Event flows show how events propagate through event-driven systems (pub/sub patterns). This scenario doesn't describe an event-driven architecture—it describes a synchronous request/response flow where the customer waits for a response. Event flows would show things like "order created event published → multiple services consume event → eventual consistency."</p>
+<p><strong>Key insight:</strong> Choose flow types based on what you're modeling. Showing the customer's experience and actions? Use a user journey. Tracking data lineage and transformations? Use a data flow. Modeling business logic decisions? Use a control flow. Designing event-driven architecture? Use an event flow.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're creating a flow to model how order data moves through your system from creation to analytics. The data originates from the customer, gets stored in the transactional database, gets extracted daily by an ETL job, gets transformed and aggregated, and ends up in the data warehouse for reporting. Which flow type is most appropriate?</p>
+<p><strong>A)</strong> User Journey / Scenario
+<strong>B)</strong> Control Flow
+<strong>C)</strong> Data Flow
+<strong>D)</strong> Event Flow</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: C) Data Flow</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. A user journey focuses on the user's perspective and actions. This scenario is about <strong>data lineage and transformations</strong>, not about a user's experience. The customer creates the order, but the rest of the flow (ETL, transformation, aggregation, data warehouse) happens automatically without user involvement. A user journey wouldn't capture these data processing steps effectively.</p>
+<p><strong>B)</strong> Incorrect. Control flows show decision points and branching logic (if/else). This scenario describes a <strong>pipeline</strong> where data flows through sequential steps, not a decision tree with branches. There's no conditional logic—every order follows the same path through ETL, transformation, aggregation, and the data warehouse.</p>
+<p><strong>C)</strong> Correct! A data flow is the right choice here because:</p>
+<ul>
+<li>The scenario describes <strong>data lineage</strong> — where data starts (customer), where it goes (database, ETL, warehouse), and where it ends (reporting)</li>
+<li>It shows <strong>data transformations</strong> — order record → ETL extraction → transformation → aggregation → warehouse data</li>
+<li>It models a <strong>pipeline</strong> — sequential steps that process data</li>
+<li>It's focused on <strong>data movement</strong>, not user actions or business logic</li>
+</ul>
+<p>Data flows (DFD-style) are perfect for showing how data moves through a system, including where it originates, how it's stored, how it's transformed, and where it ultimately goes.</p>
+<p><strong>D)</strong> Incorrect. An event flow would show how an event (like "OrderCreated") propagates through an event-driven system with multiple consumers. While event-driven systems can use data flows internally, this scenario describes an <strong>ETL pipeline</strong> with scheduled batch processing, not real-time event propagation. The ETL job pulls data daily, transforms it, and pushes it to the warehouse—this is classic data flow, not event flow.</p>
+<p><strong>Key insight:</strong> Data flows are all about lineage and transformation. If you're modeling where data comes from, how it changes shape, and where it ends up, use a data flow. Think of it like tracing the path data takes through a pipeline.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Now you understand what flows are and why they matter. You know the different types of flows (data, user journey, control, event) and when to use each one.</p>
+<p>But we've only talked about <strong>what</strong> flows are. We haven't talked about <strong>how</strong> to create specific types of flows in practice.</p>
+<p>In the next lesson, you'll learn about <strong>Data Flow Diagrams</strong>—how to model DFD-style data flows that show lineage, transformations, and analytics pipelines. You'll discover how to document where data comes from, how it changes, and where it ultimately ends up.</p>
+<p>See you there!</p>
 
                     </main>
 
@@ -461,9 +783,11 @@ OrderFlow = scenario "Checkout" {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -191,6 +191,71 @@
 <li><strong>Disaster recovery</strong>: What happens if the power plant explodes? (Reliability)</li>
 <li><strong>Expansion</strong>: Can we add a new suburb next year? (Scalability)</li>
 </ul>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="case-study-1-the-netflix-chaos-monkey-success"><a class="header" href="#case-study-1-the-netflix-chaos-monkey-success">Case Study 1: The Netflix Chaos Monkey (Success)</a></h3>
+<p>In 2008-2011, Netflix faced a critical problem. They moved from DVD-by-mail to streaming, but their single datacenter in Virginia was a single point of failure. One morning, the datacenter experienced a major outage—<strong>millions of customers couldn't watch anything</strong>.</p>
+<p><strong>The System Design Decision</strong>: Instead of buying bigger, better datacenters (Vertical Scaling), Netflix chose to:</p>
+<ul>
+<li>Move everything to <strong>cloud infrastructure (AWS)</strong></li>
+<li>Adopt a <strong>microservices architecture</strong></li>
+<li>Build <strong>Chaos Monkey</strong>—a tool that randomly kills services to test resilience</li>
+</ul>
+<p><strong>The Result</strong>:</p>
+<ul>
+<li>Netflix went from <strong>99.9% uptime</strong> to <strong>99.99%+ uptime</strong></li>
+<li>They handle <strong>millions of concurrent streams</strong> globally</li>
+<li>When AWS has an outage in one region, Netflix users don't even notice</li>
+</ul>
+<h3 id="case-study-2-healthcaregov-launch-failure"><a class="header" href="#case-study-2-healthcaregov-launch-failure">Case Study 2: Healthcare.gov Launch (Failure)</a></h3>
+<p>In 2013, the US government launched Healthcare.gov with these requirements:</p>
+<ul>
+<li>Handle <strong>millions of users</strong> trying to sign up simultaneously</li>
+<li>Integrate with <strong>dozens of legacy systems</strong> (IRS, insurance companies, etc.)</li>
+<li><strong>100% data accuracy</strong> (no room for errors in health coverage)</li>
+</ul>
+<p><strong>The System Design Mistakes</strong>:</p>
+<ul>
+<li>No load testing before launch (assumed it would "just work")</li>
+<li>Tightly coupled architecture with <strong>no caching layer</strong></li>
+<li>Single database bottleneck (no sharding)</li>
+<li>No graceful degradation (the entire site crashed instead of showing partial results)</li>
+</ul>
+<p><strong>The Consequences</strong>:</p>
+<ul>
+<li><strong>Site crashed immediately</strong>—only 6 people could sign up on day one</li>
+<li>Cost <strong>$1.7 billion</strong> and took 2 years to fix</li>
+<li>Public relations disaster and loss of trust</li>
+</ul>
+<p><strong>The Fix</strong>:</p>
+<ul>
+<li>Added a <strong>caching layer</strong> (Redis) to handle read-heavy traffic</li>
+<li>Implemented <strong>horizontal scaling</strong> with auto-scaling groups</li>
+<li>Added <strong>circuit breakers</strong> to prevent cascading failures</li>
+<li>Built <strong>queue-based architecture</strong> for background processing</li>
+</ul>
+<h3 id="case-study-3-instagrams-2010-growth-spike"><a class="header" href="#case-study-3-instagrams-2010-growth-spike">Case Study 3: Instagram's 2010 Growth Spike</a></h3>
+<p>When Instagram launched in 2010, they had:</p>
+<ul>
+<li><strong>2 servers</strong> (one for the app, one for the database)</li>
+<li><strong>50,000 users</strong> on launch day</li>
+<li><strong>Within a week</strong>: 1 million users</li>
+<li><strong>Within a month</strong>: 10 million users</li>
+</ul>
+<p><strong>The Challenge</strong>: Their architecture couldn't handle the exponential growth. The database was overwhelmed, and image uploads were timing out.</p>
+<p><strong>The System Design Solution</strong>:</p>
+<ol>
+<li><strong>Database Sharding</strong>: Split user data across multiple database servers by user ID</li>
+<li><strong>Content Delivery Network (CDN)</strong>: Host images on edge servers globally</li>
+<li><strong>Read Replicas</strong>: Created multiple read-only copies of the database</li>
+<li><strong>Async Processing</strong>: Moved image processing to background queues</li>
+</ol>
+<p><strong>The Numbers</strong>:</p>
+<ul>
+<li>Before fix: <strong>95% uptime</strong>, 30-second image uploads</li>
+<li>After fix: <strong>99.9% uptime</strong>, &lt;1-second image uploads</li>
+<li>They scaled from <strong>2 servers to 500+ servers</strong> in 6 months</li>
+<li>Eventually acquired by Facebook for <strong>$1 billion</strong></li>
+</ul>
 <blockquote class="blockquote-tag blockquote-tag-important">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p>
 <p><strong>The golden rule</strong>: In system design, there are no right answers, only <strong>trade-offs</strong>.</p>
@@ -199,17 +264,100 @@
 <p>Every system has two sets of requirements. In an interview (and real life), 90% of your initial grade comes from clarifying these <strong>before you draw a single box</strong>.</p>
 <h3 id="1-functional-requirements-the-what"><a class="header" href="#1-functional-requirements-the-what">1. Functional Requirements (The "What")</a></h3>
 <p>These are the features. If the system doesn't do this, it's useless.</p>
+<p><strong>Basic Examples</strong>:</p>
 <ul>
 <li>User can post a tweet.</li>
 <li>User can follow others.</li>
 <li>User sees a news feed.</li>
 </ul>
+<p><strong>Real-World Examples by Industry</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Industry</th><th>Functional Requirements</th><th>Real System Example</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>E-commerce</strong></td><td>Browse products, add to cart, checkout, track orders</td><td>Amazon, Shopify</td></tr>
+<tr><td><strong>Social Media</strong></td><td>Post content, follow users, like/comment, real-time notifications</td><td>Twitter, Instagram</td></tr>
+<tr><td><strong>Streaming</strong></td><td>Video playback, quality adjustment, search, watchlist</td><td>Netflix, YouTube</td></tr>
+<tr><td><strong>Banking</strong></td><td>Transfer money, view balance, pay bills, transaction history</td><td>Chase, Revolut</td></tr>
+<tr><td><strong>Healthcare</strong></td><td>Book appointments, view records, message doctors, prescription management</td><td>Teladoc, Epic</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Advanced Examples from Production Systems</strong>:</p>
+<p><strong>Uber's Real-Time Requirements</strong>:</p>
+<ul>
+<li>Driver tracking updates every <strong>4 seconds</strong></li>
+<li>Passenger requests must be matched to drivers within <strong>&lt;5 seconds</strong></li>
+<li>Surge pricing calculated dynamically based on <strong>real-time supply/demand</strong></li>
+<li>Payment processing within <strong>&lt;2 seconds</strong> after ride completion</li>
+</ul>
+<p><strong>Spotify's Music Streaming Requirements</strong>:</p>
+<ul>
+<li><strong>&lt;200ms latency</strong> for track start (no buffering delay)</li>
+<li>Support <strong>offline playback</strong> with 10,000+ songs cached</li>
+<li>Real-time collaborative playlists with <strong>&lt;500ms sync</strong></li>
+<li>Personalized recommendations with <strong>50M+ tracks</strong> in catalog</li>
+</ul>
+<p><strong>Airbnb's Booking Requirements</strong>:</p>
+<ul>
+<li>Support <strong>concurrent bookings</strong> for same property (prevent double-booking)</li>
+<li><strong>24-hour hold</strong> on bookings before payment</li>
+<li>Real-time availability sync across <strong>190+ countries</strong></li>
+<li><strong>Instant book</strong> feature (no host approval required)</li>
+</ul>
 <h3 id="2-non-functional-requirements-the-how"><a class="header" href="#2-non-functional-requirements-the-how">2. Non-Functional Requirements (The "How")</a></h3>
 <p>These are the constraints. If the system doesn't meet these, it will crash/fail/be too slow.</p>
+<p><strong>Basic Examples</strong>:</p>
 <ul>
 <li><strong>Scalability</strong>: Must handle 100M daily active users.</li>
 <li><strong>Latency</strong>: Feed must load in &lt; 200ms.</li>
 <li><strong>Consistency</strong>: A tweet must appear on followers' feeds within 5 seconds.</li>
+</ul>
+<p><strong>Real-World Production Requirements</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>System</th><th>Availability</th><th>Latency</th><th>Throughput</th><th>Data Size</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Google Search</strong></td><td>99.99%</td><td>&lt;0.5 seconds</td><td>63,000 queries/second</td><td>100+ petabytes</td></tr>
+<tr><td><strong>Netflix Streaming</strong></td><td>99.99%</td><td>&lt;2 seconds (start)</td><td>100M+ concurrent streams</td><td>1+ petabytes/day</td></tr>
+<tr><td><strong>WhatsApp</strong></td><td>99.9%</td><td>&lt;100ms (message delivery)</td><td>65B+ messages/day</td><td>4+ petabytes/year</td></tr>
+<tr><td><strong>Twitter (X)</strong></td><td>99.9%</td><td>&lt;200ms (timeline)</td><td>500M+ tweets/day</td><td>500+ petabytes</td></tr>
+<tr><td><strong>AWS S3</strong></td><td>99.999999999% (11 nines)</td><td>&lt;100ms (GET)</td><td>20M+ requests/second</td><td>100+ exabytes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Industry-Specific Requirements</strong>:</p>
+<p><strong>Finance (Banking/Trading)</strong>:</p>
+<ul>
+<li><strong>Strong Consistency</strong>: Account balances must be 100% accurate (no eventual consistency)</li>
+<li><strong>Auditability</strong>: Every transaction must be logged and traceable</li>
+<li><strong>Compliance</strong>: GDPR, PCI-DSS, SOX compliance required</li>
+<li><strong>Low Latency</strong>: Trading decisions in microseconds for high-frequency trading</li>
+</ul>
+<p><strong>Healthcare</strong>:</p>
+<ul>
+<li><strong>HIPAA Compliance</strong>: All data encrypted at rest and in transit</li>
+<li><strong>High Availability</strong>: Patient data must be accessible 24/7</li>
+<li><strong>Privacy</strong>: Strict access controls and audit logs</li>
+<li><strong>Disaster Recovery</strong>: RPO (Recovery Point Objective) &lt; 1 hour, RTO (Recovery Time Objective) &lt; 4 hours</li>
+</ul>
+<p><strong>Gaming</strong>:</p>
+<ul>
+<li><strong>Real-Time</strong>: &lt;50ms latency for multiplayer gaming</li>
+<li><strong>High Throughput</strong>: Handle millions of concurrent players</li>
+<li><strong>Scalable</strong>: Auto-scale for game launches and events</li>
+<li><strong>Anti-Cheat</strong>: Prevent cheating and hacking</li>
+</ul>
+<p><strong>IoT (Internet of Things)</strong>:</p>
+<ul>
+<li><strong>High Ingest Rate</strong>: Handle millions of devices sending data simultaneously</li>
+<li><strong>Edge Computing</strong>: Process data locally to reduce bandwidth</li>
+<li><strong>Low Power</strong>: Devices operate on battery for years</li>
+<li><strong>Intermittent Connectivity</strong>: Work with unstable network connections</li>
 </ul>
 <pre class="mermaid">graph TD
     A[Requirements] --&gt; B[Functional]
@@ -242,6 +390,119 @@
 </tbody>
 </table>
 </div>
+<h2 id="practical-trade-off-scenarios"><a class="header" href="#practical-trade-off-scenarios">Practical Trade-Off Scenarios</a></h2>
+<h3 id="scenario-1-building-a-real-time-chat-app"><a class="header" href="#scenario-1-building-a-real-time-chat-app">Scenario 1: Building a Real-Time Chat App</a></h3>
+<p><strong>Context</strong>: You're building a chat app like Slack or Discord. Users expect messages to appear instantly.</p>
+<p><strong>The Trade-Off Decisions</strong>:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Message Storage</strong></td><td>Relational DB (PostgreSQL)</td><td>NoSQL (Cassandra)</td><td><strong>NoSQL</strong> - High write throughput, eventual consistency acceptable</td></tr>
+<tr><td><strong>Real-time Updates</strong></td><td>Polling (client asks server every 5s)</td><td>WebSockets (server pushes updates)</td><td><strong>WebSockets</strong> - Lower latency, less server load</td></tr>
+<tr><td><strong>Message History</strong></td><td>Keep forever</td><td>90-day retention</td><td><strong>90-day retention</strong> - Reduce storage costs, most users don't need old messages</td></tr>
+<tr><td><strong>Online Status</strong></td><td>Check on every message</td><td>Heartbeat every 30s</td><td><strong>Heartbeat</strong> - Scale better, less database load</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Performance Impact</strong>:</p>
+<ul>
+<li>Polling approach: 100K users × 1 request/5s = <strong>20,000 requests/second</strong> just for checking messages</li>
+<li>WebSocket approach: <strong>100-200 requests/second</strong> (heartbeat only)</li>
+</ul>
+<h3 id="scenario-2-building-an-e-commerce-platform"><a class="header" href="#scenario-2-building-an-e-commerce-platform">Scenario 2: Building an E-Commerce Platform</a></h3>
+<p><strong>Context</strong>: You're building Amazon-scale e-commerce. Need to handle Black Friday traffic spikes.</p>
+<p><strong>The Architecture Trade-Offs</strong>:</p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+ECommerce = system "E-Commerce Platform" {
+    description "High-volume retail platform with trade-off decisions documented"
+    
+    // TRADE-OFF 1: Read-heavy vs Write-heavy
+    ProductDB = database "Product Catalog Database" {
+        technology "PostgreSQL with Read Replicas"
+        description "Optimized for READ operations (99% of traffic is reads)"
+        
+        tradeoff {
+            decision "Use read replicas for product browsing"
+            sacrifice "Write latency (updates take longer to propagate)"
+            reason "Users browse products 100x more than they add products"
+            metric "Read:Write ratio = 100:1"
+        }
+    }
+    
+    // TRADE-OFF 2: Strong vs Eventual Consistency
+    CartService = container "Shopping Cart Service" {
+        technology "Redis"
+        description "In-memory cache for cart state"
+        
+        tradeoff {
+            decision "Use Redis (in-memory) for cart storage"
+            sacrifice "Durability (cart data lost if Redis crashes)"
+            reason "Cart data is temporary and can be recreated from product catalog"
+            mitigation "Periodic snapshots to persistent storage"
+        }
+    }
+    
+    // TRADE-OFF 3: Cost vs Performance
+    SearchEngine = container "Product Search" {
+        technology "Elasticsearch"
+        description "Full-text search with caching layer"
+        
+        tradeoff {
+            decision "Use expensive Elasticsearch cluster"
+            sacrifice "Infrastructure cost ($5K/month)"
+            reason "Search performance directly impacts conversion rates (1% latency = 1% revenue loss)"
+            metric "Search latency &lt;200ms required for optimal UX"
+        }
+    }
+    
+    // TRADE-OFF 4: Availability vs Consistency
+    OrderService = container "Order Processing" {
+        technology "Kafka + Microservices"
+        description "Async order processing pipeline"
+        
+        tradeoff {
+            decision "Use async messaging (eventual consistency)"
+            sacrifice "Real-time inventory accuracy"
+            reason "Better availability and scalability during peak traffic"
+            mitigation "Compensating transactions to handle over-selling"
+        }
+    }
+}
+</code></pre>
+<h3 id="scenario-3-cap-theorem-in-practice"><a class="header" href="#scenario-3-cap-theorem-in-practice">Scenario 3: CAP Theorem in Practice</a></h3>
+<p><strong>Real-World Example: Netflix vs. PayPal</strong></p>
+<p><strong>Netflix (Choose Availability)</strong>:</p>
+<ul>
+<li>If a user can't watch a video, they might cancel subscription</li>
+<li><strong>Trade-off</strong>: Occasionally show stale content recommendations</li>
+<li><strong>Architecture</strong>: AP system (Available, Partition-tolerant, Eventually consistent)</li>
+<li><strong>Data</strong>: Video recommendations, watch history, user preferences</li>
+</ul>
+<p><strong>PayPal (Choose Consistency)</strong>:</p>
+<ul>
+<li>If a transaction is processed incorrectly, lawsuits happen</li>
+<li><strong>Trade-off</strong>: Brief service interruptions during network partitions</li>
+<li><strong>Architecture</strong>: CP system (Consistent, Partition-tolerant, Limited availability)</li>
+<li><strong>Data</strong>: Account balances, transaction records, payment processing</li>
+</ul>
+<p><strong>The Decision Matrix</strong>:</p>
+<pre><code>Ask yourself:
+1. What happens if the data is wrong?
+   → If lawsuits/financial loss → Prioritize Consistency (PayPal model)
+   → If just bad UX → Prioritize Availability (Netflix model)
+
+2. What's the tolerance for downtime?
+   → Zero tolerance → Prioritize Availability (Instagram for celebrity photos)
+   → Some tolerance OK → Prioritize Consistency (Banking)
+
+3. Can you design around the trade-off?
+   → Yes: Use hybrid approach (read-optimized cache + write-optimized DB)
+   → No: Pick one and accept the consequences
+</code></pre>
 <h2 id="sruja-integration"><a class="header" href="#sruja-integration">Sruja Integration</a></h2>
 <p>In Sruja, we treat requirements as code. This keeps your constraints right next to your architecture.</p>
 <h3 id="why-kinds-and-types-matter"><a class="header" href="#why-kinds-and-types-matter">Why Kinds and Types Matter</a></h3>
@@ -321,6 +582,16 @@ include Twitter.TimelineAPI Twitter.TweetDB
 <summary><strong>Q: Why not just use the fastest database for everything?</strong></summary>
 <p>Because "fastest" depends on the workload. A database fast at reading (Cassandra) might be complex to manage. A database fast at relationships (Neo4j) might scale poorly for heavy writes. <strong>Trade-offs.</strong></p>
 </details>
+<h2 id="quiz-test-your-knowledge"><a class="header" href="#quiz-test-your-knowledge">Quiz: Test Your Knowledge</a></h2>
+<p>Ready to apply what you've learned? Take the interactive quiz for this lesson!</p>
+<p>{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-1-quiz.toml}}</p>
+<p>This quiz covers:</p>
+<ul>
+<li>Functional vs Non-functional requirements</li>
+<li>Real-world case studies (Netflix, Healthcare.gov, Instagram)</li>
+<li>Trade-off decisions in system design</li>
+<li>Practical scenarios and decision-making</li>
+</ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Now that we have the mindset, let's learn the language.
 👉 <strong><a href="./lesson-2">Lesson 2: The Vocabulary of Scale</a></strong></p>
@@ -378,9 +649,11 @@ include Twitter.TimelineAPI Twitter.TweetDB
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

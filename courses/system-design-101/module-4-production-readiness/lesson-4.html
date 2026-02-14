@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,93 +180,761 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-4-slos--scale-integration"><a class="header" href="#lesson-4-slos--scale-integration">Lesson 4: SLOs &amp; Scale Integration</a></h1>
-<h2 id="why-slos"><a class="header" href="#why-slos">Why SLOs?</a></h2>
-<p>SLOs set measurable targets (availability, latency, error rate, throughput). They guide capacity and design.</p>
-<h2 id="sruja-slo--scale"><a class="header" href="#sruja-slo--scale">Sruja: SLO + Scale</a></h2>
+                        <hr>
+<h1 id="lesson-4-slos--scale-integration"><a class="header" href="#lesson-4-slos--scale-integration">Lesson 4: SLOs &amp; Scale Integration</a></h1>
+<p>"We guarantee 99.99% availability."</p>
+<p>That's what our sales team promised the enterprise customer. It was in the contract. A $5M contract that would make our quarter.</p>
+<p>Six months later, the customer demanded their SLA credits. They'd experienced 14 hours of downtime. We'd promised 99.99% availability (52 minutes of downtime per year), but we'd delivered 99.5%.</p>
+<p><strong>The problem?</strong> We had no idea we were failing. We weren't measuring availability. We had no SLOs, no monitoring, no alerts. We just had a promise we couldn't keep.</p>
+<p>The customer got $500K in credits. The sales team was furious. The engineering team was embarrassed. And I learned a hard lesson: <strong>a promise without measurement is just a lie.</strong></p>
+<p>That's when I discovered SLOs (Service Level Objectives). Not as a theoretical concept, but as a survival mechanism. This lesson is about how to define meaningful SLOs, measure them rigorously, and align your architecture to actually meet them.</p>
+<h2 id="what-are-slos-really"><a class="header" href="#what-are-slos-really">What Are SLOs, Really?</a></h2>
+<p><strong>Service Level Objectives (SLOs)</strong> are specific, measurable targets for your service's reliability. They answer the question: "What does 'good enough' look like?"</p>
+<h3 id="the-three-components"><a class="header" href="#the-three-components">The Three Components</a></h3>
+<p>Every SLO has three parts:</p>
+<ol>
+<li><strong>The Metric:</strong> What are you measuring? (latency, availability, error rate)</li>
+<li><strong>The Target:</strong> What's the threshold? (99.9%, 200ms, &lt; 0.1%)</li>
+<li><strong>The Window:</strong> Over what time period? (30 days, 7 days, 24 hours)</li>
+</ol>
+<p><strong>Example:</strong></p>
+<pre><code>Metric: Availability
+Target: 99.9%
+Window: 30 days
+</code></pre>
+<p>This means: "Over any 30-day period, our service must be available 99.9% of the time."</p>
+<p><strong>Why this matters:</strong></p>
+<ul>
+<li><strong>Customers know what to expect:</strong> Clear reliability commitment</li>
+<li><strong>Engineering knows what to build:</strong> Target to design for</li>
+<li><strong>Product knows when to freeze features:</strong> If SLO is breached, stop shipping</li>
+<li><strong>Finance knows what it costs:</strong> Reliability has a price</li>
+</ul>
+<h2 id="the-slo-hierarchy"><a class="header" href="#the-slo-hierarchy">The SLO Hierarchy</a></h2>
+<h3 id="sla--slo--sli"><a class="header" href="#sla--slo--sli">SLA &gt; SLO &gt; SLI</a></h3>
+<p><strong>SLA (Service Level Agreement):</strong> The promise you make to customers. Usually has financial consequences.</p>
+<p><strong>Example:</strong> "99.9% availability or we'll give you 10% credit on your bill."</p>
+<p><strong>SLO (Service Level Objective):</strong> The internal target you set for your team. Should be stricter than your SLA.</p>
+<p><strong>Example:</strong> "We target 99.95% availability internally so we never breach the 99.9% SLA."</p>
+<p><strong>SLI (Service Level Indicator):</strong> The actual measurement.</p>
+<p><strong>Example:</strong> "Last month we achieved 99.93% availability."</p>
+<p><strong>The relationship:</strong></p>
+<ul>
+<li>SLI is reality (what you actually delivered)</li>
+<li>SLO is the goal (what you're aiming for)</li>
+<li>SLA is the contract (what you promised)</li>
+</ul>
+<p><strong>Best practice:</strong> Set your SLO higher than your SLA. Give yourself headroom.</p>
+<h2 id="what-makes-a-good-slo"><a class="header" href="#what-makes-a-good-slo">What Makes a Good SLO?</a></h2>
+<h3 id="the-smart-framework-for-slos"><a class="header" href="#the-smart-framework-for-slos">The SMART Framework for SLOs</a></h3>
+<p><strong>S - Specific:</strong> Clear metric with no ambiguity</p>
+<p>❌ "The system should be fast"
+✅ "API latency p95 &lt; 200ms"</p>
+<p><strong>M - Measurable:</strong> Can be objectively measured automatically</p>
+<p>❌ "Users should be happy"
+✅ "Error rate &lt; 0.1%"</p>
+<p><strong>A - Achievable:</strong> Realistic given your current architecture</p>
+<p>❌ "100% availability" (impossible)
+✅ "99.9% availability" (challenging but achievable)</p>
+<p><strong>R - Relevant:</strong> Measures something users actually care about</p>
+<p>❌ "Server CPU utilization"
+✅ "Request latency" (users care about speed)</p>
+<p><strong>T - Time-bound:</strong> Defined over a specific window</p>
+<p>❌ "System is usually available"
+✅ "99.9% availability over 30 days"</p>
+<h2 id="types-of-slos"><a class="header" href="#types-of-slos">Types of SLOs</a></h2>
+<h3 id="1-availability-slos"><a class="header" href="#1-availability-slos">1. Availability SLOs</a></h3>
+<p><strong>What it measures:</strong> Is the service working?</p>
+<p><strong>How to calculate:</strong> <code>(Total time - Downtime) / Total time</code></p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">slo {
+  availability {
+    target "99.9%"  // 8.76 hours downtime/year allowed
+    window "30 days"
+    current "99.95%"
+  }
+}
+</code></pre>
+<p><strong>Real-world example:</strong> Netflix</p>
+<p>Netflix targets 99.99% availability for their streaming service. That's 52 minutes of downtime per year. How do they achieve it? Chaos engineering. They break things on purpose to ensure resilience.</p>
+<h3 id="2-latency-slos"><a class="header" href="#2-latency-slos">2. Latency SLOs</a></h3>
+<p><strong>What it measures:</strong> How fast does the service respond?</p>
+<p><strong>How to calculate:</strong> Percentiles (p50, p95, p99)</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">slo {
+  latency {
+    p95 "200ms"  // 95% of requests faster than 200ms
+    p99 "500ms"  // 99% of requests faster than 500ms
+    window "7 days"
+    current {
+      p95 "180ms"
+      p99 "450ms"
+    }
+  }
+}
+</code></pre>
+<p><strong>Real-world example:</strong> Amazon</p>
+<p>Amazon found that every 100ms of latency cost 1% in sales. They have strict latency SLOs: p99 &lt; 100ms for most services. Their architecture is optimized for speed because speed directly impacts revenue.</p>
+<p><strong>Why percentiles matter:</strong></p>
+<p>❌ <strong>Average latency:</strong> "Average latency is 50ms"</p>
+<ul>
+<li>Problem: Hides outliers. If 5% of requests take 10 seconds, average might still look fine.</li>
+</ul>
+<p>✅ <strong>Percentile latency:</strong> "p95 latency is 200ms"</p>
+<ul>
+<li>Benefit: 95% of users get &lt; 200ms. You know the worst case most users experience.</li>
+</ul>
+<h3 id="3-error-rate-slos"><a class="header" href="#3-error-rate-slos">3. Error Rate SLOs</a></h3>
+<p><strong>What it measures:</strong> What percentage of requests fail?</p>
+<p><strong>How to calculate:</strong> <code>Failed requests / Total requests</code></p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">slo {
+  error_rate {
+    target "&lt; 0.1%"  // Fewer than 1 in 1000 requests fail
+    window "30 days"
+    current "0.05%"
+  }
+}
+</code></pre>
+<p><strong>Real-world example:</strong> Stripe</p>
+<p>Stripe processes billions in payments. Their error rate SLO is &lt; 0.01% (1 in 10,000 requests). Every failed payment is lost revenue and frustrated customers. They achieve this through retry logic, circuit breakers, and graceful degradation.</p>
+<h3 id="4-throughput-slos"><a class="header" href="#4-throughput-slos">4. Throughput SLOs</a></h3>
+<p><strong>What it measures:</strong> How many requests can you handle?</p>
+<p><strong>How to calculate:</strong> <code>Requests per second (req/s)</code></p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">slo {
+  throughput {
+    target "1000 req/s"  // Handle 1000 requests per second
+    window "1 hour"
+    current "950 req/s"
+  }
+}
+</code></pre>
+<p><strong>Real-world example:</strong> Uber</p>
+<p>During New Year's Eve, Uber's throughput spikes 10x. Their throughput SLO ensures they can handle the surge: 100,000 ride requests per second globally. They achieve this through massive auto-scaling and capacity planning.</p>
+<h2 id="error-budgets-the-most-important-concept"><a class="header" href="#error-budgets-the-most-important-concept">Error Budgets: The Most Important Concept</a></h2>
+<p><strong>What is an error budget?</strong></p>
+<p>An error budget is the amount of unreliability you can afford before breaching your SLO. It's the difference between 100% and your SLO target.</p>
+<p><strong>Example:</strong></p>
+<pre><code>SLO: 99.9% availability over 30 days
+Total time in 30 days: 43,200 minutes
+Allowed downtime (error budget): 43.2 minutes
+
+If you've had 20 minutes of downtime this month:
+Remaining error budget: 23.2 minutes
+</code></pre>
+<h3 id="how-to-use-error-budgets"><a class="header" href="#how-to-use-error-budgets">How to Use Error Budgets</a></h3>
+<p><strong>Google's approach (popularized in their SRE book):</strong></p>
+<p><strong>1. When error budget is HEALTHY (plenty remaining):</strong></p>
+<ul>
+<li>Take more risks</li>
+<li>Launch new features faster</li>
+<li>Reduce operational toil</li>
+<li>Experiment with architecture changes</li>
+</ul>
+<p><strong>2. When error budget is DEPLETED (barely any remaining):</strong></p>
+<ul>
+<li>Freeze new features</li>
+<li>Focus on reliability</li>
+<li>Pay down technical debt</li>
+<li>Add more tests</li>
+<li>Improve monitoring</li>
+</ul>
+<p><strong>3. When error budget is EXCEEDED (SLO breached):</strong></p>
+<ul>
+<li>Incident review required</li>
+<li>Post-mortem mandatory</li>
+<li>No new features until SLO recovers</li>
+</ul>
+<p><strong>Real-world example:</strong> Google Search</p>
+<p>Google Search has a 99.99% availability SLO. When they're within budget, they push changes aggressively. When budget is tight, they slow down. This balance lets them innovate while staying reliable.</p>
+<h3 id="error-budget-calculator"><a class="header" href="#error-budget-calculator">Error Budget Calculator</a></h3>
+<pre><code>Monthly Error Budget for 99.9% availability:
+- 30 days × 24 hours × 60 minutes = 43,200 minutes
+- Allowed downtime: 0.1% × 43,200 = 43.2 minutes/month
+
+Monthly Error Budget for 99.99% availability:
+- Allowed downtime: 0.01% × 43,200 = 4.32 minutes/month
+
+Monthly Error Budget for 99.999% availability:
+- Allowed downtime: 0.001% × 43,200 = 0.432 minutes/month (26 seconds!)
+</code></pre>
+<p><strong>The lesson:</strong> Higher SLOs are exponentially harder and more expensive.</p>
+<h2 id="aligning-scale-with-slos"><a class="header" href="#aligning-scale-with-slos">Aligning Scale with SLOs</a></h2>
+<p>This is where architecture meets reliability. Your SLOs determine your capacity requirements.</p>
+<h3 id="the-capacity-slo-relationship"><a class="header" href="#the-capacity-slo-relationship">The Capacity-SLO Relationship</a></h3>
+<p><strong>Key insight:</strong> You need headroom to meet SLOs during traffic spikes.</p>
+<p><strong>Example:</strong></p>
+<pre><code>Current traffic: 500 req/s
+Traffic spikes: Up to 2x (1000 req/s during peak)
+SLO target: 1000 req/s throughput
+Required capacity: 1000 req/s minimum
+
+But wait - if you're at 100% capacity, you can't handle:
+- Unexpected spikes (&gt; 2x)
+- Server failures
+- Deployment rollouts
+- Performance degradation
+
+Best practice: Run at 50-70% capacity. Have 30-50% headroom.
+</code></pre>
+<h3 id="sruja-modeling-scale-with-slos"><a class="header" href="#sruja-modeling-scale-with-slos">Sruja: Modeling Scale with SLOs</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 ECommerce = system "E-Commerce Platform" {
-API = container "API Service" {
-  technology "Rust"
-
-  // Scale configuration aligned with SLOs
-  scale {
-    metric "req/s"
-    min 200
-    max 2000
-  }
-
-  // SLOs define what "good" looks like
-  slo {
-    availability {
-      target "99.9%"
-      window "30 days"
-      current "99.95%"
-    }
-    latency {
-      p95 "200ms"
-      p99 "500ms"
-      window "7 days"
-      current {
-        p95 "180ms"
-        p99 "450ms"
+  API = container "API Service" {
+    technology "Rust"
+    
+    // Define your SLO first
+    slo {
+      throughput {
+        target "1000 req/s"
+        window "1 hour"
+      }
+      
+      latency {
+        p95 "200ms"
+        p99 "500ms"
+        window "7 days"
+      }
+      
+      availability {
+        target "99.9%"
+        window "30 days"
       }
     }
-    errorRate {
-      target "&lt; 0.1%"
-      window "30 days"
-      current "0.05%"
-    }
-    throughput {
-      target "1000 req/s"
-      window "1 hour"
-      current "950 req/s"
-    }
-  }
-}
-
-Database = database "PostgreSQL" {
-  technology "PostgreSQL"
-  slo {
-    availability {
-      target "99.9%"
-      window "30 days"
-    }
-    latency {
-      p95 "50ms"
-      p99 "100ms"
+    
+    // Then define scale to support the SLO
+    scale {
+      metric "cpu"
+      
+      // Baseline capacity (support 1000 req/s at 50% CPU)
+      min 5
+      
+      // Burst capacity (handle 2x spikes)
+      max 20
+      
+      // Auto-scale trigger
+      scale_up "cpu &gt; 70%"
+      scale_down "cpu &lt; 30%"
     }
   }
-}
-
-API -&gt; Database "Reads/Writes"
 }
 
 view index {
-title "Production System with SLOs"
-include *
-}
-
-// SLO monitoring view
-view slos {
-title "SLO Monitoring View"
-include ECommerce.API ECommerce.Database
+  title "Production System with SLO-Aligned Scale"
+  include *
 }
 </code></pre>
-<h3 id="key-integration-points"><a class="header" href="#key-integration-points">Key Integration Points</a></h3>
-<ol>
-<li><strong>Scale aligns with SLOs</strong>: Min/max replicas support throughput targets</li>
-<li><strong>SLOs guide monitoring</strong>: Define what metrics to track and alert on</li>
-<li><strong>Current vs Target</strong>: Track progress toward SLO targets</li>
-<li><strong>Multiple SLO types</strong>: Availability, latency, error rate, throughput</li>
-</ol>
-<h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
+<p><strong>Key principle:</strong> Start with SLO, then design scale. Not the other way around.</p>
+<h3 id="the-headroom-calculation"><a class="header" href="#the-headroom-calculation">The Headroom Calculation</a></h3>
+<p><strong>Formula:</strong></p>
+<pre><code>Required Capacity = Peak Traffic × Headroom Factor
+
+Where Headroom Factor:
+- 1.3x for non-critical services (30% headroom)
+- 1.5x for standard services (50% headroom)
+- 2.0x for critical services (100% headroom)
+</code></pre>
+<p><strong>Example:</strong></p>
+<pre><code>Service: Payment API (critical)
+Peak traffic: 500 req/s
+Headroom factor: 2.0x
+Required capacity: 1000 req/s
+
+If each instance handles 100 req/s:
+Min instances: 10
+</code></pre>
+<h3 id="real-world-capacity-planning"><a class="header" href="#real-world-capacity-planning">Real-World Capacity Planning</a></h3>
+<p><strong>Netflix's approach:</strong></p>
+<p>Netflix tracks their "efficiency" metric: actual usage vs. provisioned capacity.</p>
 <ul>
-<li>Set <code>p95</code> and <code>availability</code> targets for the API.</li>
-<li>Adjust <code>scale</code> bounds to keep <code>throughput</code> above target.</li>
+<li><strong>Too low (&lt; 30%):</strong> Wasting money</li>
+<li><strong>Too high (&gt; 80%):</strong> Risk of SLO breach</li>
+<li><strong>Target (50-70%):</strong> Optimal balance</li>
 </ul>
+<p>They auto-scale based on this, ensuring they meet SLOs without overspending.</p>
+<h2 id="setting-slos-the-framework"><a class="header" href="#setting-slos-the-framework">Setting SLOs: The Framework</a></h2>
+<h3 id="step-1-identify-user-journeys"><a class="header" href="#step-1-identify-user-journeys">Step 1: Identify User Journeys</a></h3>
+<p>What are the critical paths users take through your system?</p>
+<p><strong>Example for e-commerce:</strong></p>
+<ol>
+<li>User searches for product</li>
+<li>User views product details</li>
+<li>User adds to cart</li>
+<li>User checks out</li>
+<li>User pays</li>
+</ol>
+<p><strong>Prioritize:</strong> Which journeys matter most? (Checkout and payment are more critical than search)</p>
+<h3 id="step-2-choose-metrics"><a class="header" href="#step-2-choose-metrics">Step 2: Choose Metrics</a></h3>
+<p>For each journey, what metrics matter?</p>
+<ul>
+<li><strong>Search:</strong> Latency (users want fast results)</li>
+<li><strong>Product view:</strong> Availability (must work)</li>
+<li><strong>Cart:</strong> Availability + durability (don't lose items)</li>
+<li><strong>Checkout:</strong> Availability + latency (fast and reliable)</li>
+<li><strong>Payment:</strong> Availability + error rate (must succeed)</li>
+</ul>
+<h3 id="step-3-measure-current-performance"><a class="header" href="#step-3-measure-current-performance">Step 3: Measure Current Performance</a></h3>
+<p>Before setting targets, measure reality:</p>
+<pre><code>Current performance (last 30 days):
+- Availability: 99.5%
+- Latency p95: 350ms
+- Error rate: 0.3%
+</code></pre>
+<h3 id="step-4-set-achievable-targets"><a class="header" href="#step-4-set-achievable-targets">Step 4: Set Achievable Targets</a></h3>
+<p>Based on current performance, set realistic targets:</p>
+<pre><code>Current: 99.5% availability
+Target: 99.7% availability (improvement, not perfection)
+Future: 99.9% availability (long-term goal)
+</code></pre>
+<p><strong>The mistake to avoid:</strong> Setting 99.99% SLO when you're at 99%. You'll fail constantly.</p>
+<h3 id="step-5-create-alerts"><a class="header" href="#step-5-create-alerts">Step 5: Create Alerts</a></h3>
+<p>Alert when you're burning error budget too fast:</p>
+<pre><code>Alert 1: Burn rate &gt; 10x (will exhaust budget in 3 days)
+Alert 2: Burn rate &gt; 2x (will exhaust budget in 15 days)
+Alert 3: Budget &lt; 20% remaining
+</code></pre>
+<h2 id="slo-anti-patterns"><a class="header" href="#slo-anti-patterns">SLO Anti-Patterns</a></h2>
+<h3 id="anti-pattern-1-the-100-slo"><a class="header" href="#anti-pattern-1-the-100-slo">Anti-Pattern #1: The 100% SLO</a></h3>
+<p><strong>What happens:</strong> You set 100% availability as your SLO.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Impossible to achieve</li>
+<li>Paralyzes the team (afraid to make changes)</li>
+<li>Expensive (massive over-provisioning)</li>
+<li>Still fails eventually</li>
+</ul>
+<p><strong>The fix:</strong> 100% is not an SLO, it's a fantasy. Aim for 99.9% or 99.99%.</p>
+<h3 id="anti-pattern-2-measuring-the-wrong-thing"><a class="header" href="#anti-pattern-2-measuring-the-wrong-thing">Anti-Pattern #2: Measuring the Wrong Thing</a></h3>
+<p><strong>What happens:</strong> You measure CPU utilization instead of user experience.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>CPU can be high while users are happy</li>
+<li>CPU can be low while users are frustrated</li>
+<li>Doesn't capture actual reliability</li>
+</ul>
+<p><strong>The fix:</strong> Measure what users experience: latency, availability, errors.</p>
+<h3 id="anti-pattern-3-too-many-slos"><a class="header" href="#anti-pattern-3-too-many-slos">Anti-Pattern #3: Too Many SLOs</a></h3>
+<p><strong>What happens:</strong> You define 20 different SLOs for one service.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Information overload</li>
+<li>No clear priorities</li>
+<li>Alert fatigue</li>
+<li>Impossible to track</li>
+</ul>
+<p><strong>The fix:</strong> 3-5 SLOs per service maximum. Focus on what matters most.</p>
+<h3 id="anti-pattern-4-slos-in-a-drawer"><a class="header" href="#anti-pattern-4-slos-in-a-drawer">Anti-Pattern #4: SLOs in a Drawer</a></h3>
+<p><strong>What happens:</strong> You define SLOs, document them, then never look at them again.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>No feedback loop</li>
+<li>No behavior change</li>
+<li>Wasted effort</li>
+</ul>
+<p><strong>The fix:</strong> SLOs must be:</p>
+<ul>
+<li>Visible on dashboards</li>
+<li>Part of deployment decisions</li>
+<li>Reviewed regularly</li>
+<li>Updated when needed</li>
+</ul>
+<h3 id="anti-pattern-5-slos-set-by-management"><a class="header" href="#anti-pattern-5-slos-set-by-management">Anti-Pattern #5: SLOs Set by Management</a></h3>
+<p><strong>What happens:</strong> Management dictates 99.99% availability without consulting engineering.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Unrealistic given architecture</li>
+<li>No buy-in from team</li>
+<li>Sets up for failure</li>
+</ul>
+<p><strong>The fix:</strong> Collaborative SLO setting:</p>
+<ul>
+<li>Management sets business requirements</li>
+<li>Engineering measures current performance</li>
+<li>Together, define achievable targets</li>
+</ul>
+<h3 id="anti-pattern-6-no-error-budget"><a class="header" href="#anti-pattern-6-no-error-budget">Anti-Pattern #6: No Error Budget</a></h3>
+<p><strong>What happens:</strong> You have SLOs but no concept of error budget.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Binary view (pass/fail)</li>
+<li>No nuance in decision-making</li>
+<li>Can't balance reliability vs. velocity</li>
+</ul>
+<p><strong>The fix:</strong> Calculate and track error budgets. Use them to guide decisions.</p>
+<h2 id="the-slo-framework-reliable"><a class="header" href="#the-slo-framework-reliable">The SLO Framework: RELIABLE</a></h2>
+<p>When implementing SLOs, use this framework:</p>
+<p><strong>R - Review User Journeys</strong></p>
+<ul>
+<li>What do users actually do?</li>
+<li>What matters most to them?</li>
+</ul>
+<p><strong>E - Establish Metrics</strong></p>
+<ul>
+<li>Availability, latency, errors, throughput</li>
+<li>What captures user experience?</li>
+</ul>
+<p><strong>L - Look at Current Performance</strong></p>
+<ul>
+<li>Measure before targeting</li>
+<li>Don't guess, measure</li>
+</ul>
+<p><strong>I - Incremental Targets</strong></p>
+<ul>
+<li>Improve gradually</li>
+<li>Don't aim for perfection immediately</li>
+</ul>
+<p><strong>A - Automate Measurement</strong></p>
+<ul>
+<li>Continuous monitoring</li>
+<li>Real-time dashboards</li>
+</ul>
+<p><strong>B - Burn Rate Alerts</strong></p>
+<ul>
+<li>Alert before SLO breach</li>
+<li>Give time to react</li>
+</ul>
+<p><strong>L - Link to Decisions</strong></p>
+<ul>
+<li>Error budget guides feature velocity</li>
+<li>SLO status affects deployments</li>
+</ul>
+<p><strong>E - Evolve Over Time</strong></p>
+<ul>
+<li>SLOs aren't static</li>
+<li>Adjust as you improve</li>
+</ul>
+<h2 id="real-world-slo-examples"><a class="header" href="#real-world-slo-examples">Real-World SLO Examples</a></h2>
+<h3 id="google-the-gold-standard"><a class="header" href="#google-the-gold-standard">Google: The Gold Standard</a></h3>
+<p>Google popularized SLOs in their SRE books. Here's how they approach it:</p>
+<p><strong>Service:</strong> Google Search
+<strong>Availability SLO:</strong> 99.99%
+<strong>Latency SLO:</strong> p99 &lt; 200ms
+<strong>Error budget policy:</strong> When budget exhausted, freeze launches until recovered</p>
+<p><strong>How they achieve it:</strong></p>
+<ul>
+<li>Massive redundancy (multiple data centers)</li>
+<li>Automatic failover</li>
+<li>Chaos engineering</li>
+<li>Rigorous capacity planning</li>
+</ul>
+<p><strong>Result:</strong> Google Search is down so rarely it makes global news when it happens.</p>
+<h3 id="netflix-chaos-engineering"><a class="header" href="#netflix-chaos-engineering">Netflix: Chaos Engineering</a></h3>
+<p><strong>Service:</strong> Streaming Video
+<strong>Availability SLO:</strong> 99.99%
+<strong>Throughput SLO:</strong> Handle all subscriber streams concurrently</p>
+<p><strong>How they achieve it:</strong></p>
+<ul>
+<li>Chaos Monkey (randomly kills instances)</li>
+<li>Multi-region active-active</li>
+<li>Graceful degradation (lower quality vs. failure)</li>
+</ul>
+<p><strong>Result:</strong> Even when AWS has outages, Netflix stays up.</p>
+<h3 id="amazon-revenue-driven-slos"><a class="header" href="#amazon-revenue-driven-slos">Amazon: Revenue-Driven SLOs</a></h3>
+<p><strong>Service:</strong> Product Page
+<strong>Latency SLO:</strong> p99 &lt; 100ms
+<strong>Why:</strong> Every 100ms of latency = 1% sales drop</p>
+<p><strong>How they achieve it:</strong></p>
+<ul>
+<li>Edge caching (CloudFront)</li>
+<li>Optimized databases (DynamoDB)</li>
+<li>Microservices (isolated failures)</li>
+</ul>
+<p><strong>Result:</strong> Fast page loads drive revenue.</p>
+<h3 id="stripe-payment-reliability"><a class="header" href="#stripe-payment-reliability">Stripe: Payment Reliability</a></h3>
+<p><strong>Service:</strong> Payment Processing
+<strong>Availability SLO:</strong> 99.99%
+<strong>Error Rate SLO:</strong> &lt; 0.01%
+<strong>Latency SLO:</strong> p95 &lt; 300ms</p>
+<p><strong>How they achieve it:</strong></p>
+<ul>
+<li>Retry logic (failed payments retry automatically)</li>
+<li>Circuit breakers (fail fast when downstream issues)</li>
+<li>Redundant payment processors</li>
+<li>Extensive monitoring</li>
+</ul>
+<p><strong>Result:</strong> Billions in payments processed with minimal failures.</p>
+<h2 id="common-questions-about-slos"><a class="header" href="#common-questions-about-slos">Common Questions About SLOs</a></h2>
+<p><strong>Q: What if I don't know what targets to set?</strong></p>
+<p>A: Start by measuring current performance. Your first SLO can be "maintain current performance." Then improve from there.</p>
+<p><strong>Q: How often should I review SLOs?</strong></p>
+<p>A: Monthly for critical services, quarterly for others. Adjust targets based on actual performance and business needs.</p>
+<p><strong>Q: What if my SLO is too hard to meet?</strong></p>
+<p>A: Lower it. An unachievable SLO is worse than a loose one. Gradually tighten as you improve.</p>
+<p><strong>Q: What if stakeholders demand 100% uptime?</strong></p>
+<p>A: Explain the cost. 99.9% might cost $10K/month. 99.99% might cost $100K/month. 99.999% might cost $1M/month. Let them choose.</p>
+<p><strong>Q: Should every service have SLOs?</strong></p>
+<p>A: Production services: Yes. Internal tools: Maybe. Experiments: No. Focus on what matters.</p>
+<h2 id="practical-exercise-define-your-slos"><a class="header" href="#practical-exercise-define-your-slos">Practical Exercise: Define Your SLOs</a></h2>
+<p>Take a service you work on (real or hypothetical):</p>
+<p><strong>Step 1: Identify Critical User Journey</strong></p>
+<ul>
+<li>What's the most important thing users do?</li>
+<li>Example: "Customer completes purchase"</li>
+</ul>
+<p><strong>Step 2: Choose 3 Metrics</strong></p>
+<ul>
+<li>Availability (must work)</li>
+<li>Latency (must be fast)</li>
+<li>Error rate (must succeed)</li>
+</ul>
+<p><strong>Step 3: Measure Current Performance</strong></p>
+<ul>
+<li>Look at last 30 days of data</li>
+<li>What's your current availability?</li>
+<li>What's your current latency?</li>
+<li>What's your current error rate?</li>
+</ul>
+<p><strong>Step 4: Set Targets</strong></p>
+<ul>
+<li>Aim for 10-20% improvement</li>
+<li>If current availability is 99.5%, target 99.7%</li>
+<li>If current latency p95 is 500ms, target 400ms</li>
+</ul>
+<p><strong>Step 5: Calculate Error Budget</strong></p>
+<ul>
+<li>How much downtime/latency/errors allowed?</li>
+<li>Example: 99.7% over 30 days = 130 minutes downtime allowed</li>
+</ul>
+<p><strong>Step 6: Create Dashboard</strong></p>
+<ul>
+<li>Show SLO status</li>
+<li>Show error budget remaining</li>
+<li>Make it visible to team</li>
+</ul>
+<p><strong>Time:</strong> 45-60 minutes</p>
+<h2 id="complete-example-e-commerce-platform"><a class="header" href="#complete-example-e-commerce-platform">Complete Example: E-Commerce Platform</a></h2>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+// ============ SERVICE DEFINITION ============
+
+ECommerce = system "E-Commerce Platform" {
+  API = container "API Service" {
+    technology "Rust"
+    description "Core API handling all business logic"
+    
+    // Metadata for governance
+    metadata {
+      owner "platform-team"
+      criticality "high"
+    }
+    
+    // SLOs define reliability targets
+    slo {
+      // Availability: Service must be up
+      availability {
+        target "99.9%"  // 8.76 hours downtime/year
+        window "30 days"
+        current "99.92%"
+        
+        error_budget {
+          total "43.2 minutes"
+          remaining "35.1 minutes"
+          status "healthy"
+        }
+      }
+      
+      // Latency: Service must be fast
+      latency {
+        p95 "200ms"  // 95% of requests &lt; 200ms
+        p99 "500ms"  // 99% of requests &lt; 500ms
+        window "7 days"
+        current {
+          p95 "180ms"
+          p99 "420ms"
+        }
+      }
+      
+      // Error Rate: Service must succeed
+      error_rate {
+        target "&lt; 0.1%"  // Fewer than 1 in 1000 requests fail
+        window "30 days"
+        current "0.08%"
+      }
+      
+      // Throughput: Service must handle load
+      throughput {
+        target "1000 req/s"  // Handle peak traffic
+        window "1 hour"
+        current "950 req/s"
+      }
+    }
+    
+    // Scale configuration supports SLOs
+    scale {
+      metric "cpu"
+      
+      // Minimum: Always have capacity for normal load + headroom
+      min 5  // 5 instances × 200 req/s = 1000 req/s capacity
+      
+      // Maximum: Can scale for 2x spikes
+      max 15  // 15 instances × 200 req/s = 3000 req/s capacity
+      
+      // Auto-scale triggers
+      scale_up "cpu &gt; 70%"
+      scale_down "cpu &lt; 30% cooldown 10m"
+    }
+  }
+  
+  Database = database "PostgreSQL" {
+    technology "PostgreSQL"
+    description "Primary data store"
+    
+    metadata {
+      owner "platform-team"
+      criticality "high"
+    }
+    
+    slo {
+      availability {
+        target "99.95%"  // Database more critical than API
+        window "30 days"
+        current "99.96%"
+      }
+      
+      latency {
+        p95 "50ms"  // Database should be fast
+        p99 "100ms"
+        window "7 days"
+        current {
+          p95 "45ms"
+          p99 "92ms"
+        }
+      }
+    }
+  }
+  
+  Cache = database "Redis" {
+    technology "Redis"
+    description "Cache layer for performance"
+    
+    slo {
+      availability {
+        target "99.9%"
+        window "30 days"
+      }
+      
+      hit_rate {
+        target "&gt; 80%"  // 80% of requests served from cache
+        current "85%"
+      }
+    }
+  }
+}
+
+// Relationships
+ECommerce.API -&gt; ECommerce.Database "Reads/Writes"
+ECommerce.API -&gt; ECommerce.Cache "Caches queries"
+
+// ============ VIEWS ============
+
+view index {
+  title "E-Commerce Platform Architecture"
+  include *
+}
+
+view slos {
+  title "SLO Dashboard"
+  include ECommerce.API ECommerce.Database ECommerce.Cache
+  description "Monitor all SLOs in one view"
+}
+
+view capacity {
+  title "Capacity &amp; Scale"
+  include ECommerce.API
+  description "Focus on throughput and scaling"
+}
+
+// ============ GOVERNANCE ============
+
+policy SLOPolicy "Critical services must have SLOs" {
+  category "reliability"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    tag "criticality:high"
+    requires_slo true
+    error "Critical service {element} must have SLOs defined"
+  }
+}
+
+// Tag critical services
+ECommerce.API.tags ["criticality:high"]
+ECommerce.Database.tags ["criticality:high"]
+</code></pre>
+<p><strong>Run validation:</strong></p>
+<pre><code class="language-bash">sruja validate architecture.sruja
+</code></pre>
+<p>This checks:</p>
+<ul>
+<li>SLOs are defined for critical services</li>
+<li>Scale configuration supports throughput targets</li>
+<li>All required metadata present</li>
+</ul>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<ol>
+<li>
+<p><strong>SLOs are promises backed by measurement</strong> - Without measurement, it's just wishful thinking</p>
+</li>
+<li>
+<p><strong>Start with user journeys</strong> - Define what matters to users, then measure it</p>
+</li>
+<li>
+<p><strong>Measure before you target</strong> - Know your current performance before setting goals</p>
+</li>
+<li>
+<p><strong>Error budgets enable velocity</strong> - When budget is healthy, move fast. When tight, slow down.</p>
+</li>
+<li>
+<p><strong>Headroom is essential</strong> - Run at 50-70% capacity. Have 30-50% buffer.</p>
+</li>
+<li>
+<p><strong>Percentiles over averages</strong> - p95/p99 reveal what users actually experience</p>
+</li>
+<li>
+<p><strong>Three SLOs maximum per service</strong> - Availability, latency, error rate. Maybe throughput.</p>
+</li>
+<li>
+<p><strong>SLOs should evolve</strong> - As you improve, tighten targets. As business changes, adjust metrics.</p>
+</li>
+<li>
+<p><strong>Make SLOs visible</strong> - Dashboards, alerts, deployment gates. Everyone should know status.</p>
+</li>
+<li>
+<p><strong>Collaborative target-setting</strong> - Management defines needs, engineering defines feasibility, together define SLOs</p>
+</li>
+</ol>
+<h2 id="when-to-start-with-slos"><a class="header" href="#when-to-start-with-slos">When to Start with SLOs</a></h2>
+<p><strong>Phase 1: Prototype (Skip SLOs)</strong></p>
+<ul>
+<li>Learning what to build</li>
+<li>No real users yet</li>
+<li>Focus on functionality</li>
+</ul>
+<p><strong>Phase 2: Launch (Basic SLOs)</strong></p>
+<ul>
+<li>Real users exist</li>
+<li>Define availability SLO</li>
+<li>Basic monitoring</li>
+</ul>
+<p><strong>Phase 3: Growth (Comprehensive SLOs)</strong></p>
+<ul>
+<li>Traffic increasing</li>
+<li>Add latency, error rate SLOs</li>
+<li>Error budget tracking</li>
+<li>SLO-based decisions</li>
+</ul>
+<p><strong>Phase 4: Scale (Advanced SLOs)</strong></p>
+<ul>
+<li>High traffic</li>
+<li>Multi-region SLOs</li>
+<li>Per-feature SLOs</li>
+<li>Sophisticated alerting</li>
+</ul>
+<hr>
+<p><strong>Next up:</strong> Lesson 5 brings everything together with a comprehensive production readiness review - how to know when your architecture is truly ready for production.</p>
 
                     </main>
 
@@ -321,9 +989,11 @@ include ECommerce.API ECommerce.Database
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

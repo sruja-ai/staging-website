@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,38 +180,45 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-2-sruja-elements"><a class="header" href="#lesson-2-sruja-elements">Lesson 2: Sruja Elements</a></h1>
+                        <h1 id="your-toolkit-srujas-element-types"><a class="header" href="#your-toolkit-srujas-element-types">Your Toolkit: Sruja's Element Types</a></h1>
+<p>Now that you know how to identify parts, let's talk about how to actually define them in Sruja. Think of element types as your vocabulary—the building blocks you'll use to describe any software architecture.</p>
+<p>The beauty of Sruja is that it gives you exactly four element types. Not ten, not twenty—just four. This might feel limiting at first, but I promise you'll appreciate the simplicity. With these four types, you can model any software system from a simple blog to a distributed microservices platform.</p>
+<p>Let's dive in.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Learn Sruja's core element types</li>
-<li>Understand when to use each type</li>
-<li>Model parts with proper Sruja syntax</li>
+<li>Confidently use all four Sruja element types</li>
+<li>Know exactly when to use each type (and when not to)</li>
+<li>Write clean, consistent element definitions</li>
+<li>Add meaningful details that make your diagrams useful</li>
 </ul>
-<h2 id="sruja-element-types"><a class="header" href="#sruja-element-types">Sruja Element Types</a></h2>
-<p>Sruja provides element types that map to the C4 model:</p>
+<h2 id="the-four-building-blocks"><a class="header" href="#the-four-building-blocks">The Four Building Blocks</a></h2>
+<p>Here's the complete toolkit. You'll use these four types over and over again:</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Element Type</th><th>Purpose</th><th>C4 Level</th></tr>
+<tr><th>Element Type</th><th>Purpose</th><th>When I Use It</th></tr>
 </thead>
 <tbody>
-<tr><td><code>person</code></td><td>Users, stakeholders</td><td>Level 1</td></tr>
-<tr><td><code>system</code></td><td>Software systems, services</td><td>Level 2</td></tr>
-<tr><td><code>container</code></td><td>Applications, databases, queues</td><td>Level 3</td></tr>
-<tr><td><code>component</code></td><td>Modules, services within containers</td><td>Level 4</td></tr>
+<tr><td><code>person</code></td><td>Humans who interact with the system</td><td>Every architecture starts here</td></tr>
+<tr><td><code>system</code></td><td>Standalone software systems</td><td>The main systems you build and depend on</td></tr>
+<tr><td><code>container</code></td><td>Deployable units within systems</td><td>Applications, databases, queues—the things you actually deploy</td></tr>
+<tr><td><code>component</code></td><td>Modules within containers</td><td>Only when you need to show internal architecture</td></tr>
 </tbody>
 </table>
 </div>
-<h2 id="person"><a class="header" href="#person">Person</a></h2>
-<p>Use <code>person</code> to represent humans who interact with your system.</p>
-<h3 id="basic-syntax"><a class="header" href="#basic-syntax">Basic Syntax</a></h3>
-<pre><code class="language-sruja">person = kind "Person"
-
-User = person "End User"
+<p>Notice how each maps to a level in the C4 hierarchy? Person is Level 1, System is Level 2, Container is Level 3, Component is Level 4. They work together in a hierarchy, not as independent pieces.</p>
+<h2 id="person-it-always-starts-with-people"><a class="header" href="#person-it-always-starts-with-people">Person: It Always Starts With People</a></h2>
+<p>Every system exists to serve humans. That's why <code>person</code> is your starting point. Don't skip it—even if it feels obvious. Having people in your diagram grounds everything in reality.</p>
+<h3 id="the-basics"><a class="header" href="#the-basics">The Basics</a></h3>
+<p>Here's how simple it is:</p>
+<pre><code class="language-sruja">Customer = person "Customer"
 Admin = person "Administrator"
 Support = person "Customer Support"
 </code></pre>
-<h3 id="with-details"><a class="header" href="#with-details">With Details</a></h3>
+<p>That's it. You define an ID (like <code>Customer</code>) and a display name (like <code>"Customer"</code>). Simple, readable, and immediately clear.</p>
+<h3 id="adding-context"><a class="header" href="#adding-context">Adding Context</a></h3>
+<p>Sometimes a name isn't enough. You might want to add more details:</p>
 <pre><code class="language-sruja">Customer = person "Customer" {
   description "End users who purchase products"
   metadata {
@@ -220,32 +227,34 @@ Support = person "Customer Support"
   }
 }
 </code></pre>
-<h3 id="when-to-use"><a class="header" href="#when-to-use">When to Use</a></h3>
-<ul>
-<li>End users (customers, employees)</li>
-<li>Stakeholders (managers, business owners)</li>
-<li>Support teams</li>
-<li>External users (API consumers)</li>
-</ul>
-<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p>I use descriptions when the name alone might be ambiguous. For example, "Admin" could mean a system administrator, a content admin, or a superuser. Adding a description removes that ambiguity.</p>
+<h3 id="real-world-examples"><a class="header" href="#real-world-examples">Real-World Examples</a></h3>
+<p>Here are some people I've modeled in different projects:</p>
 <pre><code class="language-sruja">// Internal users
 Developer = person "Developer"
 ProductManager = person "Product Manager"
+DataAnalyst = person "Data Analyst"
 
 // External users
 APIConsumer = person "API Consumer"
 Partner = person "Business Partner"
-</code></pre>
-<h2 id="system"><a class="header" href="#system">System</a></h2>
-<p>Use <code>system</code> to represent standalone software systems.</p>
-<h3 id="basic-syntax-1"><a class="header" href="#basic-syntax-1">Basic Syntax</a></h3>
-<pre><code class="language-sruja">system = kind "System"
+Vendor = person "Vendor"
 
-Shop = system "E-Commerce Platform"
-APIGateway = system "API Gateway"
-PaymentGateway = system "Payment Gateway"
+// Support roles
+SupportAgent = person "Customer Support"
+SalesRep = person "Sales Representative"
 </code></pre>
-<h3 id="with-details-1"><a class="header" href="#with-details-1">With Details</a></h3>
+<p>One thing I've learned: don't overthink this. If someone interacts with your system, model them as a person. You don't need to capture every single role—just the ones that matter for your diagram's purpose.</p>
+<h2 id="system-the-big-picture"><a class="header" href="#system-the-big-picture">System: The Big Picture</a></h2>
+<p>Systems are the major software units. Think of them as the "big boxes" in your architecture—the main applications, third-party services, and platforms you depend on.</p>
+<h3 id="defining-systems"><a class="header" href="#defining-systems">Defining Systems</a></h3>
+<p>Here's the basic syntax:</p>
+<pre><code class="language-sruja">ECommerce = system "E-Commerce Platform"
+PaymentGateway = system "Payment Gateway"
+EmailService = system "Email Service"
+</code></pre>
+<h3 id="adding-details-that-matter"><a class="header" href="#adding-details-that-matter">Adding Details That Matter</a></h3>
+<p>When I'm documenting systems for a team, I often add more context:</p>
 <pre><code class="language-sruja">ECommerce = system "E-Commerce Platform" {
   description "Platform for buying and selling products"
   metadata {
@@ -259,39 +268,52 @@ PaymentGateway = system "Payment Gateway"
   }
 }
 </code></pre>
-<h3 id="when-to-use-1"><a class="header" href="#when-to-use-1">When to Use</a></h3>
-<ul>
-<li>Main application you're building</li>
-<li>External systems you depend on</li>
-<li>Third-party services</li>
-<li>Separate software products</li>
-</ul>
-<h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
-<pre><code class="language-sruja">// Your systems
+<p>I love that Sruja lets you add SLOs (Service Level Objectives) directly to systems. This makes your architecture diagrams not just visual—they become living documentation that tells the story of what you've promised to deliver.</p>
+<h3 id="your-systems-vs-external-systems"><a class="header" href="#your-systems-vs-external-systems">Your Systems vs. External Systems</a></h3>
+<p>One distinction I always make:</p>
+<pre><code class="language-sruja">// Systems you own and maintain
 Platform = system "Sruja Platform"
 Dashboard = system "Analytics Dashboard"
 
-// External systems
+// Systems you depend on (third-party)
 Stripe = system "Stripe"
 AWS = system "Amazon Web Services"
 GitHub = system "GitHub"
 </code></pre>
-<h2 id="container"><a class="header" href="#container">Container</a></h2>
-<p>Use <code>container</code> to represent applications, databases, and other deployable units within a system.</p>
-<h3 id="basic-syntax-2"><a class="header" href="#basic-syntax-2">Basic Syntax</a></h3>
-<pre><code class="language-sruja">container = kind "Container"
-
+<p>I usually tag external systems with <code>metadata { tags ["external"] }</code> so anyone looking at the diagram immediately understands which systems you control and which you don't. This is crucial for understanding dependencies and risk.</p>
+<h2 id="container-what-you-actually-deploy"><a class="header" href="#container-what-you-actually-deploy">Container: What You Actually Deploy</a></h2>
+<p>This is where things get practical. Containers are the deployable units—web apps, APIs, databases, caches. These are the things you actually deploy to production.</p>
+<h3 id="understanding-containers"><a class="header" href="#understanding-containers">Understanding Containers</a></h3>
+<p>The name "container" can be confusing because people think of Docker containers. In C4 and Sruja, "container" just means "a deployable unit." It could be:</p>
+<ul>
+<li>A web application</li>
+<li>An API service</li>
+<li>A database</li>
+<li>A message queue</li>
+<li>A cache</li>
+</ul>
+<h3 id="the-different-container-types"><a class="header" href="#the-different-container-types">The Different Container Types</a></h3>
+<p>Sruja gives you specific types for common containers:</p>
+<pre><code class="language-sruja">// Regular containers
 WebApp = container "Web Application"
 API = container "API Service"
-DB = database "Database"
-Queue = queue "Message Queue"
+
+// Databases and datastores
+UserDB = database "User Database"
+CacheDB = datastore "Redis Cache"
+
+// Message queues
+Kafka = queue "Kafka Cluster"
+RabbitMQ = queue "RabbitMQ"
 </code></pre>
-<h3 id="with-details-2"><a class="header" href="#with-details-2">With Details</a></h3>
-<pre><code class="language-sruja">WebApp = container "Web Application" {
-  technology "React"
-  description "Single-page application"
+<p>I use <code>database</code> for relational databases (PostgreSQL, MySQL) and <code>datastore</code> for non-relational storage (Redis, MongoDB). The distinction matters because the behavior and considerations are different.</p>
+<h3 id="adding-rich-details"><a class="header" href="#adding-rich-details">Adding Rich Details</a></h3>
+<p>When documenting containers for developers, I add a lot of useful information:</p>
+<pre><code class="language-sruja">API = container "API Service" {
+  technology "Node.js"
+  description "RESTful API handling all business logic"
   version "3.1.0"
-  tags ["frontend", "typescript"]
+  tags ["backend", "typescript"]
   scale {
     min 2
     max 10
@@ -303,81 +325,91 @@ Queue = queue "Message Queue"
   }
 }
 </code></pre>
-<h3 id="when-to-use-2"><a class="header" href="#when-to-use-2">When to Use</a></h3>
+<p>This tells developers everything they need to know: what technology it uses, what it does, how it scales, and what performance targets it's supposed to meet. This is way more useful than a simple box diagram.</p>
+<h2 id="component-looking-inside-when-you-need-to"><a class="header" href="#component-looking-inside-when-you-need-to">Component: Looking Inside (When You Need To)</a></h2>
+<p>Components are optional. I'll say that again: <strong>components are optional</strong>. Only use them when your audience needs to see inside a container.</p>
+<h3 id="when-to-use-components"><a class="header" href="#when-to-use-components">When to Use Components</a></h3>
+<p>Add components when:</p>
 <ul>
-<li>Web applications (React, Vue, Angular)</li>
-<li>API services (Node.js, Rust, Python)</li>
-<li>Databases (PostgreSQL, MongoDB)</li>
-<li>Message queues (Kafka, RabbitMQ)</li>
-<li>Caches (Redis, Memcached)</li>
+<li>You're documenting for developers who need implementation details</li>
+<li>A container is complex (more than 5-6 logical parts)</li>
+<li>Different teams own different parts of the same container</li>
+<li>You need to show internal architecture for a design review</li>
 </ul>
-<h3 id="database-vs-datastore"><a class="header" href="#database-vs-datastore">Database vs Datastore</a></h3>
-<pre><code class="language-sruja">// Database (relational)
-UserDB = database "User Database" {
-  technology "PostgreSQL"
-}
-
-// Datastore (document)
-CacheDB = datastore "Redis Cache" {
-  technology "Redis"
+<p>Skip components when:</p>
+<ul>
+<li>You're talking to business stakeholders</li>
+<li>The container is simple enough to explain at a high level</li>
+<li>The internal structure is still evolving</li>
+</ul>
+<h3 id="defining-components"><a class="header" href="#defining-components">Defining Components</a></h3>
+<p>Here's how you model them:</p>
+<pre><code class="language-sruja">API = container "API Service" {
+  AuthService = component "Authentication Service"
+  ProductService = component "Product Service"
+  CartService = component "Cart Service"
+  OrderService = component "Order Service"
 }
 </code></pre>
-<h2 id="component"><a class="header" href="#component">Component</a></h2>
-<p>Use <code>component</code> to represent modules or services within a container.</p>
-<h3 id="basic-syntax-3"><a class="header" href="#basic-syntax-3">Basic Syntax</a></h3>
-<pre><code class="language-sruja">component = kind "Component"
-
-AuthService = component "Authentication Service"
-UserService = component "User Service"
-OrderController = component "Order Controller"
-</code></pre>
-<h3 id="with-details-3"><a class="header" href="#with-details-3">With Details</a></h3>
+<h3 id="adding-details-to-components"><a class="header" href="#adding-details-to-components">Adding Details to Components</a></h3>
+<p>You can add the same details to components that you add to containers:</p>
 <pre><code class="language-sruja">AuthService = component "Authentication Service" {
   technology "Rust"
-  description "Handles user login and registration"
+  description "Handles user login, registration, and JWT validation"
   scale {
     min 1
     max 5
   }
+  slo {
+    latency {
+      p99 "100ms"
+    }
+  }
 }
 </code></pre>
-<h3 id="when-to-use-3"><a class="header" href="#when-to-use-3">When to Use</a></h3>
-<ul>
-<li>Service modules within a monolith</li>
-<li>Controllers in MVC architecture</li>
-<li>Domain services</li>
-<li>Library components</li>
-<li>Utilities and helpers</li>
-</ul>
-<h2 id="complete-example"><a class="header" href="#complete-example">Complete Example</a></h2>
+<h2 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h2>
+<p>Let me show you a complete example that uses all four element types. This is a typical e-commerce platform:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-// People (Level 1)
-Customer = person "Customer"
-Administrator = person "Administrator"
+// Level 1: People
+Customer = person "Customer" {
+  description "End users purchasing products"
+}
+Administrator = person "Administrator" {
+  description "Staff managing inventory and orders"
+}
 
-// Systems (Level 2)
-ECommerce = system "E-Commerce Platform"
+// Level 2: Systems
+ECommerce = system "E-Commerce Platform" {
+  description "Main platform for online sales"
+}
 PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
   }
 }
+EmailService = system "Email Service" {
+  metadata {
+    tags ["external"]
+  }
+}
 
-// Containers (Level 3)
+// Level 3: Containers
 ECommerce = system "E-Commerce Platform" {
   WebApp = container "Web Application" {
     technology "React"
+    description "Single-page application for customers"
   }
 
   API = container "API Service" {
     technology "Node.js"
+    description "RESTful API handling business logic"
     scale {
       min 3
       max 10
     }
 
-    // Components (Level 4)
+    // Level 4: Components (inside API)
     ProductService = component "Product Service"
     CartService = component "Cart Service"
     OrderService = component "Order Service"
@@ -386,48 +418,53 @@ ECommerce = system "E-Commerce Platform" {
 
   Database = database "PostgreSQL" {
     technology "PostgreSQL 14"
+    description "Primary data store"
   }
 
   Cache = queue "Redis" {
     technology "Redis 7"
+    description "Caching layer for performance"
   }
 }
 </code></pre>
-<h2 id="naming-conventions"><a class="header" href="#naming-conventions">Naming Conventions</a></h2>
-<h3 id="element-ids"><a class="header" href="#element-ids">Element IDs</a></h3>
-<p>Use PascalCase for element IDs:</p>
-<pre><code class="language-sruja">Good:
+<p>See how everything nests naturally? People at the top, systems next, containers within systems, and components within containers. This hierarchy makes it easy to understand the architecture at any level of detail.</p>
+<h2 id="naming-conventions-that-work"><a class="header" href="#naming-conventions-that-work">Naming Conventions That Work</a></h2>
+<p>After years of modeling systems, I've settled on some naming conventions that keep things consistent and readable.</p>
+<h3 id="element-ids-use-pascalcase"><a class="header" href="#element-ids-use-pascalcase">Element IDs: Use PascalCase</a></h3>
+<pre><code class="language-sruja">// Good
 Customer = person "Customer"
 WebApp = container "Web App"
+UserService = component "User Service"
 
-Bad:
-customer = person "Customer"  // SnakeCase
-WEBAPP = container "Web App"  // ALL CAPS
+// Avoid these
+customer = person "Customer"      // SnakeCase is harder to read
+WEBAPP = container "Web App"      // ALL CAPS feels like shouting
+webapp = container "Web App"      // Lowercase is inconsistent
 </code></pre>
-<h3 id="display-names"><a class="header" href="#display-names">Display Names</a></h3>
-<p>Use descriptive names with proper capitalization:</p>
-<pre><code class="language-sruja">Good:
+<h3 id="display-names-be-descriptive"><a class="header" href="#display-names-be-descriptive">Display Names: Be Descriptive</a></h3>
+<pre><code class="language-sruja">// Good
 User = person "End User"
 API = container "API Service"
 
-Bad:
-User = person "user"  // Lowercase
-API = container "api"  // Lowercase
+// Avoid these
+User = person "user"              // Lowercase looks unprofessional
+API = container "api"             // Lowercase looks like a typo
 </code></pre>
-<h3 id="consistency"><a class="header" href="#consistency">Consistency</a></h3>
-<p>Be consistent across your architecture:</p>
-<pre><code class="language-sruja">Good:
+<h3 id="consistency-within-a-diagram"><a class="header" href="#consistency-within-a-diagram">Consistency Within a Diagram</a></h3>
+<p>This is the one that trips people up most often. If you name one thing a "Service," call all similar things "Service":</p>
+<pre><code class="language-sruja">// Good: Consistent naming
 UserService = component "User Service"
 OrderService = component "Order Service"
 PaymentService = component "Payment Service"
 
-Bad:
+// Bad: Inconsistent naming
 UserService = component "User Service"
-Order = component "Order"
-Payment = component "Payment Service"
+Order = component "Order"              // Should be "Order Service"
+Payment = component "Payment Service"  // Inconsistent with "Order"
 </code></pre>
-<h2 id="adding-metadata"><a class="header" href="#adding-metadata">Adding Metadata</a></h2>
-<p>Use metadata to add context:</p>
+<p>I create a style guide for each project that lists the naming conventions we're using. It sounds tedious, but it saves so much time and confusion in the long run.</p>
+<h2 id="using-metadata-effectively"><a class="header" href="#using-metadata-effectively">Using Metadata Effectively</a></h2>
+<p>Metadata is where you add context that makes your diagrams actually useful. Don't add metadata just for the sake of it—add metadata that helps your audience understand what they're looking at.</p>
 <pre><code class="language-sruja">API = container "API Service" {
   technology "Rust"
   version "2.0.1"
@@ -435,31 +472,70 @@ Payment = component "Payment Service"
   metadata {
     team ["platform-team"]
     repository "github.com/company/api"
+    documentation "docs.company.com/api"
   }
 }
 </code></pre>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Model the following using Sruja elements:</p>
-<blockquote>
-<p>"A blog platform has readers and writers. The main system contains a web frontend (Next.js), API backend (Python/FastAPI), and database (PostgreSQL). The API has user management, post management, and comment services."</p>
-</blockquote>
-<p><strong>Create elements for:</strong></p>
+<p>I include team ownership information because it helps people know who to talk to when they have questions. I include repository links because it connects the architecture to the actual code. These details transform a static diagram into a living piece of documentation.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Sruja gives you four element types—person, system, container, component—and they're all you need. The key is knowing when to use each one:</p>
 <ul>
-<li>People</li>
-<li>Systems</li>
-<li>Containers</li>
-<li>Components</li>
+<li><strong>Person</strong>: Always include these. Every system serves humans.</li>
+<li><strong>System</strong>: Include the main systems you're building and the ones you depend on.</li>
+<li><strong>Container</strong>: Include the deployable units within your systems.</li>
+<li><strong>Component</strong>: Only include these when your audience needs implementation details.</li>
 </ul>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Four core element types</strong>: person, system, container, component</li>
-<li><strong>Match type to C4 level</strong>: Each has a specific purpose</li>
-<li><strong>Add details</strong>: technology, description, tags, scale, SLOs</li>
-<li><strong>Follow naming conventions</strong>: Be consistent</li>
-<li><strong>Use metadata</strong>: Add context for your team</li>
-</ol>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-3.html">Lesson 3</a>, you'll learn how to connect parts with relationships.</p>
+<p>Add metadata that provides context. Use naming conventions consistently. Keep it simple and your diagrams will be clear and useful.</p>
+<p>Everything else flows from these principles.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding:</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're modeling a blog platform with these requirements:</p>
+<blockquote>
+<p>"The platform has readers and writers. The main system contains a web frontend (Next.js), API backend (Python/FastAPI), and database (PostgreSQL). The API has user management, post management, and comment services."</p>
+</blockquote>
+<p>At the <strong>container</strong> level, which elements should you include?</p>
+<p><strong>A)</strong> Reader, Writer, User Management, Post Management, Comment Management
+<strong>B)</strong> Web Frontend, API Backend, Database
+<strong>C)</strong> User Management, Post Management, Comment Management
+<strong>D)</strong> Blog Platform, Next.js, FastAPI, PostgreSQL</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) Web Frontend, API Backend, Database</strong></p>
+<p>Containers are the <strong>deployable units</strong> within a system. The web frontend, API backend, and database are all things you'd deploy. Readers and writers are people, not containers. User management, post management, and comment management are components (internal modules within the API), not containers. Next.js, FastAPI, and PostgreSQL are technologies, not elements.</p>
+<p>The key insight: containers = what you actually deploy. Everything else is either higher-level (systems, people) or lower-level (components).</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>When should you model components within a container?</p>
+<p><strong>A)</strong> Always—components provide the most detailed view
+<strong>B)</strong> Only when using microservices architecture
+<strong>C)</strong> When your audience needs to understand internal architecture or when a container is complex
+<strong>D)</strong> Never—containers provide sufficient detail for all use cases</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: C) When your audience needs to understand internal architecture or when a container is complex</strong></p>
+<p>Components are an <strong>optional</strong> level of detail. You should include them when:</p>
+<ul>
+<li>You're documenting for developers who need implementation details</li>
+<li>A container has grown complex (more than 5-6 logical parts)</li>
+<li>Different teams own different parts of the same container</li>
+<li>You're doing a detailed design review</li>
+</ul>
+<p>You should <strong>skip</strong> components when:</p>
+<ul>
+<li>You're presenting to stakeholders who don't need implementation details</li>
+<li>The container is simple enough to explain at a high level</li>
+<li>The internal structure is still changing</li>
+</ul>
+<p>The golden rule: match the level of detail to your audience's needs. Don't show components to business stakeholders. Do show components to developers who need to understand how the system is built.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Now you know how to define all the parts of your system. But parts alone don't tell the whole story. Systems are defined by how their parts interact and connect.</p>
+<p>In the next lesson, you'll learn about relationships—how to model the connections between your elements. You'll learn to write clear, meaningful labels that describe exactly how parts communicate with each other.</p>
+<p>See you there!</p>
 
                     </main>
 
@@ -514,9 +590,11 @@ Payment = component "Payment Service"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

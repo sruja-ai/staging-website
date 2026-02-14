@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,301 +180,506 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-7-views-best-practices"><a class="header" href="#lesson-7-views-best-practices">Lesson 7: Views Best Practices</a></h1>
-<p>Views are one of the most powerful features in Sruja DSL. They let you create multiple perspectives from a single model, making your architecture documentation accessible to different audiences. This lesson covers best practices for creating effective views.</p>
-<h2 id="the-power-of-views"><a class="header" href="#the-power-of-views">The Power of Views</a></h2>
-<p>A single architecture model can serve:</p>
+                        <hr>
+<h1 id="lesson-7-views-best-practices"><a class="header" href="#lesson-7-views-best-practices">Lesson 7: Views Best Practices</a></h1>
+<p>I inherited a project with 47 views. Yes, forty-seven.</p>
+<p>Each had a name like "view1", "temp", "test-final", "new-view-v2", and my personal favorite: "DO-NOT-DELETE". No descriptions. No documentation. Half of them showed the same thing with slight variations.</p>
+<p>When I asked the team which view to show executives, they said: "Probably view12? Or maybe view18? Definitely not view23 - that one's outdated."</p>
+<p>I spent two days consolidating those 47 views into 7 coherent perspectives. Two days of archaeology, trying to understand why each view existed, what audience it served, and whether it was still relevant.</p>
+<p>Here's what I learned: <strong>views are powerful, but without governance, they become technical debt</strong>. This lesson is about managing views at scale - not just creating them, but maintaining them, organizing them, and knowing when to kill them.</p>
+<h2 id="the-view-governance-framework"><a class="header" href="#the-view-governance-framework">The VIEW Governance Framework</a></h2>
+<p>After that disaster, I created a framework for view management. I call it VIEW:</p>
+<p><strong>V - Verify the Audience</strong></p>
 <ul>
-<li><strong>Executives</strong>: High-level business context</li>
-<li><strong>Product Managers</strong>: Feature and user journey focus</li>
-<li><strong>Architects</strong>: Technical design and patterns</li>
-<li><strong>Developers</strong>: Implementation details</li>
-<li><strong>Operations</strong>: Deployment and monitoring concerns</li>
-<li><strong>Security</strong>: Compliance and threat modeling</li>
+<li>Who needs this view?</li>
+<li>What decisions will they make?</li>
+<li>What detail level do they need?</li>
 </ul>
-<h2 id="view-creation-strategy"><a class="header" href="#view-creation-strategy">View Creation Strategy</a></h2>
-<h3 id="1-start-with-your-audience"><a class="header" href="#1-start-with-your-audience">1. Start with Your Audience</a></h3>
-<p>Before creating a view, ask:</p>
+<p><strong>I - Intentionally Design</strong></p>
 <ul>
-<li><strong>Who will use this view?</strong> (Executive, Developer, Ops)</li>
-<li><strong>What questions do they need answered?</strong> (Cost, Performance, Security)</li>
-<li><strong>What level of detail do they need?</strong> (Context, Container, Component)</li>
+<li>What's the specific purpose?</li>
+<li>What should be included/excluded?</li>
+<li>How will it be maintained?</li>
 </ul>
-<h3 id="2-use-includeexclude-strategically"><a class="header" href="#2-use-includeexclude-strategically">2. Use Include/Exclude Strategically</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-
-Customer = person "Customer"
-Admin = person "Administrator"
-
-ECommerce = system "E-Commerce Platform" {
-WebApp = container "Web Application" {
-  CartComponent = component "Shopping Cart"
-  ProductComponent = component "Product Catalog"
-}
-API = container "API Service" {
-  OrderController = component "Order Controller"
-  PaymentController = component "Payment Controller"
-}
-OrderDB = database "Order Database"
-ProductDB = database "Product Database"
-}
-
-PaymentGateway = system "Payment Gateway" {
-metadata {
-    tags ["external"]
+<p><strong>E - Explicitly Document</strong></p>
+<ul>
+<li>Clear, descriptive name</li>
+<li>Purpose statement</li>
+<li>When to use (and not use)</li>
+</ul>
+<p><strong>W - Watch Lifecycle</strong></p>
+<ul>
+<li>Review regularly</li>
+<li>Update when architecture changes</li>
+<li>Delete when no longer needed</li>
+</ul>
+<p>Let me break down each piece.</p>
+<hr>
+<h2 id="when-to-create-views-decision-framework"><a class="header" href="#when-to-create-views-decision-framework">When to Create Views (Decision Framework)</a></h2>
+<p>The mistake I made early in my career was creating views for everything. Every meeting, every question, every discussion resulted in a new view. That's how you get to 47 views.</p>
+<p>Here's the framework I use now:</p>
+<h3 id="always-create"><a class="header" href="#always-create">Always Create:</a></h3>
+<p><strong>1. Executive View</strong></p>
+<ul>
+<li><strong>Purpose:</strong> Show business value and scope</li>
+<li><strong>Audience:</strong> C-suite, board members, investors</li>
+<li><strong>Includes:</strong> Systems, external dependencies, users</li>
+<li><strong>Excludes:</strong> Technical implementation details</li>
+<li><strong>Update frequency:</strong> When business scope changes</li>
+</ul>
+<p><strong>2. Architect View</strong></p>
+<ul>
+<li><strong>Purpose:</strong> Show service boundaries and tech stack</li>
+<li><strong>Audience:</strong> Architects, tech leads, senior engineers</li>
+<li><strong>Includes:</strong> Containers, databases, external systems</li>
+<li><strong>Excludes:</strong> Business context, implementation details</li>
+<li><strong>Update frequency:</strong> When architecture changes</li>
+</ul>
+<p><strong>3. Developer View</strong></p>
+<ul>
+<li><strong>Purpose:</strong> Show implementation details</li>
+<li><strong>Audience:</strong> Developers building features</li>
+<li><strong>Includes:</strong> Components, internal structure, key dependencies</li>
+<li><strong>Excludes:</strong> External systems, high-level architecture</li>
+<li><strong>Update frequency:</strong> When implementation patterns change</li>
+</ul>
+<h3 id="create-conditionally"><a class="header" href="#create-conditionally">Create Conditionally:</a></h3>
+<p><strong>4. Security View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Handling sensitive data, compliance requirements</li>
+<li><strong>Skip when:</strong> Internal tools with no sensitive data</li>
+<li><strong>Includes:</strong> Data stores, external integrations, trust boundaries</li>
+<li><strong>Excludes:</strong> UI components, non-sensitive services</li>
+</ul>
+<p><strong>5. Performance View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Performance is critical, have SLAs/SLOs</li>
+<li><strong>Skip when:</strong> Simple CRUD with no performance requirements</li>
+<li><strong>Includes:</strong> Databases, caches, high-traffic components</li>
+<li><strong>Excludes:</strong> Admin tools, low-traffic features</li>
+</ul>
+<p><strong>6. Data Flow View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Complex data pipelines, multiple data stores</li>
+<li><strong>Skip when:</strong> Single database, simple data access patterns</li>
+<li><strong>Includes:</strong> Data stores, data transformation services</li>
+<li><strong>Excludes:</strong> UI components, business logic services</li>
+</ul>
+<p><strong>7. Deployment View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Complex deployment, multiple environments</li>
+<li><strong>Skip when:</strong> Simple deployment (single service + database)</li>
+<li><strong>Includes:</strong> Containers, infrastructure, deployment pipelines</li>
+<li><strong>Excludes:</strong> Business context, implementation details</li>
+</ul>
+<p><strong>8. Feature-Specific Views</strong></p>
+<ul>
+<li><strong>Create when:</strong> Complex feature spanning multiple services</li>
+<li><strong>Skip when:</strong> Feature contained in single service</li>
+<li><strong>Includes:</strong> Services/components involved in feature</li>
+<li><strong>Excludes:</strong> Unrelated parts of system</li>
+</ul>
+<h3 id="rarely-create"><a class="header" href="#rarely-create">Rarely Create:</a></h3>
+<p><strong>9. User Journey Views</strong></p>
+<ul>
+<li><strong>Usually better as:</strong> Scenarios (see Lesson 6)</li>
+<li><strong>Create as view when:</strong> Static diagram for presentation</li>
+<li><strong>Create as scenario when:</strong> Documenting behavior flow</li>
+</ul>
+<p><strong>10. Integration Views</strong></p>
+<ul>
+<li><strong>Usually better as:</strong> Part of architect view</li>
+<li><strong>Create separately when:</strong> Many external integrations</li>
+</ul>
+<h2 id="view-lifecycle-management"><a class="header" href="#view-lifecycle-management">View Lifecycle Management</a></h2>
+<p>Views aren't static. They're living documentation that needs maintenance. Here's the lifecycle:</p>
+<h3 id="stage-1-creation"><a class="header" href="#stage-1-creation">Stage 1: Creation</a></h3>
+<pre><code class="language-sruja">view security {
+  title "Security Architecture"
+  description "Shows trust boundaries, data encryption, and external integrations. Use for security reviews and compliance audits."
+  
+  include ECommerce.API
+  include PaymentGateway
+  include ECommerce.OrderDB
+  exclude Customer Admin ECommerce.WebApp
+  
+  // Document when created
+  metadata {
+    created "2024-01-15"
+    owner "Security Team"
+    review_frequency "quarterly"
   }
 }
-
-Customer -&gt; ECommerce.WebApp "Browses"
-ECommerce.WebApp -&gt; ECommerce.API "Fetches data"
-ECommerce.API -&gt; ECommerce.OrderDB "Stores orders"
-ECommerce.API -&gt; PaymentGateway "Processes payments"
-
-// Executive view: Business context only
-view executive {
-title "Executive Overview"
-include Customer
-include Admin
-include ECommerce
-include PaymentGateway
-exclude ECommerce.WebApp
-exclude ECommerce.API
-exclude ECommerce.OrderDB
-exclude ECommerce.ProductDB
-}
-
-// Architect view: Container-level architecture
-view architect {
-title "Architectural View"
-include ECommerce
-include ECommerce.WebApp
-include ECommerce.API
-include ECommerce.OrderDB
-include ECommerce.ProductDB
-include PaymentGateway
-exclude Customer
-exclude Admin
-}
-
-// Developer view: Component-level implementation
-view developer {
-title "Developer View"
-include ECommerce.WebApp
-include ECommerce.API
-include ECommerce.OrderDB
-include ECommerce.ProductDB
-exclude Customer
-exclude Admin
-exclude PaymentGateway
-}
 </code></pre>
-<h3 id="3-create-concern-specific-views"><a class="header" href="#3-create-concern-specific-views">3. Create Concern-Specific Views</a></h3>
-<p>Focus on specific concerns: performance, security, data flow, deployment.</p>
-<pre><code class="language-sruja">// Performance view: Components with performance characteristics
-view performance {
-title "Performance View"
-include ECommerce.API
-include ECommerce.OrderDB
-exclude Customer
-exclude Admin
-exclude ECommerce.WebApp
-}
-
-// Security view: External interactions and data stores
-view security {
-title "Security View"
-include ECommerce.API
-include PaymentGateway
-include ECommerce.OrderDB
-exclude Customer
-exclude Admin
-exclude ECommerce.WebApp
-}
-
-// Data flow view: Data dependencies
-view dataflow {
-title "Data Flow View"
-include ECommerce.API
-include ECommerce.OrderDB
-include ECommerce.ProductDB
-exclude Customer
-exclude Admin
-exclude ECommerce.WebApp
-exclude PaymentGateway
-}
-</code></pre>
-<h2 id="view-naming-conventions"><a class="header" href="#view-naming-conventions">View Naming Conventions</a></h2>
-<p>Use clear, descriptive names that indicate the view's purpose:</p>
-<h3 id="good-names"><a class="header" href="#good-names">Good Names</a></h3>
+<p><strong>Best practices at creation:</strong></p>
 <ul>
-<li><code>executive</code> - Clear audience</li>
-<li><code>dataflow</code> - Clear concern</li>
-<li><code>deployment</code> - Clear purpose</li>
-<li><code>security-audit</code> - Specific use case</li>
+<li>✅ Clear, descriptive name</li>
+<li>✅ Descriptive title</li>
+<li>✅ Purpose description</li>
+<li>✅ Owner (who maintains it)</li>
+<li>✅ Review frequency</li>
 </ul>
-<h3 id="avoid"><a class="header" href="#avoid">Avoid</a></h3>
+<h3 id="stage-2-active-maintenance"><a class="header" href="#stage-2-active-maintenance">Stage 2: Active Maintenance</a></h3>
+<p>Views need updates when:</p>
 <ul>
-<li><code>view1</code>, <code>view2</code> - Not descriptive</li>
-<li><code>temp</code> - Temporary views should be removed</li>
-<li><code>test</code> - Test views shouldn't be in production models</li>
+<li>Architecture changes (new services, removed services)</li>
+<li>Audience needs change (new questions, different decisions)</li>
+<li>Scope changes (system grows, features added)</li>
 </ul>
-<h2 id="view-organization-patterns"><a class="header" href="#view-organization-patterns">View Organization Patterns</a></h2>
-<h3 id="pattern-1-by-audience"><a class="header" href="#pattern-1-by-audience">Pattern 1: By Audience</a></h3>
-<p>Create views for each stakeholder group.</p>
-<pre><code class="language-sruja">view executive { /* ... */ }
-view product { /* ... */ }
-view architect { /* ... */ }
-view developer { /* ... */ }
-view operations { /* ... */ }
-</code></pre>
-<h3 id="pattern-2-by-concern"><a class="header" href="#pattern-2-by-concern">Pattern 2: By Concern</a></h3>
-<p>Create views for different technical concerns.</p>
-<pre><code class="language-sruja">view performance { /* ... */ }
-view security { /* ... */ }
-view dataflow { /* ... */ }
-view deployment { /* ... */ }
-</code></pre>
-<h3 id="pattern-3-by-layer"><a class="header" href="#pattern-3-by-layer">Pattern 3: By Layer</a></h3>
-<p>Create views for different C4 model layers.</p>
-<pre><code class="language-sruja">view context { /* System context */ }
-view container { /* Container diagram */ }
-view component { /* Component diagram */ }
-</code></pre>
-<h3 id="pattern-4-by-feature"><a class="header" href="#pattern-4-by-feature">Pattern 4: By Feature</a></h3>
-<p>Create views for specific features or domains.</p>
-<pre><code class="language-sruja">view checkout { /* Checkout flow */ }
-view search { /* Search functionality */ }
-view analytics { /* Analytics pipeline */ }
-</code></pre>
-<h2 id="best-practices"><a class="header" href="#best-practices">Best Practices</a></h2>
-<h3 id="1-always-include-an-index-view"><a class="header" href="#1-always-include-an-index-view">1. Always Include an Index View</a></h3>
-<pre><code class="language-sruja">view index {
-title "Complete System View"
-include *
-}
-</code></pre>
-<h3 id="2-use-descriptive-titles"><a class="header" href="#2-use-descriptive-titles">2. Use Descriptive Titles</a></h3>
-<pre><code class="language-sruja">view executive {
-  title "Executive Overview - Business Context"
-  // ...
-}
-</code></pre>
-<h3 id="3-add-descriptions"><a class="header" href="#3-add-descriptions">3. Add Descriptions</a></h3>
-<pre><code class="language-sruja">view architect {
-  title "Architectural View"
-  description "Container-level architecture showing system boundaries and interactions"
-  // ...
-}
-</code></pre>
-<h3 id="4-keep-views-focused"><a class="header" href="#4-keep-views-focused">4. Keep Views Focused</a></h3>
-<p>Each view should answer a specific set of questions. If a view tries to answer too many questions, split it into multiple views.</p>
-<h3 id="5-document-view-purpose"><a class="header" href="#5-document-view-purpose">5. Document View Purpose</a></h3>
-<p>Use comments or descriptions to explain why a view exists and when to use it.</p>
-<pre><code class="language-sruja">// Use this view for:
-// - Executive presentations
-// - Business stakeholder discussions
-// - High-level architecture reviews
-view executive {
-title "Executive Overview"
-// ...
-}
-</code></pre>
-<h2 id="common-view-patterns"><a class="header" href="#common-view-patterns">Common View Patterns</a></h2>
-<h3 id="executive-dashboard-view"><a class="header" href="#executive-dashboard-view">Executive Dashboard View</a></h3>
-<pre><code class="language-sruja">view executive {
-  title "Executive Dashboard"
-  include Customer Admin
-  include ECommerce PaymentGateway
-  exclude ECommerce.WebApp ECommerce.API
-  exclude ECommerce.OrderDB ECommerce.ProductDB
-}
-</code></pre>
-<h3 id="technical-architecture-view"><a class="header" href="#technical-architecture-view">Technical Architecture View</a></h3>
-<pre><code class="language-sruja">view technical {
-  title "Technical Architecture"
-  include ECommerce ECommerce.WebApp ECommerce.API
-  include ECommerce.OrderDB ECommerce.ProductDB
-  exclude Customer Admin
-}
-</code></pre>
-<h3 id="user-journey-view"><a class="header" href="#user-journey-view">User Journey View</a></h3>
-<pre><code class="language-sruja">view userjourney {
-  title "User Journey View"
-  include Customer
-  include ECommerce.WebApp ECommerce.API
-  include PaymentGateway
-  exclude Admin ECommerce.OrderDB ECommerce.ProductDB
-}
-</code></pre>
-<h3 id="deployment-view"><a class="header" href="#deployment-view">Deployment View</a></h3>
-<pre><code class="language-sruja">view deployment {
-  title "Deployment View"
-  include ECommerce.WebApp ECommerce.API
-  include ECommerce.OrderDB
-  exclude Customer Admin PaymentGateway
-}
-</code></pre>
-<h2 id="view-maintenance"><a class="header" href="#view-maintenance">View Maintenance</a></h2>
-<h3 id="when-to-create-new-views"><a class="header" href="#when-to-create-new-views">When to Create New Views</a></h3>
+<p><strong>Update checklist:</strong></p>
 <ul>
-<li>New stakeholder group needs different perspective</li>
-<li>New concern emerges (e.g., compliance)</li>
-<li>Feature-specific view needed for documentation</li>
+<li><input disabled="" type="checkbox"> Do included elements still exist?</li>
+<li><input disabled="" type="checkbox"> Should new elements be included?</li>
+<li><input disabled="" type="checkbox"> Is the purpose still valid?</li>
+<li><input disabled="" type="checkbox"> Is the audience still the same?</li>
 </ul>
-<h3 id="when-to-remove-views"><a class="header" href="#when-to-remove-views">When to Remove Views</a></h3>
+<h3 id="stage-3-deprecation"><a class="header" href="#stage-3-deprecation">Stage 3: Deprecation</a></h3>
+<p><strong>Signs a view should be deprecated:</strong></p>
 <ul>
-<li>View is no longer used</li>
-<li>View duplicates another view</li>
-<li>View is outdated and not maintained</li>
+<li>❌ No one's used it in 6 months</li>
+<li>❌ It duplicates another view</li>
+<li>❌ The audience no longer exists (team disbanded, project canceled)</li>
+<li>❌ The questions it answered are no longer relevant</li>
 </ul>
-<h3 id="when-to-update-views"><a class="header" href="#when-to-update-views">When to Update Views</a></h3>
-<ul>
-<li>Architecture changes affect view scope</li>
-<li>New components need to be included/excluded</li>
-<li>View purpose changes</li>
-</ul>
-<h2 id="advanced-view-composition"><a class="header" href="#advanced-view-composition">Advanced: View Composition</a></h2>
-<p>You can create views that build on other views by carefully selecting elements:</p>
-<pre><code class="language-sruja">// Base view: All containers
-view containers {
-title "Container View"
-include ECommerce.WebApp ECommerce.API
-include ECommerce.OrderDB ECommerce.ProductDB
-}
-
-// Extended view: Containers + external systems
-view containers-extended {
-title "Container View with External Systems"
-include ECommerce.WebApp ECommerce.API
-include ECommerce.OrderDB ECommerce.ProductDB
-include PaymentGateway
+<p><strong>Deprecation process:</strong></p>
+<ol>
+<li>Mark as deprecated</li>
+<li>Add deprecation date and reason</li>
+<li>Point to replacement view (if any)</li>
+<li>Keep for 30 days, then delete</li>
+</ol>
+<pre><code class="language-sruja">view old-performance {
+  title "Performance View (DEPRECATED)"
+  description "DEPRECATED: Use 'performance-v2' instead. This view doesn't include the new caching layer."
+  
+  metadata {
+    deprecated "2024-03-15"
+    replacement "performance-v2"
+    reason "Doesn't reflect current caching architecture"
+  }
+  
+  // ... rest of view
 }
 </code></pre>
-<h2 id="real-world-example-e-commerce-platform"><a class="header" href="#real-world-example-e-commerce-platform">Real-World Example: E-Commerce Platform</a></h2>
+<h3 id="stage-4-deletion"><a class="header" href="#stage-4-deletion">Stage 4: Deletion</a></h3>
+<p><strong>Delete when:</strong></p>
+<ul>
+<li>Deprecated period has passed (30+ days)</li>
+<li>No one has complained</li>
+<li>Replacement view exists and is used</li>
+</ul>
+<p><strong>Before deleting:</strong></p>
+<ul>
+<li>Search for references in documentation</li>
+<li>Check if anyone's bookmarked it</li>
+<li>Announce deletion to team</li>
+</ul>
+<h2 id="naming-conventions-that-scale"><a class="header" href="#naming-conventions-that-scale">Naming Conventions That Scale</a></h2>
+<p>Bad names kill view discoverability. Here's what works:</p>
+<h3 id="pattern-1-audience-based-names"><a class="header" href="#pattern-1-audience-based-names">Pattern 1: Audience-Based Names</a></h3>
+<pre><code class="language-sruja">view executive { /* for executives */ }
+view product { /* for product managers */ }
+view architect { /* for architects */ }
+view developer { /* for developers */ }
+view operations { /* for ops team */ }
+</code></pre>
+<p><strong>When to use:</strong> Most common pattern, works for 80% of views</p>
+<h3 id="pattern-2-concern-based-names"><a class="header" href="#pattern-2-concern-based-names">Pattern 2: Concern-Based Names</a></h3>
+<pre><code class="language-sruja">view security { /* security focus */ }
+view performance { /* performance focus */ }
+view dataflow { /* data dependencies */ }
+view deployment { /* deployment architecture */ }
+</code></pre>
+<p><strong>When to use:</strong> When concern is more important than audience</p>
+<h3 id="pattern-3-feature-based-names"><a class="header" href="#pattern-3-feature-based-names">Pattern 3: Feature-Based Names</a></h3>
+<pre><code class="language-sruja">view checkout { /* checkout feature */ }
+view search { /* search functionality */ }
+view analytics { /* analytics pipeline */ }
+view notifications { /* notification system */ }
+</code></pre>
+<p><strong>When to use:</strong> Large features spanning multiple services</p>
+<h3 id="pattern-4-layer-based-names"><a class="header" href="#pattern-4-layer-based-names">Pattern 4: Layer-Based Names</a></h3>
+<pre><code class="language-sruja">view context { /* C4 context layer */ }
+view containers { /* C4 container layer */ }
+view components { /* C4 component layer */ }
+</code></pre>
+<p><strong>When to use:</strong> When following strict C4 model</p>
+<h3 id="naming-anti-patterns"><a class="header" href="#naming-anti-patterns">Naming Anti-Patterns</a></h3>
+<p>❌ <strong>Temporal names:</strong> <code>view1</code>, <code>view2</code>, <code>new-view</code>, <code>old-view</code></p>
+<ul>
+<li>Problem: Doesn't say what it is, only when it was created</li>
+</ul>
+<p>❌ <strong>Person names:</strong> <code>johns-view</code>, <code>sarahs-diagram</code></p>
+<ul>
+<li>Problem: What if John leaves? What if Sarah changes roles?</li>
+</ul>
+<p>❌ <strong>Temporal qualifiers:</strong> <code>temp</code>, <code>test</code>, <code>draft</code>, <code>wip</code></p>
+<ul>
+<li>Problem: These never get renamed. They become permanent.</li>
+</ul>
+<p>❌ <strong>Cryptic abbreviations:</strong> <code>mv</code>, <code>arch-v2</code>, <code>dev-fin</code></p>
+<ul>
+<li>Problem: Requires mental translation every time</li>
+</ul>
+<p>✅ <strong>Clear, descriptive names:</strong> <code>executive</code>, <code>security-audit</code>, <code>checkout-flow</code></p>
+<ul>
+<li>Solution: Self-documenting, searchable, scalable</li>
+</ul>
+<h2 id="organization-patterns-for-large-systems"><a class="header" href="#organization-patterns-for-large-systems">Organization Patterns for Large Systems</a></h2>
+<p>When your architecture grows beyond 10 services, you need organization strategies.</p>
+<h3 id="pattern-1-the-core-5"><a class="header" href="#pattern-1-the-core-5">Pattern 1: The Core 5</a></h3>
+<p>Every system should have these 5 views minimum:</p>
+<pre><code class="language-sruja">view index { /* Complete system */ }
+view executive { /* Business context */ }
+view architect { /* Technical architecture */ }
+view developer { /* Implementation details */ }
+view security { /* Security &amp; compliance */ }
+</code></pre>
+<p>These cover 90% of use cases.</p>
+<h3 id="pattern-2-concern-extensions"><a class="header" href="#pattern-2-concern-extensions">Pattern 2: Concern Extensions</a></h3>
+<p>Add concern-specific views as needed:</p>
+<pre><code class="language-sruja">view performance { /* When performance matters */ }
+view dataflow { /* When data pipelines exist */ }
+view deployment { /* When deployment is complex */ }
+view integration { /* When many external APIs */ }
+</code></pre>
+<h3 id="pattern-3-feature-slices"><a class="header" href="#pattern-3-feature-slices">Pattern 3: Feature Slices</a></h3>
+<p>For large systems, create feature-specific views:</p>
+<pre><code class="language-sruja">view checkout { /* Checkout feature */ }
+view search { /* Search feature */ }
+view recommendations { /* Recommendations feature */ }
+</code></pre>
+<h3 id="pattern-4-team-domains"><a class="header" href="#pattern-4-team-domains">Pattern 4: Team Domains</a></h3>
+<p>For orgs with domain-driven design:</p>
+<pre><code class="language-sruja">view catalog-domain { /* Catalog team */ }
+view order-domain { /* Order team */ }
+view payment-domain { /* Payment team */ }
+view user-domain { /* User team */ }
+</code></pre>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="netflix-view-governance-at-scale"><a class="header" href="#netflix-view-governance-at-scale">Netflix: View Governance at Scale</a></h3>
+<p>Netflix has 700+ microservices. They can't afford view chaos. Their approach:</p>
+<p><strong>1. Mandatory Views (enforced by CI/CD):</strong></p>
+<ul>
+<li>Executive view (business context)</li>
+<li>Domain view (service groupings)</li>
+<li>Dependencies view (critical paths)</li>
+</ul>
+<p><strong>2. Optional Views (team discretion):</strong></p>
+<ul>
+<li>Feature-specific views</li>
+<li>Performance views</li>
+<li>Deployment views</li>
+</ul>
+<p><strong>3. View Review Process:</strong></p>
+<ul>
+<li>Quarterly review of all views</li>
+<li>Delete unused views</li>
+<li>Update stale views</li>
+<li>Add missing views</li>
+</ul>
+<p><strong>Result:</strong> Despite 700+ services, they maintain ~15 core views. Focused, not fragmented.</p>
+<h3 id="amazon-two-pizza-team-views"><a class="header" href="#amazon-two-pizza-team-views">Amazon: Two-Pizza Team Views</a></h3>
+<p>Amazon's two-pizza teams (6-10 people) each own their services. Their view strategy:</p>
+<p><strong>1. Team Views:</strong></p>
+<ul>
+<li>Each team maintains 3-5 views for their domain</li>
+<li>Team is responsible for keeping views updated</li>
+</ul>
+<p><strong>2. Cross-Team Views:</strong></p>
+<ul>
+<li>Central architecture team maintains integration views</li>
+<li>Shows how teams connect</li>
+</ul>
+<p><strong>3. Executive Views:</strong></p>
+<ul>
+<li>Aggregated from team views</li>
+<li>Shows business capabilities, not services</li>
+</ul>
+<p><strong>Result:</strong> Distributed ownership prevents central bottleneck. Clear ownership keeps views accurate.</p>
+<h3 id="stripe-developer-focused-views"><a class="header" href="#stripe-developer-focused-views">Stripe: Developer-Focused Views</a></h3>
+<p>Stripe's famous for developer experience. Their view strategy:</p>
+<p><strong>1. Public Documentation Views:</strong></p>
+<ul>
+<li>Customer-facing integration views</li>
+<li>Minimal, clear, focused</li>
+</ul>
+<p><strong>2. Internal Developer Views:</strong></p>
+<ul>
+<li>Detailed implementation views</li>
+<li>Component-level for feature teams</li>
+</ul>
+<p><strong>3. Compliance Views:</strong></p>
+<ul>
+<li>Security and audit views</li>
+<li>Separate from technical views</li>
+</ul>
+<p><strong>Result:</strong> Different views for different audiences. No confusion about which view to use.</p>
+<h2 id="common-view-management-mistakes"><a class="header" href="#common-view-management-mistakes">Common View Management Mistakes</a></h2>
+<h3 id="mistake-1-view-proliferation"><a class="header" href="#mistake-1-view-proliferation">Mistake #1: View Proliferation</a></h3>
+<p><strong>What happens:</strong> Every meeting spawns a new view. 50+ views exist.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Can't find the right view</li>
+<li>Maintenance nightmare</li>
+<li>Outdated information everywhere</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Start with Core 5</li>
+<li>Require justification for new views</li>
+<li>Quarterly view audit and cleanup</li>
+</ul>
+<h3 id="mistake-2-orphaned-views"><a class="header" href="#mistake-2-orphaned-views">Mistake #2: Orphaned Views</a></h3>
+<p><strong>What happens:</strong> View created for a specific meeting, never maintained.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Shows outdated architecture</li>
+<li>Misleads people who find it</li>
+<li>Erodes trust in documentation</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Every view needs an owner</li>
+<li>Document creation date and purpose</li>
+<li>Regular review schedule</li>
+</ul>
+<h3 id="mistake-3-generic-views"><a class="header" href="#mistake-3-generic-views">Mistake #3: Generic Views</a></h3>
+<p><strong>What happens:</strong> One view tries to serve everyone.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Too much detail for executives</li>
+<li>Too little detail for developers</li>
+<li>Satisfies no one</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Create audience-specific views</li>
+<li>Be explicit about who each view serves</li>
+<li>Don't try to make one view do everything</li>
+</ul>
+<h3 id="mistake-4-no-default-view"><a class="header" href="#mistake-4-no-default-view">Mistake #4: No Default View</a></h3>
+<p><strong>What happens:</strong> Someone opens your model and doesn't know which view to use.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Confusion from the start</li>
+<li>Wrong view used for wrong purpose</li>
+<li>Frustration with documentation</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Always have <code>view index</code> with <code>include *</code></li>
+<li>Make default view match most common use case</li>
+<li>Document other views in default view's description</li>
+</ul>
+<h3 id="mistake-5-stale-views-after-refactoring"><a class="header" href="#mistake-5-stale-views-after-refactoring">Mistake #5: Stale Views After Refactoring</a></h3>
+<p><strong>What happens:</strong> Architecture gets refactored, views don't get updated.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Views show services that no longer exist</li>
+<li>New services missing from views</li>
+<li>Documentation lies</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>View updates part of refactoring PRs</li>
+<li>CI/CD validation of view elements</li>
+<li>Architecture review includes view review</li>
+</ul>
+<h3 id="mistake-6-inconsistent-styling-across-views"><a class="header" href="#mistake-6-inconsistent-styling-across-views">Mistake #6: Inconsistent Styling Across Views</a></h3>
+<p><strong>What happens:</strong> Same element looks different in different views.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Confusing for viewers</li>
+<li>Looks unprofessional</li>
+<li>Harder to understand</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Use global styles for consistency</li>
+<li>View-specific styles only for emphasis</li>
+<li>Style guide for team</li>
+</ul>
+<h2 id="the-view-scale-framework"><a class="header" href="#the-view-scale-framework">The VIEW-SCALE Framework</a></h2>
+<p>For managing views at scale, use this framework:</p>
+<p><strong>V - Verify Need</strong></p>
+<ul>
+<li>Does this view serve a specific audience?</li>
+<li>Does it answer questions not answered by existing views?</li>
+<li>Will it be maintained?</li>
+</ul>
+<p><strong>I - Identify Audience</strong></p>
+<ul>
+<li>Who will use this view?</li>
+<li>What decisions will they make?</li>
+<li>What's their technical level?</li>
+</ul>
+<p><strong>E - Establish Purpose</strong></p>
+<ul>
+<li>What questions does this view answer?</li>
+<li>What's out of scope?</li>
+<li>When should this view be used?</li>
+</ul>
+<p><strong>W - Write Documentation</strong></p>
+<ul>
+<li>Clear name and title</li>
+<li>Purpose description</li>
+<li>Owner and review schedule</li>
+</ul>
+<p><strong>S - Scale Check</strong></p>
+<ul>
+<li>Does this duplicate existing views?</li>
+<li>Can existing views be extended instead?</li>
+<li>Will this add value or noise?</li>
+</ul>
+<p><strong>C - Create Minimal</strong></p>
+<ul>
+<li>Start with essential elements only</li>
+<li>Add more if needed</li>
+<li>Less is more</li>
+</ul>
+<p><strong>A - Assign Owner</strong></p>
+<ul>
+<li>Who's responsible for maintenance?</li>
+<li>What triggers updates?</li>
+<li>When should it be deprecated?</li>
+</ul>
+<p><strong>L - Lifecycle Plan</strong></p>
+<ul>
+<li>Review frequency</li>
+<li>Update triggers</li>
+<li>Deprecation criteria</li>
+</ul>
+<p><strong>E - Evaluate Regularly</strong></p>
+<ul>
+<li>Is it still used?</li>
+<li>Is it still accurate?</li>
+<li>Should it be updated or deleted?</li>
+</ul>
+<h2 id="practical-example-e-commerce-at-scale"><a class="header" href="#practical-example-e-commerce-at-scale">Practical Example: E-Commerce at Scale</a></h2>
+<p>Let me show you a well-organized view structure for a growing e-commerce platform:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 Customer = person "Customer"
 Admin = person "Administrator"
 
 ECommerce = system "E-Commerce Platform" {
-WebApp = container "Web Application" {
-  CartComponent = component "Shopping Cart"
-  ProductComponent = component "Product Catalog"
-}
-API = container "API Service" {
-  OrderController = component "Order Controller"
-  PaymentController = component "Payment Controller"
-}
-OrderDB = database "Order Database"
-ProductDB = database "Product Database"
-Cache = database "Redis Cache"
-EventQueue = queue "Event Queue"
+  WebApp = container "Web Application" {
+    CartComponent = component "Shopping Cart"
+    ProductComponent = component "Product Catalog"
+  }
+  API = container "API Service" {
+    OrderController = component "Order Controller"
+    PaymentController = component "Payment Controller"
+  }
+  OrderDB = database "Order Database"
+  ProductDB = database "Product Database"
+  Cache = database "Redis Cache"
+  EventQueue = queue "Event Queue"
 }
 
 PaymentGateway = system "Payment Gateway" {
-metadata {
+  metadata {
     tags ["external"]
   }
 }
@@ -485,86 +690,235 @@ ECommerce.API -&gt; ECommerce.OrderDB "Stores orders"
 ECommerce.API -&gt; ECommerce.Cache "Caches queries"
 ECommerce.API -&gt; PaymentGateway "Processes payments"
 
-// Complete system
+// CORE 5 VIEWS (always present)
+
 view index {
-title "Complete System View"
-include *
+  title "Complete System"
+  description "Full architecture with all elements. Use for reference, not presentations."
+  include *
 }
 
-// Executive: Business context
 view executive {
-title "Executive Overview"
-include Customer Admin
-include ECommerce PaymentGateway
-exclude ECommerce.WebApp ECommerce.API ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
+  title "Business Overview"
+  description "High-level business context for executives and stakeholders. Shows business capabilities and external dependencies."
+  
+  include Customer Admin
+  include ECommerce PaymentGateway
+  
+  // Hide all technical details
+  exclude ECommerce.WebApp ECommerce.API 
+  exclude ECommerce.OrderDB ECommerce.ProductDB 
+  exclude ECommerce.Cache ECommerce.EventQueue
+  
+  metadata {
+    audience "C-suite, Board, Investors"
+    owner "Product Team"
+    review "quarterly"
+  }
 }
 
-// Product: User journeys
-view product {
-title "Product View - User Journeys"
-include Customer
-include ECommerce.WebApp
-include ECommerce.API
-include PaymentGateway
-exclude Admin
-exclude ECommerce.OrderDB
-exclude ECommerce.ProductDB
-exclude ECommerce.Cache
-exclude ECommerce.EventQueue
-}
-
-// Architect: Container architecture
 view architect {
-title "Architectural View"
-include ECommerce ECommerce.WebApp ECommerce.API
-include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
-include PaymentGateway
-exclude Customer Admin
+  title "Technical Architecture"
+  description "Container-level architecture showing service boundaries, data stores, and external integrations."
+  
+  include ECommerce
+  include ECommerce.WebApp ECommerce.API
+  include ECommerce.OrderDB ECommerce.ProductDB 
+  include ECommerce.Cache ECommerce.EventQueue
+  include PaymentGateway
+  
+  exclude Customer Admin
+  
+  metadata {
+    audience "Architects, Tech Leads"
+    owner "Architecture Team"
+    review "monthly"
+  }
 }
 
-// Developer: Component details
 view developer {
-title "Developer View"
-include ECommerce.WebApp
-include ECommerce.API
-include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache
-exclude Customer Admin PaymentGateway
+  title "Developer Guide"
+  description "Implementation details for developers. Shows components, internal structure, and key dependencies."
+  
+  include ECommerce.WebApp
+  include ECommerce.API
+  include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache
+  
+  exclude Customer Admin PaymentGateway
+  
+  metadata {
+    audience "Developers"
+    owner "Engineering Teams"
+    review "sprint"
+  }
 }
 
-// Operations: Deployment and monitoring
-view operations {
-title "Operations View"
-include ECommerce.WebApp ECommerce.API
-include ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
-exclude Customer Admin PaymentGateway
+view security {
+  title "Security Architecture"
+  description "Security focus: trust boundaries, data encryption, external integrations. Use for security reviews and compliance audits."
+  
+  include ECommerce.API
+  include PaymentGateway
+  include ECommerce.OrderDB
+  
+  exclude Customer Admin ECommerce.WebApp
+  exclude ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
+  
+  metadata {
+    audience "Security Team, Compliance"
+    owner "Security Team"
+    review "quarterly"
+  }
 }
 
-// Data flow: Data dependencies
-view dataflow {
-title "Data Flow View"
-include ECommerce.API ECommerce.OrderDB ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
-exclude Customer Admin ECommerce.WebApp PaymentGateway
-}
+// EXTENSION VIEWS (added as needed)
 
-// Performance: Performance-critical components
 view performance {
-title "Performance View"
-include ECommerce.API ECommerce.Cache ECommerce.OrderDB
-exclude Customer Admin ECommerce.WebApp ECommerce.ProductDB ECommerce.EventQueue PaymentGateway
+  title "Performance Architecture"
+  description "Performance-critical components: databases, caches, high-traffic services. Use for capacity planning and optimization."
+  
+  include ECommerce.API
+  include ECommerce.Cache
+  include ECommerce.OrderDB ECommerce.ProductDB
+  
+  exclude Customer Admin PaymentGateway ECommerce.WebApp ECommerce.EventQueue
+  
+  metadata {
+    audience "Performance Team, SRE"
+    owner "Platform Team"
+    review "monthly"
+  }
+}
+
+view dataflow {
+  title "Data Flow"
+  description "Data dependencies and movement. Shows how data flows through the system. Use for data architecture discussions."
+  
+  include ECommerce.API
+  include ECommerce.OrderDB ECommerce.ProductDB 
+  include ECommerce.Cache ECommerce.EventQueue
+  
+  exclude Customer Admin ECommerce.WebApp PaymentGateway
+  
+  metadata {
+    audience "Data Team, Architects"
+    owner "Data Team"
+    review "monthly"
+  }
+}
+
+view deployment {
+  title "Deployment Architecture"
+  description "Deployment and infrastructure. Shows containers and their deployment targets. Use for deployment planning."
+  
+  include ECommerce.WebApp ECommerce.API
+  include ECommerce.OrderDB ECommerce.ProductDB 
+  include ECommerce.Cache ECommerce.EventQueue
+  
+  exclude Customer Admin PaymentGateway
+  
+  metadata {
+    audience "DevOps, SRE"
+    owner "Platform Team"
+    review "monthly"
+  }
+}
+
+view checkout {
+  title "Checkout Feature"
+  description "Checkout flow components. Shows services and components involved in checkout process. Use for checkout feature development."
+  
+  include Customer
+  include ECommerce.WebApp ECommerce.WebApp.CartComponent
+  include ECommerce.API ECommerce.API.OrderController ECommerce.API.PaymentController
+  include ECommerce.OrderDB
+  include PaymentGateway
+  
+  exclude Admin ECommerce.ProductDB ECommerce.Cache ECommerce.EventQueue
+  
+  metadata {
+    audience "Checkout Team"
+    owner "Checkout Team"
+    review "sprint"
+  }
 }
 </code></pre>
-<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>Views are a powerful tool for making architecture documentation accessible to different audiences. Follow these best practices:</p>
+<p><strong>Notice the organization:</strong></p>
+<ul>
+<li>Core 5 views first (always present)</li>
+<li>Extension views grouped by concern</li>
+<li>Feature views at the end</li>
+<li>Each view has metadata: audience, owner, review schedule</li>
+<li>Clear descriptions of when to use</li>
+</ul>
+<h2 id="view-maintenance-checklist"><a class="header" href="#view-maintenance-checklist">View Maintenance Checklist</a></h2>
+<p>Use this checklist monthly:</p>
+<p><strong>Review:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Are all view elements still valid (no deleted services)?</li>
+<li><input disabled="" type="checkbox"> Are new elements missing from relevant views?</li>
+<li><input disabled="" type="checkbox"> Are view descriptions still accurate?</li>
+<li><input disabled="" type="checkbox"> Are owners still responsible?</li>
+</ul>
+<p><strong>Clean:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Any views unused for 3+ months? → Mark deprecated</li>
+<li><input disabled="" type="checkbox"> Any deprecated views older than 30 days? → Delete</li>
+<li><input disabled="" type="checkbox"> Any duplicate views? → Consolidate</li>
+<li><input disabled="" type="checkbox"> Any missing critical views? → Create</li>
+</ul>
+<p><strong>Validate:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Do views render correctly?</li>
+<li><input disabled="" type="checkbox"> Are styles consistent?</li>
+<li><input disabled="" type="checkbox"> Are names clear and descriptive?</li>
+<li><input disabled="" type="checkbox"> Is documentation current?</li>
+</ul>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
 <ol>
-<li><strong>Start with your audience</strong> - Know who will use the view</li>
-<li><strong>Use include/exclude strategically</strong> - Focus on what matters</li>
-<li><strong>Create concern-specific views</strong> - Performance, security, data flow</li>
-<li><strong>Use clear naming</strong> - Descriptive names that indicate purpose</li>
-<li><strong>Document view purpose</strong> - Explain why the view exists</li>
-<li><strong>Keep views focused</strong> - Each view should answer specific questions</li>
-<li><strong>Maintain views</strong> - Update or remove views as architecture evolves</li>
+<li><strong>Start with Core 5</strong> - Executive, Architect, Developer, Security, Index</li>
+<li><strong>Use the VIEW framework</strong> - Verify audience, Intentionally design, Explicitly document, Watch lifecycle</li>
+<li><strong>Name for clarity</strong> - Audience or concern, never temporal or personal</li>
+<li><strong>Assign ownership</strong> - Every view needs an owner and review schedule</li>
+<li><strong>Lifecycle matters</strong> - Create → Maintain → Deprecate → Delete</li>
+<li><strong>Less is more</strong> - 7 focused views &gt; 47 scattered views</li>
+<li><strong>Review quarterly</strong> - Audit, clean, and validate views regularly</li>
+<li><strong>Document purpose</strong> - When to use, what it shows, who it's for</li>
+<li><strong>Avoid duplication</strong> - Consolidate similar views, extend existing views</li>
+<li><strong>Update with architecture</strong> - Refactoring includes view updates</li>
 </ol>
-<p>👉 <strong><a href="../module-4-production-readiness/lesson-1">Module 4: Production Readiness</a></strong> - Learn how to make your architecture production-ready.</p>
+<h2 id="when-youre-tempted-to-create-another-view"><a class="header" href="#when-youre-tempted-to-create-another-view">When You're Tempted to Create Another View</a></h2>
+<p>Ask yourself:</p>
+<ol>
+<li><strong>Does this audience already have a view?</strong> → Update existing view</li>
+<li><strong>Is this a temporary need?</strong> → Don't create, use ad-hoc screenshot</li>
+<li><strong>Can this be a scenario or flow instead?</strong> → Use right tool for job</li>
+<li><strong>Will this be maintained?</strong> → If no, don't create</li>
+<li><strong>Is this worth the maintenance cost?</strong> → Every view has a cost</li>
+</ol>
+<h2 id="the-7-view-rule"><a class="header" href="#the-7-view-rule">The 7-View Rule</a></h2>
+<p>From experience: <strong>most systems need 5-10 views, maximum</strong>.</p>
+<ul>
+<li><strong>5 views:</strong> Simple system, one team</li>
+<li><strong>7 views:</strong> Medium system, 2-3 teams</li>
+<li><strong>10 views:</strong> Large system, multiple teams</li>
+<li><strong>15+ views:</strong> Very large system OR view proliferation</li>
+</ul>
+<p>If you have more than 10 views, question whether they're all necessary. Consolidate, deprecate, delete.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Views are powerful, but power requires responsibility. A few well-maintained views are worth more than dozens of orphaned, outdated perspectives.</p>
+<p><strong>The formula:</strong></p>
+<ul>
+<li>Start with Core 5</li>
+<li>Add only when justified</li>
+<li>Maintain with discipline</li>
+<li>Clean up regularly</li>
+<li>Document clearly</li>
+</ul>
+<p>Your future self (and your team) will thank you.</p>
+<hr>
+<p><strong>Congratulations!</strong> You've completed Module 3: Advanced Modeling. You now have all the tools to create production-ready architecture models.</p>
+<p>👉 <strong><a href="../module-4-production-readiness/lesson-1">Module 4: Production Readiness</a></strong> - Learn how to make your architecture production-ready with real-world examples and best practices.</p>
 
                     </main>
 
@@ -619,9 +973,11 @@ exclude Customer Admin ECommerce.WebApp ECommerce.ProductDB ECommerce.EventQueue
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

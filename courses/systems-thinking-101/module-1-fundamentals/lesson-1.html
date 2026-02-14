@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,17 +180,14 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-what-is-systems-thinking"><a class="header" href="#lesson-1-what-is-systems-thinking">Lesson 1: What is Systems Thinking?</a></h1>
-<h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
-<ul>
-<li>Understand what systems thinking is</li>
-<li>Recognize systems in everyday life and software</li>
-<li>See the connection between systems thinking and software architecture</li>
-</ul>
+                        <h1 id="lesson-1-introduction-to-systems-thinking"><a class="header" href="#lesson-1-introduction-to-systems-thinking">Lesson 1: Introduction to Systems Thinking</a></h1>
+<h2 id="learning-goal"><a class="header" href="#learning-goal">Learning Goal</a></h2>
+<p>Understand the basic concept of systems thinking and its importance in architecture.</p>
 <h2 id="what-is-systems-thinking"><a class="header" href="#what-is-systems-thinking">What is Systems Thinking?</a></h2>
-<p>Systems thinking is a holistic approach to understanding how components interact as part of a whole. Instead of looking at individual parts in isolation, systems thinking focuses on the relationships, patterns, and emergent behaviors that arise when components work together.</p>
-<h3 id="a-simple-example"><a class="header" href="#a-simple-example">A Simple Example</a></h3>
-<p>Consider a coffee shop:</p>
+<p>Systems thinking is a <strong>holistic approach</strong> to understanding how components interact as part of a whole. Instead of looking at parts in isolation, it focuses on <strong>relationships</strong>, <strong>patterns</strong>, and <strong>emergent behaviors</strong> that arise when components work together.</p>
+<p>Traditional architecture often takes a reductionist approach: break systems into parts, understand each part, then put them together. But this misses the magic—the interactions that emerge only when parts work together.</p>
+<h3 id="a-simple-example-coffee-shop"><a class="header" href="#a-simple-example-coffee-shop">A Simple Example: Coffee Shop</a></h3>
+<p>Think of a coffee shop:</p>
 <p><strong>Isolated view (reductionist):</strong></p>
 <ul>
 <li>Coffee machine</li>
@@ -201,97 +198,169 @@
 </ul>
 <p><strong>Systems thinking view:</strong></p>
 <ul>
-<li>Customer orders coffee → Barista uses machine → Machine produces coffee → Customer receives coffee → Customer might return</li>
-<li>The coffee machine needs beans (supply chain)</li>
-<li>The barista needs training (human systems)</li>
-<li>The shop needs location (infrastructure)</li>
-<li>Customer satisfaction affects future visits (feedback loop)</li>
+<li>Customer orders → Barista uses machine → Machine produces coffee → Customer receives → Customer might return</li>
+<li>The machine needs beans (supply chain) — what if beans run out?</li>
+<li>Barista needs training (human systems) — what if barista is new?</li>
+<li>Shop needs location (infrastructure) — what if there's no parking?</li>
+<li>Customer satisfaction affects future visits (feedback loop) — happy customers return, unhappy ones don't</li>
 </ul>
-<h2 id="systems-in-software-architecture"><a class="header" href="#systems-in-software-architecture">Systems in Software Architecture</a></h2>
-<p>Every software system is a system of systems:</p>
-<pre><code>User Interface
-    ↓
-Application Logic
-    ↓
-Data Layer
-    ↓
-Infrastructure
+<p><strong>Emergent behavior:</strong> Wait times fluctuate based on peak hours, customer flow, and barista experience — you can't predict this from individual parts alone.</p>
+<h3 id="real-world-software-example-e-commerce-platform"><a class="header" href="#real-world-software-example-e-commerce-platform">Real-World Software Example: E-Commerce Platform</a></h3>
+<p>Consider an e-commerce application:</p>
+<p><strong>Isolated view:</strong></p>
+<ul>
+<li>Frontend (React)</li>
+<li>Backend (Node.js)</li>
+<li>Database (PostgreSQL)</li>
+<li>Cache (Redis)</li>
+</ul>
+<p><strong>Systems thinking view:</strong></p>
+<ul>
+<li>User browses → Frontend caches → Backend processes → Database stores → Payment gateway charges → Email service confirms</li>
+<li>What happens if cache is cold? (slower loads, higher database load)</li>
+<li>What happens if payment gateway is down? (order processing stalls, users frustrated)</li>
+<li>What happens during Black Friday sales? (traffic spikes, database contention, CDN becomes critical)</li>
+<li>Customer abandonment creates feedback: if checkout is slow, users don't complete purchases, revenue drops, less investment in performance, slower checkout again (vicious cycle)</li>
+</ul>
+<p><strong>Emergent behavior:</strong> System throughput varies non-linearly with user load due to caching, database locking, and external API rate limits.</p>
+<h2 id="why-it-matters-for-architecture"><a class="header" href="#why-it-matters-for-architecture">Why It Matters for Architecture</a></h2>
+<p><strong>Traditional view:</strong> "Build these components"
+<strong>Systems thinking view:</strong> "How do components interact to create value?"</p>
+<h2 id="sruja-example-e-commerce-platform"><a class="header" href="#sruja-example-e-commerce-platform">Sruja Example: E-Commerce Platform</a></h2>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+Customer = person "End User"
+Admin = person "Administrator"
+
+ECommerce = system "E-Commerce Platform" {
+  WebApp = container "Web Application" {
+    technology "React"
+  }
+  API = container "API Service" {
+    technology "Node.js"
+  }
+  Cache = queue "Redis Cache"
+  DB = database "PostgreSQL"
+}
+
+PaymentGateway = system "Payment Gateway"
+EmailService = system "Email Service"
+
+// User flow (happy path)
+Customer -&gt; ECommerce.WebApp "Browses products"
+ECommerce.WebApp -&gt; ECommerce.Cache "Checks cache"
+ECommerce.WebApp -&gt; ECommerce.API "Fetches data"
+ECommerce.API -&gt; ECommerce.DB "Reads products"
+ECommerce.API -&gt; ECommerce.WebApp "Returns products"
+
+// Order processing flow
+Customer -&gt; ECommerce.WebApp "Submits order"
+ECommerce.WebApp -&gt; ECommerce.API "Processes order"
+ECommerce.API -&gt; ECommerce.DB "Saves order"
+ECommerce.API -&gt; PaymentGateway "Charges payment"
+PaymentGateway -&gt; ECommerce.API "Payment confirmation"
+ECommerce.API -&gt; EmailService "Sends confirmation"
+EmailService -&gt; Customer "Order confirmation"
 </code></pre>
-<p>But there's more:</p>
-<ul>
-<li><strong>Dependencies</strong>: External APIs, libraries, services</li>
-<li><strong>People</strong>: Users, developers, stakeholders</li>
-<li><strong>Processes</strong>: Development, deployment, operations</li>
-<li><strong>Data</strong>: Information flows, state, transactions</li>
-<li><strong>Feedback</strong>: Monitoring, logs, user behavior</li>
-</ul>
-<h2 id="the-iceberg-model"><a class="header" href="#the-iceberg-model">The Iceberg Model</a></h2>
-<p>Systems thinking uses the "iceberg model" to understand systems:</p>
-<pre><code>Events (what you see)
-    ↓
-Patterns (what's happening over time)
-    ↓
-Structures (what's causing the patterns)
-    ↓
-Mental Models (what's shaping the structures)
+<h3 id="extended-example-what-about-edge-cases"><a class="header" href="#extended-example-what-about-edge-cases">Extended Example: What About Edge Cases?</a></h3>
+<pre><code class="language-sruja">// What happens when things go wrong?
+
+scenario CacheMiss "Cache Miss Scenario" {
+  Customer -&gt; ECommerce.WebApp "Requests product"
+  ECommerce.WebApp -&gt; ECommerce.Cache "Cache miss"
+  ECommerce.WebApp -&gt; ECommerce.DB "Queries database"  // Slower
+  ECommerce.DB -&gt; ECommerce.WebApp "Returns product"
+  ECommerce.WebApp -&gt; Customer "Displays product"  // Noticeable delay
+}
+
+scenario PaymentFailure "Payment Gateway Down" {
+  Customer -&gt; ECommerce.WebApp "Submits order"
+  ECommerce.WebApp -&gt; ECommerce.API "Processes order"
+  ECommerce.API -&gt; PaymentGateway "Attempts payment"  // Timeout!
+  ECommerce.API -&gt; ECommerce.DB "Saves order as pending"  // Graceful degradation
+  ECommerce.API -&gt; Customer "Shows: Payment failed, retry later"  // Good UX
+}
 </code></pre>
-<p>In software architecture:</p>
-<ul>
-<li><strong>Events</strong>: A user reports a bug</li>
-<li><strong>Patterns</strong>: Similar bugs occur repeatedly</li>
-<li><strong>Structures</strong>: Tightly coupled components, lack of testing</li>
-<li><strong>Mental Models</strong>: "We need to ship fast, quality can wait"</li>
-</ul>
-<h2 id="why-systems-thinking-in-architecture"><a class="header" href="#why-systems-thinking-in-architecture">Why Systems Thinking in Architecture?</a></h2>
-<p>Traditional architecture often focuses on:</p>
-<ul>
-<li>Components and their functions</li>
-<li>Technology choices</li>
-<li>Implementation details</li>
-</ul>
-<p>Systems thinking adds:</p>
-<ul>
-<li>Relationships and interactions</li>
-<li>Emergent behaviors</li>
-<li>Feedback loops</li>
-<li>Context and boundaries</li>
-<li>Flow of information</li>
-</ul>
-<p>This leads to architectures that:</p>
-<ul>
-<li>Adapt to change more easily</li>
-<li>Handle edge cases better</li>
-<li>Scale more naturally</li>
-<li>Align with business goals</li>
-</ul>
-<h2 id="sruja-and-systems-thinking"><a class="header" href="#sruja-and-systems-thinking">Sruja and Systems Thinking</a></h2>
-<p>Sruja is built on systems thinking principles:</p>
-<ul>
-<li><strong>Elements as parts</strong>: person, system, container, component</li>
-<li><strong>Relationships as interactions</strong>: clear, labeled connections</li>
-<li><strong>Scenarios as flows</strong>: data and information movement</li>
-<li><strong>Views as perspectives</strong>: different angles on the same system</li>
-<li><strong>Validation as feedback</strong>: catch problems early</li>
-</ul>
+<p><strong>Key insight:</strong> Systems thinking forces you to design for failures, not just happy paths.</p>
+<h2 id="common-misconceptions"><a class="header" href="#common-misconceptions">Common Misconceptions</a></h2>
+<p>❌ <strong>"Systems thinking is just about drawing diagrams"</strong>
+Reality: It's about understanding behavior, interactions, and emergent properties. Diagrams are a tool, not the goal.</p>
+<p>❌ <strong>"More components mean more complex systems"</strong>
+Reality: Complexity comes from relationships and feedback loops, not component count. A simple system with 3 components in a feedback loop can be more complex than 10 components in a linear chain.</p>
+<p>❌ <strong>"We can optimize parts in isolation"</strong>
+Reality: Optimizing one part (e.g., database queries) without considering the whole system (caches, frontend, network) often has minimal impact or even makes things worse.</p>
+<p>❌ <strong>"Systems thinking is only for large-scale systems"</strong>
+Reality: It applies to all systems, even small APIs. A small system's design affects maintainability, testability, and future scalability.</p>
 <h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
 <ol>
-<li><strong>Systems thinking looks at the whole</strong>, not just parts</li>
-<li><strong>Relationships matter as much as components</strong></li>
-<li><strong>Patterns and emergent behaviors</strong> are key insights</li>
-<li><strong>Context is critical</strong> - nothing exists in isolation</li>
-<li><strong>Sruja supports systems thinking</strong> through its language and features</li>
+<li><strong>Relationships matter more than parts</strong> — interactions drive system behavior</li>
+<li><strong>Design for the whole system</strong> — not just individual components</li>
+<li><strong>Consider edge cases and failures</strong> — systems thinking helps you design gracefully</li>
+<li><strong>Think in flows and feedback</strong> — how do things move through your system?</li>
+<li><strong>Map emergent behavior</strong> — what emerges that you couldn't predict from parts alone?</li>
 </ol>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Think of a system you work with daily (could be a codebase, a service, or a team). Identify:</p>
+<p>Systems thinking focuses on <strong>relationships and interactions</strong>, not just components. It's about understanding behavior, not just structure.</p>
+<h2 id="quiz-test-your-knowledge"><a class="header" href="#quiz-test-your-knowledge">Quiz: Test Your Knowledge</a></h2>
+<p><strong>Question 1:</strong> What is systems thinking?</p>
 <ul>
-<li>The main components (parts)</li>
-<li>How they interact (relationships)</li>
-<li>Who depends on it (context)</li>
-<li>Any feedback loops (how information flows back)</li>
+<li><input disabled="" type="checkbox"> a) A way to optimize code performance</li>
+<li><input disabled="" type="checkbox"> b) A holistic approach to understanding how components interact as part of a whole</li>
+<li><input disabled="" type="checkbox"> c) A method for breaking down systems into smaller parts</li>
+<li><input disabled="" type="checkbox"> d) A database design technique</li>
 </ul>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-2.html">Lesson 2</a>, we'll explore the five core systems thinking concepts you'll master in this course.</p>
+<p><button class="check-answer-btn" data-correct="b">Check Answer</button></p>
+<div class="answer-feedback">
+  
+<div class="feedback-text"></div>
 
+  
+<div class="explanation">
+    <strong>Explanation:</strong> Systems thinking is a holistic approach to understanding how components interact as part of a whole, focusing on relationships, patterns, and emergent behaviors rather than parts in isolation.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>Question 2:</strong> In the coffee shop example, what represents a systems thinking view?</p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Coffee machine, barista, cups, beans, customers listed separately</li>
+<li><input disabled="" type="checkbox"> b) Customer orders → Barista uses machine → Machine produces coffee → Customer receives → Customer might return</li>
+<li><input disabled="" type="checkbox"> c) How much coffee is sold per day</li>
+<li><input disabled="" type="checkbox"> d) Just focus on the coffee machine and barista</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="b">Check Answer</button></p>
+<div class="answer-feedback">
+  
+<div class="feedback-text"></div>
+
+  
+<div class="explanation">
+    <strong>Explanation:</strong> Customer orders → Barista uses machine → Machine produces coffee → Customer receives → Customer might return. This shows connections and flows rather than just listing components.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>Question 3:</strong> What's the key difference between the traditional view and systems thinking view in software architecture?</p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Traditional uses diagrams, systems thinking uses text</li>
+<li><input disabled="" type="checkbox"> b) Traditional focuses on user experience, systems thinking focuses on backend</li>
+<li><input disabled="" type="checkbox"> c) Traditional: "Build these components." Systems thinking: "How do components interact to create value?"</li>
+<li><input disabled="" type="checkbox"> d) Traditional is for small systems, systems thinking is only for enterprise</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="c">Check Answer</button></p>
+<div class="answer-feedback">
+  
+<div class="feedback-text"></div>
+
+  
+<div class="explanation">
+    <strong>Explanation:</strong> Traditional architecture focuses on what to build (components), while systems thinking focuses on how they work together (interactions, relationships, value creation).
+  </div>
+
+</div>
+
+<hr>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -345,9 +414,11 @@ Mental Models (what's shaping the structures)
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

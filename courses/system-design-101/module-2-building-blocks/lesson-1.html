@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,52 +180,472 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-load-balancers"><a class="header" href="#lesson-1-load-balancers">Lesson 1: Load Balancers</a></h1>
-<h2 id="what-is-a-load-balancer"><a class="header" href="#what-is-a-load-balancer">What is a Load Balancer?</a></h2>
-<p>A load balancer sits between clients and servers, distributing incoming network traffic across a group of backend servers. This ensures that no single server bears too much load.</p>
-<h2 id="types-of-load-balancing"><a class="header" href="#types-of-load-balancing">Types of Load Balancing</a></h2>
-<h3 id="layer-4-transport-layer"><a class="header" href="#layer-4-transport-layer">Layer 4 (Transport Layer)</a></h3>
-<ul>
-<li>Decisions based on IP address and TCP/UDP ports.</li>
-<li>Faster, less CPU intensive.</li>
-<li>Does not inspect the content of the request.</li>
-</ul>
-<h3 id="layer-7-application-layer"><a class="header" href="#layer-7-application-layer">Layer 7 (Application Layer)</a></h3>
-<ul>
-<li>Decisions based on the content of the message (URL, HTTP headers, cookies).</li>
-<li>Can route traffic to different services based on URL (e.g., <code>/images</code> to image servers).</li>
-<li>More CPU intensive but smarter.</li>
-</ul>
-<h2 id="algorithms"><a class="header" href="#algorithms">Algorithms</a></h2>
-<ul>
-<li><strong>Round Robin:</strong> Requests are distributed sequentially.</li>
-<li><strong>Least Connections:</strong> Sends request to the server with the fewest active connections.</li>
-<li><strong>IP Hash:</strong> The client's IP address is used to determine which server receives the request (useful for session stickiness).</li>
+                        <ul>
+<li>Understand the difference between L4 and L7 load balancing</li>
+<li>Learn load balancing algorithms and when to use each</li>
+<li>See real-world examples from NGINX and HAProxy</li>
+<li>Practice making trade-off decisions
+estimated_time: "20 minutes"
+difficulty: "beginner"</li>
 </ul>
 <hr>
+<h1 id="lesson-1-load-balancers"><a class="header" href="#lesson-1-load-balancers">Lesson 1: Load Balancers</a></h1>
+<h2 id="what-is-a-load-balancer"><a class="header" href="#what-is-a-load-balancer">What is a Load Balancer?</a></h2>
+<p>A load balancer sits between clients and servers, distributing incoming network traffic across a group of backend servers. This ensures that no single server bears too much load.</p>
+<p><strong>Without a load balancer:</strong></p>
+<pre><code>Clients → Server 1 (overwhelmed, 99% CPU)
+         → Server 2 (idle, 5% CPU)
+         → Server 3 (idle, 3% CPU)
+</code></pre>
+<p><strong>With a load balancer:</strong></p>
+<pre><code>Clients → Load Balancer → Server 1 (33% CPU)
+                              → Server 2 (33% CPU)
+                              → Server 3 (34% CPU)
+</code></pre>
+<h2 id="types-of-load-balancing"><a class="header" href="#types-of-load-balancing">Types of Load Balancing</a></h2>
+<h3 id="layer-4-transport-layer"><a class="header" href="#layer-4-transport-layer">Layer 4 (Transport Layer)</a></h3>
+<p><strong>What it does:</strong> Makes decisions based on IP address and TCP/UDP ports.</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ <strong>Fast</strong> - No content inspection, just reads packet headers</li>
+<li>✅ <strong>Low CPU</strong> - Simple routing logic</li>
+<li>❌ <strong>Limited intelligence</strong> - Can't inspect HTTP headers, URLs, or cookies</li>
+<li>✅ <strong>Protocol-agnostic</strong> - Works for HTTP, TCP, UDP, gRPC</li>
+</ul>
+<p><strong>Best for:</strong> High-throughput services where you need raw speed over intelligence.</p>
+<p><strong>Examples:</strong> AWS ELB (classic), HAProxy (L4 mode), F5 LTM</p>
+<h3 id="layer-7-application-layer"><a class="header" href="#layer-7-application-layer">Layer 7 (Application Layer)</a></h3>
+<p><strong>What it does:</strong> Makes decisions based on the content of the message (URL, HTTP headers, cookies, cookies).</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>❌ <strong>Slower</strong> - Needs to parse HTTP content</li>
+<li>❌ <strong>CPU intensive</strong> - More complex routing logic</li>
+<li>✅ <strong>Smart routing</strong> - Can route /images to image servers, /api to API servers</li>
+<li>✅ <strong>Content-aware</strong> - Inspects HTTP headers, cookies, SSL termination</li>
+</ul>
+<p><strong>Best for:</strong> Web applications needing content-based routing, SSL termination, or session stickiness.</p>
+<p><strong>Examples:</strong> NGINX, AWS ALB, Envoy, Traefik</p>
+<h3 id="real-world-comparison"><a class="header" href="#real-world-comparison">Real-World Comparison</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Factor</th><th>Layer 4</th><th>Layer 7</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Speed</strong></td><td>100K+ RPS per core</td><td>50K+ RPS per core</td></tr>
+<tr><td><strong>CPU Usage</strong></td><td>5-10%</td><td>30-50%</td></tr>
+<tr><td><strong>Features</strong></td><td>Basic routing</td><td>SSL termination, URL routing, session affinity</td></tr>
+<tr><td><strong>Use Case</strong></td><td>High-throughput APIs</td><td>Web apps, microservices</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="load-balancing-algorithms"><a class="header" href="#load-balancing-algorithms">Load Balancing Algorithms</a></h2>
+<h3 id="round-robin"><a class="header" href="#round-robin">Round Robin</a></h3>
+<p><strong>How it works:</strong> Requests are distributed sequentially across servers: 1, 2, 3, 4, then back to 1.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ Simple to implement and understand</li>
+<li>✅ Works well when servers have similar capacity</li>
+<li>✅ No state to maintain</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ Doesn't account for server load (one might be slow with 100 connections, another idle)</li>
+<li>❌ Doesn't work well when servers have different capabilities</li>
+</ul>
+<p><strong>Real-world use:</strong> Good for stateless services where all servers are identical (e.g., API servers).</p>
+<h3 id="least-connections"><a class="header" href="#least-connections">Least Connections</a></h3>
+<p><strong>How it works:</strong> Sends request to the server with the fewest active connections.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ Better than round robin when servers have different loads</li>
+<li>✅ Accounts for connection time (long-running connections get fewer new ones)</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ Still doesn't account for server capacity (CPU, memory)</li>
+<li>❌ Requires tracking active connections (more state)</li>
+</ul>
+<p><strong>Real-world use:</strong> Good for services with varying request processing times (e.g., database queries).</p>
+<h3 id="ip-hash"><a class="header" href="#ip-hash">IP Hash</a></h3>
+<p><strong>How it works:</strong> Uses a hash of the client's IP address to determine which server receives the request.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ <strong>Session stickiness</strong> - Same IP always goes to same server</li>
+<li>✅ Works great for stateful applications (session stored in memory)</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ Uneven distribution if many clients share the same IP (NAT, proxies)</li>
+<li>❌ Doesn't rebalance when servers are added/removed</li>
+</ul>
+<p><strong>Real-world use:</strong> Stateful applications needing session affinity, WebSocket connections.</p>
+<h3 id="random"><a class="header" href="#random">Random</a></h3>
+<p><strong>How it works:</strong> Randomly selects a server for each request.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ No state to maintain</li>
+<li>✅ Even distribution over time (law of large numbers)</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ Can have temporary uneven distribution</li>
+<li>❌ No session stickiness</li>
+</ul>
+<p><strong>Real-world use:</strong> Simple load balancing with large number of requests where stickiness doesn't matter.</p>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="case-study-1-nginx-at-scale"><a class="header" href="#case-study-1-nginx-at-scale">Case Study 1: NGINX at Scale</a></h3>
+<p><strong>The Challenge:</strong> NGINX (the company) needed to serve 1M+ requests per second (RPS) with low latency.</p>
+<p><strong>The Architecture:</strong></p>
+<pre><code>Clients → Layer 4 Load Balancer (HAProxy) → NGINX Layer 7 LBs → Application Servers
+         (10 Gbps)                          (100+ instances)         (1000+ servers)
+</code></pre>
+<p><strong>Key Decisions:</strong></p>
+<ol>
+<li><strong>Layer 4 at edge</strong> - Raw speed for SSL termination and initial routing</li>
+<li><strong>Layer 7 closer to apps</strong> - Content-based routing (/static vs /api)</li>
+<li><strong>Least connections algorithm</strong> - Servers have varying loads</li>
+</ol>
+<p><strong>The Results:</strong></p>
+<ul>
+<li><strong>Throughput:</strong> 1M+ RPS per load balancer</li>
+<li><strong>Latency:</strong> &lt;10ms at p95</li>
+<li><strong>Server utilization:</strong> Balanced at 65-75% CPU (good headroom)</li>
+<li><strong>Availability:</strong> 99.99% with automatic failover</li>
+</ul>
+<blockquote>
+<p><strong>💡 Key Insight:</strong> NGINX uses a <strong>layered approach</strong>. Layer 4 for raw speed at the edge, Layer 7 for intelligence closer to the applications. This gives them both performance and features.</p>
+</blockquote>
+<h3 id="case-study-2-haproxy-configuration-patterns"><a class="header" href="#case-study-2-haproxy-configuration-patterns">Case Study 2: HAProxy Configuration Patterns</a></h3>
+<p><strong>Scenario:</strong> E-commerce platform with 3 types of traffic:</p>
+<ul>
+<li>Product catalog (read-heavy, 90% of traffic)</li>
+<li>Checkout (write-heavy, requires session stickiness)</li>
+<li>API (stateless, needs high throughput)</li>
+</ul>
+<p><strong>The Solution:</strong></p>
+<pre><code># Product Catalog - Round Robin (read-heavy)
+backend catalog
+    balance roundrobin
+    server web1 10.0.0.1:80 check
+    server web2 10.0.0.2:80 check
+    server web3 10.0.0.3:80 check
+
+# Checkout - IP Hash (session stickiness)
+backend checkout
+    balance source
+    server app1 10.0.0.10:8080 check
+    server app2 10.0.0.11:8080 check
+
+# API - Least Connections (varying request times)
+backend api
+    balance leastconn
+    server api1 10.0.0.20:443 check
+    server api2 10.0.0.21:443 check
+    server api3 10.0.0.22:443 check
+</code></pre>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li><strong>Catalog:</strong> Round robin works great for stateless, uniform requests</li>
+<li><strong>Checkout:</strong> IP hash ensures user stays on same server (session in memory)</li>
+<li><strong>API:</strong> Least connections handles varying query complexity (some API calls are fast, others slow)</li>
+</ul>
+<p><strong>Performance Results:</strong></p>
+<ul>
+<li><strong>Catalog servers:</strong> 5000 RPS, 2ms latency</li>
+<li><strong>Checkout servers:</strong> 500 RPS, 20ms latency (acceptable for checkout flow)</li>
+<li><strong>API servers:</strong> 10000 RPS, 5ms latency (balanced load)</li>
+</ul>
+<h3 id="case-study-3-whatsapps-load-balancing-evolution"><a class="header" href="#case-study-3-whatsapps-load-balancing-evolution">Case Study 3: WhatsApp's Load Balancing Evolution</a></h3>
+<p><strong>Stage 1 (Early days):</strong> Single server → <strong>Crashed</strong> at 10K users</p>
+<p><strong>Stage 2:</strong> Round robin across 10 servers → <strong>Uneven load</strong>, some servers overwhelmed</p>
+<p><strong>Stage 3 (Solution):</strong> Erlang's built-in load balancing + consistent hashing</p>
+<pre><code>Clients → Load Balancer → Erlang Nodes → Message Store
+                    (Consistent hashing for key-based routing)
+</code></pre>
+<p><strong>Key Decision:</strong> Use <strong>consistent hashing</strong> so messages from the same user always go to the same node. This reduces cross-node synchronization.</p>
+<p><strong>The Results:</strong></p>
+<ul>
+<li><strong>Scale:</strong> From 10K users to 1B+ users</li>
+<li><strong>Throughput:</strong> 65B+ messages/day</li>
+<li><strong>Efficiency:</strong> Minimal cross-node data movement (99% of traffic stays local)</li>
+</ul>
+<h2 id="production-metrics"><a class="header" href="#production-metrics">Production Metrics</a></h2>
+<h3 id="load-balancer-performance"><a class="header" href="#load-balancer-performance">Load Balancer Performance</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>System</th><th>Algorithm</th><th>Throughput</th><th>Latency (p95)</th><th>Servers</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>NGINX</strong></td><td>Round Robin</td><td>1M+ RPS</td><td>&lt;10ms</td><td>100</td></tr>
+<tr><td><strong>HAProxy</strong></td><td>Least Connections</td><td>500K RPS</td><td>&lt;5ms</td><td>50</td></tr>
+<tr><td><strong>AWS ALB</strong></td><td>Round Robin</td><td>100K RPS</td><td>&lt;50ms</td><td>Managed</td></tr>
+<tr><td><strong>Envoy</strong></td><td>Random + Health Checks</td><td>1M+ RPS</td><td>&lt;20ms</td><td>200</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="resource-utilization"><a class="header" href="#resource-utilization">Resource Utilization</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Resource</th><th>Layer 4 Load Balancer</th><th>Layer 7 Load Balancer</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>CPU</strong></td><td>5-15%</td><td>30-60%</td></tr>
+<tr><td><strong>Memory</strong></td><td>1-2 GB</td><td>4-8 GB</td></tr>
+<tr><td><strong>Network</strong></td><td>10 Gbps</td><td>10 Gbps</td></tr>
+<tr><td><strong>Throughput</strong></td><td>1M+ RPS</td><td>500K RPS</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="trade-off-scenarios"><a class="header" href="#trade-off-scenarios">Trade-Off Scenarios</a></h2>
+<h3 id="scenario-1-api-gateway-for-microservices"><a class="header" href="#scenario-1-api-gateway-for-microservices">Scenario 1: API Gateway for Microservices</a></h3>
+<p><strong>Context:</strong> Building an API gateway that routes to 50 microservices. Some are fast (profile service), others slow (report generation).</p>
+<p><strong>The Trade-Off:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Layer</strong></td><td>Layer 4 (fast)</td><td>Layer 7 (smart)</td><td><strong>Layer 7</strong> - Need URL-based routing (/users → users service)</td></tr>
+<tr><td><strong>Algorithm</strong></td><td>Round Robin</td><td>Least Connections</td><td><strong>Least Connections</strong> - Services have varying response times</td></tr>
+<tr><td><strong>Health Checks</strong></td><td>Basic TCP</td><td>HTTP /health</td><td><strong>HTTP /health</strong> - Need to detect slow/failing services, not just offline ones</td></tr>
+<tr><td><strong>SSL</strong></td><td>At load balancer</td><td>At service</td><td><strong>At load balancer</strong> - Centralized SSL management, cheaper certificates</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Intelligent routing, good load balancing, centralized SSL</li>
+<li><strong>Cons:</strong> Higher CPU usage, more complex configuration</li>
+<li><strong>Performance:</strong> 50K RPS at p95 &lt; 50ms (acceptable for API gateway)</li>
+</ul>
+<h3 id="scenario-2-video-streaming-platform"><a class="header" href="#scenario-2-video-streaming-platform">Scenario 2: Video Streaming Platform</a></h3>
+<p><strong>Context:</strong> Streaming video to 10M concurrent users. Each stream needs sustained bandwidth (2-5 Mbps). Low latency is critical.</p>
+<p><strong>The Trade-Off:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Layer</strong></td><td>Layer 4 (speed)</td><td>Layer 7 (features)</td><td><strong>Layer 4</strong> - Raw speed for streaming, no content inspection needed</td></tr>
+<tr><td><strong>Algorithm</strong></td><td>Round Robin</td><td>IP Hash</td><td><strong>Round Robin</strong> - Streams are independent, no session affinity needed</td></tr>
+<tr><td><strong>Geo-distribution</strong></td><td>Single datacenter</td><td>Edge locations</td><td><strong>Edge locations</strong> - Reduce latency by serving from closest datacenter</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Maximum throughput, minimal latency, simple configuration</li>
+<li><strong>Cons:</strong> No intelligent routing (but not needed for streaming)</li>
+<li><strong>Performance:</strong> 1M+ concurrent streams, &lt;100ms latency globally</li>
+</ul>
+<h3 id="scenario-3-stateful-websocket-application"><a class="header" href="#scenario-3-stateful-websocket-application">Scenario 3: Stateful WebSocket Application</a></h3>
+<p><strong>Context:</strong> Real-time chat application where users are connected via WebSockets. User messages and presence data must go to the same server.</p>
+<p><strong>The Trade-Off:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Layer</strong></td><td>Layer 4</td><td>Layer 7</td><td><strong>Layer 7</strong> - Need to inspect WebSocket upgrade requests</td></tr>
+<tr><td><strong>Algorithm</strong></td><td>Round Robin</td><td>IP Hash</td><td><strong>IP Hash</strong> - Session stickiness required for WebSocket connections</td></tr>
+<tr><td><strong>Failover</strong></td><td>Break connections</td><td>Graceful reconnect</td><td><strong>Graceful reconnect</strong> - Clients auto-reconnect on disconnect</td></tr>
+<tr><td><strong>Persistence</strong></td><td>In-memory</td><td>Redis</td><td><strong>In-memory</strong> - Faster for local data, Redis for cross-server sync</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Session affinity, real-time performance, good user experience</li>
+<li><strong>Cons:</strong> Uneven distribution (some servers have more active users), complexity in failover</li>
+<li><strong>Performance:</strong> 100K concurrent WebSockets, &lt;50ms message delivery</li>
+</ul>
 <h2 id="-sruja-perspective-modeling-load-balancers"><a class="header" href="#-sruja-perspective-modeling-load-balancers">🛠️ Sruja Perspective: Modeling Load Balancers</a></h2>
-<p>In Sruja, a load balancer is typically modeled as a <code>container</code> or <code>component</code> that sits in front of your application servers.</p>
+<p>In Sruja, we treat load balancers as critical infrastructure components with clear trade-offs documented.</p>
+<h3 id="why-model-load-balancers"><a class="header" href="#why-model-load-balancers">Why Model Load Balancers?</a></h3>
+<p>Modeling load balancers in your architecture provides:</p>
+<ol>
+<li><strong>Capacity Planning:</strong> See how much traffic the LB can handle before bottlenecks</li>
+<li><strong>Failure Analysis:</strong> Understand what happens if the LB fails (single point of failure?)</li>
+<li><strong>Algorithm Clarity:</strong> Document which algorithm and why</li>
+<li><strong>Performance Visibility:</strong> Track RPS, latency, server distribution</li>
+</ol>
+<h3 id="example-e-commerce-platform-load-balancing"><a class="header" href="#example-e-commerce-platform-load-balancing">Example: E-Commerce Platform Load Balancing</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-LB = container "Nginx Load Balancer" {
-    technology "Nginx"
-    tags ["load-balancer"]
-    description "Layer 7 load balancer routing traffic based on URL paths."
+ECommerce = system "E-Commerce Platform" {
+    description "Multi-tenant e-commerce with intelligent load balancing"
+    
+    // LAYER 4: Edge load balancer for SSL termination
+    EdgeLB = container "Edge Load Balancer" {
+        technology "HAProxy"
+        description "Layer 4 LB for SSL termination and initial routing"
+        tags ["load-balancer", "layer4"]
+        
+        capacity {
+            requests_per_second "1_000_000"
+            bandwidth_gbps "10"
+        }
+    }
+    
+    // LAYER 7: Application load balancer for content routing
+    AppLB = container "Application Load Balancer" {
+        technology "NGINX"
+        description "Layer 7 LB for URL-based routing and session affinity"
+        tags ["load-balancer", "layer7"]
+        
+        tradeoff {
+            decision "Use NGINX (Layer 7) for application routing"
+            sacrifice "Raw throughput (L4 would be 2x faster)"
+            reason "Need URL-based routing: /catalog → catalog servers, /checkout → checkout servers"
+            mitigation "Use L4 edge LB for SSL termination to reduce NGINX load"
+        }
+        
+        slo {
+            latency {
+                p95 "50ms"
+                window "7 days"
+            }
+            availability {
+                target "99.99%"
+                window "30 days"
+            }
+        }
+    }
+    
+    // BACKEND SERVICES
+    CatalogServer = container "Catalog Service" {
+        technology "Python, Django"
+        description "Product catalog (read-heavy)"
+        tags ["service"]
+        quantity 10
+    }
+    
+    CheckoutServer = container "Checkout Service" {
+        technology "Node.js"
+        description "Checkout flow (stateful, requires session affinity)"
+        tags ["service"]
+        quantity 5
+    }
+    
+    APIServer = container "API Service" {
+        technology "Go"
+        description "Public API (stateless, high throughput)"
+        tags ["service"]
+        quantity 20
+    }
+    
+    // TRAFFIC FLOW
+    EdgeLB -&gt; AppLB "Distributes traffic (Round Robin)"
+    AppLB -&gt; CatalogServer "Routes /catalog (Least Connections)"
+    AppLB -&gt; CheckoutServer "Routes /checkout (IP Hash for session affinity)"
+    AppLB -&gt; APIServer "Routes /api (Least Connections)"
 }
-
-AppServer = container "App Server" {
-    technology "Python, Django"
-    tags ["scaled"]
-}
-
-// Traffic flow
-LB -&gt; AppServer "Distributes requests (Round Robin)"
 
 view index {
-include *
+    title "E-Commerce Load Balancing Architecture"
+    include *
+}
+
+view load-balancing {
+    title "Load Balancer Configuration"
+    include ECommerce.EdgeLB ECommerce.AppLB
 }
 </code></pre>
+<h3 id="key-trade-offs-documented"><a class="header" href="#key-trade-offs-documented">Key Trade-Offs Documented</a></h3>
+<p><strong>1. Layer Choice:</strong></p>
+<ul>
+<li><strong>Why Layer 4 at edge?</strong> Raw speed for SSL termination</li>
+<li><strong>Why Layer 7 at app?</strong> Need URL-based routing and session affinity</li>
+</ul>
+<p><strong>2. Algorithm Selection:</strong></p>
+<ul>
+<li><strong>Round Robin:</strong> For catalog (stateless, uniform requests)</li>
+<li><strong>IP Hash:</strong> For checkout (requires session stickiness)</li>
+<li><strong>Least Connections:</strong> For API (varying query complexity)</li>
+</ul>
+<p><strong>3. Performance vs Features:</strong></p>
+<ul>
+<li>Sacrifice raw throughput for intelligent routing</li>
+<li>Mitigated by using layered approach (L4 + L7)</li>
+</ul>
+<h2 id="knowledge-check"><a class="header" href="#knowledge-check">Knowledge Check</a></h2>
+<details>
+<summary><strong>Q: My app needs to route /images to image servers and /api to API servers. Which load balancing layer should I use?</strong></summary>
+<p><strong>Layer 7 (Application Layer)</strong></p>
+<p>Layer 7 load balancers can inspect HTTP content (URLs, headers) and route based on that. Layer 4 only looks at IP/port and can't do content-based routing.</p>
+</details>
+<details>
+<summary><strong>Q: I'm building a WebSocket chat app. Users connect and stay connected for hours. Which algorithm should I use?</strong></summary>
+<p><strong>IP Hash (or consistent hashing)</strong></p>
+<p>You need session affinity - when a user connects, they should stay on the same server. IP hash ensures the same IP always routes to the same server. Round robin would break the WebSocket connection when requests go to different servers.</p>
+</details>
+<details>
+<summary><strong>Q: I have 10 identical servers handling high-throughput API requests. Speed is the priority. What algorithm?</strong></summary>
+<p><strong>Round Robin</strong></p>
+<p>When servers are identical and stateless, round robin is perfect. It's simple, fast, and gives even distribution. No need for IP hash (stateful) or least connections (servers have similar load).</p>
+</details>
+<h2 id="quiz-test-your-knowledge"><a class="header" href="#quiz-test-your-knowledge">Quiz: Test Your Knowledge</a></h2>
+<h3 id="q1-what-type-of-load-balancing-operates-at-the-transport-layer-and-uses-ip-addresses-and-ports"><a class="header" href="#q1-what-type-of-load-balancing-operates-at-the-transport-layer-and-uses-ip-addresses-and-ports">Q1: What type of load balancing operates at the transport layer and uses IP addresses and ports?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Layer 4 (Transport Layer)</li>
+<li><input disabled="" type="checkbox"> Layer 7 (Application Layer)</li>
+<li><input disabled="" type="checkbox"> Layer 3 (Network Layer)</li>
+</ul>
+<details>
+<summary>Answer</summary>
+**Layer 4 (Transport Layer)** operates at the transport layer and makes decisions based on IP addresses and TCP/UDP ports. Layer 7 works at the application layer and inspects HTTP content.
+</details>
+<h3 id="q2-which-load-balancing-algorithm-is-best-for-applications-requiring-session-stickiness"><a class="header" href="#q2-which-load-balancing-algorithm-is-best-for-applications-requiring-session-stickiness">Q2: Which load balancing algorithm is best for applications requiring session stickiness?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Round Robin</li>
+<li><input disabled="" type="checkbox"> Least Connections</li>
+<li><input disabled="" type="checkbox"> IP Hash</li>
+</ul>
+<details>
+<summary>Answer</summary>
+**IP Hash** uses the client's IP address to determine which server receives the request, ensuring the same client always goes to the same server. This is essential for session stickiness in stateful applications like WebSockets or applications with in-memory sessions.
+</details>
+<h3 id="q3-youre-building-an-api-gateway-routing-to-microservices-with-varying-response-times-which-algorithm-should-you-use"><a class="header" href="#q3-youre-building-an-api-gateway-routing-to-microservices-with-varying-response-times-which-algorithm-should-you-use">Q3: You're building an API gateway routing to microservices with varying response times. Which algorithm should you use?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Round Robin</li>
+<li><input disabled="" type="checkbox"> Least Connections</li>
+<li><input disabled="" type="checkbox"> IP Hash</li>
+</ul>
+<details>
+<summary>Answer</summary>
+**Least Connections** sends requests to the server with the fewest active connections. This is ideal when services have varying request processing times (some API calls are fast, others slow) because it accounts for actual server load rather than just distributing requests evenly.
+</details>
+<h3 id="q4-which-of-these-is-not-a-characteristic-of-layer-7-load-balancing"><a class="header" href="#q4-which-of-these-is-not-a-characteristic-of-layer-7-load-balancing">Q4: Which of these is NOT a characteristic of Layer 7 load balancing?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Can inspect HTTP headers and URLs</li>
+<li><input disabled="" type="checkbox"> Slower than Layer 4 due to content inspection</li>
+<li><input disabled="" type="checkbox"> Cannot do SSL termination</li>
+<li><input disabled="" type="checkbox"> More CPU intensive than Layer 4</li>
+</ul>
+<details>
+<summary>Answer</summary>
+**Cannot do SSL termination** is NOT correct. Layer 7 load balancers CAN and commonly DO perform SSL termination. They terminate SSL at the load balancer, decrypt traffic, inspect HTTP content, then route it. This is one of their key features.
+</details>
+<h3 id="q5-nginx-uses-a-layered-approach-with-layer-4-at-the-edge-and-layer-7-closer-to-applications-why"><a class="header" href="#q5-nginx-uses-a-layered-approach-with-layer-4-at-the-edge-and-layer-7-closer-to-applications-why">Q5: NGINX uses a layered approach with Layer 4 at the edge and Layer 7 closer to applications. Why?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> To reduce complexity</li>
+<li><input disabled="" type="checkbox"> To balance speed and intelligence</li>
+<li><input disabled="" type="checkbox"> To minimize costs</li>
+<li><input disabled="" type="checkbox"> To reduce latency</li>
+</ul>
+<details>
+<summary>Answer</summary>
+**To balance speed and intelligence**. Layer 4 provides raw speed for SSL termination and initial routing (high throughput). Layer 7 provides intelligent features like URL-based routing closer to the applications. This layered approach gives you both performance (L4) and features (L7).
+</details>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Now that we understand load balancing, let's learn about databases and how to choose between SQL and NoSQL.
+👉 <strong><a href="./lesson-2">Lesson 2: Databases (SQL vs NoSQL, Replication, Sharding)</a></strong></p>
 
                     </main>
 
@@ -280,9 +700,11 @@ include *
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

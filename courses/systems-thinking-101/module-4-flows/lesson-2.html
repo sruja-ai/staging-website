@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,97 +180,297 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-2-data-flow-diagrams"><a class="header" href="#lesson-2-data-flow-diagrams">Lesson 2: Data Flow Diagrams</a></h1>
+                        <h1 id="following-the-trail-data-flow-diagrams"><a class="header" href="#following-the-trail-data-flow-diagrams">Following the Trail: Data Flow Diagrams</a></h1>
+<p>Think of an oil pipeline. Crude oil goes in one end, flows through refineries where it's heated, distilled, and chemically treated, and comes out the other end as gasoline, diesel, or jet fuel. At each stage, the oil transforms into something more valuable.</p>
+<p>Data flows work the same way. Raw data enters your system, flows through transformations where it's validated, normalized, enriched, and aggregated, and comes out as insights, reports, or visualizations.</p>
+<p>In this lesson, you'll learn to create DFD-style data flows in Sruja. You'll discover how to track data lineage, document transformations, and model the pipelines that power your analytics and reporting.</p>
+<p>Let's start by understanding what data flows are and why they matter.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
 <li>Create DFD-style data flows in Sruja</li>
-<li>Model data lineage and transformations</li>
-<li>Document ETL and analytics pipelines</li>
+<li>Model data lineage from source to destination</li>
+<li>Document data transformations and how data changes shape</li>
+<li>Design ETL and analytics pipelines</li>
+<li>Track where data comes from and where it ultimately goes</li>
 </ul>
-<h2 id="what-are-data-flow-diagrams"><a class="header" href="#what-are-data-flow-diagrams">What Are Data Flow Diagrams?</a></h2>
-<p>Data Flow Diagrams (DFDs) show how data moves through a system, including:</p>
+<h2 id="what-are-data-flow-diagrams-really"><a class="header" href="#what-are-data-flow-diagrams-really">What Are Data Flow Diagrams, Really?</a></h2>
+<p>Data Flow Diagrams (DFDs) show how data moves through your system—where it originates, how it's stored, how it transforms, and where it ends up.</p>
+<p>Think of it like tracing a river's path:</p>
 <ul>
-<li>Where data originates</li>
-<li>Where it's stored</li>
-<li>How it's transformed</li>
-<li>Where it ultimately goes</li>
+<li><strong>Source</strong>: Where the river starts (a spring, a mountain lake)</li>
+<li><strong>Flow</strong>: The river's journey through valleys and cities</li>
+<li><strong>Transformations</strong>: Tributaries joining, diversions splitting, dams changing flow</li>
+<li><strong>Destination</strong>: Where the river ends (ocean, another river)</li>
 </ul>
-<h2 id="dfd-elements-in-sruja"><a class="header" href="#dfd-elements-in-sruja">DFD Elements in Sruja</a></h2>
-<h3 id="flow-for-data-oriented-flows"><a class="header" href="#flow-for-data-oriented-flows"><code>flow</code> for Data-Oriented Flows</a></h3>
+<p>In data terms:</p>
+<ul>
+<li><strong>Source</strong>: Where data originates (user input, database, API, file)</li>
+<li><strong>Flow</strong>: The path data takes through your system</li>
+<li><strong>Transformations</strong>: Validation, normalization, enrichment, aggregation</li>
+<li><strong>Destination</strong>: Where data ultimately goes (warehouse, dashboard, report)</li>
+</ul>
+<h2 id="why-data-flows-matter-the-real-benefits"><a class="header" href="#why-data-flows-matter-the-real-benefits">Why Data Flows Matter: The Real Benefits</a></h2>
+<p>I've built countless data systems over the years, and data flows are always the first thing I create. Here's why.</p>
+<h3 id="1-data-lineage-where-did-this-come-from"><a class="header" href="#1-data-lineage-where-did-this-come-from">1. Data Lineage: Where Did This Come From?</a></h3>
+<p>Data flows tell you the complete history of data—where it started and every transformation it went through.</p>
+<pre><code class="language-sruja">CustomerAnalyticsFlow = flow "Customer Data Lineage" {
+  // Source: Where data starts
+  Customer -&gt; CRMSystem "Creates customer profile"
+  
+  // Transformation 1: Data extraction
+  CRMSystem -&gt; ETLService "Extracts customer records"
+  
+  // Transformation 2: Data normalization
+  ETLService -&gt; NormalizedData "Cleans and standardizes formats"
+  
+  // Transformation 3: Data enrichment
+  NormalizedData -&gt; EnrichmentService "Adds behavioral data from clickstream"
+  
+  // Transformation 4: Aggregation
+  EnrichmentService -&gt; AggregatedData "Creates daily customer segments"
+  
+  // Destination: Where data ends up
+  AggregatedData -&gt; DataWarehouse "Stores for reporting"
+  DataWarehouse -&gt; BusinessDashboard "Displays customer segments"
+}
+</code></pre>
+<p>This flow tells you the complete story: customer data originates in CRM, gets extracted by ETL, normalized (cleaned up), enriched with behavioral data, aggregated into segments, stored in the warehouse, and ultimately shows up on a business dashboard.</p>
+<p>Without this flow, would you know customer data comes from the CRM? Would you know it gets enriched with clickstream data? Would you know it's aggregated daily? Probably not.</p>
+<p>I once worked on a project where nobody knew where analytics data came from. We spent weeks tracking down data lineage every time we found an issue. We added data flows, and suddenly everyone knew the complete path.</p>
+<h3 id="2-process-understanding-what-actually-happens"><a class="header" href="#2-process-understanding-what-actually-happens">2. Process Understanding: What Actually Happens?</a></h3>
+<p>Data flows reveal the processing steps your data goes through—the "how" not just the "what."</p>
+<pre><code class="language-sruja">ETLPipelineFlow = flow "ETL Pipeline Steps" {
+  // Step 1: Extraction
+  SourceDatabase -&gt; IngestionService "Pulls raw transactions"
+  
+  // Step 2: Validation
+  IngestionService -&gt; ValidationService "Validates schema and data types"
+  
+  // Step 3: Transformation
+  ValidationService -&gt; TransformationService "Normalizes dates, currencies, formats"
+  
+  // Step 4: Loading
+  TransformationService -&gt; DataWarehouse "Loads transformed data"
+}
+</code></pre>
+<p>This shows you the complete ETL process: extract, validate, transform, load. You can see exactly what each service does and in what order.</p>
+<p>When something breaks—a data quality issue, a failed load, a malformed record—you know exactly where to look. Is it in ingestion? In validation? In transformation? The flow tells you.</p>
+<h3 id="3-transformation-documentation-how-does-data-change"><a class="header" href="#3-transformation-documentation-how-does-data-change">3. Transformation Documentation: How Does Data Change?</a></h3>
+<p>Data flows document how data transforms at each step—what shape it takes, what format it's in.</p>
+<pre><code class="language-sruja">TransformationFlow = flow "Data Transformations" {
+  RawSource -&gt; ETLService "Raw CSV file"
+  
+  // Transformation 1: Validation
+  ETLService -&gt; ValidatedData "Validated (removed invalid records)"
+  
+  // Transformation 2: Normalization
+  ValidatedData -&gt; NormalizedData "Normalized (standardized formats)"
+  
+  // Transformation 3: Enrichment
+  NormalizedData -&gt; EnrichedData "Enriched (added location data)"
+  
+  // Transformation 4: Aggregation
+  EnrichedData -&gt; FinalData "Aggregated (daily metrics)"
+}
+</code></pre>
+<p>Each arrow shows a transformation:</p>
+<ul>
+<li>Raw CSV → Validated (invalid records removed)</li>
+<li>Validated → Normalized (formats standardized)</li>
+<li>Normalized → Enriched (location data added)</li>
+<li>Enriched → Aggregated (metrics computed)</li>
+</ul>
+<p>This documentation is invaluable. When someone asks, "What happened to this data?" you can point to the flow and show them each transformation step.</p>
+<p>I once inherited a system where nobody documented data transformations. We found mysterious records in the warehouse—dates in the wrong format, currencies mixed up, values that made no sense. We spent months reverse-engineering what transformations were happening. Document it upfront.</p>
+<h3 id="4-bottleneck-identification-where-will-things-slow-down"><a class="header" href="#4-bottleneck-identification-where-will-things-slow-down">4. Bottleneck Identification: Where Will Things Slow Down?</a></h3>
+<p>Data flows make bottlenecks obvious—where processing might slow down, where queues might form, where latency will be worst.</p>
+<pre><code class="language-sruja">AnalyticsFlow = flow "Analytics Pipeline" {
+  UserActions -&gt; TrackingService "Captures events" [fast]
+  TrackingService -&gt; EventStream "Publishes events" [fast]
+  EventStream -&gt; BatchProcessor "Consumes and processes" [slow, batch job]
+  BatchProcessor -&gt; DataWarehouse "Loads aggregated data" [medium]
+  DataWarehouse -&gt; Dashboard "Queries for display" [fast]
+}
+</code></pre>
+<p>Look at the labels: fast, fast, <strong>slow</strong>, medium, fast. The batch processor is marked as slow because it's a scheduled job that runs once daily. This tells you immediately: if you're looking for real-time analytics, you'll be disappointed. The bottleneck is the batch processor.</p>
+<p>When users complain about stale data ("why does the dashboard show yesterday's numbers?"), you know exactly why. The flow tells you.</p>
+<h2 id="creating-data-flows-in-sruja"><a class="header" href="#creating-data-flows-in-sruja">Creating Data Flows in Sruja</a></h2>
+<p>Sruja gives you the <code>flow</code> keyword for creating DFD-style data flows. It's designed specifically for data-oriented flows.</p>
+<h3 id="using-flow-for-data-pipelines"><a class="header" href="#using-flow-for-data-pipelines">Using <code>flow</code> for Data Pipelines</a></h3>
 <pre><code class="language-sruja">OrderDataFlow = flow "Order Data Processing" {
-  Customer -&gt; Shop.WebApp "Order form data"
-  Shop.WebApp -&gt; Shop.API "Order JSON"
-  Shop.API -&gt; Shop.Database "Order record"
-  Shop.Database -&gt; Analytics "Order event"
-  Analytics -&gt; Dashboard "Aggregated metrics"
+  Customer -&gt; WebApp "Order form submission"
+  WebApp -&gt; API "Order JSON payload"
+  API -&gt; Database "Persist order record"
+  Database -&gt; AnalyticsExtractor "Extract order events"
+  AnalyticsExtractor -&gt; EventStream "Publish to analytics"
+  EventStream -&gt; DataWarehouse "Aggregate and store"
+  DataWarehouse -&gt; ReportingTool "Query for reports"
 }
 </code></pre>
-<h2 id="dfd-patterns"><a class="header" href="#dfd-patterns">DFD Patterns</a></h2>
-<h3 id="pattern-1-etl-pipeline"><a class="header" href="#pattern-1-etl-pipeline">Pattern 1: ETL Pipeline</a></h3>
-<pre><code class="language-sruja">ETLPipeline = flow "Data ETL Pipeline" {
-  SourceSystem -&gt; DataCollector "Raw data"
-  DataCollector -&gt; MessageQueue "Data events"
-  MessageQueue -&gt; DataProcessor "Consumes data"
-  DataProcessor -&gt; DataWarehouse "Transformed data"
-  DataWarehouse -&gt; ReportingEngine "Query results"
-  ReportingEngine -&gt; Dashboard "Visualizations"
-}
-</code></pre>
-<h3 id="pattern-2-event-sourcing"><a class="header" href="#pattern-2-event-sourcing">Pattern 2: Event Sourcing</a></h3>
-<pre><code class="language-sruja">EventFlow = flow "Event Sourcing Pipeline" {
-  API -&gt; EventStore "Persist events"
-  EventStore -&gt; ProjectorA "Project to read model A"
-  EventStore -&gt; ProjectorB "Project to read model B"
-  ProjectorA -&gt; ReadDatabaseA "Read model A"
-  ProjectorB -&gt; ReadDatabaseB "Read model B"
-}
-</code></pre>
-<h3 id="pattern-3-analytics-pipeline"><a class="header" href="#pattern-3-analytics-pipeline">Pattern 3: Analytics Pipeline</a></h3>
-<pre><code class="language-sruja">AnalyticsFlow = flow "User Analytics Pipeline" {
-  UserApp -&gt; TrackingService "User actions"
-  TrackingService -&gt; EventStream "Raw events"
-  EventStream -&gt; BatchProcessor "Daily batch"
-  BatchProcessor -&gt; DataWarehouse "Aggregated data"
-  DataWarehouse -&gt; ReportingTool "Analytics queries"
-  ReportingTool -&gt; BusinessTeam "Insights"
-}
-</code></pre>
-<h3 id="pattern-4-real-time-processing"><a class="header" href="#pattern-4-real-time-processing">Pattern 4: Real-Time Processing</a></h3>
-<pre><code class="language-sruja">RealTimeFlow = flow "Real-Time Fraud Detection" {
-  TransactionAPI -&gt; IngestService "Transaction data"
-  IngestService -&gt; KafkaStream "Event stream"
-  KafkaStream -&gt; FraudDetectionService "Consume events"
-  FraudDetectionService -&gt; AlertService "Fraud alerts"
-  AlertService -&gt; SecurityTeam "Notifications"
-}
-</code></pre>
-<h2 id="documenting-data-transformations"><a class="header" href="#documenting-data-transformations">Documenting Data Transformations</a></h2>
-<h3 id="use-relationship-labels"><a class="header" href="#use-relationship-labels">Use Relationship Labels</a></h3>
-<pre><code class="language-sruja">DataFlow = flow "Data Transformation" {
-  RawSource -&gt; ETLService "Raw CSV data"
-  ETLService -&gt; CleanedData "Validated, normalized data"
-  CleanedData -&gt; Aggregator "Aggregated metrics"
-  Aggregator -&gt; DataWarehouse "Hourly aggregations"
-}
-</code></pre>
-<h3 id="add-metadata-for-details"><a class="header" href="#add-metadata-for-details">Add Metadata for Details</a></h3>
+<h3 id="using-metadata-for-transformations"><a class="header" href="#using-metadata-for-transformations">Using Metadata for Transformations</a></h3>
+<p>You can add metadata to document what each step does:</p>
 <pre><code class="language-sruja">ETLService = container "ETL Service" {
   metadata {
     transformations [
-      "Remove invalid records",
-      "Normalize phone numbers",
-      "Standardize dates"
+      "Validate schema and data types",
+      "Normalize dates to ISO 8601",
+      "Standardize currency codes to ISO 4217",
+      "Remove invalid or corrupt records"
     ]
     output_format "JSON"
-    output_schema "v2"
+    output_schema "v2.1"
+    batch_window "Daily at 2AM UTC"
   }
 }
 </code></pre>
-<h2 id="complete-dfd-example"><a class="header" href="#complete-dfd-example">Complete DFD Example</a></h2>
+<p>This metadata tells anyone reading the flow:</p>
+<ul>
+<li>What transformations happen</li>
+<li>What output format to expect</li>
+<li>What schema version</li>
+<li>When the batch runs</li>
+</ul>
+<h2 id="common-data-flow-patterns"><a class="header" href="#common-data-flow-patterns">Common Data Flow Patterns</a></h2>
+<p>After building data systems for years, I've noticed patterns that repeat constantly. Let me show you the ones I see most often.</p>
+<h3 id="pattern-1-etl-pipeline"><a class="header" href="#pattern-1-etl-pipeline">Pattern 1: ETL Pipeline</a></h3>
+<p>Extract, Transform, Load—the classic pattern for moving data from operational systems to analytics.</p>
+<pre><code class="language-sruja">ETLPipelineFlow = flow "Classic ETL Pipeline" {
+  // Extract: Pull from source systems
+  TransactionDB -&gt; DataCollector "Extracts daily transactions"
+  CustomerDB -&gt; DataCollector "Extracts customer profiles"
+  
+  // Transform: Clean and normalize
+  DataCollector -&gt; ValidationService "Validates schemas"
+  ValidationService -&gt; CleaningService "Removes duplicates and errors"
+  CleaningService -&gt; TransformationService "Normalizes formats"
+  
+  // Load: Push to warehouse
+  TransformationService -&gt; DataWarehouse "Loads transformed data"
+  DataWarehouse -&gt; ReportingEngine "Available for queries"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Scheduled batch processing (daily, hourly)</li>
+<li>Source systems are OLTP (transactional)</li>
+<li>Destination is OLAP (analytics)</li>
+<li>Focus on data quality and consistency</li>
+</ul>
+<p><strong>Use when:</strong> Building traditional data warehouses, moving from transactional systems to analytics.</p>
+<h3 id="pattern-2-event-sourcing"><a class="header" href="#pattern-2-event-sourcing">Pattern 2: Event Sourcing</a></h3>
+<p>Every change to data is captured as an event, and different services project events into read models.</p>
+<pre><code class="language-sruja">EventSourcingFlow = flow "Event Sourcing Pattern" {
+  // Events captured
+  OrderAPI -&gt; EventStore "Persist OrderCreated event"
+  OrderAPI -&gt; EventStore "Persist OrderPaid event"
+  OrderAPI -&gt; EventStore "Persist OrderShipped event"
+  
+  // Multiple projections
+  EventStore -&gt; OrderReadModel "Project to order summary view"
+  EventStore -&gt; CustomerReadModel "Project to customer order history view"
+  EventStore -&gt; AnalyticsReadModel "Project to order metrics view"
+  
+  // Read models queried
+  OrderReadModel -&gt; OrderService "Fetch order details"
+  CustomerReadModel -&gt; CustomerService "Fetch customer orders"
+  AnalyticsReadModel -&gt; AnalyticsService "Fetch order metrics"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Events are immutable (never change)</li>
+<li>Multiple read models for different use cases</li>
+<li>Rebuildable (can replay events)</li>
+<li>Eventually consistent</li>
+</ul>
+<p><strong>Use when:</strong> Building systems where audit trails matter, where you need multiple views of same data, where rebuildability is important.</p>
+<h3 id="pattern-3-real-time-analytics-pipeline"><a class="header" href="#pattern-3-real-time-analytics-pipeline">Pattern 3: Real-Time Analytics Pipeline</a></h3>
+<p>Events flow through a real-time processing pipeline for immediate insights.</p>
+<pre><code class="language-sruja">RealTimeAnalyticsFlow = flow "Real-Time Analytics Pipeline" {
+  // Events captured
+  UserActions -&gt; EventCollector "Captures clickstream events"
+  EventCollector -&gt; KafkaStream "Publishes to Kafka"
+  
+  // Real-time processing
+  KafkaStream -&gt; StreamProcessor "Processes events in real-time"
+  StreamProcessor -&gt; RedisCache "Updates user session data"
+  StreamProcessor -&gt; Elasticsearch "Indexes events for search"
+  
+  // Real-time consumption
+  RedisCache -&gt; WebApp "Serves session data"
+  Elasticsearch -&gt; Dashboard "Shows real-time user activity"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Real-time (seconds to minutes latency)</li>
+<li>Stream processing (Kafka, Kinesis, Pulsar)</li>
+<li>Eventually consistent (some delay acceptable)</li>
+<li>Focus on speed and availability</li>
+</ul>
+<p><strong>Use when:</strong> Building real-time dashboards, fraud detection, personalized recommendations, live monitoring.</p>
+<h3 id="pattern-4-lambda-architecture"><a class="header" href="#pattern-4-lambda-architecture">Pattern 4: Lambda Architecture</a></h3>
+<p>Batch processing for comprehensive analytics plus real-time for speed.</p>
+<pre><code class="language-sruja">LambdaArchitectureFlow = flow "Lambda Architecture" {
+  // Speed layer: Real-time
+  Events -&gt; StreamProcessing "Real-time processing"
+  StreamProcessing -&gt; SpeedLayer "Serves fast views"
+  
+  // Batch layer: Comprehensive
+  Events -&gt; BatchProcessing "Comprehensive processing"
+  BatchProcessing -&gt; BatchLayer "Serves accurate views"
+  
+  // Serving layer: Merges both
+  SpeedLayer -&gt; QueryService "Provides fast results"
+  BatchLayer -&gt; QueryService "Provides accurate results"
+  QueryService -&gt; API "Serves merged views"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Two paths: fast (speed layer) and accurate (batch layer)</li>
+<li>Speed layer provides quick but possibly incomplete results</li>
+<li>Batch layer provides comprehensive but delayed results</li>
+<li>Query service merges both for best of both worlds</li>
+</ul>
+<p><strong>Use when:</strong> You need both real-time responsiveness and comprehensive accuracy.</p>
+<h2 id="documenting-data-transformations"><a class="header" href="#documenting-data-transformations">Documenting Data Transformations</a></h2>
+<p>One of the most important things you can do in data flows is document transformations clearly.</p>
+<h3 id="using-relationship-labels"><a class="header" href="#using-relationship-labels">Using Relationship Labels</a></h3>
+<pre><code class="language-sruja">TransformFlow = flow "Data Transformations" {
+  RawSource -&gt; ETLService "Raw CSV data"
+  ETLService -&gt; ValidatedData "Validated (removed invalids)"
+  ValidatedData -&gt; NormalizedData "Normalized (standardized)"
+  NormalizedData -&gt; EnrichedData "Enriched (added location)"
+  EnrichedData -&gt; FinalData "Aggregated (daily metrics)"
+}
+</code></pre>
+<p>Each label describes what transformation happened at that step.</p>
+<h3 id="adding-metadata"><a class="header" href="#adding-metadata">Adding Metadata</a></h3>
+<pre><code class="language-sruja">ETLService = container "ETL Service" {
+  metadata {
+    transformations [
+      "Remove duplicate records",
+      "Normalize phone numbers to E.164 format",
+      "Standardize dates to ISO 8601 (UTC)",
+      "Geocode addresses to lat/long"
+    ]
+    input_format "CSV"
+    output_format "JSON"
+    output_schema "v2.1"
+  }
+}
+</code></pre>
+<p>This metadata provides complete documentation of what transformations happen.</p>
+<h2 id="complete-data-flow-example"><a class="header" href="#complete-data-flow-example">Complete Data Flow Example</a></h2>
+<p>Let me show you a complete example that brings everything together.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+// People
 Customer = person "Customer"
 
+// Systems
 Shop = system "Shop" {
   WebApp = container "Web Application"
   API = container "API Service"
@@ -288,18 +488,25 @@ Dashboard = system "Analytics Dashboard" {
   UI = container "Dashboard UI"
 }
 
-// Data flow: Order processing and analytics
+// Complete data flow: Order to analytics
 OrderAnalyticsFlow = flow "Order Analytics Pipeline" {
+  // Source: Customer creates order
   Customer -&gt; Shop.WebApp "Submits order"
   Shop.WebApp -&gt; Shop.API "Order data"
   Shop.API -&gt; Shop.Database "Persist order"
-
-  // Real-time data capture
-  Shop.API -&gt; Analytics.Ingestion "Order event"
-  Analytics.Ingestion -&gt; Analytics.Processing "Validates and enriches"
-  Analytics.Processing -&gt; Analytics.Warehouse "Stores aggregated data"
-
-  // Query and visualization
+  
+  // Extraction: Pull orders for analytics
+  Shop.Database -&gt; Analytics.Ingestion "Extract order events"
+  
+  // Transformation: Validate and enrich
+  Analytics.Ingestion -&gt; Analytics.Processing "Validate and normalize"
+  Analytics.Processing -&gt; Analytics.Processing "Enrich with customer data"
+  Analytics.Processing -&gt; Analytics.Processing "Aggregate metrics"
+  
+  // Loading: Store in warehouse
+  Analytics.Processing -&gt; Analytics.Warehouse "Store aggregated data"
+  
+  // Consumption: Query and display
   Dashboard.UI -&gt; Analytics.Reporting "Query metrics"
   Analytics.Reporting -&gt; Analytics.Warehouse "Fetch data"
   Analytics.Reporting -&gt; Dashboard.UI "Return results"
@@ -309,94 +516,103 @@ view index {
   include *
 }
 </code></pre>
-<h2 id="data-lineage-tracing"><a class="header" href="#data-lineage-tracing">Data Lineage Tracing</a></h2>
-<h3 id="forward-tracing"><a class="header" href="#forward-tracing">Forward Tracing</a></h3>
-<pre><code class="language-sruja">// Where does this data go?
-OrderFlow = flow "Order Data Lineage" {
-  OrderAPI -&gt; Database "Save order"
-  Database -&gt; ReplicationService "Replicate to secondary"
-  ReplicationService -&gt; AnalyticsDB "Stream to analytics"
-  AnalyticsDB -&gt; ReportGenerator "Generate reports"
-}
-</code></pre>
-<h3 id="backward-tracing"><a class="header" href="#backward-tracing">Backward Tracing</a></h3>
-<pre><code class="language-sruja">// Where does this data come from?
-ReportFlow = flow "Report Data Source" {
-  UserActivityReport &lt;- AnalyticsDB "Aggregated data"
-  AnalyticsDB &lt;- EventStream "Raw events"
-  EventStream &lt;- UserApp "User actions"
-}
-</code></pre>
-<h2 id="error-handling-in-flows"><a class="header" href="#error-handling-in-flows">Error Handling in Flows</a></h2>
-<h3 id="document-error-paths"><a class="header" href="#document-error-paths">Document Error Paths</a></h3>
-<pre><code class="language-sruja">OrderFlow = scenario "Order Processing with Errors" {
-  Customer -&gt; Shop.API "Submit order"
-  Shop.API -&gt; PaymentGateway "Process payment"
-
-  // Success path
-  PaymentGateway -&gt; Shop.API "Payment success"
-  Shop.API -&gt; Shop.Database "Save order"
-
-  // Error path
-  PaymentGateway -&gt; Shop.API "Payment failed"
-  Shop.API -&gt; Shop.WebApp "Return error"
-  Shop.WebApp -&gt; Customer "Show error message"
-}
-</code></pre>
-<h3 id="retry-logic"><a class="header" href="#retry-logic">Retry Logic</a></h3>
-<pre><code class="language-sruja">Shop.API = container "API Service" {
-  metadata {
-    retry_policy {
-      max_attempts 3
-      backoff "exponential"
-      initial_delay "1s"
-    }
-  }
-}
-</code></pre>
-<h2 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h2>
-<h3 id="document-latency-expectations"><a class="header" href="#document-latency-expectations">Document Latency Expectations</a></h3>
-<pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
-  metadata {
-    expected_latency "500ms"
-    timeout "5s"
-  }
-}
-
-OrderFlow = scenario "Order Processing" {
-  Customer -&gt; Shop.WebApp "Submit order" [user_interaction]
-  Shop.WebApp -&gt; Shop.API "Send order" [internal_fast]
-  Shop.API -&gt; PaymentGateway "Process payment" [external_slower]
-}
-</code></pre>
-<h3 id="identify-bottlenecks"><a class="header" href="#identify-bottlenecks">Identify Bottlenecks</a></h3>
-<pre><code class="language-sruja">ProcessingFlow = flow "File Processing Pipeline" {
-  Upload -&gt; Storage "Store file" [fast]
-  Storage -&gt; Processor "Process file" [bottleneck]
-  Processor -&gt; Notification "Notify user" [fast]
-}
-</code></pre>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Create a DFD for:</p>
-<blockquote>
-<p>"A fitness tracking app where users log workouts. Workout data is sent to an API, stored in a database, and also sent to a real-time analytics service. The analytics service processes events and updates user dashboards. Daily, a batch job aggregates data and generates reports stored in a data warehouse for business analysis."</p>
-</blockquote>
-<p><strong>Create:</strong></p>
+<p>This flow shows the complete path from customer action to analytics dashboard. Anyone reading this diagram understands how data moves through the system.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Data flows tell the story of how data moves through your system—from origin to destination, including every transformation along the way. When you create data flows:</p>
 <ul>
-<li>Main data flow</li>
-<li>At least one data transformation</li>
-<li>Real-time and batch processing paths</li>
+<li><strong>Document lineage</strong> — Where data comes from and where it goes</li>
+<li><strong>Show transformations</strong> — How data changes shape at each step</li>
+<li><strong>Use metadata</strong> — Document what each service actually does</li>
+<li><strong>Identify bottlenecks</strong> — Mark slow steps and understand their impact</li>
+<li><strong>Choose right pattern</strong> — ETL, event sourcing, real-time, or lambda</li>
+<li><strong>Track both paths</strong> — Success and failure paths</li>
 </ul>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Use <code>flow</code> for DFDs</strong>: Data-oriented flows</li>
-<li><strong>Show transformations</strong>: How data changes</li>
-<li><strong>Document lineage</strong>: Where data comes from and goes</li>
-<li><strong>Handle errors</strong>: Show success and failure paths</li>
-<li><strong>Identify bottlenecks</strong>: Where processing slows down</li>
-</ol>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-3.html">Lesson 3</a>, you'll learn how to model user journeys and behavioral scenarios.</p>
+<p>If you take away one thing, let it be this: <strong>data flows are your best documentation of how data actually moves through your system</strong>. When someone asks, "Where did this data come from?" or "What happened to this data?" your data flow has the answer.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding.</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're modeling a fitness tracking app's data flow. The app tracks user workouts, syncs them to a cloud API, where they're stored in a database. A daily ETL job extracts workouts, calculates daily metrics (calories burned, workout duration), and stores results in a data warehouse for business analytics. Which flow type is most appropriate?</p>
+<blockquote>
+<p>"Users log workouts on their phones. Workout data syncs to the cloud API, gets stored in the main database. Every night at 2 AM, an ETL job pulls all workouts from the database, calculates aggregated metrics (total calories, total minutes, workout counts per user), and loads the results into a data warehouse. Business analysts query the warehouse for reports on user engagement and app usage."</p>
+</blockquote>
+<p><strong>A)</strong> User Journey / Scenario
+<strong>B)</strong> Control Flow
+<strong>C)</strong> Data Flow (DFD Style)
+<strong>D)</strong> Event Flow</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: C) Data Flow (DFD Style)</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. A user journey shows how a user interacts with a system to achieve a goal. This scenario describes <strong>data movement and transformations</strong>, not user interactions. The user creates a workout, but the rest of the flow (syncing, extracting, calculating, aggregating, loading) happens automatically without user involvement. A user journey wouldn't capture these data processing steps effectively.</p>
+<p><strong>B)</strong> Incorrect. A control flow shows decision points and branching logic (if/else). This scenario describes a <strong>pipeline</strong> where data flows through sequential steps (sync → store → extract → calculate → aggregate → load). There's no conditional logic—every workout follows the same path through the ETL pipeline. Control flows are better for modeling things like "if workout is跑步类型 A, calculate calories differently" or "if user is premium, store additional metrics."</p>
+<p><strong>C)</strong> Correct! A data flow (DFD-style) is the right choice here because:</p>
+<ul>
+<li>The scenario describes <strong>data lineage</strong> — where data starts (user workout), where it goes (cloud API, database, data warehouse), and what happens along the way</li>
+<li>It shows <strong>data transformations</strong> — raw workout → synced workout → extracted workout → calculated metrics → aggregated metrics</li>
+<li>It models a <strong>pipeline</strong> — sequential steps that process data (extract, transform, load)</li>
+<li>It's focused on <strong>data movement</strong>, not user actions or business logic</li>
+</ul>
+<p>Data flows (DFD-style) are perfect for showing how data moves through a system, including where it originates, how it's stored, how it's transformed, and where it ultimately goes. This scenario is a classic ETL pipeline—extract from operational database, transform (calculate metrics), load into data warehouse.</p>
+<p><strong>D)</strong> Incorrect. An event flow would show how events propagate through an event-driven system (pub/sub patterns). This scenario describes a <strong>scheduled batch ETL job</strong>, not real-time event propagation. The ETL job pulls data daily at 2 AM, transforms it, and loads it. There's no event bus, no event streaming, no multiple consumers processing the same event. Event flows would show things like "workout completed event published → analytics service consumes event → notification service consumes event → recommendation service consumes event."</p>
+<p><strong>Key insight:</strong> Choose flow types based on what you're modeling. Showing where data comes from, how it transforms, and where it ends up? Use a data flow. Modeling user interactions and experience? Use a user journey. Modeling decision logic and branches? Use a control flow. Designing event-driven architecture? Use an event flow.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're creating a data flow for an e-commerce platform. Which structure best documents the data transformations that happen in the ETL pipeline?</p>
+<p><strong>A)</strong></p>
+<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+  TransactionDB -&gt; ETLService "Extract"
+  ETLService -&gt; DataWarehouse "Load"
+}
+</code></pre>
+<p><strong>B)</strong></p>
+<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+  TransactionDB -&gt; ETLService "Extract transactions"
+  ETLService -&gt; ValidatedData "Validate and remove errors"
+  ValidatedData -&gt; NormalizedData "Normalize formats"
+  NormalizedData -&gt; EnrichedData "Add customer data"
+  EnrichedData -&gt; DataWarehouse "Load to warehouse"
+}
+</code></pre>
+<p><strong>C)</strong></p>
+<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+  TransactionDB -&gt; DataWarehouse "Move data"
+}
+</code></pre>
+<p><strong>D)</strong></p>
+<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+  TransactionDB -&gt; ETLService "Extract"
+  ETLService -&gt; ValidatedData "?"
+  ValidatedData -&gt; NormalizedData "?"
+  NormalizedData -&gt; EnrichedData "?"
+  EnrichedData -&gt; DataWarehouse "?"
+}
+</code></pre>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) Shows each transformation step clearly</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. This flow has only two steps: extract and load. It completely skips the transformation step. ETL stands for <strong>Extract, Transform, Load</strong>—the transformation is the middle T! This flow doesn't show what transformations happen. Are transactions validated? Are formats normalized? Is data enriched? The flow provides no information about these crucial steps. Anyone reading this diagram wouldn't understand what actually happens to the data.</p>
+<p><strong>B)</strong> Correct! This flow documents each transformation step clearly:</p>
+<ul>
+<li><strong>Extract transactions</strong> — Pulls raw data from transactional database</li>
+<li><strong>Validate and remove errors</strong> — First transformation: validates data quality, removes corrupt or invalid records</li>
+<li><strong>Normalize formats</strong> — Second transformation: standardizes dates, currencies, phone numbers, etc. to consistent formats</li>
+<li><strong>Add customer data</strong> — Third transformation: enriches transactions with customer information (name, tier, location, etc.)</li>
+<li><strong>Load to warehouse</strong> — Final step: loads transformed, enriched data into warehouse</li>
+</ul>
+<p>Each relationship label describes what transformation happens at that step. Anyone reading this diagram understands the complete ETL process and what happens to the data at each stage.</p>
+<p><strong>C)</strong> Incorrect. This is too abstract. "Move data" tells you nothing about what happens. Is data validated? Is it transformed? Is it enriched? How does the format change? What transformations are applied? The flow provides no useful information. It's the equivalent of saying "data goes from point A to point B" without explaining the journey.</p>
+<p><strong>D)</strong> Incorrect. While this has the right number of steps, the labels are meaningless ("?"). What does the first "?" mean? What about the second "?"? The third "?"? The fourth "?"? These labels provide no information about what transformations are happening. Each step is a black box—you know there are transformations, but you don't know what they are.</p>
+<p><strong>Key insight:</strong> Document transformations clearly using descriptive relationship labels. Don't just show that data moves—show <strong>how</strong> it transforms. Label each step with what actually happens: "validate," "normalize," "enrich," "aggregate," "calculate." This makes your data flows informative and useful, not just correct.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Now you understand how to create data flow diagrams. You can model data lineage, document transformations, and design ETL and analytics pipelines.</p>
+<p>But data flows are just one type of flow. There's another crucial type—<strong>user journeys</strong> (or behavioral flows)—which show how users interact with your system from their perspective.</p>
+<p>In the next lesson, you'll learn about user journeys. You'll discover how to model BDD-style scenarios, document happy paths and error paths, and capture the complete user experience from start to finish.</p>
+<p>See you there!</p>
 
                     </main>
 
@@ -451,9 +667,11 @@ OrderFlow = scenario "Order Processing" {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

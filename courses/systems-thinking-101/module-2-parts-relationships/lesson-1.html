@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,79 +180,86 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-identifying-parts"><a class="header" href="#lesson-1-identifying-parts">Lesson 1: Identifying Parts</a></h1>
+                        <h1 id="finding-the-building-blocks-identifying-parts"><a class="header" href="#finding-the-building-blocks-identifying-parts">Finding the Building Blocks: Identifying Parts</a></h1>
+<p>Ever walked into a room full of people and tried to understand what's going on? You naturally start by identifying the key players: who's talking, who's listening, who's organizing. That's exactly what we do in systems architecture—we identify the parts first, then figure out how they connect.</p>
+<p>In this lesson, you'll learn to spot the essential components of any software system. Whether you're building an e-commerce platform, a social network, or an internal tool, the process is the same. Let's dive in.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Learn how to identify the key parts of a system</li>
-<li>Understand the different types of components</li>
-<li>Practice identifying parts from requirements</li>
+<li>Confidently identify the key parts of any software system</li>
+<li>Understand the C4 model's four-level hierarchy</li>
+<li>Apply a systematic approach to breaking down requirements into components</li>
+<li>Recognize when you've found the right level of detail</li>
 </ul>
-<h2 id="what-are-parts"><a class="header" href="#what-are-parts">What Are Parts?</a></h2>
-<p>In systems thinking, "parts" are the distinct components that make up a system. In software architecture, these are the building blocks: users, systems, services, databases, queues, and more.</p>
-<h2 id="the-c4-model-hierarchy"><a class="header" href="#the-c4-model-hierarchy">The C4 Model Hierarchy</a></h2>
-<p>Sruja follows the C4 model, which provides a clear hierarchy of parts:</p>
+<h2 id="the-c4-model-your-guide-to-structure"><a class="header" href="#the-c4-model-your-guide-to-structure">The C4 Model: Your Guide to Structure</a></h2>
+<p>Before we start identifying parts, let me introduce you to the C4 model—a framework that gives us a clear hierarchy for organizing software components. Think of it like a building: you start with the people who use it (person level), then the building itself (system), then the rooms within it (containers), and finally the furniture and fixtures inside those rooms (components).</p>
+<p>Here's how it breaks down in practice:</p>
 <pre><code>Level 1: Person (Users, stakeholders)
-  ↓
+  ↓ Who interacts with the system?
+  
 Level 2: System (Software systems)
-  ↓
+  ↓ What software systems are involved?
+  
 Level 3: Container (Applications, databases, services)
-  ↓
+  ↓ What are the deployable units?
+  
 Level 4: Component (Modules, classes, libraries)
+  ↓ What are the internal building blocks?
 </code></pre>
-<h2 id="identifying-parts-step-by-step"><a class="header" href="#identifying-parts-step-by-step">Identifying Parts: Step by Step</a></h2>
-<h3 id="step-1-start-with-people"><a class="header" href="#step-1-start-with-people">Step 1: Start with People</a></h3>
-<p>Who interacts with the system?</p>
-<p><strong>Example Requirements:</strong></p>
+<p>I've found this hierarchy incredibly useful because it prevents us from getting lost in the weeds too early. Start at the top, work your way down, and stop when you have enough detail for your audience.</p>
+<h2 id="a-step-by-step-approach-to-finding-parts"><a class="header" href="#a-step-by-step-approach-to-finding-parts">A Step-by-Step Approach to Finding Parts</a></h2>
+<p>Let's walk through a practical example together. Imagine you're reading these requirements:</p>
 <blockquote>
-<p>"Customers can browse products, add to cart, and checkout. Administrators can manage inventory and view reports."</p>
+<p>"Customers can browse products, add to cart, and checkout. Administrators can manage inventory and view reports. The system sends email notifications for order confirmations."</p>
 </blockquote>
-<p><strong>People identified:</strong></p>
+<p>How would you identify the parts? Here's my approach:</p>
+<h3 id="step-1-start-with-people"><a class="header" href="#step-1-start-with-people">Step 1: Start with People</a></h3>
+<p>Who are the humans interacting with this system? This is always the best starting point because every system exists to serve people.</p>
+<p>Looking at the requirements, I can immediately spot two key players:</p>
 <ul>
-<li>Customer</li>
-<li>Administrator</li>
+<li><strong>Customers</strong>—they're browsing, adding to cart, and checking out</li>
+<li><strong>Administrators</strong>—they're managing inventory and viewing reports</li>
 </ul>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 Administrator = person "Administrator"
 </code></pre>
-<h3 id="step-2-identify-systems"><a class="header" href="#step-2-identify-systems">Step 2: Identify Systems</a></h3>
-<p>What software systems are involved?</p>
-<p><strong>From requirements:</strong></p>
+<p>Notice how I'm already thinking in terms of Sruja syntax? That's because once you understand the concept, the code becomes a natural expression of your thinking.</p>
+<h3 id="step-2-identify-the-systems"><a class="header" href="#step-2-identify-the-systems">Step 2: Identify the Systems</a></h3>
+<p>Now, what software systems are involved? Sometimes this is obvious (one main system you're building), and sometimes it's more complex (multiple systems talking to each other).</p>
+<p>From our requirements, I can see:</p>
 <ul>
-<li>E-commerce platform (the main system)</li>
-<li>Payment gateway (external)</li>
-<li>Email service (external)</li>
+<li><strong>E-commerce platform</strong>—this is the main system we're building</li>
+<li><strong>Email service</strong>—this is an external system we'll integrate with</li>
 </ul>
 <pre><code class="language-sruja">ECommerce = system "E-Commerce Platform"
-PaymentGateway = system "Payment Gateway"
 EmailService = system "Email Service"
 </code></pre>
+<p>Don't worry if you miss some systems initially. You can always come back and add more as you discover dependencies.</p>
 <h3 id="step-3-break-down-systems-into-containers"><a class="header" href="#step-3-break-down-systems-into-containers">Step 3: Break Down Systems into Containers</a></h3>
-<p>What applications, services, and databases make up each system?</p>
-<p><strong>For E-Commerce:</strong></p>
-<ul>
-<li>Web Application (React frontend)</li>
-<li>API Service (Node.js backend)</li>
-<li>Database (PostgreSQL)</li>
-<li>Cache (Redis)</li>
-</ul>
+<p>Now we get to the interesting part. What are the deployable units that make up our e-commerce platform? Think about what you'd actually deploy: web apps, APIs, databases, caches—these are all containers.</p>
+<p>For our e-commerce platform, a sensible breakdown might be:</p>
 <pre><code class="language-sruja">ECommerce = system "E-Commerce Platform" {
-  WebApp = container "Web Application"
-  API = container "API Service"
-  DB = database "PostgreSQL"
-  Cache = queue "Redis Cache"
+  WebApp = container "Web Application" {
+    technology "React"
+  }
+  API = container "API Service" {
+    technology "Node.js"
+  }
+  Database = database "PostgreSQL" {
+    technology "PostgreSQL 14"
+  }
+  Cache = queue "Redis" {
+    technology "Redis 7"
+  }
 }
 </code></pre>
-<h3 id="step-4-break-down-containers-into-components-optional"><a class="header" href="#step-4-break-down-containers-into-components-optional">Step 4: Break Down Containers into Components (Optional)</a></h3>
-<p>What modules or components make up each container?</p>
-<p><strong>For API Service:</strong></p>
-<ul>
-<li>Product Service</li>
-<li>Cart Service</li>
-<li>Order Service</li>
-<li>Payment Service</li>
-</ul>
+<p>I've included a cache because I know from experience that almost every e-commerce platform benefits from one for performance. This is where real-world experience comes in—you'll naturally add components that make sense based on patterns you've seen before.</p>
+<h3 id="step-4-consider-components-but-only-if-needed"><a class="header" href="#step-4-consider-components-but-only-if-needed">Step 4: Consider Components (But Only If Needed)</a></h3>
+<p>This is where many people go wrong. They immediately start modeling every single class and module. Stop and ask yourself: <em>Does my audience need this level of detail?</em></p>
+<p>If you're talking to developers who need to understand the internal architecture, yes—break containers into components. If you're talking to stakeholders who just want to understand the overall system, skip this level.</p>
+<p>For example, if we were documenting the API's internal structure for our engineering team:</p>
 <pre><code class="language-sruja">API = container "API Service" {
   ProductService = component "Product Service"
   CartService = component "Cart Service"
@@ -260,8 +267,11 @@ EmailService = system "Email Service"
   PaymentService = component "Payment Service"
 }
 </code></pre>
-<h2 id="common-patterns"><a class="header" href="#common-patterns">Common Patterns</a></h2>
-<h3 id="pattern-1-frontend-backend-database"><a class="header" href="#pattern-1-frontend-backend-database">Pattern 1: Frontend-Backend-Database</a></h3>
+<p>The key insight here: <strong>match the level of detail to your audience</strong>. Not every diagram needs components. Not every discussion needs to dive this deep.</p>
+<h2 id="common-patterns-youll-see-everywhere"><a class="header" href="#common-patterns-youll-see-everywhere">Common Patterns You'll See Everywhere</a></h2>
+<p>After building systems for years, you start to recognize patterns that repeat across different domains. Here are three I see constantly:</p>
+<h3 id="pattern-1-the-classic-three-tier-architecture"><a class="header" href="#pattern-1-the-classic-three-tier-architecture">Pattern 1: The Classic Three-Tier Architecture</a></h3>
+<p>This is probably the most common pattern you'll encounter. It's simple, it works, and it's a great starting point for most web applications.</p>
 <pre><code class="language-sruja">App = system "Application" {
   Frontend = container "Web App" {
     technology "React"
@@ -274,7 +284,9 @@ EmailService = system "Email Service"
   }
 }
 </code></pre>
+<p>I've used this pattern more times than I can count. It's a solid foundation that scales well and most developers immediately understand.</p>
 <h3 id="pattern-2-microservices"><a class="header" href="#pattern-2-microservices">Pattern 2: Microservices</a></h3>
+<p>When your system grows, you might need to split it into smaller, independently deployable services. That's where this pattern comes in.</p>
 <pre><code class="language-sruja">App = system "Microservice Application" {
   APIGateway = container "API Gateway"
   UserService = container "User Service"
@@ -282,30 +294,34 @@ EmailService = system "Email Service"
   NotificationService = container "Notification Service"
 }
 </code></pre>
-<h3 id="pattern-3-event-driven"><a class="header" href="#pattern-3-event-driven">Pattern 3: Event-Driven</a></h3>
+<p>The trick here is knowing when to use this. Don't start with microservices just because it's trendy. Start simple, then split when you have a real reason (scaling, team size, complexity).</p>
+<h3 id="pattern-3-event-driven-architecture"><a class="header" href="#pattern-3-event-driven-architecture">Pattern 3: Event-Driven Architecture</a></h3>
+<p>When you need systems to react to events in real-time, this pattern shines. It's more complex but incredibly powerful for the right use cases.</p>
 <pre><code class="language-sruja">App = system "Event-Driven System" {
   Producer = container "Event Producer"
   Consumer = container "Event Consumer"
   MessageQueue = queue "Kafka Cluster"
 }
 </code></pre>
-<h2 id="anti-patterns-to-avoid"><a class="header" href="#anti-patterns-to-avoid">Anti-Patterns to Avoid</a></h2>
-<h3 id="anti-pattern-1-oversimplification"><a class="header" href="#anti-pattern-1-oversimplification">Anti-Pattern 1: Oversimplification</a></h3>
-<p><strong>Don't:</strong></p>
-<pre><code class="language-sruja">// Too simple, loses important detail
+<p>I've seen teams jump into this pattern too early and regret it. Make sure you actually need event-driven architecture before adopting it—it adds significant complexity.</p>
+<h2 id="pitfalls-to-avoid-ive-made-all-of-these"><a class="header" href="#pitfalls-to-avoid-ive-made-all-of-these">Pitfalls to Avoid (I've Made All of These)</a></h2>
+<p>Let me save you some trouble by sharing mistakes I've made and seen others make:</p>
+<h3 id="mistake-1-oversimplifying"><a class="header" href="#mistake-1-oversimplifying">Mistake 1: Oversimplifying</a></h3>
+<p>When you're rushing, it's tempting to just model everything as one big system:</p>
+<pre><code class="language-sruja">// Don't do this—it's too simple
 App = system "The App"
 </code></pre>
-<p><strong>Do:</strong></p>
-<pre><code class="language-sruja">// Shows structure
+<p>This tells you nothing about how the system is structured. Anyone looking at this diagram will be left with more questions than answers.</p>
+<pre><code class="language-sruja">// This is better—it shows structure
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend"
   Database = database "Database"
 }
 </code></pre>
-<h3 id="anti-pattern-2-over-engineering"><a class="header" href="#anti-pattern-2-over-engineering">Anti-Pattern 2: Over-Engineering</a></h3>
-<p><strong>Don't:</strong></p>
-<pre><code class="language-sruja">// Too detailed, hard to understand
+<h3 id="mistake-2-over-engineering"><a class="header" href="#mistake-2-over-engineering">Mistake 2: Over-Engineering</a></h3>
+<p>On the flip side, I've seen people model every single class and component, creating diagrams that are essentially unreadable:</p>
+<pre><code class="language-sruja">// Don't do this—it's too detailed
 App = system "The App" {
   Frontend = container "Frontend" {
     Header = component "Header"
@@ -314,24 +330,24 @@ App = system "The App" {
   }
 }
 </code></pre>
-<p><strong>Do:</strong></p>
-<pre><code class="language-sruja">// Right level of detail
+<p>Who cares about the header, body, and footer at the architecture level? No one. That's implementation detail, not architecture.</p>
+<pre><code class="language-sruja">// This is the right level of detail
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend"
 }
 </code></pre>
-<h3 id="anti-pattern-3-mixing-levels"><a class="header" href="#anti-pattern-3-mixing-levels">Anti-Pattern 3: Mixing Levels</a></h3>
-<p><strong>Don't:</strong></p>
-<pre><code class="language-sruja">// Inconsistent level of detail
+<h3 id="mistake-3-mixing-levels-inconsistently"><a class="header" href="#mistake-3-mixing-levels-inconsistently">Mistake 3: Mixing Levels Inconsistently</a></h3>
+<p>This one trips up even experienced architects. You might have some parts modeled at the container level and others at the component level, creating confusion:</p>
+<pre><code class="language-sruja">// Don't do this—inconsistent detail
 App = system "The App" {
   Frontend = container "Frontend"
   UserService = component "User Service"  // Skips container level
   Database = database "Database"
 }
 </code></pre>
-<p><strong>Do:</strong></p>
-<pre><code class="language-sruja">// Consistent hierarchy
+<p>What's the UserService doing here without a parent container? Is it a standalone service? Part of another system? It's confusing.</p>
+<pre><code class="language-sruja">// This is consistent and clear
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend" {
@@ -340,27 +356,52 @@ App = system "The App" {
   Database = database "Database"
 }
 </code></pre>
-<h2 id="exercise-identify-parts"><a class="header" href="#exercise-identify-parts">Exercise: Identify Parts</a></h2>
-<p>Read these requirements and identify the parts:</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Identifying parts is both an art and a science. The science is following the C4 hierarchy and being systematic. The art is knowing how much detail to include and what to leave out.</p>
+<p>If you take away just one thing from this lesson, let it be this: <strong>start with people, then systems, then containers, and only add components when your audience truly needs that level of detail</strong>.</p>
+<p>Everything else flows from that principle.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding:</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're building a project management tool with these requirements:</p>
 <blockquote>
-<p>"A project management tool allows team members to create tasks, assign them to others, and track progress. Managers can view reports and approve tasks. The system sends email notifications for task assignments and due dates. Task data is stored in a database. The system integrates with Slack for notifications."</p>
+<p>"Team members can create tasks, assign them to others, and track progress. Managers can view reports and approve tasks. The system sends email notifications for task assignments and due dates. Task data is stored in a database. The system integrates with Slack for notifications."</p>
 </blockquote>
-<p><strong>Identify:</strong></p>
-<ol>
-<li>People: <strong><strong><strong>_</strong></strong></strong></li>
-<li>Systems: <strong><strong><strong>_</strong></strong></strong></li>
-<li>Containers: <strong><strong><strong>_</strong></strong></strong></li>
-</ol>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Start with people</strong>: Who uses the system?</li>
-<li><strong>Use the C4 hierarchy</strong>: Person → System → Container → Component</li>
-<li><strong>Match detail to audience</strong>: Not every diagram needs components</li>
-<li><strong>Avoid anti-patterns</strong>: Don't oversimplify or over-engineer</li>
-<li><strong>Be consistent</strong>: Use the same level of detail throughout</li>
-</ol>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-2.html">Lesson 2</a>, you'll learn how to use Sruja's element types to model the parts you've identified.</p>
+<p>At the <strong>person</strong> level, which parts should you identify?</p>
+<p><strong>A)</strong> Task, Report, Email, Database, Slack
+<strong>B)</strong> Team Member, Manager
+<strong>C)</strong> Project Management Tool, Slack, Email Service
+<strong>D)</strong> Task Assignment, Task Approval, Report Generation</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) Team Member, Manager</strong></p>
+<p>The person level is about <strong>humans</strong> who interact with the system. Team members and managers are the people using the system. Tasks, reports, and notifications are things the system handles, not people. The project management tool, Slack, and email service are systems, not people.</p>
+<p>Remember: people first, then systems, then everything else.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're modeling a simple blog platform. When should you break your containers down into components?</p>
+<p><strong>A)</strong> Always—components provide the most detail
+<strong>B)</strong> Never—containers are sufficient for all audiences
+<strong>C)</strong> When your audience needs to understand internal architecture or when a container is complex
+<strong>D)</strong> Only when you're using microservices</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: C) When your audience needs to understand internal architecture or when a container is complex</strong></p>
+<p>Components are an optional level in the C4 model. You should add them when:</p>
+<ul>
+<li>You're documenting for developers who need to understand implementation</li>
+<li>A container has grown complex and needs to be broken down</li>
+<li>Different teams own different parts of the system</li>
+</ul>
+<p>Don't add components just because you can. Match the level of detail to your audience's needs. A stakeholder doesn't need to see your component architecture—a developer probably does.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Now that you know how to identify parts, you're probably wondering: "How do I actually define these parts in Sruja? What's the syntax?"</p>
+<p>In the next lesson, you'll learn exactly that. We'll cover the four core element types (person, system, container, component), how to use them, and what details to include. You'll have a complete toolkit for modeling any software system.</p>
+<p>See you there!</p>
 
                     </main>
 
@@ -415,9 +456,11 @@ App = system "The App" {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

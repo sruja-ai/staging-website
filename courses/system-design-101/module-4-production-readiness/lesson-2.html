@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -181,352 +181,947 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-2-deployment-architecture"><a class="header" href="#lesson-2-deployment-architecture">Lesson 2: Deployment Architecture</a></h1>
-<h2 id="real-world-scenario-startup-to-scale"><a class="header" href="#real-world-scenario-startup-to-scale">Real-World Scenario: Startup to Scale</a></h2>
-<p><strong>Context</strong>: A fintech startup begins with a single server, grows to 10M users, and needs to plan deployment architecture.</p>
-<p><strong>Challenge</strong>: How do you model and evolve deployment architecture as you scale?</p>
-<h2 id="logical-vs-physical-architecture"><a class="header" href="#logical-vs-physical-architecture">Logical vs. Physical Architecture</a></h2>
-<ul>
-<li><strong>Logical Architecture:</strong> The software components and how they interact (Containers, Components).</li>
-<li><strong>Physical Architecture:</strong> Where those components actually run (Servers, VMs, Kubernetes Pods).</li>
-</ul>
-<p><strong>Why it matters</strong>: Understanding this separation helps you:</p>
-<ul>
-<li>Plan migrations (e.g., moving from EC2 to EKS)</li>
-<li>Model multi-cloud strategies</li>
-<li>Document disaster recovery plans</li>
-<li>Communicate with DevOps teams</li>
-</ul>
-<h2 id="deployment-strategies-real-world-trade-offs"><a class="header" href="#deployment-strategies-real-world-trade-offs">Deployment Strategies: Real-World Trade-offs</a></h2>
-<h3 id="on-premises"><a class="header" href="#on-premises">On-Premises</a></h3>
-<p>Running on your own hardware in a data center.</p>
-<p><strong>Real-world use cases:</strong></p>
-<ul>
-<li>Financial institutions (regulatory compliance)</li>
-<li>Healthcare systems (HIPAA data residency)</li>
-<li>Government systems (sovereignty requirements)</li>
-</ul>
-<ul>
-<li><strong>Pros:</strong> Total control, security, data sovereignty.</li>
-<li><strong>Cons:</strong> High maintenance, capital expense, slower scaling.</li>
-<li><strong>Cost example:</strong> $500K+ initial investment, 3-5 year hardware refresh cycles</li>
-</ul>
-<h3 id="cloud-aws-gcp-azure"><a class="header" href="#cloud-aws-gcp-azure">Cloud (AWS, GCP, Azure)</a></h3>
-<p>Renting infrastructure from a provider.</p>
-<p><strong>Real-world use cases:</strong></p>
-<ul>
-<li>SaaS platforms (99% of modern startups)</li>
-<li>E-commerce (seasonal scaling)</li>
-<li>Media streaming (global distribution)</li>
-</ul>
-<ul>
-<li><strong>Pros:</strong> Pay-as-you-go, infinite scale, managed services.</li>
-<li><strong>Cons:</strong> Vendor lock-in, variable costs, compliance complexity.</li>
-<li><strong>Cost example:</strong> $5K/month for small SaaS, $50K+ for mid-size, $500K+ for enterprise</li>
-</ul>
-<h3 id="containers--orchestration"><a class="header" href="#containers--orchestration">Containers &amp; Orchestration</a></h3>
-<p>Packaging code with dependencies (Docker) and managing them at scale (Kubernetes).</p>
-<p><strong>Real-world adoption:</strong></p>
-<ul>
-<li>2024: 70% of enterprises use Kubernetes</li>
-<li>Common pattern: Docker → Kubernetes → Service Mesh (Istio/Linkerd)</li>
-</ul>
-<p><strong>Production considerations:</strong></p>
-<ul>
-<li>Resource limits (CPU/memory)</li>
-<li>Health checks and liveness probes</li>
-<li>Rolling updates and rollback strategies</li>
-<li>Multi-region deployments</li>
-</ul>
-<hr>
-<h2 id="-sruja-perspective-deployment-nodes"><a class="header" href="#-sruja-perspective-deployment-nodes">🛠️ Sruja Perspective: Deployment Nodes</a></h2>
-<p>Sruja allows you to map your logical containers to physical deployment nodes, making it clear where code runs in production.</p>
-<h3 id="example-multi-region-e-commerce-platform"><a class="header" href="#example-multi-region-e-commerce-platform">Example: Multi-Region E-Commerce Platform</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-
+<p>It was 4:47 PM on a Friday. I pushed the deploy button.</p>
+<p>What could go wrong? It was just a "small database migration." Add a column, update some queries, deploy the API. Done in 10 minutes, right?</p>
+<p>By 5:15 PM, the entire platform was down. The migration had locked the database. Every API request was timing out. Customers were calling support. The CEO was texting me. And I couldn't rollback because the migration had partially completed.</p>
+<p>We were down for 3 hours and 42 minutes.</p>
+<p>That Friday taught me more about deployment architecture than the previous 5 years combined. <strong>How you deploy matters as much as what you deploy.</strong> A great architecture deployed poorly will fail. A mediocre architecture deployed well will survive.</p>
+<p>This lesson is about deployment architecture: how to model it, how to choose strategies, and how to avoid becoming a cautionary tale.</p>
+<h2 id="the-two-architectures"><a class="header" href="#the-two-architectures">The Two Architectures</a></h2>
+<p>Every system has two architectures that most teams confuse:</p>
+<h3 id="logical-architecture"><a class="header" href="#logical-architecture">Logical Architecture</a></h3>
+<p><strong>What your system does</strong> - the software components and their interactions.</p>
+<pre><code class="language-sruja">// This is LOGICAL architecture
 ECommerce = system "E-Commerce Platform" {
-    API = container "REST API" {
-        technology "Rust"
-        scale {
-            min 3
-            max 100
-            metric "cpu &gt; 70%"
-        }
-    }
-    WebApp = container "React Frontend" {
-        technology "React"
-    }
-    PrimaryDB = database "PostgreSQL" {
-        technology "PostgreSQL"
-    }
-    Cache = database "Redis" {
-        technology "Redis"
-    }
+  API = container "REST API" {
+    technology "Rust"
+  }
+  
+  WebApp = container "Web Application" {
+    technology "React"
+  }
+  
+  Database = database "PostgreSQL" {
+    technology "PostgreSQL"
+  }
+  
+  Cache = database "Redis Cache" {
+    technology "Redis"
+  }
 }
-
-// Production deployment across regions
+</code></pre>
+<p>This shows:</p>
+<ul>
+<li>What services exist</li>
+<li>How they communicate</li>
+<li>What technologies they use</li>
+</ul>
+<p><strong>Audience:</strong> Architects, developers, product managers</p>
+<h3 id="physical-architecture"><a class="header" href="#physical-architecture">Physical Architecture</a></h3>
+<p><strong>Where your system runs</strong> - the infrastructure and deployment topology.</p>
+<pre><code class="language-sruja">// This is PHYSICAL architecture
 deployment Production "Production Environment" {
-    node AWS "AWS Cloud" {
-        // Primary region: US-East-1
-        node USEast1 "US-East-1 (Primary)" {
-            node EKS "EKS Cluster" {
-                containerInstance API {
-                    replicas 10
-                }
-                containerInstance WebApp {
-                    replicas 5
-                }
-            }
-            node RDS "RDS Multi-AZ" {
-                containerInstance PrimaryDB {
-                    role "primary"
-                }
-            }
-            node ElastiCache "ElastiCache" {
-                containerInstance Cache
-            }
+  node AWS "AWS Cloud" {
+    node USEast1 "US-East-1 Region" {
+      node EKS "Kubernetes Cluster" {
+        containerInstance ECommerce.API {
+          replicas 10
+          cpu "2 cores"
+          memory "4GB"
         }
-
-        // Secondary region: EU-West-1 (for DR and latency)
-        node EUWest1 "EU-West-1 (Secondary)" {
-            node EKS "EKS Cluster" {
-                containerInstance API {
-                    replicas 5
-                }
-                containerInstance WebApp {
-                    replicas 3
-                }
-            }
-            node RDS "RDS Read Replica" {
-                containerInstance PrimaryDB {
-                    role "read-replica"
-                }
-            }
+      }
+      
+      node RDS "RDS PostgreSQL" {
+        containerInstance ECommerce.Database {
+          instance "db.r5.xlarge"
+          multi_az true
         }
+      }
     }
-}
-
-view index {
-include *
+  }
 }
 </code></pre>
-<h3 id="devops-integration-cicd-pipeline"><a class="header" href="#devops-integration-cicd-pipeline">DevOps Integration: CI/CD Pipeline</a></h3>
-<p>Model your deployment pipeline alongside architecture:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-
-CICD = system "CI/CD System" {
-    GitHubActions = container "GitHub Actions" {
-        description "Triggers on push to main branch"
-    }
-    BuildService = container "Build Service" {
-        technology "Docker"
-        description "Builds container images"
-    }
-    TestRunner = container "Test Runner" {
-        description "Runs unit, integration, and E2E tests"
-    }
-    DeployService = container "Deploy Service" {
-        technology "ArgoCD"
-        description "Deploys to Kubernetes clusters"
-    }
-
-    GitHubActions -&gt; BuildService "Builds image"
-    BuildService -&gt; TestRunner "Runs tests"
-    TestRunner -&gt; DeployService "Deploys if tests pass"
-}
-
-// Link deployment to CI/CD
-// Note: Deployment metadata (CI/CD pipeline, strategy) is modeled in the deployment node
-deployment Production "Production Deployment" {
-    node Infrastructure "Production Infrastructure" {
-    }
-}
-
-view index {
-include *
-}
-</code></pre>
-<h2 id="real-world-patterns"><a class="header" href="#real-world-patterns">Real-World Patterns</a></h2>
+<p>This shows:</p>
+<ul>
+<li>Where code runs</li>
+<li>Infrastructure configuration</li>
+<li>Scaling parameters</li>
+<li>Geographic distribution</li>
+</ul>
+<p><strong>Audience:</strong> DevOps, SRE, platform engineers</p>
+<h3 id="why-the-separation-matters"><a class="header" href="#why-the-separation-matters">Why the Separation Matters</a></h3>
+<p><strong>Story:</strong> A startup I worked with had beautiful logical architecture diagrams. Microservices, event-driven, clean boundaries. But their deployment? Everything ran on one EC2 instance. When that instance failed, all their "resilient microservices" went down together.</p>
+<p><strong>The lesson:</strong> Logical resilience means nothing without physical separation.</p>
+<p><strong>When to model separately:</strong></p>
+<ul>
+<li>Planning migrations (EC2 → EKS, on-prem → cloud)</li>
+<li>Multi-region deployments</li>
+<li>Disaster recovery planning</li>
+<li>Cost optimization</li>
+<li>Compliance requirements</li>
+</ul>
+<h2 id="deployment-strategies-when-to-use-what"><a class="header" href="#deployment-strategies-when-to-use-what">Deployment Strategies: When to Use What</a></h2>
+<p>Let me walk you through the real-world trade-offs of each strategy.</p>
+<h3 id="on-premises-when-control-trumps-convenience"><a class="header" href="#on-premises-when-control-trumps-convenience">On-Premises: When Control Trumps Convenience</a></h3>
+<p><strong>What it is:</strong> Running on your own hardware in your own data center.</p>
+<p><strong>Real-world example:</strong> Goldman Sachs</p>
+<p>Goldman runs most of their trading systems on-premises. Why? Microsecond latency matters in high-frequency trading. Cloud latency is too unpredictable. Regulatory requirements demand data sovereignty. And when you're moving billions of dollars, the cost of owning hardware is negligible.</p>
+<p><strong>When to choose on-prem:</strong></p>
+<ul>
+<li>✅ Regulatory requirements (data must stay in specific location)</li>
+<li>✅ Extreme latency requirements (&lt; 1ms)</li>
+<li>✅ Predictable, massive scale (you know you'll use 10,000 servers)</li>
+<li>✅ Classified/sensitive data (government, defense)</li>
+</ul>
+<p><strong>When to avoid:</strong></p>
+<ul>
+<li>❌ Early-stage startups (capital expense too high)</li>
+<li>❌ Variable traffic (you'll over-provision)</li>
+<li>❌ Small teams (maintenance burden)</li>
+<li>❌ Geographic distribution needs</li>
+</ul>
+<p><strong>Cost reality:</strong></p>
+<ul>
+<li>Initial investment: $500K - $5M (hardware, data center, networking)</li>
+<li>Ongoing: $50K - $500K/month (power, cooling, staff)</li>
+<li>Break-even point: 3-5 years</li>
+</ul>
+<p><strong>The mistake I see:</strong> Companies choose on-prem for "security" when cloud is actually more secure (AWS spends more on security than most companies' entire revenue).</p>
+<h3 id="cloud-speed-and-flexibility"><a class="header" href="#cloud-speed-and-flexibility">Cloud: Speed and Flexibility</a></h3>
+<p><strong>What it is:</strong> Renting infrastructure from AWS, GCP, Azure, etc.</p>
+<p><strong>Real-world example:</strong> Airbnb</p>
+<p>Airbnb runs almost entirely on AWS. During the 2022 travel surge, they scaled from 5,000 to 25,000 instances in hours. Try doing that with on-prem.</p>
+<p><strong>When to choose cloud:</strong></p>
+<ul>
+<li>✅ Early-stage (pay-as-you-go)</li>
+<li>✅ Variable traffic (scale up/down)</li>
+<li>✅ Global distribution (deploy anywhere)</li>
+<li>✅ Small team (managed services)</li>
+<li>✅ Speed to market</li>
+</ul>
+<p><strong>When to be careful:</strong></p>
+<ul>
+<li>⚠️ Predictable, steady workloads (can be cheaper on-prem)</li>
+<li>⚠️ Extreme compliance (some certifications require physical control)</li>
+<li>⚠️ Very high bandwidth (cloud egress gets expensive)</li>
+</ul>
+<p><strong>Cost reality:</strong></p>
+<ul>
+<li>Startup: $500 - $5,000/month</li>
+<li>Mid-size: $20K - $100K/month</li>
+<li>Enterprise: $500K - $5M/month</li>
+</ul>
+<p><strong>The mistake I see:</strong> "Cloud is always cheaper." It's not. Run the numbers for YOUR workload.</p>
+<h3 id="containers--kubernetes-the-standard-for-scale"><a class="header" href="#containers--kubernetes-the-standard-for-scale">Containers &amp; Kubernetes: The Standard for Scale</a></h3>
+<p><strong>What it is:</strong> Packaging code with dependencies (Docker) and orchestrating at scale (Kubernetes).</p>
+<p><strong>Real-world example:</strong> Spotify</p>
+<p>Spotify runs 150+ services on Google Kubernetes Engine (GKE). Before Kubernetes, deployments took hours and scaling was manual. Now: 2-minute deployments, auto-scaling, self-healing.</p>
+<p><strong>When to choose Kubernetes:</strong></p>
+<ul>
+<li>✅ 10+ services (orchestration value)</li>
+<li>✅ Need auto-scaling</li>
+<li>✅ Multi-cloud strategy</li>
+<li>✅ Dev teams want self-service deployment</li>
+</ul>
+<p><strong>When to avoid:</strong></p>
+<ul>
+<li>❌ &lt; 5 services (overkill)</li>
+<li>❌ Simple stateless apps (ECS or Cloud Run is easier)</li>
+<li>❌ Small team (K8s expertise required)</li>
+<li>❌ Just getting started (add complexity later)</li>
+</ul>
+<p><strong>Cost reality:</strong></p>
+<ul>
+<li>Control plane: Free (managed) or $150/month (self-managed)</li>
+<li>Worker nodes: $500 - $50,000/month depending on scale</li>
+<li>Hidden cost: Engineering time (steep learning curve)</li>
+</ul>
+<p><strong>The mistake I see:</strong> "We need Kubernetes because Netflix uses it." Netflix has 700 engineers. You have 5. Start simpler.</p>
+<h2 id="real-world-deployment-patterns"><a class="header" href="#real-world-deployment-patterns">Real-World Deployment Patterns</a></h2>
 <h3 id="pattern-1-bluegreen-deployment"><a class="header" href="#pattern-1-bluegreen-deployment">Pattern 1: Blue/Green Deployment</a></h3>
-<p><strong>Use case</strong>: Zero-downtime deployments for critical services</p>
-<pre><code class="language-sruja">deployment Production {
-    node Blue "Active Environment" {
-        containerInstance API {
-            traffic 100
-        }
-    }
-    node Green "Staging Environment" {
-        containerInstance API {
-            traffic 0
-            status "ready-for-switch"
-        }
-    }
-}
-</code></pre>
-<p><strong>DevOps workflow:</strong></p>
+<p><strong>What it is:</strong> Run two identical environments (Blue = current, Green = new). Switch traffic instantly.</p>
+<p><strong>Real-world example:</strong> Amazon</p>
+<p>Amazon uses Blue/Green for most services. Their deployment philosophy: "If you can't roll back in 30 seconds, you're doing it wrong."</p>
+<p><strong>How it works:</strong></p>
 <ol>
-<li>Deploy new version to Green</li>
-<li>Run smoke tests</li>
+<li>Blue environment is live (100% traffic)</li>
+<li>Deploy new version to Green environment</li>
+<li>Run tests on Green</li>
 <li>Switch 10% traffic to Green</li>
 <li>Monitor for 15 minutes</li>
 <li>Gradually increase to 100%</li>
-<li>Keep Blue ready for rollback</li>
+<li>Keep Blue warm for instant rollback</li>
 </ol>
-<h3 id="pattern-2-canary-deployment"><a class="header" href="#pattern-2-canary-deployment">Pattern 2: Canary Deployment</a></h3>
-<p><strong>Use case</strong>: Gradual rollout with automatic rollback</p>
-<pre><code class="language-sruja">deployment Production {
-    node Canary "Canary Cluster" {
-        containerInstance API {
-            traffic 5
-            description "5% of traffic, auto-rollback on error rate &gt; 1%"
-        }
-    }
-    node Stable "Stable Cluster" {
-        containerInstance API {
-            traffic 95
-        }
-    }
-}
-</code></pre>
-<h3 id="pattern-3-multi-cloud-strategy"><a class="header" href="#pattern-3-multi-cloud-strategy">Pattern 3: Multi-Cloud Strategy</a></h3>
-<p><strong>Use case</strong>: Avoiding vendor lock-in, disaster recovery</p>
-<pre><code class="language-sruja">deployment Production {
-    node AWS "AWS Primary" {
-        containerInstance API {
-            region "us-east-1"
-            traffic 80
-        }
-    }
-    node GCP "GCP Secondary" {
-        containerInstance API {
-            region "us-central1"
-            traffic 20
-            description "Failover target"
-        }
-    }
-}
-</code></pre>
-<h2 id="service-level-objectives-slos"><a class="header" href="#service-level-objectives-slos">Service Level Objectives (SLOs)</a></h2>
-<p>Define reliability targets directly in your architecture model:</p>
+<p><strong>Sruja model:</strong></p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-ECommerce = system "E-Commerce Platform" {
-API = container "REST API" {
-  technology "Rust"
-
-  // Define SLOs for production monitoring
-  slo {
-    availability {
-      target "99.99%"
-      window "30 days"
-      current "99.95%"
-    }
-    latency {
-      p95 "200ms"
-      p99 "500ms"
-      window "7 days"
-      current {
-        p95 "180ms"
-        p99 "450ms"
-      }
-    }
-    errorRate {
-      target "&lt; 0.1%"
-      window "30 days"
-      current "0.05%"
-    }
-    throughput {
-      target "1000 req/s"
-      window "1 hour"
-      current "950 req/s"
-    }
+ECommerce = system "E-Commerce" {
+  API = container "API Service" {
+    technology "Rust"
   }
 }
 
-Database = database "PostgreSQL" {
-  technology "PostgreSQL"
-  slo {
-    availability {
-      target "99.9%"
-      window "30 days"
-    }
-    latency {
-      p95 "50ms"
-      p99 "100ms"
+deployment Production "Production" {
+  node Blue "Blue Environment (Active)" {
+    status "active"
+    containerInstance ECommerce.API {
+      replicas 10
+      traffic 100
+      version "v2.3.1"
     }
   }
-}
+  
+  node Green "Green Environment (Standby)" {
+    status "standby"
+    containerInstance ECommerce.API {
+      replicas 10
+      traffic 0
+      version "v2.3.2"  // New version ready
+    }
+  }
 }
 
 view index {
-include *
+  include *
 }
 </code></pre>
-<h3 id="benefits-of-modeling-slos"><a class="header" href="#benefits-of-modeling-slos">Benefits of Modeling SLOs</a></h3>
+<p><strong>When to use:</strong></p>
+<ul>
+<li>✅ Zero-downtime requirement</li>
+<li>✅ Critical services (payments, auth)</li>
+<li>✅ Need instant rollback</li>
+<li>✅ Complex deployments (db migrations + code)</li>
+</ul>
+<p><strong>When to avoid:</strong></p>
+<ul>
+<li>❌ Resource-constrained (doubles infrastructure cost)</li>
+<li>❌ Simple apps (rolling update is fine)</li>
+<li>❌ Stateless, stateless services (no migration needed)</li>
+</ul>
+<p><strong>Cost:</strong> 2x infrastructure (two full environments)</p>
+<h3 id="pattern-2-canary-deployment"><a class="header" href="#pattern-2-canary-deployment">Pattern 2: Canary Deployment</a></h3>
+<p><strong>What it is:</strong> Gradually shift traffic to new version while monitoring for issues.</p>
+<p><strong>Real-world example:</strong> Netflix</p>
+<p>Netflix's deployment philosophy: "Deploy to 1%, watch for 30 minutes. If good, deploy to 5%, watch. Continue until 100%."</p>
+<p><strong>How it works:</strong></p>
 <ol>
-<li><strong>Clear Targets</strong>: Everyone knows what "good" looks like</li>
-<li><strong>Monitoring Guidance</strong>: SLOs define what metrics to track</li>
-<li><strong>Stakeholder Communication</strong>: Clear reliability commitments</li>
-<li><strong>Living Documentation</strong>: SLOs live with architecture, not separate docs</li>
+<li>Deploy new version alongside old</li>
+<li>Route 1% traffic to new version</li>
+<li>Monitor error rates, latency, business metrics</li>
+<li>If good → increase to 5%, then 10%, then 25%, then 100%</li>
+<li>If bad → automatic rollback</li>
 </ol>
-<h2 id="monitoring--observability"><a class="header" href="#monitoring--observability">Monitoring &amp; Observability</a></h2>
-<p>Model your observability stack:</p>
+<p><strong>Sruja model:</strong></p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+ECommerce = system "E-Commerce" {
+  API = container "API Service" {
+    technology "Rust"
+  }
+}
 
-Observability = system "Observability Stack" {
-Prometheus = container "Metrics" {
-  technology "Prometheus"
-  description "Collects metrics from all services"
+deployment Production "Production" {
+  node Stable "Stable Version" {
+    containerInstance ECommerce.API {
+      replicas 20
+      traffic 95  // 95% of traffic
+      version "v2.3.1"
+    }
+  }
+  
+  node Canary "Canary Version" {
+    containerInstance ECommerce.API {
+      replicas 1
+      traffic 5  // 5% of traffic
+      version "v2.3.2"
+      
+      auto_rollback {
+        enabled true
+        error_rate "&gt; 1%"
+        latency_p95 "&gt; 500ms"
+        trigger_time "5 minutes"
+      }
+    }
+  }
 }
-Grafana = container "Dashboards" {
-  technology "Grafana"
-  description "Visualizes metrics and alerts"
+
+view index {
+  include *
 }
-ELK = container "Logging" {
-  technology "Elasticsearch, Logstash, Kibana"
-  description "Centralized logging"
-}
-Jaeger = container "Tracing" {
-  technology "Jaeger"
-  description "Distributed tracing"
-}
-}
+</code></pre>
+<p><strong>When to use:</strong></p>
+<ul>
+<li>✅ Large user base (1% = statistically significant)</li>
+<li>✅ Can tolerate some users hitting issues</li>
+<li>✅ Want early warning before full rollout</li>
+<li>✅ Continuous deployment (ship daily)</li>
+</ul>
+<p><strong>When to avoid:</strong></p>
+<ul>
+<li>❌ Small user base (1% = 1 user)</li>
+<li>❌ Zero-tolerance for errors (B2B, healthcare)</li>
+<li>❌ Simple, well-tested changes</li>
+</ul>
+<p><strong>Cost:</strong> Minimal (canary is usually small % of capacity)</p>
+<h3 id="pattern-3-rolling-deployment"><a class="header" href="#pattern-3-rolling-deployment">Pattern 3: Rolling Deployment</a></h3>
+<p><strong>What it is:</strong> Gradually replace old instances with new ones.</p>
+<p><strong>Real-world example:</strong> Uber</p>
+<p>Uber deploys 1,000+ times per day using rolling deployments. Each service has multiple instances. Update one at a time, keeping enough capacity.</p>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>Service has 10 instances running</li>
+<li>Terminate 1 instance</li>
+<li>Start 1 new instance</li>
+<li>Wait for health check</li>
+<li>Repeat until all updated</li>
+</ol>
+<p><strong>Sruja model:</strong></p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce" {
-  API = container "API"
+  API = container "API Service" {
+    technology "Rust"
+  }
 }
 
-// Link to your services
-ECommerce.API -&gt; Observability.Prometheus "Exposes metrics"
-ECommerce.API -&gt; Observability.ELK "Sends logs"
-ECommerce.API -&gt; Observability.Jaeger "Sends traces"
+deployment Production "Production" {
+  node Cluster "Kubernetes Cluster" {
+    containerInstance ECommerce.API {
+      replicas 10
+      version "v2.3.2"
+      
+      rolling_update {
+        max_unavailable 1  // Only 1 down at a time
+        max_surge 1  // Can create 1 extra during update
+      }
+    }
+  }
+}
+
+view index {
+  include *
+}
 </code></pre>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Separate logical from physical</strong>: Model what your system does (logical) separately from where it runs (physical)</li>
-<li><strong>Document deployment strategies</strong>: Use deployment nodes to show Blue/Green, Canary, or multi-region setups</li>
-<li><strong>Link to CI/CD</strong>: Show how code flows from commit to production</li>
-<li><strong>Model observability</strong>: Include monitoring, logging, and tracing in your architecture</li>
-<li><strong>Plan for scale</strong>: Document scaling strategies (min/max replicas, regions)</li>
-</ol>
-<h2 id="exercise-model-your-deployment"><a class="header" href="#exercise-model-your-deployment">Exercise: Model Your Deployment</a></h2>
-<ol>
-<li>Choose a real system you work on (or a hypothetical one)</li>
-<li>Model the logical architecture (containers, datastores)</li>
-<li>Map to physical deployment (cloud regions, clusters)</li>
-<li>Add deployment strategy (Blue/Green, Canary, or Rolling)</li>
-<li>Include observability components</li>
-</ol>
-<p><strong>Time</strong>: 20 minutes</p>
-<h2 id="further-reading"><a class="header" href="#further-reading">Further Reading</a></h2>
+<p><strong>When to use:</strong></p>
 <ul>
-<li>Tutorial: <a href="tutorials/advanced/deployment-modeling.html">Deployment Modeling</a></li>
-<li>Docs: <a href="docs/concepts/deployment.html">Deployment Concepts</a></li>
-<li>Course: <a href="courses/ecommerce-platform/module-5-ops.html">E-Commerce Platform - Module 5: Ops</a></li>
+<li>✅ Stateless services</li>
+<li>✅ Resource-efficient (no extra capacity)</li>
+<li>✅ Quick deployments</li>
+<li>✅ Multiple replicas (3+)</li>
 </ul>
+<p><strong>When to avoid:</strong></p>
+<ul>
+<li>❌ Single replica (downtime during update)</li>
+<li>❌ Stateful services (session draining issues)</li>
+<li>❌ Complex migrations (need Blue/Green)</li>
+</ul>
+<p><strong>Cost:</strong> Minimal (uses existing capacity)</p>
+<h3 id="decision-framework-which-pattern"><a class="header" href="#decision-framework-which-pattern">Decision Framework: Which Pattern?</a></h3>
+<p><strong>Ask these questions:</strong></p>
+<p><strong>1. Can you tolerate any downtime?</strong></p>
+<ul>
+<li>No → Blue/Green or Canary</li>
+<li>Yes → Rolling is fine</li>
+</ul>
+<p><strong>2. How many replicas?</strong></p>
+<ul>
+<li>1 → Blue/Green (can't do rolling)</li>
+<li>2-3 → Canary or Rolling</li>
+<li>5+ → Any pattern works</li>
+</ul>
+<p><strong>3. What's your budget?</strong></p>
+<ul>
+<li>Tight → Rolling (free)</li>
+<li>Normal → Canary (minimal extra)</li>
+<li>Generous → Blue/Green (2x cost)</li>
+</ul>
+<p><strong>4. How critical is the service?</strong></p>
+<ul>
+<li>Critical (payments, auth) → Blue/Green</li>
+<li>Important → Canary</li>
+<li>Normal → Rolling</li>
+</ul>
+<p><strong>5. What's your traffic volume?</strong></p>
+<ul>
+<li>High (10k+ req/s) → Canary</li>
+<li>Medium → Any</li>
+<li>Low → Rolling</li>
+</ul>
+<p><strong>Quick decision guide:</strong></p>
+<pre><code>┌─ Can tolerate downtime?
+│  ├─ No → Blue/Green
+│  └─ Yes
+│     ├─ Multiple replicas?
+│     │  ├─ Yes → Rolling
+│     │  └─ No → Blue/Green
+│     └─ Single replica → Blue/Green
+│
+└─ High traffic + continuous deploy? → Canary
+</code></pre>
+<h2 id="multi-region--disaster-recovery"><a class="header" href="#multi-region--disaster-recovery">Multi-Region &amp; Disaster Recovery</a></h2>
+<h3 id="pattern-active-active-multi-region"><a class="header" href="#pattern-active-active-multi-region">Pattern: Active-Active Multi-Region</a></h3>
+<p><strong>Real-world example:</strong> Netflix</p>
+<p>Netflix runs active-active across three AWS regions (US-East, US-West, EU). Each region handles traffic. If one fails, others absorb.</p>
+<p><strong>Sruja model:</strong></p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+Netflix = system "Netflix Platform" {
+  API = container "Streaming API"
+}
+
+deployment Global "Global Deployment" {
+  node AWS "AWS Global" {
+    node USEast "US-East-1" {
+      status "active"
+      traffic 50  // 50% of global traffic
+      
+      containerInstance Netflix.API {
+        replicas 100
+        region "us-east-1"
+      }
+    }
+    
+    node USWest "US-West-2" {
+      status "active"
+      traffic 30  // 30% of global traffic
+      
+      containerInstance Netflix.API {
+        replicas 60
+        region "us-west-2"
+      }
+    }
+    
+    node EU "EU-West-1" {
+      status "active"
+      traffic 20  // 20% of global traffic
+      
+      containerInstance Netflix.API {
+        replicas 40
+        region="eu-west-1"
+      }
+    }
+  }
+}
+
+view index {
+  include *
+}
+</code></pre>
+<p><strong>Cost:</strong> 3x infrastructure (but you're paying for capacity you use)</p>
+<p><strong>When to use:</strong></p>
+<ul>
+<li>✅ Global user base</li>
+<li>✅ 99.99%+ availability requirement</li>
+<li>✅ Latency matters (users need local region)</li>
+<li>✅ Budget allows</li>
+</ul>
+<h3 id="pattern-active-passive-failover"><a class="header" href="#pattern-active-passive-failover">Pattern: Active-Passive (Failover)</a></h3>
+<p><strong>Real-world example:</strong> Most SaaS companies</p>
+<p>Run primary region active. Secondary region on standby (minimal capacity). Failover when primary fails.</p>
+<p><strong>Cost:</strong> ~1.2x infrastructure (secondary runs minimal)</p>
+<p><strong>When to use:</strong></p>
+<ul>
+<li>✅ Regional user base</li>
+<li>✅ Can tolerate 5-15 minute outage</li>
+<li>✅ Budget-conscious</li>
+</ul>
+<h2 id="cicd-making-deployment-boring"><a class="header" href="#cicd-making-deployment-boring">CI/CD: Making Deployment Boring</a></h2>
+<p>The best deployment is a boring deployment. Routine. Uneventful.</p>
+<p><strong>Real-world example:</strong> Etsy</p>
+<p>Etsy deploys 50+ times per day. Their deployment process is so reliable it's boring. That's the goal.</p>
+<h3 id="modeling-your-pipeline"><a class="header" href="#modeling-your-pipeline">Modeling Your Pipeline</a></h3>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+CICD = system "CI/CD Pipeline" {
+  GitHub = container "GitHub" {
+    description "Code repository, triggers pipeline on push"
+  }
+  
+  Build = container "Build Service" {
+    technology "GitHub Actions"
+    description "Builds Docker images, runs unit tests"
+  }
+  
+  Test = container "Test Runner" {
+    description "Integration tests, E2E tests"
+  }
+  
+  Staging = container "Staging Deploy" {
+    description "Deploys to staging environment"
+  }
+  
+  Production = container "Production Deploy" {
+    technology "ArgoCD"
+    description "GitOps deployment to production"
+  }
+  
+  // Pipeline flow
+  GitHub -&gt; Build "Push triggers build"
+  Build -&gt; Test "If build succeeds"
+  Test -&gt; Staging "If tests pass"
+  Staging -&gt; Production "After manual approval"
+}
+
+ECommerce = system "E-Commerce Platform" {
+  API = container "API Service"
+}
+
+// Link CI/CD to your services
+CICD.Production -&gt; ECommerce.API "Deploys"
+
+view index {
+  include *
+}
+</code></pre>
+<p><strong>Best practices:</strong></p>
+<ol>
+<li><strong>Automate everything</strong> - Manual steps cause errors</li>
+<li><strong>Fast feedback</strong> - Developers should know in &lt; 10 minutes</li>
+<li><strong>Immutable artifacts</strong> - Same artifact through all environments</li>
+<li><strong>Rollback automation</strong> - One button, instant rollback</li>
+<li><strong>Observability</strong> - Every deploy tracked, monitored</li>
+</ol>
+<h2 id="service-level-objectives-slos"><a class="header" href="#service-level-objectives-slos">Service Level Objectives (SLOs)</a></h2>
+<p><strong>Real-world example:</strong> Google</p>
+<p>Google popularized SLOs. Every service has defined reliability targets. If you're within SLO, you can deploy. If not, freeze.</p>
+<h3 id="modeling-slos"><a class="header" href="#modeling-slos">Modeling SLOs</a></h3>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+ECommerce = system "E-Commerce Platform" {
+  API = container "API Service" {
+    technology "Rust"
+    
+    slo {
+      availability {
+        target "99.9%"  // 8.76 hours downtime/year
+        window "30 days"
+        current "99.95%"
+      }
+      
+      latency {
+        p95 "200ms"
+        p99 "500ms"
+        window "7 days"
+        current {
+          p95 "180ms"
+          p99 "420ms"
+        }
+      }
+      
+      error_rate {
+        target "&lt; 0.1%"
+        window "30 days"
+        current "0.05%"
+      }
+    }
+  }
+  
+  Database = database "PostgreSQL" {
+    technology "PostgreSQL"
+    
+    slo {
+      availability {
+        target "99.99%"  // 52 minutes downtime/year
+        window "365 days"
+      }
+      
+      latency {
+        p95 "50ms"
+        p99 "100ms"
+      }
+    }
+  }
+}
+
+view index {
+  include *
+}
+</code></pre>
+<p><strong>Why model SLOs:</strong></p>
+<ul>
+<li>Clear expectations (what does "reliable" mean?)</li>
+<li>Deployment gates (only deploy if SLO allows)</li>
+<li>Stakeholder communication (SLAs become commitments)</li>
+<li>Living documentation (SLOs evolve with architecture)</li>
+</ul>
+<h2 id="observability-the-three-pillars"><a class="header" href="#observability-the-three-pillars">Observability: The Three Pillars</a></h2>
+<p><strong>Real-world example:</strong> Stripe</p>
+<p>Stripe's observability is legendary. They can diagnose almost any issue in minutes because they have complete visibility.</p>
+<h3 id="the-three-pillars"><a class="header" href="#the-three-pillars">The Three Pillars</a></h3>
+<p><strong>1. Metrics (Prometheus, Datadog)</strong></p>
+<ul>
+<li>What's happening? (counts, rates, percentiles)</li>
+<li>Example: "API latency p95 is 200ms"</li>
+</ul>
+<p><strong>2. Logs (ELK, Splunk)</strong></p>
+<ul>
+<li>What happened? (events, errors, debug info)</li>
+<li>Example: "Payment failed: card declined"</li>
+</ul>
+<p><strong>3. Traces (Jaeger, Zipkin)</strong></p>
+<ul>
+<li>Where did it happen? (request flow across services)</li>
+<li>Example: "Request took 300ms: 150ms in DB, 100ms in API, 50ms in network"</li>
+</ul>
+<h3 id="modeling-observability"><a class="header" href="#modeling-observability">Modeling Observability</a></h3>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+Observability = system "Observability Stack" {
+  Metrics = container "Prometheus" {
+    description "Time-series metrics from all services"
+  }
+  
+  Dashboards = container "Grafana" {
+    description "Visualize metrics and SLOs"
+  }
+  
+  Logs = container "ELK Stack" {
+    description "Centralized logging"
+  }
+  
+  Traces = container "Jaeger" {
+    description "Distributed tracing"
+  }
+  
+  Alerts = container "PagerDuty" {
+    description "Alert routing and on-call"
+  }
+}
+
+ECommerce = system "E-Commerce Platform" {
+  API = container "API Service" {
+    description "Instrumented with metrics, logs, and traces"
+  }
+}
+
+// Observability relationships
+ECommerce.API -&gt; Observability.Metrics "Exposes metrics on /metrics"
+ECommerce.API -&gt; Observability.Logs "Sends logs via Fluentd"
+ECommerce.API -&gt; Observability.Traces "Sends spans via Jaeger client"
+Observability.Metrics -&gt; Observability.Dashboards "Feeds dashboards"
+Observability.Metrics -&gt; Observability.Alerts "Triggers alerts"
+
+view index {
+  include *
+}
+</code></pre>
+<h2 id="common-deployment-mistakes"><a class="header" href="#common-deployment-mistakes">Common Deployment Mistakes</a></h2>
+<h3 id="mistake-1-deploying-on-friday"><a class="header" href="#mistake-1-deploying-on-friday">Mistake #1: Deploying on Friday</a></h3>
+<p><strong>What happens:</strong> You deploy at 5 PM Friday. Something breaks. Now you're debugging while everyone else is at happy hour.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Less support available</li>
+<li>Tired team</li>
+<li>Ruined weekend</li>
+<li>Desperate decisions</li>
+</ul>
+<p><strong>The fix:</strong> Deploy Tuesday-Thursday, morning only. Leave Friday for emergencies only.</p>
+<h3 id="mistake-2-no-rollback-plan"><a class="header" href="#mistake-2-no-rollback-plan">Mistake #2: No Rollback Plan</a></h3>
+<p><strong>What happens:</strong> Deployment fails. You have no way to revert. You're fixing forward under pressure.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Fixing forward takes longer</li>
+<li>Mistakes under pressure</li>
+<li>Extended outage</li>
+</ul>
+<p><strong>The fix:</strong> Every deployment has a tested rollback procedure. Blue/Green makes this easy.</p>
+<h3 id="mistake-3-database-migrations-in-the-deployment"><a class="header" href="#mistake-3-database-migrations-in-the-deployment">Mistake #3: Database Migrations in the Deployment</a></h3>
+<p><strong>What happens:</strong> You deploy code AND migrate database in one step. Migration locks table. Everything hangs.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Can't rollback easily</li>
+<li>Locks cause timeouts</li>
+<li>Tight coupling</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ol>
+<li>Migrate database separately (backward compatible)</li>
+<li>Deploy code (works with old and new schema)</li>
+<li>Verify</li>
+<li>Remove backward compatibility</li>
+</ol>
+<h3 id="mistake-4-deploying-all-services-at-once"><a class="header" href="#mistake-4-deploying-all-services-at-once">Mistake #4: Deploying All Services at Once</a></h3>
+<p><strong>What happens:</strong> You deploy 10 services simultaneously. Something breaks. Which service caused it?</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Hard to isolate issues</li>
+<li>Blast radius maximized</li>
+<li>Debugging nightmare</li>
+</ul>
+<p><strong>The fix:</strong> Deploy one service at a time. Monitor. Repeat.</p>
+<h3 id="mistake-5-insufficient-capacity-for-deployment"><a class="header" href="#mistake-5-insufficient-capacity-for-deployment">Mistake #5: Insufficient Capacity for Deployment</a></h3>
+<p><strong>What happens:</strong> Rolling deployment starts. Old instances terminate. New instances not ready. Traffic spikes. Cascading failure.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Running at capacity limit</li>
+<li>No buffer for deployment</li>
+<li>Resource exhaustion</li>
+</ul>
+<p><strong>The fix:</strong> Always have 30-50% headroom. Scale up before deploying.</p>
+<h3 id="mistake-6-no-observability-during-deployment"><a class="header" href="#mistake-6-no-observability-during-deployment">Mistake #6: No Observability During Deployment</a></h3>
+<p><strong>What happens:</strong> You deploy. Something breaks. But you don't know because alerts aren't configured.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Blind deployment</li>
+<li>Late detection</li>
+<li>Longer MTTR</li>
+</ul>
+<p><strong>The fix:</strong> Every deployment has dashboard open, alerts verified, team watching.</p>
+<h2 id="deployment-checklist"><a class="header" href="#deployment-checklist">Deployment Checklist</a></h2>
+<p>Before every production deployment:</p>
+<p><strong>Pre-Deployment:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Code reviewed and approved</li>
+<li><input disabled="" type="checkbox"> Tests passing (unit, integration, E2E)</li>
+<li><input disabled="" type="checkbox"> Deployed to staging and verified</li>
+<li><input disabled="" type="checkbox"> Rollback procedure documented and tested</li>
+<li><input disabled="" type="checkbox"> Capacity verified (30%+ headroom)</li>
+<li><input disabled="" type="checkbox"> Observability dashboards open</li>
+<li><input disabled="" type="checkbox"> Team notified (Slack, email)</li>
+<li><input disabled="" type="checkbox"> Not Friday afternoon</li>
+</ul>
+<p><strong>During Deployment:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Deploy to canary/staging first</li>
+<li><input disabled="" type="checkbox"> Monitor metrics (latency, errors, throughput)</li>
+<li><input disabled="" type="checkbox"> Check business metrics (signups, orders)</li>
+<li><input disabled="" type="checkbox"> Verify health checks passing</li>
+<li><input disabled="" type="checkbox"> Review logs for errors</li>
+<li><input disabled="" type="checkbox"> Gradually increase traffic</li>
+</ul>
+<p><strong>Post-Deployment:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Verify all services healthy</li>
+<li><input disabled="" type="checkbox"> Check SLOs are met</li>
+<li><input disabled="" type="checkbox"> Monitor for 30-60 minutes</li>
+<li><input disabled="" type="checkbox"> Update changelog</li>
+<li><input disabled="" type="checkbox"> Close deployment ticket</li>
+<li><input disabled="" type="checkbox"> Celebrate (small wins matter)</li>
+</ul>
+<p><strong>If Something Goes Wrong:</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> Don't panic</li>
+<li><input disabled="" type="checkbox"> Rollback immediately (don't try to fix forward first)</li>
+<li><input disabled="" type="checkbox"> Communicate to stakeholders</li>
+<li><input disabled="" type="checkbox"> Document what happened</li>
+<li><input disabled="" type="checkbox"> Post-mortem within 48 hours</li>
+</ul>
+<h2 id="complete-example-e-commerce-at-scale"><a class="header" href="#complete-example-e-commerce-at-scale">Complete Example: E-Commerce at Scale</a></h2>
+<p>Let me show you a complete deployment architecture for a growing e-commerce platform:</p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+// Logical Architecture
+ECommerce = system "E-Commerce Platform" {
+  WebApp = container "Web Application" {
+    technology "React"
+    description "Customer-facing storefront"
+  }
+  
+  API = container "API Service" {
+    technology "Rust"
+    description "Core business logic"
+  }
+  
+  Database = database "PostgreSQL" {
+    technology "PostgreSQL"
+    description "Primary data store"
+  }
+  
+  Cache = database "Redis" {
+    technology "Redis"
+    description "Session and query cache"
+  }
+}
+
+// CI/CD Pipeline
+CICD = system "CI/CD Pipeline" {
+  GitHub = container "GitHub"
+  Build = container "Build Service"
+  Deploy = container "Deploy Service"
+  
+  GitHub -&gt; Build "Push triggers build"
+  Build -&gt; Deploy "Deploy if tests pass"
+}
+
+// Observability Stack
+Observability = system "Observability" {
+  Metrics = container "Prometheus"
+  Logs = container "ELK Stack"
+  Traces = container "Jaeger"
+}
+
+// Production Deployment
+deployment Production "Production Environment" {
+  node AWS "AWS Cloud" {
+    // Primary Region
+    node USEast1 "US-East-1 (Primary)" {
+      node EKS "EKS Cluster" {
+        containerInstance ECommerce.API {
+          replicas 10
+          min_replicas 5
+          max_replicas 50
+          
+          deployment_strategy "canary"
+          canary_percentage 5
+          
+          slo {
+            availability {
+              target "99.9%"
+            }
+            latency {
+              p95 "200ms"
+              p99 "500ms"
+            }
+          }
+        }
+        
+        containerInstance ECommerce.WebApp {
+          replicas 5
+          cdn "CloudFront"
+        }
+      }
+      
+      node RDS "RDS PostgreSQL" {
+        containerInstance ECommerce.Database {
+          instance "db.r5.xlarge"
+          multi_az true
+          backup_retention "7 days"
+        }
+      }
+      
+      node ElastiCache "ElastiCache Redis" {
+        containerInstance ECommerce.Cache {
+          node_type "cache.r5.large"
+          replicas 2
+        }
+      }
+    }
+    
+    // DR Region
+    node USWest2 "US-West-2 (DR)" {
+      status "standby"
+      
+      node EKS "EKS Cluster" {
+        containerInstance ECommerce.API {
+          replicas 2
+          traffic 0  // Standby
+        }
+      }
+      
+      node RDS "RDS Read Replica" {
+        containerInstance ECommerce.Database {
+          role "read-replica"
+        }
+      }
+    }
+  }
+}
+
+// Link observability
+ECommerce.API -&gt; Observability.Metrics "Exposes metrics"
+ECommerce.API -&gt; Observability.Logs "Sends logs"
+ECommerce.API -&gt; Observability.Traces "Sends traces"
+
+view index {
+  include *
+}
+</code></pre>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<ol>
+<li>
+<p><strong>Logical ≠ Physical</strong> - Model what (services) separately from where (infrastructure)</p>
+</li>
+<li>
+<p><strong>Deployment strategy matters</strong> - Blue/Green for critical, Canary for scale, Rolling for efficiency</p>
+</li>
+<li>
+<p><strong>Never deploy without rollback</strong> - If you can't revert in 30 seconds, you're not ready</p>
+</li>
+<li>
+<p><strong>Observe everything</strong> - Metrics, logs, traces for every service</p>
+</li>
+<li>
+<p><strong>SLOs define reliability</strong> - Clear targets, measured continuously</p>
+</li>
+<li>
+<p><strong>Automate deployment</strong> - Manual steps cause errors</p>
+</li>
+<li>
+<p><strong>Deploy early in the week</strong> - Tuesday-Thursday morning, never Friday</p>
+</li>
+<li>
+<p><strong>Test deployment procedures</strong> - Rollback isn't real until you've tested it</p>
+</li>
+<li>
+<p><strong>Capacity matters</strong> - Always have 30-50% headroom</p>
+</li>
+<li>
+<p><strong>Make deployment boring</strong> - The best deployment is uneventful</p>
+</li>
+</ol>
+<h2 id="when-to-start-modeling-deployment"><a class="header" href="#when-to-start-modeling-deployment">When to Start Modeling Deployment</a></h2>
+<p>You don't need deployment models on day one. Here's when to start:</p>
+<p><strong>Phase 1: Prototype (Skip deployment modeling)</strong></p>
+<ul>
+<li>Focus on logical architecture</li>
+<li>Deploy manually</li>
+<li>Learn what works</li>
+</ul>
+<p><strong>Phase 2: MVP (Start documenting)</strong></p>
+<ul>
+<li>Basic deployment diagram</li>
+<li>Document where things run</li>
+<li>Simple CI/CD</li>
+</ul>
+<p><strong>Phase 3: Production (Model thoroughly)</strong></p>
+<ul>
+<li>Full deployment architecture</li>
+<li>SLOs defined</li>
+<li>Multiple regions</li>
+<li>Disaster recovery</li>
+</ul>
+<p><strong>Phase 4: Scale (Live in deployment models)</strong></p>
+<ul>
+<li>Multi-region active-active</li>
+<li>Chaos engineering</li>
+<li>Advanced deployment patterns</li>
+</ul>
+<h2 id="practical-exercise"><a class="header" href="#practical-exercise">Practical Exercise</a></h2>
+<p>Design deployment architecture for a real or hypothetical system:</p>
+<p><strong>Step 1: Choose Your System</strong></p>
+<ul>
+<li>Something you work on, or</li>
+<li>Hypothetical: "SaaS platform, 100K users, US + EU"</li>
+</ul>
+<p><strong>Step 2: Choose Deployment Strategy</strong></p>
+<ul>
+<li>Based on requirements and constraints</li>
+<li>Justify your choice</li>
+</ul>
+<p><strong>Step 3: Model Logical Architecture</strong></p>
+<ul>
+<li>Services, databases, caches</li>
+<li>Technology choices</li>
+</ul>
+<p><strong>Step 4: Model Physical Architecture</strong></p>
+<ul>
+<li>Cloud provider(s)</li>
+<li>Regions</li>
+<li>Instance types and counts</li>
+</ul>
+<p><strong>Step 5: Add Observability</strong></p>
+<ul>
+<li>Metrics, logs, traces</li>
+<li>SLOs for critical services</li>
+</ul>
+<p><strong>Step 6: Define CI/CD Pipeline</strong></p>
+<ul>
+<li>Build, test, deploy stages</li>
+<li>Rollback procedures</li>
+</ul>
+<p><strong>Time:</strong> 30-45 minutes</p>
+<hr>
+<p><strong>Next up:</strong> Lesson 3 explores observability and monitoring in depth - how to see what's happening in your production systems.</p>
 
                     </main>
 
@@ -581,9 +1176,11 @@ ECommerce.API -&gt; Observability.Jaeger "Sends traces"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

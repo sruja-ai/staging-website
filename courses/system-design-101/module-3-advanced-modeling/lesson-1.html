@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,34 +180,201 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-microservices-architecture"><a class="header" href="#lesson-1-microservices-architecture">Lesson 1: Microservices Architecture</a></h1>
-<h2 id="monolith-vs-microservices"><a class="header" href="#monolith-vs-microservices">Monolith vs. Microservices</a></h2>
-<h3 id="monolithic-architecture"><a class="header" href="#monolithic-architecture">Monolithic Architecture</a></h3>
-<p>A single application where all functionality is packaged together.</p>
+                        <h1 id="the-distributed-monolith-when-microservices-go-wrong"><a class="header" href="#the-distributed-monolith-when-microservices-go-wrong">The Distributed Monolith: When Microservices Go Wrong</a></h1>
+<p>It was 2 AM when the call came in. The payment service was down, which meant the entire e-commerce platform was down. No one could buy anything.</p>
+<p>I pulled up the logs and traced the failure: Payment Service → Inventory Service → Notification Service → Email Service. The email service had crashed, which cascaded back through the entire chain, which brought down payments.</p>
+<p>We had "microservices." We had separate services for everything. But what we really had was a distributed monolith—services that couldn't function independently, spread across multiple servers instead of one.</p>
+<p>The outage lasted six hours. The post-mortem revealed the real problem: we'd adopted microservices without understanding what makes them work. We'd split by technical layers (web, API, database) instead of business capabilities. Every service depended on every other service. We'd gained all the complexity of distributed systems with none of the benefits.</p>
+<p>This lesson is about avoiding that mistake. You'll learn when microservices actually help (hint: not always), how to draw service boundaries that make sense, and the real trade-offs that most tutorials skip over.</p>
+<h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li><strong>Pros:</strong> Simple to develop, deploy, and test initially.</li>
-<li><strong>Cons:</strong> Hard to scale specific parts, tight coupling, single point of failure.</li>
+<li>Understand what microservices really are (beyond the buzzword)</li>
+<li>Recognize when microservices help and when they hurt</li>
+<li>Draw service boundaries based on business capabilities, not technical layers</li>
+<li>Model microservices architecture in Sruja with multiple views</li>
+<li>Avoid the distributed monolith anti-pattern</li>
 </ul>
-<h3 id="microservices-architecture"><a class="header" href="#microservices-architecture">Microservices Architecture</a></h3>
-<p>A collection of small, independent services that communicate over a network.</p>
+<h2 id="what-are-microservices-really"><a class="header" href="#what-are-microservices-really">What Are Microservices, Really?</a></h2>
+<p>Let's cut through the hype. Microservices are small, independent services that:</p>
 <ul>
-<li><strong>Pros:</strong> Independent scaling, technology diversity, fault isolation.</li>
-<li><strong>Cons:</strong> Distributed system complexity, network latency, data consistency challenges.</li>
+<li><strong>Own their own data</strong> (no shared databases)</li>
+<li><strong>Communicate through APIs</strong> (not direct database calls)</li>
+<li><strong>Can be deployed independently</strong> (without coordinated releases)</li>
+<li><strong>Scale independently</strong> (add more instances of just the busy service)</li>
+<li><strong>Fail independently</strong> (one service crashing doesn't bring down everything)</li>
 </ul>
-<h2 id="defining-service-boundaries"><a class="header" href="#defining-service-boundaries">Defining Service Boundaries</a></h2>
-<p>The hardest part of microservices is deciding where to draw the lines. Common strategies include:</p>
+<p>The key word is <strong>independently</strong>. If your services can't operate independently, they're not microservices—they're just a distributed monolith with extra steps.</p>
+<p>Here's the uncomfortable truth that took me years to learn: <strong>Microservices are not an architecture. They're a trade-off.</strong></p>
+<p>You gain:</p>
 <ul>
-<li><strong>Business Capability:</strong> Group by what the business does (e.g., Billing, Shipping).</li>
-<li><strong>Subdomain:</strong> Group by Domain-Driven Design (DDD) subdomains.</li>
+<li>Independent scaling (scale just what needs scaling)</li>
+<li>Technology diversity (different services can use different stacks)</li>
+<li>Fault isolation (one service failure doesn't cascade)</li>
+<li>Team autonomy (different teams own different services)</li>
 </ul>
-<hr>
-<h2 id="-sruja-perspective-modeling-microservices"><a class="header" href="#-sruja-perspective-modeling-microservices">🛠️ Sruja Perspective: Modeling Microservices</a></h2>
-<p>In Sruja, microservices are typically modeled as separate <code>container</code> items within a <code>system</code>, or even as separate <code>system</code> items if they are large enough.</p>
-<h3 id="basic-example"><a class="header" href="#basic-example">Basic Example</a></h3>
+<p>You pay with:</p>
+<ul>
+<li>Distributed system complexity (network calls instead of function calls)</li>
+<li>Data consistency challenges (no more ACID transactions across services)</li>
+<li>Operational overhead (monitoring, logging, tracing across services)</li>
+<li>Cognitive load (understanding the whole system is harder)</li>
+</ul>
+<h2 id="the-monolith-not-evil-just-misunderstood"><a class="header" href="#the-monolith-not-evil-just-misunderstood">The Monolith: Not Evil, Just Misunderstood</a></h2>
+<p>Monoliths get a bad reputation, but let me share a secret: <strong>most successful companies started with a monolith.</strong></p>
+<p>Amazon started with a monolith. Netflix started with a monolith. Uber started with a monolith. Facebook, Twitter, Airbnb—they all started with a single application that did everything.</p>
+<p>There's a good reason: <strong>Monoliths are easier to build, deploy, and debug.</strong></p>
+<p>When you're a startup with three engineers trying to find product-market fit, you don't need microservices. You need to ship features fast. You need to iterate quickly. You need to change your mind without refactoring 50 services.</p>
+<p><strong>Monoliths work well when:</strong></p>
+<ul>
+<li>Your team is small (&lt; 20 engineers)</li>
+<li>Your domain is not well-understood yet (you're still learning)</li>
+<li>Your traffic is predictable and moderate</li>
+<li>Your deployment velocity is more important than independent scaling</li>
+<li>You want to move fast and break things in one place</li>
+</ul>
+<p><strong>Monoliths break down when:</strong></p>
+<ul>
+<li>Different parts of the system need different scaling</li>
+<li>Teams are stepping on each other's toes (coordinated deployments take forever)</li>
+<li>One part of the system is unstable and brings down everything</li>
+<li>You need different technologies for different parts (e.g., Python for ML, Go for high-throughput APIs)</li>
+</ul>
+<p>The monolith isn't wrong. It's just a tool with specific use cases. Don't adopt microservices because you think monoliths are "bad." Adopt them because you have specific problems they solve.</p>
+<h2 id="the-microservices-promise-and-hidden-costs"><a class="header" href="#the-microservices-promise-and-hidden-costs">The Microservices Promise (And Hidden Costs)</a></h2>
+<p>Let me share three real stories about microservices—the good, the bad, and the ugly.</p>
+<h3 id="the-good-amazons-two-pizza-teams"><a class="header" href="#the-good-amazons-two-pizza-teams">The Good: Amazon's Two-Pizza Teams</a></h3>
+<p>In 2002, Amazon's CEO Jeff Bezos issued a famous memo (often called the "API Mandate") that fundamentally changed how Amazon operated:</p>
+<ol>
+<li>All teams will expose their data and functionality through service interfaces</li>
+<li>Teams must communicate with each other through these interfaces</li>
+<li>No other form of interprocess communication is allowed</li>
+<li>It doesn't matter what technology you use</li>
+<li>All service interfaces must be designed to be externalizable</li>
+</ol>
+<p>This wasn't about technology—it was about organizational structure. By forcing teams to communicate through APIs, Amazon created independent teams that could move fast without coordinating with each other. The famous "two-pizza team" rule (a team should be small enough to be fed by two pizzas) became possible because services provided clear boundaries.</p>
+<p><strong>The result:</strong> Amazon went from a slow-moving retailer to a platform that could launch new services rapidly. Each team owned their service end-to-end. No coordination required.</p>
+<p><strong>The key insight:</strong> Microservices enabled organizational scaling, not just technical scaling.</p>
+<h3 id="the-bad-the-startup-that-microserviced-too-early"><a class="header" href="#the-bad-the-startup-that-microserviced-too-early">The Bad: The Startup That Microserviced Too Early</a></h3>
+<p>A startup I advised had five engineers and decided to build their MVP as microservices from day one. They'd read about Netflix and Amazon and wanted to "do it right from the start."</p>
+<p>Six months later, they'd built eight services for a product that barely had users. Every feature change required coordinating across multiple services. Every deployment was a multi-service rollout. Debugging meant tracing logs across five different systems.</p>
+<p>They spent more time managing services than building features. When they finally simplified to a monolith, their development velocity doubled.</p>
+<p><strong>The lesson:</strong> You don't start with microservices. You evolve into them when you need them.</p>
+<h3 id="the-ugly-the-distributed-monolith-disaster"><a class="header" href="#the-ugly-the-distributed-monolith-disaster">The Ugly: The Distributed Monolith Disaster</a></h3>
+<p>I worked with a company that had 50 "microservices" but they were all tightly coupled:</p>
+<ul>
+<li>Services called each other synchronously in chains</li>
+<li>They shared a single database (just different schemas)</li>
+<li>A deploy of any service required deploying all services</li>
+<li>When one service crashed, everything crashed</li>
+</ul>
+<p>They had all the costs of microservices with none of the benefits. It was a monolith spread across 50 codebases.</p>
+<p><strong>The fix:</strong> We consolidated into 8 services based on business capabilities, gave each its own database, and made them truly independent. The system became simpler and more reliable.</p>
+<p><strong>The lesson:</strong> More services ≠ better architecture. The goal is independence, not count.</p>
+<h2 id="when-to-use-microservices-and-when-not-to"><a class="header" href="#when-to-use-microservices-and-when-not-to">When to Use Microservices (And When NOT To)</a></h2>
+<p>After years of watching teams struggle with this decision, I've developed a simple framework.</p>
+<p><strong>Use microservices when:</strong></p>
+<ol>
+<li><strong>You have clear business boundaries</strong> (e.g., Payments, Shipping, User Management are obviously separate)</li>
+<li><strong>Different parts need different scaling</strong> (e.g., Search service needs 100x more instances than User Profile service)</li>
+<li><strong>Multiple teams need independent deployment</strong> (Team A shouldn't wait for Team B's deployment)</li>
+<li><strong>Different technology needs</strong> (e.g., Python for ML, Go for APIs, Node.js for web)</li>
+<li><strong>Fault isolation is critical</strong> (e.g., Recommendations can fail without breaking Checkout)</li>
+</ol>
+<p><strong>Don't use microservices when:</strong></p>
+<ol>
+<li><strong>You're still exploring the domain</strong> (You don't know the boundaries yet)</li>
+<li><strong>Your team is small</strong> (&lt; 10-20 engineers)</li>
+<li><strong>You don't have operational maturity</strong> (Monitoring, logging, tracing, deployment automation)</li>
+<li><strong>Simple deployment matters more than independent scaling</strong></li>
+<li><strong>You're doing it because "that's what Netflix does"</strong></li>
+</ol>
+<p>The biggest mistake I see? Teams adopting microservices because they think it's "modern" or "best practice." Architecture should solve specific problems, not follow trends.</p>
+<h2 id="the-hardest-problem-drawing-the-lines"><a class="header" href="#the-hardest-problem-drawing-the-lines">The Hardest Problem: Drawing the Lines</a></h2>
+<p>Let's say you've decided to use microservices. Now comes the hard part: <strong>Where do you draw the boundaries?</strong></p>
+<p>This is where most teams fail. They split by technical layers:</p>
+<ul>
+<li>Frontend Service</li>
+<li>Backend Service</li>
+<li>Database Service</li>
+<li>Cache Service</li>
+</ul>
+<p>This is wrong. These aren't business capabilities—they're technical implementation details. You end up with services that can't function independently.</p>
+<p><strong>The right approach: Split by business capability.</strong></p>
+<p>A business capability is something the business does that generates value. Ask: "What does this business actually do?"</p>
+<p>For an e-commerce platform:</p>
+<ul>
+<li><strong>Catalog</strong> - Manage products and inventory</li>
+<li><strong>Orders</strong> - Process customer orders</li>
+<li><strong>Payments</strong> - Handle payment processing</li>
+<li><strong>Shipping</strong> - Coordinate delivery</li>
+<li><strong>Customers</strong> - Manage user accounts and profiles</li>
+</ul>
+<p>Each of these can be an independent service that owns its data and logic. If Payments crashes, Orders can still be taken (just processed later). If Shipping is slow, it doesn't affect browsing the catalog.</p>
+<h2 id="a-framework-for-boundary-decisions"><a class="header" href="#a-framework-for-boundary-decisions">A Framework for Boundary Decisions</a></h2>
+<p>Here's the process I use when helping teams define service boundaries:</p>
+<h3 id="step-1-identify-business-capabilities"><a class="header" href="#step-1-identify-business-capabilities">Step 1: Identify Business Capabilities</a></h3>
+<p>List what the business actually does, not technical components:</p>
+<ul>
+<li>What are the main things users do?</li>
+<li>What different departments manage?</li>
+<li>What would exist even if technology was different?</li>
+</ul>
+<h3 id="step-2-look-for-natural-seams"><a class="header" href="#step-2-look-for-natural-seams">Step 2: Look for Natural Seams</a></h3>
+<p>Where does data naturally separate?</p>
+<ul>
+<li>Does Order data need to know about Shipping details?</li>
+<li>Can Customers exist without Orders?</li>
+<li>What data can be eventually consistent vs. strongly consistent?</li>
+</ul>
+<h3 id="step-3-consider-team-structure"><a class="header" href="#step-3-consider-team-structure">Step 3: Consider Team Structure</a></h3>
+<p>Who will own what?</p>
+<ul>
+<li>Can a single team own this service end-to-end?</li>
+<li>Does splitting this create coordination overhead?</li>
+<li>Does the org structure support these boundaries?</li>
+</ul>
+<h3 id="step-4-start-bigger-split-later"><a class="header" href="#step-4-start-bigger-split-later">Step 4: Start Bigger, Split Later</a></h3>
+<p>Begin with larger services and split as needed:</p>
+<ul>
+<li>Start with "Order Management" not "Order Placement" + "Order Tracking"</li>
+<li>Split only when you feel the pain of not splitting</li>
+<li>It's easier to split than to merge</li>
+</ul>
+<h3 id="step-5-question-every-boundary"><a class="header" href="#step-5-question-every-boundary">Step 5: Question Every Boundary</a></h3>
+<p>For each proposed service, ask:</p>
+<ul>
+<li>Can this deploy independently?</li>
+<li>Can this scale independently?</li>
+<li>Does this own its data?</li>
+<li>Would I need to coordinate with other teams to change this?</li>
+</ul>
+<p>If the answer is no, reconsider the boundary.</p>
+<h2 id="real-world-stories-how-amazon-and-netflix-did-it"><a class="header" href="#real-world-stories-how-amazon-and-netflix-did-it">Real-World Stories: How Amazon and Netflix Did It</a></h2>
+<h3 id="amazon-the-service-oriented-evolution"><a class="header" href="#amazon-the-service-oriented-evolution">Amazon: The Service-Oriented Evolution</a></h3>
+<p>Amazon's journey to microservices wasn't a rewrite—it was an evolution:</p>
+<p><strong>2002:</strong> Bezos's API Mandate. All communication through APIs.
+<strong>2003-2005:</strong> Gradual extraction of services from the monolith.
+<strong>2006:</strong> Launch of AWS (infrastructure became a product).
+<strong>Today:</strong> Hundreds of services, but each is owned by a specific team.</p>
+<p>The key: They evolved gradually. They didn't rewrite everything at once.</p>
+<h3 id="netflix-the-chaos-engineering-pioneer"><a class="header" href="#netflix-the-chaos-engineering-pioneer">Netflix: The Chaos Engineering Pioneer</a></h3>
+<p>Netflix's microservices journey was driven by a specific problem:</p>
+<p><strong>2008:</strong> Single datacenter outage took down everything.
+<strong>2009:</strong> Decision to move to AWS and microservices.
+<strong>2010-2011:</strong> Massive migration, created Chaos Monkey to test resilience.
+<strong>Result:</strong> 99.99%+ uptime, ability to survive AWS region failures.</p>
+<p>The key: They had a specific problem (single point of failure) and microservices solved it.</p>
+<p><strong>What both companies share:</strong> They started with monoliths and evolved to microservices based on specific needs, not trends.</p>
+<h2 id="modeling-microservices-in-sruja"><a class="header" href="#modeling-microservices-in-sruja">Modeling Microservices in Sruja</a></h2>
+<p>Now that you understand the concepts, let's see how to model microservices in Sruja. The key is modeling each service as an independent unit with its own data.</p>
+<h3 id="basic-example-e-commerce-platform"><a class="header" href="#basic-example-e-commerce-platform">Basic Example: E-Commerce Platform</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+// Customer interacts with the system
 Customer = person "Customer"
 
+// Order Service: Handles order placement and tracking
 OrderSystem = system "Order Management" {
     OrderService = container "Order Service" {
         technology "Rust"
@@ -215,74 +382,103 @@ OrderSystem = system "Order Management" {
     }
     OrderDB = database "Order Database" {
         technology "PostgreSQL"
+        description "Owns all order data. No other service accesses this."
     }
     OrderService -&gt; OrderDB "Reads/Writes"
 }
 
+// Inventory Service: Tracks stock levels
 InventorySystem = system "Inventory Management" {
     InventoryService = container "Inventory Service" {
         technology "Java"
-        description "Tracks stock levels."
+        description "Tracks stock levels and reservations."
     }
     InventoryDB = database "Inventory Database" {
         technology "PostgreSQL"
+        description "Owns all inventory data. Independent from orders."
     }
     InventoryService -&gt; InventoryDB "Reads/Writes"
 }
 
-// Inter-service communication
+// Inter-service communication through APIs
 Customer -&gt; OrderSystem.OrderService "Places order"
-OrderSystem.OrderService -&gt; InventorySystem.InventoryService "Reserves stock"
+OrderSystem.OrderService -&gt; InventorySystem.InventoryService "Reserves stock (async)"
 
 // Requirements drive architecture
 requirement R1 functional "Must handle 10k orders/day"
 requirement R2 performance "Order placement &lt; 500ms"
-requirement R3 scalability "Scale order processing independently"
+requirement R3 scalability "Scale order processing independently from inventory"
 
-// Document decisions
+// Document architecture decisions
 adr ADR001 "Split into microservices" {
     status "Accepted"
     context "Need independent scaling for order vs inventory"
     decision "Separate OrderSystem and InventorySystem"
-    consequences "Better scalability, network latency overhead"
-}
-
-view index {
-title "System Overview"
-include *
-}
-
-// Developer perspective: Focus on services and APIs
-view developer {
-title "Developer View - Service Architecture"
-include OrderSystem OrderSystem.OrderService OrderSystem.OrderDB
-include InventorySystem InventorySystem.InventoryService InventorySystem.InventoryDB
-exclude Customer
-}
-
-// Product perspective: Focus on user experience
-view product {
-title "Product View - User Journey"
-include Customer
-include OrderSystem
-exclude InventorySystem InventorySystem.InventoryDB
-}
-
-// Data flow perspective: Show data dependencies
-view dataflow {
-title "Data Flow View"
-include OrderSystem.OrderService OrderSystem.OrderDB
-include InventorySystem.InventoryService InventorySystem.InventoryDB
-exclude Customer
+    consequences "Better scalability, but added network latency and operational complexity"
 }
 </code></pre>
-<h3 id="key-benefits-of-multiple-views"><a class="header" href="#key-benefits-of-multiple-views">Key Benefits of Multiple Views</a></h3>
-<ol>
-<li><strong>Different Audiences</strong>: Developers see technical details, product managers see user flows</li>
-<li><strong>Reduced Complexity</strong>: Each view focuses on what matters for that perspective</li>
-<li><strong>Better Communication</strong>: Stakeholders get diagrams tailored to their needs</li>
-<li><strong>Documentation</strong>: Multiple views serve as different types of documentation</li>
-</ol>
+<p>Notice how each system owns its database. This is critical—shared databases defeat the purpose of microservices.</p>
+<h3 id="multiple-views-for-different-audiences"><a class="header" href="#multiple-views-for-different-audiences">Multiple Views for Different Audiences</a></h3>
+<p>One of the most powerful features of Sruja is the ability to create different views for different audiences:</p>
+<pre><code class="language-sruja">// System Overview: Shows the big picture
+view index {
+    title "System Overview"
+    include *
+}
+
+// Developer View: Focus on services and APIs
+view developer {
+    title "Developer View - Service Architecture"
+    include OrderSystem.OrderService OrderSystem.OrderDB
+    include InventorySystem.InventoryService InventorySystem.InventoryDB
+    exclude Customer
+}
+
+// Product View: Focus on user experience
+view product {
+    title "Product View - User Journey"
+    include Customer
+    include OrderSystem
+    exclude InventorySystem.InventoryDB
+}
+
+// Data Flow View: Show data dependencies
+view dataflow {
+    title "Data Flow View"
+    include OrderSystem.OrderService OrderSystem.OrderDB
+    include InventorySystem.InventoryService InventorySystem.InventoryDB
+    exclude Customer
+}
+</code></pre>
+<p><strong>Why multiple views matter:</strong></p>
+<ul>
+<li><strong>Different audiences</strong> need different levels of detail</li>
+<li><strong>Reduced complexity</strong> - each view shows only what's relevant</li>
+<li><strong>Better communication</strong> - stakeholders get diagrams they understand</li>
+<li><strong>Living documentation</strong> - views stay in sync with the architecture</li>
+</ul>
+<h2 id="common-microservices-mistakes"><a class="header" href="#common-microservices-mistakes">Common Microservices Mistakes</a></h2>
+<p>After years of working with microservices, I've seen these patterns repeat:</p>
+<p><strong>Mistake 1: Shared Database</strong>
+Services share a database "for convenience." Result: You can't change the database schema without breaking multiple services. Each service should own its data.</p>
+<p><strong>Mistake 2: Synchronous Everything</strong>
+Every service calls every other service synchronously. Result: One slow service brings down everything. Use async communication where possible.</p>
+<p><strong>Mistake 3: Too Many Services</strong>
+50 services for a simple application. Result: Complexity explosion. Start with fewer, larger services and split when needed.</p>
+<p><strong>Mistake 4: Distributed Monolith</strong>
+Services that can't function independently. Result: All the costs, none of the benefits. If a service can't deploy without others, it's not a microservice.</p>
+<p><strong>Mistake 5: Early Optimization</strong>
+Starting with microservices "because we'll need them." Result: Wasted time and complexity you don't need. Build what you need, when you need it.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p><strong>Microservices are a trade-off, not a best practice.</strong> You gain independence but pay in complexity. Don't adopt them because they're trendy—adopt them because you have specific problems they solve.</p>
+<p><strong>Start with a monolith.</strong> Amazon, Netflix, Uber, Google—they all started with monoliths. Evolve to microservices when you feel the pain of not having them.</p>
+<p><strong>Split by business capability, not technical layer.</strong> Services should represent business domains (Orders, Payments, Shipping), not technical components (Database, Cache, API).</p>
+<p><strong>Each service owns its data.</strong> Shared databases create coupling. If two services share a database, they're not independent.</p>
+<p><strong>Multiple views serve multiple audiences.</strong> Developers need technical details. Product managers need user flows. Executives need system overview. Sruja's views let you show the right level to each audience.</p>
+<p><strong>The goal is independence, not service count.</strong> More services ≠ better architecture. The question is: Can this service deploy, scale, and fail independently?</p>
+<p>Microservices aren't wrong. But using them without understanding the trade-offs is.</p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next</a></h2>
+<p>Now that you understand microservices architecture, <a href="lesson-2.html">Lesson 2</a> covers the API Gateway pattern—the traffic controller that manages communication between your services and the outside world. You'll learn when you need one, when you don't, and how to avoid creating a new bottleneck.</p>
 
                     </main>
 
@@ -337,9 +533,11 @@ exclude Customer
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

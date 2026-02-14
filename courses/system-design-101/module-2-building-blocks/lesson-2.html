@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -181,57 +181,737 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-2-databases"><a class="header" href="#lesson-2-databases">Lesson 2: Databases</a></h1>
-<h2 id="sql-vs-nosql"><a class="header" href="#sql-vs-nosql">SQL vs. NoSQL</a></h2>
+<h2 id="sql-vs-nosql-the-fundamental-choice"><a class="header" href="#sql-vs-nosql-the-fundamental-choice">SQL vs. NoSQL: The Fundamental Choice</a></h2>
+<p>Choosing between SQL and NoSQL is one of the most important architecture decisions. Here's how to think about it.</p>
 <h3 id="sql-relational-databases"><a class="header" href="#sql-relational-databases">SQL (Relational Databases)</a></h3>
+<p><strong>What it does:</strong> Stores structured data in tables with predefined schemas using the relational model.</p>
+<p><strong>Characteristics:</strong></p>
 <ul>
-<li><strong>Structure:</strong> Structured data with predefined schemas (Tables, Rows, Columns).</li>
-<li><strong>Query Language:</strong> SQL (Structured Query Language).</li>
-<li><strong>ACID Compliance:</strong> Strong guarantees for Atomicity, Consistency, Isolation, Durability.</li>
-<li><strong>Examples:</strong> MySQL, PostgreSQL, Oracle.</li>
-<li><strong>Best for:</strong> Complex queries, financial transactions.</li>
+<li>✅ <strong>Structured data</strong> - Tables, rows, columns with defined types</li>
+<li>✅ <strong>ACID compliance</strong> - Strong guarantees for Atomicity, Consistency, Isolation, Durability</li>
+<li>✅ <strong>Powerful querying</strong> - Complex joins, aggregations, transactions</li>
+<li>✅ <strong>Data integrity</strong> - Foreign keys, constraints, referential integrity</li>
+<li>❌ <strong>Vertical scaling</strong> - Limited to single server (mostly)</li>
+<li>❌ <strong>Schema changes</strong> - ALTER TABLE can be slow/complex</li>
+</ul>
+<p><strong>Examples:</strong> PostgreSQL, MySQL, Oracle, SQL Server</p>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Financial transactions (banking, payments)</li>
+<li>Complex queries with joins and aggregations</li>
+<li>Strong consistency requirements</li>
+<li>Data relationships (e.g., user orders and order items)</li>
 </ul>
 <h3 id="nosql-non-relational-databases"><a class="header" href="#nosql-non-relational-databases">NoSQL (Non-Relational Databases)</a></h3>
+<p><strong>What it does:</strong> Flexible data models without rigid schemas, designed for horizontal scaling.</p>
+<p><strong>Characteristics:</strong></p>
 <ul>
-<li><strong>Structure:</strong> Flexible schemas (Key-Value, Document, Graph, Column-Family).</li>
-<li><strong>Scalability:</strong> Designed for horizontal scaling.</li>
-<li><strong>Examples:</strong> MongoDB (Document), Redis (Key-Value), Cassandra (Column).</li>
-<li><strong>Best for:</strong> Rapidly changing data, massive scale, unstructured data.</li>
+<li>✅ <strong>Flexible schemas</strong> - Add fields on the fly</li>
+<li>✅ <strong>Horizontal scaling</strong> - Distribute data across multiple servers</li>
+<li>✅ <strong>High performance</strong> - Optimized for specific access patterns</li>
+<li>✅ <strong>Multiple models</strong> - Document, Key-Value, Graph, Column-family</li>
+<li>❌ <strong>Weaker consistency</strong> - Often eventual consistency</li>
+<li>❌ <strong>Limited querying</strong> - Complex joins harder or impossible</li>
 </ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><strong>Document:</strong> MongoDB, CouchDB</li>
+<li><strong>Key-Value:</strong> Redis, DynamoDB</li>
+<li><strong>Column-family:</strong> Cassandra, HBase</li>
+<li><strong>Graph:</strong> Neo4j, JanusGraph</li>
+</ul>
+<p><strong>Best for:</strong></p>
+<ul>
+<li>Rapidly evolving data structures</li>
+<li>Massive scale (PBs of data, millions of users)</li>
+<li>High throughput write workloads</li>
+<li>Hierarchical or graph data</li>
+</ul>
+<h3 id="decision-matrix-sql-vs-nosql"><a class="header" href="#decision-matrix-sql-vs-nosql">Decision Matrix: SQL vs NoSQL</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Factor</th><th>Choose SQL When...</th><th>Choose NoSQL When...</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Data structure</strong></td><td>Fixed, well-defined schema</td><td>Flexible, evolving schema</td></tr>
+<tr><td><strong>Consistency</strong></td><td>Strong consistency required</td><td>Eventual consistency OK</td></tr>
+<tr><td><strong>Scale</strong></td><td>Moderate (up to TBs)</td><td>Massive (TBs to PBs)</td></tr>
+<tr><td><strong>Complexity</strong></td><td>Complex queries, joins</td><td>Simple access patterns</td></tr>
+<tr><td><strong>Transactions</strong></td><td>ACID transactions needed</td><td>Eventual consistency OK</td></tr>
+<tr><td><strong>Speed</strong></td><td>Complex queries take time</td><td>Fast for specific patterns</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="scaling-databases"><a class="header" href="#scaling-databases">Scaling Databases</a></h2>
-<h3 id="replication"><a class="header" href="#replication">Replication</a></h3>
-<p>Copying data to multiple servers.</p>
+<h3 id="replication-copying-data"><a class="header" href="#replication-copying-data">Replication: Copying Data</a></h3>
+<p>Replication copies data across multiple servers for redundancy and performance.</p>
+<h4 id="master-slave-primary-replica"><a class="header" href="#master-slave-primary-replica">Master-Slave (Primary-Replica)</a></h4>
+<p><strong>How it works:</strong> All writes go to the master. Reads can go to slaves (read replicas).</p>
+<pre><code>Write → Master DB (Primary)
+         ↓ (Replication)
+         → Slave 1 (Read Replica)
+         → Slave 2 (Read Replica)
+         → Slave 3 (Read Replica)
+
+Read → Can go to any slave
+</code></pre>
+<p><strong>Pros:</strong></p>
 <ul>
-<li><strong>Master-Slave:</strong> Writes go to Master, Reads go to Slaves. Good for read-heavy systems.</li>
-<li><strong>Master-Master:</strong> Writes can go to any node. Complex conflict resolution needed.</li>
+<li>✅ <strong>Read scalability</strong> - Distribute read load across replicas</li>
+<li>✅ <strong>Data redundancy</strong> - Multiple copies for backup/failover</li>
+<li>✅ <strong>Improved read latency</strong> - Read from geographically closer replica</li>
+<li>✅ <strong>Simplifies backups</strong> - Backup from replicas, not production</li>
 </ul>
-<h3 id="sharding"><a class="header" href="#sharding">Sharding</a></h3>
-<p>Partitioning data across multiple servers (e.g., Users A-M on Server 1, N-Z on Server 2).</p>
+<p><strong>Cons:</strong></p>
 <ul>
-<li><strong>Pros:</strong> Handles massive data volumes.</li>
-<li><strong>Cons:</strong> Complex joins, rebalancing data is hard.</li>
+<li>❌ <strong>Single write bottleneck</strong> - All writes go through master</li>
+<li>❌ <strong>Replication lag</strong> - Slaves might be slightly behind master</li>
+<li>❌ <strong>Complex failover</strong> - Promoting a replica to master needs care</li>
+<li>❌ <strong>Write scaling</strong> - Cannot scale writes (still single master)</li>
 </ul>
-<hr>
-<h2 id="-sruja-perspective-modeling-databases"><a class="header" href="#-sruja-perspective-modeling-databases">🛠️ Sruja Perspective: Modeling Databases</a></h2>
-<p>Sruja allows you to define the type of database and its role in the system.</p>
+<p><strong>Real-world use:</strong> Read-heavy systems (e.g., product catalog, user profiles, content delivery)</p>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>Read throughput: 10x improvement (1 master → 10 replicas)</li>
+<li>Write throughput: No improvement (still limited by master)</li>
+<li>Replication lag: Typically 10-100ms for local replicas</li>
+</ul>
+<h4 id="master-master-active-active"><a class="header" href="#master-master-active-active">Master-Master (Active-Active)</a></h4>
+<p><strong>How it works:</strong> Writes can go to any node. Changes are propagated between masters.</p>
+<pre><code>Write → Master 1 → Master 2 → Master 3
+Write → Master 2 → Master 1 → Master 3
+Write → Master 3 → Master 1 → Master 2
+
+Read → Can go to any master
+</code></pre>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ <strong>Write scalability</strong> - Distribute writes across masters</li>
+<li>✅ <strong>No single point of failure</strong> - Any master can accept writes</li>
+<li>✅ <strong>Geographic distribution</strong> - Masters in different regions for local writes</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ <strong>Conflict resolution</strong> - Two masters writing same row simultaneously</li>
+<li>❌ <strong>Complex setup</strong> - More complex to configure and maintain</li>
+<li>❌ <strong>Eventual consistency</strong> - Harder to maintain strong consistency</li>
+</ul>
+<p><strong>Real-world use:</strong> Global applications needing local writes in each region (e.g., social media feeds)</p>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>Write throughput: 3-5x improvement (1 master → 3-5 masters)</li>
+<li>Conflict rate: Depends on write patterns (0.1-5% of writes may conflict)</li>
+<li>Consistency window: 100-500ms for cross-region replication</li>
+</ul>
+<h3 id="sharding-partitioning-data"><a class="header" href="#sharding-partitioning-data">Sharding: Partitioning Data</a></h3>
+<p>Sharding (partitioning) splits data across multiple database servers based on a shard key.</p>
+<h4 id="horizontal-sharding"><a class="header" href="#horizontal-sharding">Horizontal Sharding</a></h4>
+<p><strong>How it works:</strong> Split rows of a table across servers based on a shard key.</p>
+<pre><code>Users Table (100M rows)
+├── Shard 1: Users A-G (25M users) → DB Server 1
+├── Shard 2: Users H-N (25M users) → DB Server 2
+├── Shard 3: Users O-T (25M users) → DB Server 3
+└── Shard 4: Users U-Z (25M users) → DB Server 4
+</code></pre>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ <strong>Write scalability</strong> - Distribute writes across shards</li>
+<li>✅ <strong>Massive scale</strong> - Handle petabytes of data</li>
+<li>✅ <strong>Parallel queries</strong> - Query multiple shards in parallel</li>
+<li>✅ <strong>Independent scaling</strong> - Scale hot shards independently</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ <strong>Complex joins</strong> - Cross-shard joins are hard/expensive</li>
+<li>❌ <strong>Rebalancing</strong> - Moving data between shards is complex</li>
+<li>❌ <strong>Query complexity</strong> - Application needs to route queries to right shard</li>
+<li>❌ <strong>Hot spots</strong> - Popular shard keys can create imbalances</li>
+</ul>
+<p><strong>Real-world use:</strong> User data, time-series data, any massive dataset</p>
+<p><strong>Performance impact:</strong></p>
+<ul>
+<li>Write throughput: 10x improvement (1 server → 10 shards)</li>
+<li>Query performance: Depends on shard key (local shard = fast, cross-shard = slow)</li>
+<li>Rebalancing time: Days to weeks for large datasets</li>
+</ul>
+<h4 id="consistent-hashing"><a class="header" href="#consistent-hashing">Consistent Hashing</a></h4>
+<p><strong>How it works:</strong> Use a hash ring to determine shard, minimizing data movement when adding/removing shards.</p>
+<pre><code>Hash Ring: [0, 1, 2, ..., 1023]
+├── Shard 1: 0-255
+├── Shard 2: 256-511
+├── Shard 3: 512-767
+└── Shard 4: 768-1023
+
+User "alice" → hash("alice") % 1024 = 342 → Shard 2
+User "bob"   → hash("bob") % 1024 = 789 → Shard 4
+</code></pre>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>✅ <strong>Minimal rebalancing</strong> - Adding a shard moves ~1/n of data</li>
+<li>✅ <strong>Even distribution</strong> - Hash function spreads data evenly</li>
+<li>✅ <strong>Deterministic</strong> - Same key always routes to same shard</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>❌ <strong>Range queries hard</strong> - Finding users A-G requires querying all shards</li>
+<li>❌ <strong>Hash collisions</strong> - Poor hash function can create imbalances</li>
+<li>❌ <strong>No hot spot handling</strong> - Popular keys still create imbalances</li>
+</ul>
+<p><strong>Real-world use:</strong> Key-value stores, caching, session storage</p>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="case-study-1-netflixs-migration-to-cassandra"><a class="header" href="#case-study-1-netflixs-migration-to-cassandra">Case Study 1: Netflix's Migration to Cassandra</a></h3>
+<p><strong>The Challenge:</strong> Netflix grew from DVD-by-mail to streaming, moving from a single database to needing to handle billions of play events per day.</p>
+<p><strong>Before (Single PostgreSQL):</strong></p>
+<ul>
+<li>Single master database</li>
+<li>100M subscribers</li>
+<li>Limited by single server capacity</li>
+<li>SPOF (Single Point of Failure)</li>
+</ul>
+<p><strong>The Migration Journey:</strong></p>
+<p><strong>Phase 1: Master-Slave Replication</strong></p>
+<pre><code>PostgreSQL Master (writes) → 5 Read Replicas
+                               ↓ (replication lag: 50-100ms)
+</code></pre>
+<ul>
+<li>Result: 5x read scalability, writes still bottlenecked</li>
+<li>Problem: Still can't handle streaming scale</li>
+</ul>
+<p><strong>Phase 2: Sharded PostgreSQL</strong></p>
+<ul>
+<li>Sharded by subscriber ID (100 shards)</li>
+<li>Each shard: 1M subscribers</li>
+<li>Result: Write scalability improved, but complex cross-shard queries</li>
+<li>Problem: Manual rebalancing, hot shard issues</li>
+</ul>
+<p><strong>Phase 3: Migration to Cassandra (Final Solution)</strong></p>
+<pre><code>Cassandra Cluster (100 nodes)
+├── Datacenter US-East (50 nodes)
+├── Datacenter US-West (50 nodes)
+
+Data Model:
+├── Play Events Table (sharded by user_id)
+├── Watch History Table (sharded by user_id)
+└── Catalog Table (replicated 3x, no sharding)
+</code></pre>
+<p><strong>Key Decisions:</strong></p>
+<ol>
+<li><strong>Cassandra choice</strong> - NoSQL for horizontal scalability</li>
+<li><strong>Multi-datacenter</strong> - Geographic redundancy and local reads</li>
+<li><strong>Consistency level</strong> - QUORUM for reads/writes (balanced)</li>
+<li><strong>Replication factor</strong> - 3 (2 datacenters + 1 local replica)</li>
+</ol>
+<p><strong>The Results:</strong></p>
+<ul>
+<li><strong>Scale:</strong> 100M → 260M subscribers</li>
+<li><strong>Play events:</strong> 1B+ events/day (vs 10M with PostgreSQL)</li>
+<li><strong>Availability:</strong> 99.99% (was 99.9% with PostgreSQL)</li>
+<li><strong>Latency:</strong> p99 latency &lt;200ms (vs 500ms with sharded PostgreSQL)</li>
+<li><strong>Data volume:</strong> 10+ PB of data (would be impossible with SQL)</li>
+</ul>
+<blockquote>
+<p><strong>💡 Key Insight:</strong> Netflix chose Cassandra for its write-heavy workload (play events). They kept some data in PostgreSQL for complex queries (billing, analytics) because different workloads benefit from different database technologies.</p>
+</blockquote>
+<h3 id="case-study-2-airbnbs-hybrid-database-strategy"><a class="header" href="#case-study-2-airbnbs-hybrid-database-strategy">Case Study 2: Airbnb's Hybrid Database Strategy</a></h3>
+<p><strong>The Challenge:</strong> Airbnb needed to handle rapid growth (1M → 100M+ users) while maintaining complex relationships between listings, bookings, and reviews.</p>
+<p><strong>The Architecture:</strong></p>
+<pre><code>Airbnb Platform
+├── PostgreSQL (Core Business)
+│   ├── Users Table
+│   ├── Listings Table
+│   ├── Bookings Table
+│   └── Reviews Table
+│       └── Replicated (Master + 3 Read Replicas)
+│
+└── MongoDB (Flexible Data)
+    ├── Search Index
+    ├── Message Queue
+    └── Activity Feed
+</code></pre>
+<p><strong>Why PostgreSQL for Core Business?</strong></p>
+<ol>
+<li>
+<p><strong>Data relationships matter</strong></p>
+<ul>
+<li>Listing → Bookings → Reviews (complex joins)</li>
+<li>User → Listings → Reviews (many-to-many relationships)</li>
+<li>Foreign keys ensure referential integrity</li>
+</ul>
+</li>
+<li>
+<p><strong>ACID transactions</strong></p>
+<ul>
+<li>Booking = Create booking record + Update availability + Send notification</li>
+<li>All-or-nothing: booking succeeds or fails completely</li>
+<li>No partial bookings or data inconsistencies</li>
+</ul>
+</li>
+<li>
+<p><strong>Complex queries</strong></p>
+<ul>
+<li>"Find listings with availability in date range" (complex WHERE clauses)</li>
+<li>"Get user's booking history with reviews" (joins + aggregations)</li>
+<li>"Calculate host revenue" (complex analytics)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Why MongoDB for Flexible Data?</strong></p>
+<ol>
+<li>
+<p><strong>Evolving schema</strong></p>
+<ul>
+<li>Search index fields change frequently (add filters, sorting)</li>
+<li>Message queue format evolves (add metadata, change structure)</li>
+<li>No ALTER TABLE downtime</li>
+</ul>
+</li>
+<li>
+<p><strong>Horizontal scaling</strong></p>
+<ul>
+<li>Search index: 100M+ listings, complex queries</li>
+<li>Activity feed: Millions of updates/second</li>
+<li>Sharding easier than PostgreSQL</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance patterns</strong></p>
+<ul>
+<li>Search: Read-heavy, simple queries</li>
+<li>Activity feed: Write-heavy, append-only</li>
+<li>Both benefit from NoSQL optimizations</li>
+</ul>
+</li>
+</ol>
+<p><strong>Performance Results:</strong></p>
+<ul>
+<li><strong>PostgreSQL:</strong> 50K writes/sec, 500K reads/sec (complex queries)</li>
+<li><strong>MongoDB:</strong> 200K writes/sec, 2M reads/sec (simple queries)</li>
+<li><strong>Overall latency:</strong> p95 &lt;100ms for core flows</li>
+</ul>
+<blockquote>
+<p><strong>💡 Key Insight:</strong> Airbnb uses the <strong>right tool for the right job</strong>. PostgreSQL for complex relational data, MongoDB for flexible, high-throughput patterns. This hybrid approach gives them both data integrity and scalability.</p>
+</blockquote>
+<h3 id="case-study-3-ubers-sharding-evolution"><a class="header" href="#case-study-3-ubers-sharding-evolution">Case Study 3: Uber's Sharding Evolution</a></h3>
+<p><strong>The Challenge:</strong> Uber grew from a single PostgreSQL database to processing millions of trips per second globally.</p>
+<p><strong>Stage 1: Single PostgreSQL</strong></p>
+<ul>
+<li>Single database in one datacenter</li>
+<li>1M trips/day</li>
+<li>Bottleneck: Single server capacity</li>
+<li>Risk: Datacenter outage = complete downtime</li>
+</ul>
+<p><strong>Stage 2: Sharded PostgreSQL</strong></p>
+<ul>
+<li>Sharded by city_id (US trips in US DB, Europe trips in Europe DB)</li>
+<li>100M trips/day</li>
+<li>Benefits: Geographic isolation, write scalability</li>
+<li>Problem: Complex cross-city queries (traveler rides in multiple cities)</li>
+</ul>
+<p><strong>Stage 3: Schemaless Sharding (The Pivot)</strong></p>
+<ul>
+<li>Moved to MySQL with schemaless design (JSONB columns)</li>
+<li>Sharded by rider_id (each rider's data on one shard)</li>
+<li>1B+ trips/day</li>
+<li>Benefits: Schema flexibility, better shard distribution</li>
+<li>Problem: Still hard to evolve, complex migrations</li>
+</ul>
+<p><strong>Stage 4: Multi-Database Strategy (Current)</strong></p>
+<pre><code>Uber Platform
+├── MySQL (Transactional Data)
+│   ├── Trips Table (sharded by city)
+│   ├── Users Table (sharded by user_id)
+│   └── Payments Table (sharded by ride_id)
+│
+├── Cassandra (Time-Series Data)
+│   ├── Event Stream (10M+ events/sec)
+│   └── Telemetry (vehicle location updates)
+│
+├── Redis (Real-Time Data)
+│   ├── Driver Location (updates every 2 sec)
+│   └── Surge Pricing (calculations every 5 sec)
+│
+└── ElasticSearch (Search)
+    ├── Location Search (geospatial queries)
+    └── Destination Search (autocomplete)
+</code></pre>
+<p><strong>Key Decisions:</strong></p>
+<ol>
+<li><strong>MySQL for transactions</strong> - Trip data needs ACID guarantees</li>
+<li><strong>Cassandra for time-series</strong> - Event stream is write-heavy (append-only)</li>
+<li><strong>Redis for real-time</strong> - Driver locations need &lt;100ms latency</li>
+<li><strong>ElasticSearch for search</strong> - Geospatial queries require specialized search</li>
+</ol>
+<p><strong>Performance Results:</strong></p>
+<ul>
+<li><strong>Trips processed:</strong> 1B+ trips/day (from 1M)</li>
+<li><strong>Event stream:</strong> 10M+ events/sec (Cassandra handles write load)</li>
+<li><strong>Real-time data:</strong> 10M+ driver locations/sec (Redis provides &lt;50ms latency)</li>
+<li><strong>Search:</strong> &lt;100ms p95 for location search (ElasticSearch optimization)</li>
+</ul>
+<blockquote>
+<p><strong>💡 Key Insight:</strong> Uber doesn't try to fit everything in one database. Different workloads (transactions, time-series, real-time, search) benefit from different database technologies. The complexity is higher, but the performance and scalability are unmatched.</p>
+</blockquote>
+<h2 id="production-metrics"><a class="header" href="#production-metrics">Production Metrics</a></h2>
+<h3 id="database-performance-comparison"><a class="header" href="#database-performance-comparison">Database Performance Comparison</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Database</th><th>Write Throughput</th><th>Read Latency (p95)</th><th>Scale</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>PostgreSQL</strong></td><td>50K writes/sec</td><td>10-50ms</td><td>TBs</td></tr>
+<tr><td><strong>MySQL</strong></td><td>100K writes/sec</td><td>10-40ms</td><td>TBs</td></tr>
+<tr><td><strong>MongoDB</strong></td><td>500K writes/sec</td><td>5-20ms</td><td>PBs</td></tr>
+<tr><td><strong>Cassandra</strong></td><td>1M+ writes/sec</td><td>20-100ms</td><td>PBs</td></tr>
+<tr><td><strong>Redis</strong></td><td>10M+ writes/sec</td><td>&lt;5ms</td><td>GBs-TBs</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="replication-performance"><a class="header" href="#replication-performance">Replication Performance</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Strategy</th><th>Write Latency Impact</th><th>Read Scalability</th><th>Consistency</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Master-Slave</strong></td><td>+5-10ms</td><td>10x</td><td>Strong</td></tr>
+<tr><td><strong>Master-Master</strong></td><td>+50-200ms</td><td>3-5x</td><td>Eventual</td></tr>
+<tr><td><strong>Multi-Master</strong></td><td>+100-500ms</td><td>5-10x</td><td>Eventual</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="sharding-performance"><a class="header" href="#sharding-performance">Sharding Performance</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Strategy</th><th>Write Throughput Improvement</th><th>Query Performance</th><th>Rebalancing</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Horizontal (range)</strong></td><td>5-10x</td><td>Fast (local), Slow (cross-shard)</td><td>Days-Weeks</td></tr>
+<tr><td><strong>Consistent Hashing</strong></td><td>8-12x</td><td>Medium (range queries slow)</td><td>Minimal</td></tr>
+<tr><td><strong>Geographic</strong></td><td>2-5x</td><td>Very fast (local reads)</td><td>Complex</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="trade-off-scenarios"><a class="header" href="#trade-off-scenarios">Trade-Off Scenarios</a></h2>
+<h3 id="scenario-1-e-commerce-platform"><a class="header" href="#scenario-1-e-commerce-platform">Scenario 1: E-Commerce Platform</a></h3>
+<p><strong>Context:</strong> Building Amazon-scale e-commerce platform. Need to handle Black Friday traffic spikes (10x normal). Data: product catalog, user accounts, orders, reviews.</p>
+<p><strong>The Trade-Off Decisions:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Product Catalog</strong></td><td>PostgreSQL (complex queries)</td><td>MongoDB (flexible schema)</td><td><strong>PostgreSQL</strong> - Complex filters, joins, ACID for inventory</td></tr>
+<tr><td><strong>User Sessions</strong></td><td>PostgreSQL (sessions table)</td><td>Redis (key-value)</td><td><strong>Redis</strong> - Fast access, TTL for expiration</td></tr>
+<tr><td><strong>Orders</strong></td><td>PostgreSQL (ACID transactions)</td><td>MongoDB (eventual consistency)</td><td><strong>PostgreSQL</strong> - Financial data needs strong consistency</td></tr>
+<tr><td><strong>Reviews</strong></td><td>PostgreSQL (relational)</td><td>MongoDB (document)</td><td><strong>MongoDB</strong> - Flexible schema, high write throughput</td></tr>
+<tr><td><strong>Replication</strong></td><td>Master-Slave (read-heavy)</td><td>Master-Master (write-heavy)</td><td><strong>Master-Slave</strong> - 90% reads, strong consistency for orders</td></tr>
+<tr><td><strong>Sharding</strong></td><td>Not needed (scale vertically)</td><td>Yes (future-proof)</td><td><strong>Yes</strong> - Black Friday traffic requires horizontal scale</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Right database for each workload, strong consistency for transactions, scalability for Black Friday</li>
+<li><strong>Cons:</strong> Complex architecture (4 databases), cross-database joins impossible</li>
+<li><strong>Performance:</strong> 1M+ products, 100K+ concurrent users, p95 &lt;100ms</li>
+</ul>
+<h3 id="scenario-2-social-media-feed"><a class="header" href="#scenario-2-social-media-feed">Scenario 2: Social Media Feed</a></h3>
+<p><strong>Context:</strong> Building a real-time social media feed like Twitter. Users post updates, followers see them in timeline. Requirements: millions of posts/sec, low latency, global availability.</p>
+<p><strong>The Trade-Off Decisions:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Posts Storage</strong></td><td>PostgreSQL (relational)</td><td>Cassandra (time-series)</td><td><strong>Cassandra</strong> - Write-heavy (append-only), time-series access pattern</td></tr>
+<tr><td><strong>Timeline Query</strong></td><td>PostgreSQL (complex joins)</td><td>Denormalized (pre-computed timelines)</td><td><strong>Denormalized</strong> - Pre-compute user timelines, no complex joins</td></tr>
+<tr><td><strong>Likes/Follows</strong></td><td>PostgreSQL (relational)</td><td>Redis (fast counters)</td><td><strong>Redis</strong> - High frequency reads/writes, simple counters</td></tr>
+<tr><td><strong>User Profiles</strong></td><td>PostgreSQL (ACID needed)</td><td>MongoDB (flexible)</td><td><strong>PostgreSQL</strong> - Profile needs ACID (security, privacy)</td></tr>
+<tr><td><strong>Replication</strong></td><td>Master-Slave (eventual OK)</td><td>Multi-Master (global writes)</td><td><strong>Multi-Master</strong> - Global users need local writes</td></tr>
+<tr><td><strong>Consistency</strong></td><td>Strong</td><td>Eventual</td><td><strong>Eventual</strong> - OK if likes show with slight delay, but posts appear quickly</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Massive write scalability, global availability, low latency for feed</li>
+<li><strong>Cons:</strong> Eventual consistency (users might see stale data), complex architecture</li>
+<li><strong>Performance:</strong> 10M+ posts/sec, p99 feed latency &lt;200ms, 99.99% availability</li>
+</ul>
+<h3 id="scenario-3-analytics-platform"><a class="header" href="#scenario-3-analytics-platform">Scenario 3: Analytics Platform</a></h3>
+<p><strong>Context:</strong> Building an analytics platform processing billions of events/day. Need to store raw events, compute aggregates in real-time, and serve ad-hoc queries.</p>
+<p><strong>The Trade-Off Decisions:</strong></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Decision</th><th>Option A</th><th>Option B</th><th>What You Choose &amp; Why</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Raw Events</strong></td><td>PostgreSQL (structured)</td><td>Cassandra (time-series)</td><td><strong>Cassandra</strong> - Write-heavy (append-only), automatic TTL, time-series partitioning</td></tr>
+<tr><td><strong>Aggregates</strong></td><td>PostgreSQL (materialized views)</td><td>Redis (pre-computed)</td><td><strong>Redis</strong> - Fast access, TTL for expiration, update on new events</td></tr>
+<tr><td><strong>Ad-hoc Queries</strong></td><td>PostgreSQL (complex SQL)</td><td>ElasticSearch (search/analytics)</td><td><strong>ElasticSearch</strong> - Fast aggregations, full-text search, scalable</td></tr>
+<tr><td><strong>User Metadata</strong></td><td>PostgreSQL (ACID needed)</td><td>MongoDB (flexible)</td><td><strong>PostgreSQL</strong> - User accounts need ACID (security, permissions)</td></tr>
+<tr><td><strong>Data Retention</strong></td><td>Manual cleanup</td><td>TTL-based automatic</td><td><strong>TTL-based</strong> - Automate cleanup (billions of events/day)</td></tr>
+<tr><td><strong>Consistency</strong></td><td>Strong</td><td>Eventual</td><td><strong>Eventual</strong> - OK if aggregates are slightly stale, but raw events must be durable</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Result:</strong></p>
+<ul>
+<li><strong>Pros:</strong> Massive scale (PBs of data), automatic retention, fast aggregations</li>
+<li><strong>Cons:</strong> Eventual consistency (aggregates might be behind), complex ETL pipelines</li>
+<li><strong>Performance:</strong> 10B+ events/day, p95 query latency &lt;500ms, 99.9% data durability</li>
+</ul>
+<h2 id="sruja-perspective-modeling-databases"><a class="header" href="#sruja-perspective-modeling-databases">Sruja Perspective: Modeling Databases</a></h2>
+<p>In Sruja, we document database choices with clear trade-offs and performance characteristics.</p>
+<h3 id="why-model-databases"><a class="header" href="#why-model-databases">Why Model Databases?</a></h3>
+<p>Modeling databases in your architecture provides:</p>
+<ol>
+<li><strong>Technology choice clarity</strong> - Document why SQL vs NoSQL</li>
+<li><strong>Scaling strategy</strong> - Show replication/sharding approach</li>
+<li><strong>Performance visibility</strong> - Track throughput, latency, scale</li>
+<li><strong>Failure analysis</strong> - Understand SPOFs and failover scenarios</li>
+</ol>
+<h3 id="example-e-commerce-database-architecture"><a class="header" href="#example-e-commerce-database-architecture">Example: E-Commerce Database Architecture</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-UserDB = container "User Database" {
-    technology "PostgreSQL"
-    tags ["relational", "primary"]
-    description "Stores user profiles and authentication data."
-}
-
-SessionStore = container "Session Cache" {
-    technology "Redis"
-    tags ["key-value", "cache"]
-    description "Stores active user sessions for fast access."
+ECommerce = system "E-Commerce Platform" {
+    description "Multi-database architecture for different workloads"
+    
+    // POSTGRESQL: Core transactional data
+    PrimaryDB = database "Primary PostgreSQL" {
+        technology "PostgreSQL 15"
+        description "Stores users, products, orders - requires ACID"
+        tags ["sql", "transactional"]
+        
+        tradeoff {
+            decision "Use PostgreSQL for core business data"
+            sacrifice "Write scalability (single master for writes)"
+            reason "Strong consistency required for orders/payments, complex queries needed for product catalog"
+            mitigation "Read replicas for read scalability, plan for sharding"
+        }
+        
+        capacity {
+            storage "10 TB"
+            throughput_writes "50K/sec"
+            throughput_reads "500K/sec"
+            replication "Master + 3 Read Replicas"
+        }
+    }
+    
+    // MONGODB: Flexible, high-throughput data
+    ReviewsDB = database "MongoDB Cluster" {
+        technology "MongoDB 7"
+        description "Stores reviews, activity feed - flexible schema, high writes"
+        tags ["nosql", "document", "sharded"]
+        
+        tradeoff {
+            decision "Use MongoDB for reviews and activity feed"
+            sacrifice "Strong consistency (eventual consistency OK)"
+            reason "Flexible schema for evolving data, high write throughput, easy sharding"
+            mitigation "Write-ahead log for durability, read-your-writes for consistency"
+        }
+        
+        capacity {
+            storage "50 TB"
+            throughput_writes "500K/sec"
+            throughput_reads "2M/sec"
+            replication "Replica Set 3 + Sharded by user_id"
+        }
+    }
+    
+    // REDIS: Real-time session data
+    SessionStore = database "Redis Cluster" {
+        technology "Redis 7"
+        description "Stores user sessions, shopping carts - fast access, TTL"
+        tags ["nosql", "key-value", "real-time"]
+        
+        tradeoff {
+            decision "Use Redis for session data"
+            sacrifice "Durability (in-memory, can lose data on crash)"
+            reason "Sub-millisecond latency required for session checks, automatic TTL for cleanup"
+            mitigation "AOF persistence, replicas for backup"
+        }
+        
+        capacity {
+            storage "1 TB"
+            throughput_writes "10M/sec"
+            throughput_reads "20M/sec"
+            replication "Cluster mode (6 nodes)"
+        }
+    }
+    
+    // TRAFFIC FLOW
+    UserService = container "User Service" {
+        technology "Go"
+    }
+    
+    ProductService = container "Product Service" {
+        technology "Python"
+    }
+    
+    OrderService = container "Order Service" {
+        technology "Java"
+    }
+    
+    UserService -&gt; PrimaryDB "Reads user data"
+    UserService -&gt; SessionStore "Checks session (fast)"
+    ProductService -&gt; PrimaryDB "Queries product catalog"
+    OrderService -&gt; PrimaryDB "Creates order (transaction)"
+    OrderService -&gt; ReviewsDB "Posts review (high throughput)"
 }
 
 view index {
-include *
+    title "E-Commerce Database Architecture"
+    include *
+}
+
+view sql {
+    title "SQL Databases"
+    include ECommerce.PrimaryDB
+}
+
+view nosql {
+    title "NoSQL Databases"
+    include ECommerce.ReviewsDB ECommerce.SessionStore
 }
 </code></pre>
+<h3 id="key-trade-offs-documented"><a class="header" href="#key-trade-offs-documented">Key Trade-Offs Documented</a></h3>
+<p><strong>1. Database Technology Choice:</strong></p>
+<ul>
+<li><strong>PostgreSQL for transactions</strong> - Strong consistency, complex queries, but write scalability limited</li>
+<li><strong>MongoDB for high throughput</strong> - Flexible schema, horizontal scaling, but eventual consistency</li>
+<li><strong>Redis for real-time</strong> - Sub-millisecond latency, but in-memory (durability concerns)</li>
+</ul>
+<p><strong>2. Scaling Strategy:</strong></p>
+<ul>
+<li><strong>Read replicas</strong> for PostgreSQL (read-heavy workload: 10:1 read:write ratio)</li>
+<li><strong>Sharding</strong> for MongoDB (write-heavy reviews: user_id shard key)</li>
+<li><strong>Redis cluster</strong> for session data (high throughput, automatic failover)</li>
+</ul>
+<p><strong>3. Consistency vs Performance:</strong></p>
+<ul>
+<li>Sacrifice strong consistency for reviews (OK if reviews appear with slight delay)</li>
+<li>Maintain strong consistency for orders (financial data cannot be wrong)</li>
+<li>Use read-your-writes pattern for better user experience</li>
+</ul>
+<h2 id="knowledge-check"><a class="header" href="#knowledge-check">Knowledge Check</a></h2>
+<details>
+<summary><strong>Q: I'm building a social media feed like Twitter. Millions of posts/second. What database should I use for posts?</strong></summary>
+<p><strong>Cassandra (or similar time-series NoSQL)</strong></p>
+<p>Social media feeds are write-heavy (append-only time-series) and require massive horizontal scale. SQL databases cannot handle millions of writes/second effectively. Cassandra is designed exactly for this workload: write-optimized, automatically partitions by time, scales horizontally.</p>
+</details>
+<details>
+<summary><strong>Q: Why use master-slave replication instead of master-master?</strong></summary>
+<p><strong>Master-slave is simpler and provides strong consistency.</strong></p>
+<p>Master-slave writes go to a single master, reads can go to slaves. This is simple to implement, provides strong consistency (slaves always see master's changes), and works great for read-heavy workloads. Master-master scales writes better but adds complexity: conflict resolution, eventual consistency, and harder to reason about.</p>
+</details>
+<details>
+<summary><strong>Q: My app has flexible data (schema changes frequently). Should I use SQL or NoSQL?</strong></summary>
+<p><strong>NoSQL</strong> - specifically document databases like MongoDB.</p>
+<p>SQL databases have rigid schemas. ALTER TABLE can be slow and complex. NoSQL document databases allow you to add fields on the fly without migrations. Perfect for rapidly evolving data structures (e.g., user profiles with new features, product catalogs with new attributes).</p>
+</details>
+<details>
+<summary><strong>Q: What's the main benefit of consistent hashing over range sharding?</strong></summary>
+<p><strong>Minimal data movement when adding/removing shards.</strong></p>
+<p>With range sharding, adding a shard might require moving 50% of data. With consistent hashing, adding a shard only moves ~1/n of data (where n is number of shards). This makes scaling operations much faster and less disruptive.</p>
+</details>
+<h2 id="quiz-test-your-knowledge"><a class="header" href="#quiz-test-your-knowledge">Quiz: Test Your Knowledge</a></h2>
+<h3 id="q1-which-database-type-is-best-for-financial-transactions-requiring-acid-guarantees"><a class="header" href="#q1-which-database-type-is-best-for-financial-transactions-requiring-acid-guarantees">Q1: Which database type is best for financial transactions requiring ACID guarantees?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> MongoDB (Document)</li>
+<li><input disabled="" type="checkbox"> Redis (Key-Value)</li>
+<li><input disabled="" type="checkbox"> PostgreSQL (Relational)</li>
+<li><input disabled="" type="checkbox"> Cassandra (Column-family)</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>PostgreSQL (Relational)</strong> provides ACID compliance (Atomicity, Consistency, Isolation, Durability) which is critical for financial transactions. MongoDB and Redis sacrifice strong consistency for performance. Cassandra provides tunable consistency but is optimized for write-heavy workloads, not complex transactions.</p>
+</details>
+<h3 id="q2-which-replication-strategy-is-best-for-a-read-heavy-system-where-reads-outnumber-writes-101"><a class="header" href="#q2-which-replication-strategy-is-best-for-a-read-heavy-system-where-reads-outnumber-writes-101">Q2: Which replication strategy is best for a read-heavy system where reads outnumber writes 10:1?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Master-Master</li>
+<li><input disabled="" type="checkbox"> Master-Slave</li>
+<li><input disabled="" type="checkbox"> No replication needed</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>Master-Slave</strong> is ideal for read-heavy workloads. All writes go to the master (single write path), but reads can be distributed across multiple read replicas. This gives you 10x read scalability with the simplicity of a single master. Master-Master gives write scalability but adds complexity (conflict resolution, eventual consistency).</p>
+</details>
+<h3 id="q3-youre-building-a-time-series-analytics-platform-ingesting-billions-of-eventsday-which-database-is-best"><a class="header" href="#q3-youre-building-a-time-series-analytics-platform-ingesting-billions-of-eventsday-which-database-is-best">Q3: You're building a time-series analytics platform ingesting billions of events/day. Which database is best?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> PostgreSQL</li>
+<li><input disabled="" type="checkbox"> MongoDB</li>
+<li><input disabled="" type="checkbox"> Cassandra</li>
+<li><input disabled="" type="checkbox"> Redis</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>Cassandra</strong> is designed specifically for time-series workloads: write-heavy, append-only data that grows indefinitely. It automatically partitions data by time, scales horizontally, and provides TTL for automatic data retention. PostgreSQL would struggle with write throughput and storage. MongoDB works but Cassandra's time-series optimizations are better. Redis is in-memory and too expensive for billions of events.</p>
+</details>
+<h3 id="q4-which-of-these-is-not-a-characteristic-of-nosql-databases"><a class="header" href="#q4-which-of-these-is-not-a-characteristic-of-nosql-databases">Q4: Which of these is NOT a characteristic of NoSQL databases?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Flexible schemas</li>
+<li><input disabled="" type="checkbox"> Horizontal scalability</li>
+<li><input disabled="" type="checkbox"> Strong ACID compliance</li>
+<li><input disabled="" type="checkbox"> Eventual consistency is often acceptable</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>Strong ACID compliance</strong> is NOT a characteristic of most NoSQL databases. NoSQL databases typically prioritize scalability and flexibility over strong ACID guarantees. While some NoSQL databases (like MongoDB) provide document-level ACID guarantees, they don't provide the same level of multi-document transaction support as SQL databases.</p>
+</details>
+<h3 id="q5-uber-uses-multiple-databases-mysql-cassandra-redis-elasticsearch-why"><a class="header" href="#q5-uber-uses-multiple-databases-mysql-cassandra-redis-elasticsearch-why">Q5: Uber uses multiple databases (MySQL, Cassandra, Redis, ElasticSearch). Why?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> To reduce complexity</li>
+<li><input disabled="" type="checkbox"> To choose the right database for each workload</li>
+<li><input disabled="" type="checkbox"> Because they couldn't decide on one</li>
+<li><input disabled="" type="checkbox"> To minimize costs</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>To choose the right database for each workload</strong> - this is a deliberate architectural decision. Different workloads benefit from different databases: MySQL for transactions (trips), Cassandra for time-series (event stream), Redis for real-time (driver locations), ElasticSearch for search. This polyglot persistence approach gives better performance and scalability than trying to force everything into one database.</p>
+</details>
+<h3 id="q6-whats-the-main-drawback-of-sharding"><a class="header" href="#q6-whats-the-main-drawback-of-sharding">Q6: What's the main drawback of sharding?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Slower writes (distributed across servers)</li>
+<li><input disabled="" type="checkbox"> Complex joins across shards</li>
+<li><input disabled="" type="checkbox"> More storage space needed</li>
+<li><input disabled="" type="checkbox"> Slower reads (distributed across servers)</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>Complex joins across shards</strong> is the main drawback. When data is split across multiple database servers, joining data that resides on different shards becomes complex and expensive. Cross-shard joins require querying multiple shards and merging results in the application, which is slow and complex. This is why you carefully choose shard keys to minimize cross-shard queries.</p>
+</details>
+<h3 id="q7-airbnb-uses-postgresql-for-core-business-data-and-mongodb-for-flexible-data-why-this-hybrid-approach"><a class="header" href="#q7-airbnb-uses-postgresql-for-core-business-data-and-mongodb-for-flexible-data-why-this-hybrid-approach">Q7: Airbnb uses PostgreSQL for core business data and MongoDB for flexible data. Why this hybrid approach?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> PostgreSQL is faster</li>
+<li><input disabled="" type="checkbox"> MongoDB is cheaper</li>
+<li><input disabled="" type="checkbox"> Different workloads benefit from different technologies</li>
+<li><input disabled="" type="checkbox"> They couldn't scale PostgreSQL</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>Different workloads benefit from different technologies</strong> - this is a smart architectural decision. PostgreSQL excels at complex relational data with ACID transactions (users, listings, bookings). MongoDB excels at flexible, evolving schemas with high write throughput (search index, activity feed). Using the right database for each workload gives better performance and scalability than forcing everything into one technology.</p>
+</details>
+<h3 id="q8-which-database-feature-allows-redis-to-automatically-delete-session-data-after-30-minutes"><a class="header" href="#q8-which-database-feature-allows-redis-to-automatically-delete-session-data-after-30-minutes">Q8: Which database feature allows Redis to automatically delete session data after 30 minutes?</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> ACID transactions</li>
+<li><input disabled="" type="checkbox"> TTL (Time To Live)</li>
+<li><input disabled="" type="checkbox"> Sharding</li>
+<li><input disabled="" type="checkbox"> Master-Slave replication</li>
+</ul>
+<details>
+<summary>Answer</summary>
+<p><strong>TTL (Time To Live)</strong> allows Redis to automatically delete data after a specified time. This is perfect for session data, shopping carts, and other temporary data. You don't need manual cleanup jobs - Redis handles it automatically. Set a TTL of 30 minutes when storing a session, and Redis deletes it automatically.</p>
+</details>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Now that we understand databases and how to choose between SQL and NoSQL, let's learn about caching to improve performance.
+👉 <strong><a href="./lesson-3">Lesson 3: Caching (Strategies, Eviction Policies, Redis Case Study)</a></strong></p>
 
                     </main>
 
@@ -286,9 +966,11 @@ include *
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

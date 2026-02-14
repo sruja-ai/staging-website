@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,28 +180,218 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-2-event-driven-architecture"><a class="header" href="#lesson-2-event-driven-architecture">Lesson 2: Event-Driven Architecture</a></h1>
-<h2 id="synchronous-vs-asynchronous"><a class="header" href="#synchronous-vs-asynchronous">Synchronous vs. Asynchronous</a></h2>
+                        <hr>
+<h1 id="the-chain-reaction-when-synchronous-dependencies-kill-systems"><a class="header" href="#the-chain-reaction-when-synchronous-dependencies-kill-systems">The Chain Reaction: When Synchronous Dependencies Kill Systems</a></h1>
+<p>It started with a single database query taking 2 seconds instead of 200ms.</p>
+<p>The Analytics Service called the User Service to enrich data. The User Service called the Subscription Service to check plan details. The Subscription Service called the Payment Service to verify active status. The Payment Service called... you get the picture.</p>
+<p>When that one database query slowed down, everything slowed down. Within minutes, the entire platform was timing out. Every service was waiting for every other service. We had a beautiful microservices architecture with synchronous calls everywhere—and it took 8 hours to recover.</p>
+<p>The post-mortem was brutal: "We built a distributed monolith with synchronous chains." The fix? Event-driven architecture. Services that could operate independently, react to events asynchronously, and fail gracefully when dependencies were slow.</p>
+<p>This lesson is about avoiding that mistake. You'll learn when event-driven architecture helps (and when it adds complexity), the three main patterns (queues, pub/sub, and event sourcing), and how to model events in Sruja.</p>
+<h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li><strong>Synchronous (Request/Response):</strong> Client waits for the server to respond (e.g., HTTP REST).</li>
-<li><strong>Asynchronous (Event-Driven):</strong> Client sends a message and continues work. The receiver processes it later.</li>
+<li>Understand why synchronous dependencies create fragility</li>
+<li>Recognize when event-driven architecture solves real problems</li>
+<li>Choose between message queues, pub/sub, and event sourcing</li>
+<li>Model event-driven systems in Sruja with queues and scenarios</li>
+<li>Avoid common event-driven mistakes (eventual consistency isn't magic)</li>
 </ul>
-<h2 id="core-concepts"><a class="header" href="#core-concepts">Core Concepts</a></h2>
-<h3 id="message-queues-point-to-point"><a class="header" href="#message-queues-point-to-point">Message Queues (Point-to-Point)</a></h3>
-<p>A message is sent to a queue and processed by exactly one consumer.</p>
+<h2 id="why-events-matter-the-synchronous-problem"><a class="header" href="#why-events-matter-the-synchronous-problem">Why Events Matter: The Synchronous Problem</a></h2>
+<p>Here's a pattern I've seen destroy systems: <strong>Synchronous call chains.</strong></p>
+<p>Service A calls Service B, which calls Service C, which calls Service D. When D is slow, C is slow. When C is slow, B is slow. When B is slow, A is slow. The user sees timeouts. The system appears down.</p>
+<p><strong>The synchronous trap:</strong></p>
 <ul>
-<li><em>Use Case:</em> Background jobs (e.g., image resizing).</li>
+<li><strong>Latency adds up:</strong> 50ms + 100ms + 200ms + 150ms = 500ms total response time</li>
+<li><strong>Failures cascade:</strong> One slow service slows everything</li>
+<li><strong>Coupling is hidden:</strong> You think services are independent, but they're not</li>
+<li><strong>Hard to debug:</strong> Which service caused the timeout? Good luck tracing it.</li>
 </ul>
-<h3 id="pubsub-publishsubscribe"><a class="header" href="#pubsub-publishsubscribe">Pub/Sub (Publish/Subscribe)</a></h3>
-<p>A message (event) is published to a topic. Multiple subscribers can receive a copy.</p>
+<p><strong>The event-driven alternative:</strong></p>
+<p>Service A publishes an event. Service B, C, and D subscribe and process independently. Service A doesn't wait. If Service D is slow, Services B and C still work. If Service D crashes, the event stays in the queue until it recovers.</p>
+<p><strong>What you gain:</strong></p>
 <ul>
-<li><em>Use Case:</em> notifying multiple services (e.g., "UserSignedUp" -&gt; EmailService, AnalyticsService).</li>
+<li><strong>Decoupling:</strong> Services don't need to know about each other</li>
+<li><strong>Resilience:</strong> One service failure doesn't cascade</li>
+<li><strong>Scalability:</strong> Add more consumers when load increases</li>
+<li><strong>Flexibility:</strong> Add new subscribers without touching existing services</li>
 </ul>
-<hr>
-<h2 id="-sruja-perspective-modeling-events"><a class="header" href="#-sruja-perspective-modeling-events">🛠️ Sruja Perspective: Modeling Events</a></h2>
-<p>Sruja supports <code>queue</code> as a first-class citizen to model asynchronous communication.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<p><strong>What you pay:</strong></p>
+<ul>
+<li><strong>Complexity:</strong> Debugging distributed events is harder</li>
+<li><strong>Eventual consistency:</strong> Data isn't immediately consistent across services</li>
+<li><strong>Operational overhead:</strong> Message brokers, queues, retry logic</li>
+<li><strong>Learning curve:</strong> Thinking in events is different from thinking in requests</li>
+</ul>
+<h2 id="synchronous-vs-asynchronous-a-real-comparison"><a class="header" href="#synchronous-vs-asynchronous-a-real-comparison">Synchronous vs. Asynchronous: A Real Comparison</a></h2>
+<p>Let me show you the difference with a real example: <strong>User Registration.</strong></p>
+<h3 id="synchronous-approach-requestresponse"><a class="header" href="#synchronous-approach-requestresponse">Synchronous Approach (Request/Response)</a></h3>
+<pre><code>User → API: POST /register
+API → EmailService: Send welcome email (wait for response)
+API → AnalyticsService: Track signup (wait for response)
+API → CRMService: Create lead (wait for response)
+API → User: "Registration complete"
 
+Total time: 200ms + 300ms + 400ms + 250ms = 1150ms
+</code></pre>
+<p><strong>Problem:</strong> If EmailService is slow, the user waits. If AnalyticsService is down, registration fails.</p>
+<h3 id="asynchronous-approach-event-driven"><a class="header" href="#asynchronous-approach-event-driven">Asynchronous Approach (Event-Driven)</a></h3>
+<pre><code>User → API: POST /register
+API → Database: Save user
+API → EventQueue: Publish "UserRegistered" event
+API → User: "Registration complete" (immediate response)
+
+Meanwhile, asynchronously:
+EventQueue → EmailService: Send welcome email
+EventQueue → AnalyticsService: Track signup
+EventQueue → CRMService: Create lead
+
+Total response time: 200ms (just database save)
+</code></pre>
+<p><strong>Benefit:</strong> User gets immediate response. Services process independently. If EmailService is slow, it doesn't affect the user experience.</p>
+<p><strong>The trade-off:</strong> User doesn't immediately get the email. Analytics might be a few seconds behind. But for most use cases, this is acceptable.</p>
+<h2 id="when-to-use-event-driven-architecture-and-when-not-to"><a class="header" href="#when-to-use-event-driven-architecture-and-when-not-to">When to Use Event-Driven Architecture (And When NOT To)</a></h2>
+<p>After years of building both synchronous and asynchronous systems, I've developed a simple decision framework.</p>
+<p><strong>Use event-driven when:</strong></p>
+<ol>
+<li><strong>Services don't need immediate response</strong> (e.g., sending emails, analytics, notifications)</li>
+<li><strong>Multiple services need the same data</strong> (e.g., "UserRegistered" → Email, Analytics, CRM all need it)</li>
+<li><strong>Work can happen in the background</strong> (e.g., image processing, report generation)</li>
+<li><strong>Resilience matters more than immediate consistency</strong> (e.g., "we'll retry until it works")</li>
+<li><strong>You need to handle traffic spikes</strong> (e.g., queue requests during peak, process during off-peak)</li>
+</ol>
+<p><strong>Don't use event-driven when:</strong></p>
+<ol>
+<li><strong>User needs immediate feedback</strong> (e.g., "Is this username available?")</li>
+<li><strong>Strong consistency is required</strong> (e.g., banking transactions, inventory checks)</li>
+<li><strong>Debugging simplicity matters more than scalability</strong> (synchronous is easier to debug)</li>
+<li><strong>You don't have operational maturity</strong> (monitoring queues, handling failures)</li>
+<li><strong>The added complexity isn't worth it</strong> (simple CRUD apps don't need events)</li>
+</ol>
+<p>The biggest mistake I see? Using events for everything because they're "more scalable." Architecture should solve specific problems, not create unnecessary complexity.</p>
+<h2 id="the-three-event-driven-patterns"><a class="header" href="#the-three-event-driven-patterns">The Three Event-Driven Patterns</a></h2>
+<p>Event-driven architecture isn't one thing—it's three different patterns for different use cases.</p>
+<h3 id="pattern-1-message-queues-point-to-point"><a class="header" href="#pattern-1-message-queues-point-to-point">Pattern 1: Message Queues (Point-to-Point)</a></h3>
+<p><strong>What it is:</strong> A message is sent to a queue and processed by exactly one consumer.</p>
+<p><strong>How it works:</strong></p>
+<pre><code>Producer → Queue → Consumer (only one)
+</code></pre>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Background jobs (image resizing, video transcoding)</li>
+<li>Task distribution (send to whichever worker is free)</li>
+<li>Load leveling (queue requests during spikes, process gradually)</li>
+</ul>
+<p><strong>Real example:</strong> When you upload a video to YouTube, it goes into a queue. One worker picks it up and transcodes it. If 1000 people upload videos simultaneously, the queue holds them until workers are available.</p>
+<p><strong>Technologies:</strong> RabbitMQ, AWS SQS, Redis queues</p>
+<h3 id="pattern-2-pubsub-publishsubscribe"><a class="header" href="#pattern-2-pubsub-publishsubscribe">Pattern 2: Pub/Sub (Publish/Subscribe)</a></h3>
+<p><strong>What it is:</strong> A message (event) is published to a topic. Multiple subscribers can receive a copy.</p>
+<p><strong>How it works:</strong></p>
+<pre><code>Publisher → Topic → Subscriber 1
+                 → Subscriber 2
+                 → Subscriber 3
+</code></pre>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Broadcasting events (e.g., "UserSignedUp" → Email, Analytics, CRM all get it)</li>
+<li>Event notification (multiple services react to the same event)</li>
+<li>Real-time updates (e.g., stock prices, sports scores)</li>
+</ul>
+<p><strong>Real example:</strong> When you sign up for Netflix, a "UserSignedUp" event is published. The email service sends a welcome email, the analytics service tracks the signup, and the recommendation service initializes your profile—all simultaneously, all independently.</p>
+<p><strong>Technologies:</strong> Apache Kafka, Google Pub/Sub, AWS SNS/SQS</p>
+<h3 id="pattern-3-event-sourcing"><a class="header" href="#pattern-3-event-sourcing">Pattern 3: Event Sourcing</a></h3>
+<p><strong>What it is:</strong> Store all changes as a sequence of events, not just current state.</p>
+<p><strong>How it works:</strong></p>
+<pre><code>Instead of: User { name: "John", email: "john@example.com" }
+
+Store: [
+  { type: "UserCreated", data: { id: 1, name: "John" } },
+  { type: "EmailUpdated", data: { email: "john@example.com" } }
+]
+</code></pre>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Audit trails (every change is recorded)</li>
+<li>Time-travel debugging (replay events to see what happened)</li>
+<li>Event replay (rebuild state from events if database corrupts)</li>
+</ul>
+<p><strong>Real example:</strong> Financial systems. Instead of just storing "Account balance: $1000", you store "Deposit $500", "Withdraw $200", "Deposit $700". You can replay these events to verify the balance or undo transactions.</p>
+<p><strong>Technologies:</strong> EventStore, Apache Kafka (with compacted topics)</p>
+<p><strong>Which pattern to choose?</strong></p>
+<ul>
+<li><strong>Queues</strong> for one consumer, background jobs</li>
+<li><strong>Pub/Sub</strong> for multiple consumers, event broadcasting</li>
+<li><strong>Event Sourcing</strong> for audit trails, complex state changes</li>
+</ul>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="netflix-events-for-resilience"><a class="header" href="#netflix-events-for-resilience">Netflix: Events for Resilience</a></h3>
+<p>Netflix's event-driven architecture is legendary. Here's how they use events:</p>
+<p><strong>The Challenge:</strong> When you play a video, dozens of things need to happen: stream initialization, quality selection, analytics tracking, recommendation updates, etc.</p>
+<p><strong>The Synchronous Problem:</strong> If analytics tracking is slow, video playback shouldn't suffer. If recommendations are down, you should still be able to watch.</p>
+<p><strong>The Event-Driven Solution:</strong></p>
+<ol>
+<li>"VideoPlaybackStarted" event is published</li>
+<li>Multiple services subscribe independently:
+<ul>
+<li>Analytics Service: Track viewing habits</li>
+<li>Recommendation Service: Update "continue watching"</li>
+<li>Billing Service: Track usage for account sharing</li>
+<li>Quality Service: Monitor stream health</li>
+</ul>
+</li>
+</ol>
+<p><strong>The Result:</strong> If Analytics Service crashes, video playback continues. Each service operates independently. Netflix achieves 99.99%+ uptime.</p>
+<h3 id="linkedin-the-migration-to-events"><a class="header" href="#linkedin-the-migration-to-events">LinkedIn: The Migration to Events</a></h3>
+<p>LinkedIn's journey to event-driven architecture is instructive:</p>
+<p><strong>The Problem (2010):</strong> Synchronous calls everywhere. The "social graph" service was called by dozens of other services. When it was slow, LinkedIn was slow.</p>
+<p><strong>The Solution:</strong></p>
+<ol>
+<li>Identified the most-called services</li>
+<li>Gradually migrated to event-driven architecture using Kafka</li>
+<li>Services now react to events instead of calling each other</li>
+</ol>
+<p><strong>The Result:</strong></p>
+<ul>
+<li>10x improvement in response times</li>
+<li>Ability to handle 4x more traffic with same infrastructure</li>
+<li>Services can fail independently without taking down the site</li>
+</ul>
+<p><strong>The Lesson:</strong> Migrate gradually, not all at once. Start with the most painful synchronous dependencies.</p>
+<h3 id="the-startup-that-over-engineered-events"><a class="header" href="#the-startup-that-over-engineered-events">The Startup That Over-Engineered Events</a></h3>
+<p>Not every story is a success. A startup I advised went all-in on events from day one:</p>
+<p><strong>What They Did:</strong></p>
+<ul>
+<li>Kafka cluster with 10 brokers</li>
+<li>Event sourcing for everything (even simple CRUD)</li>
+<li>50+ event types for an MVP</li>
+</ul>
+<p><strong>The Result:</strong></p>
+<ul>
+<li>Spent 6 months building infrastructure before shipping features</li>
+<li>Debugging was nightmare (which event caused this bug?)</li>
+<li>Operational overhead crushed a small team</li>
+</ul>
+<p><strong>The Lesson:</strong> Events are powerful, but don't start with them. Evolve into event-driven architecture when you feel the pain of not having it.</p>
+<h2 id="common-event-driven-mistakes"><a class="header" href="#common-event-driven-mistakes">Common Event-Driven Mistakes</a></h2>
+<p>After years of working with event-driven systems, I've seen these patterns repeat:</p>
+<p><strong>Mistake 1: Eventual Consistency Confusion</strong></p>
+<p>"We'll just use events and everything will be consistent eventually!"</p>
+<p><strong>Reality:</strong> Eventual consistency means your data is inconsistent for some period. Users might not see their changes immediately. If you need strong consistency (e.g., banking), events aren't the answer.</p>
+<p><strong>Mistake 2: Event Spaghetti</strong></p>
+<p>"We'll publish events for everything!"</p>
+<p><strong>Reality:</strong> 200 event types create chaos. Which events do I subscribe to? What happens when event schemas change? Keep events minimal and well-documented.</p>
+<p><strong>Mistake 3: No Retry Logic</strong></p>
+<p>"If an event fails, we'll just retry forever!"</p>
+<p><strong>Reality:</strong> Some events can't succeed (e.g., email to invalid address). You need dead letter queues, exponential backoff, and failure handling.</p>
+<p><strong>Mistake 4: Synchronous Events</strong></p>
+<p>"We'll use events, but wait for the response!"</p>
+<p><strong>Reality:</strong> That's not event-driven, that's synchronous calls with extra steps. Either commit to async or use synchronous calls.</p>
+<p><strong>Mistake 5: Ignoring Event Ordering</strong></p>
+<p>"Order doesn't matter!"</p>
+<p><strong>Reality:</strong> "UserCreated" must come before "EmailUpdated". Use partitioning or sequencing to maintain order when it matters.</p>
+<h2 id="modeling-events-in-sruja"><a class="header" href="#modeling-events-in-sruja">Modeling Events in Sruja</a></h2>
+<p>Now that you understand the concepts, let's see how to model event-driven architecture in Sruja. The key is using <code>queue</code> for asynchronous communication and <code>scenario</code> for event flows.</p>
+<h3 id="example-user-registration-with-events"><a class="header" href="#example-user-registration-with-events">Example: User Registration with Events</a></h3>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 User = person "End User"
 
@@ -211,15 +401,15 @@ Notifications = system "Notification System" {
         description "Handles user authentication and publishes events"
     }
 
-    // Define a queue or topic
+    // Define the event queue/topic
     UserEvents = queue "User Events Topic" {
         technology "Kafka"
-        description "Events related to user lifecycle (signup, login, profile updates)."
+        description "Events: UserSignedUp, UserLoggedIn, ProfileUpdated"
     }
 
     EmailService = container "Email Service" {
         technology "Python"
-        description "Sends transactional emails"
+        description "Sends transactional emails asynchronously"
     }
 
     AnalyticsService = container "Analytics Service" {
@@ -232,60 +422,81 @@ Notifications = system "Notification System" {
         description "Stores notification preferences and history"
     }
 
-    // Pub/Sub flow
-    User -&gt; AuthService "Signs up"
-    AuthService -&gt; UserEvents "Publishes 'UserSignedUp' event"
-    UserEvents -&gt; EmailService "Consumes - sends welcome email"
-    UserEvents -&gt; AnalyticsService "Consumes - tracks signup"
+    // Pub/Sub flow: One event, multiple consumers
+    User -&gt; AuthService "Signs up (synchronous)"
+    AuthService -&gt; UserEvents "Publishes 'UserSignedUp' (async)"
+    UserEvents -&gt; EmailService "Consumes event - sends welcome email"
+    UserEvents -&gt; AnalyticsService "Consumes event - tracks signup"
     EmailService -&gt; NotificationDB "Logs email sent"
 }
 
-// Model the event flow as a scenario
+// Model the complete event flow as a scenario
 UserSignupFlow = scenario "User Signup Event Flow" {
-    User -&gt; AuthService "Submits registration"
-    AuthService -&gt; UserEvents "Publishes UserSignedUp"
-    UserEvents -&gt; EmailService "Triggers welcome email"
-    UserEvents -&gt; AnalyticsService "Tracks signup event"
-    EmailService -&gt; User "Sends welcome email"
+    User -&gt; AuthService "Submits registration (synchronous)"
+    AuthService -&gt; UserEvents "Publishes UserSignedUp (async)"
+    UserEvents -&gt; EmailService "Triggers welcome email (async)"
+    UserEvents -&gt; AnalyticsService "Tracks signup event (async)"
+    EmailService -&gt; User "Sends welcome email (async)"
 }
 
-// Data flow for analytics processing
+// Model data pipeline for analytics
 flow AnalyticsPipeline "Analytics Data Pipeline" {
-    UserEvents -&gt; AnalyticsService "Streams events"
-    AnalyticsService -&gt; AnalyticsService "Processes batch"
+    UserEvents -&gt; AnalyticsService "Streams events continuously"
+    AnalyticsService -&gt; AnalyticsService "Processes in batches"
     AnalyticsService -&gt; AnalyticsService "Generates reports"
 }
 
 view index {
-title "Notification System Overview"
-include *
+    title "Notification System Overview"
+    include *
 }
 
 // Event flow view: Focus on async communication
 view eventflow {
-title "Event Flow View"
-include Notifications.AuthService
-include Notifications.UserEvents
-include Notifications.EmailService
-include Notifications.AnalyticsService
-exclude User Notifications.NotificationDB
+    title "Event Flow View - Async Communication"
+    include Notifications.AuthService
+    include Notifications.UserEvents
+    include Notifications.EmailService
+    include Notifications.AnalyticsService
+    exclude User Notifications.NotificationDB
 }
 
 // Data view: Focus on data storage
 view data {
-title "Data Storage View"
-include Notifications.EmailService
-include Notifications.NotificationDB
-include Notifications.AnalyticsService
-exclude Notifications.AuthService Notifications.UserEvents
+    title "Data Storage View"
+    include Notifications.EmailService
+    include Notifications.NotificationDB
+    include Notifications.AnalyticsService
+    exclude Notifications.AuthService Notifications.UserEvents
 }
 </code></pre>
-<h3 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h3>
+<h3 id="key-sruja-concepts-for-events"><a class="header" href="#key-sruja-concepts-for-events">Key Sruja Concepts for Events</a></h3>
 <ol>
-<li><strong>Scenarios</strong> model behavioral flows (user journeys, use cases)</li>
-<li><strong>Flows</strong> model data pipelines (ETL, streaming, batch processing)</li>
-<li><strong>Views</strong> let you focus on different aspects (events vs data vs user experience)</li>
+<li><strong><code>queue</code></strong> - Models message queues and pub/sub topics</li>
+<li><strong><code>scenario</code></strong> - Models behavioral flows (user journeys, event sequences)</li>
+<li><strong><code>flow</code></strong> - Models data pipelines (streaming, batch processing)</li>
+<li><strong><code>views</code></strong> - Different perspectives for different audiences</li>
 </ol>
+<p><strong>Notice the separation:</strong></p>
+<ul>
+<li>Synchronous calls: <code>User -&gt; AuthService</code> (user waits)</li>
+<li>Asynchronous events: <code>AuthService -&gt; UserEvents</code> (fire and forget)</li>
+</ul>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p><strong>Synchronous chains create fragility.</strong> When every service calls every other service synchronously, one slow service slows everything. Event-driven architecture breaks these chains.</p>
+<p><strong>Events trade consistency for resilience.</strong> You gain independence and fault tolerance, but data isn't immediately consistent across services. This is acceptable for many use cases, but not all.</p>
+<p><strong>Three patterns for three problems:</strong></p>
+<ul>
+<li><strong>Queues</strong> for background jobs, one consumer</li>
+<li><strong>Pub/Sub</strong> for broadcasting events, multiple consumers</li>
+<li><strong>Event Sourcing</strong> for audit trails, state reconstruction</li>
+</ul>
+<p><strong>Events aren't always the answer.</strong> Use them when you need decoupling, resilience, or async processing. Don't use them when you need immediate feedback or strong consistency.</p>
+<p><strong>Start synchronous, evolve to async.</strong> Most successful companies (Netflix, LinkedIn, Uber) started with synchronous calls and migrated to events when they felt the pain. Don't over-engineer from day one.</p>
+<p><strong>Model events explicitly in Sruja.</strong> Use <code>queue</code> for topics, <code>scenario</code> for flows, and <code>views</code> to show different perspectives. Make the async boundaries clear.</p>
+<p>Event-driven architecture isn't a silver bullet. It's a powerful tool for specific problems. Use it when the trade-offs make sense.</p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next</a></h2>
+<p>Now that you understand event-driven architecture, <a href="lesson-3.html">Lesson 3</a> covers Advanced Scenarios—how to model complex user journeys and technical sequences that span multiple services. You'll learn when scenarios help clarify behavior and when they're just extra documentation.</p>
 
                     </main>
 
@@ -340,9 +551,11 @@ exclude Notifications.AuthService Notifications.UserEvents
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

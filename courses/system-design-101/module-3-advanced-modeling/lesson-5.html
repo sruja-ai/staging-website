@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,62 +180,150 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-5-views--styling"><a class="header" href="#lesson-5-views--styling">Lesson 5: Views &amp; Styling</a></h1>
-<h2 id="why-views"><a class="header" href="#why-views">Why Views?</a></h2>
-<p>Views let you spotlight specific paths (API, data, auth) without redrawing the whole system.</p>
-<h2 id="sruja-views-and-styles"><a class="header" href="#sruja-views-and-styles">Sruja: Views and Styles</a></h2>
-<p>Views let you create focused diagrams from a single model. Styles make them visually clear.</p>
-<h3 id="basic-views-example"><a class="header" href="#basic-views-example">Basic Views Example</a></h3>
+                        <hr>
+<h1 id="lesson-5-views--styling"><a class="header" href="#lesson-5-views--styling">Lesson 5: Views &amp; Styling</a></h1>
+<p>I once worked with an architect who loved colors. His diagrams were... enthusiastic.</p>
+<p>Every service had a different color. Databases were purple. APIs were orange. Message queues were pink. External systems were yellow. Internal systems were green. And the relationships? Rainbow gradients.</p>
+<p>It looked like a unicorn had exploded on his screen.</p>
+<p>When I asked him to walk me through the architecture, he spent 10 minutes explaining his color coding system. By minute 3, I'd forgotten what we were looking at. By minute 10, I had a headache.</p>
+<p>Here's the thing: <strong>styling should clarify, not decorate</strong>. When done right, styling makes diagrams instantly understandable. When done wrong, it creates visual noise that obscures the very thing you're trying to show.</p>
+<h2 id="the-traffic-light-principle"><a class="header" href="#the-traffic-light-principle">The Traffic Light Principle</a></h2>
+<p>Think about traffic lights. They use three colors with specific meanings:</p>
+<ul>
+<li><strong>Red</strong> = Stop, danger, critical</li>
+<li><strong>Yellow</strong> = Caution, warning</li>
+<li><strong>Green</strong> = Go, safe, normal</li>
+</ul>
+<p>You don't need a legend. You don't need to think. You instantly understand.</p>
+<p>Good architecture styling works the same way. It uses visual elements to communicate meaning, not to look pretty.</p>
+<h2 id="why-styling-matters"><a class="header" href="#why-styling-matters">Why Styling Matters</a></h2>
+<p>Your brain processes visual information in two ways:</p>
+<ol>
+<li><strong>Fast thinking (System 1)</strong> - Instant pattern recognition, gut reactions</li>
+<li><strong>Slow thinking (System 2)</strong> - Deliberate analysis, reading labels</li>
+</ol>
+<p>Good styling triggers System 1. Before you even read the labels, you should understand:</p>
+<ul>
+<li>What's important (visual weight)</li>
+<li>How things connect (line styles)</li>
+<li>What things are (shapes and colors)</li>
+<li>Where to look first (hierarchy)</li>
+</ul>
+<p>Let me show you the difference.</p>
+<h3 id="before-the-uniform-diagram"><a class="header" href="#before-the-uniform-diagram">Before: The Uniform Diagram</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-User = person "User"
+// Everything looks the same. No visual hierarchy.
+Customer = person "Customer"
 
 Shop = system "E-Commerce Shop" {
-WebApp = container "Web Application"
-API = container "API Service"
-DB = database "Database"
+  WebApp = container "Web Application"
+  API = container "API Service"
+  DB = database "Database"
 }
 
-User -&gt; Shop.WebApp "Uses"
+Customer -&gt; Shop.WebApp "Uses"
 Shop.WebApp -&gt; Shop.API "Calls"
 Shop.API -&gt; Shop.DB "Reads/Writes"
 
-// Default view: Everything
 view index {
-title "Complete System View"
-include *
-}
-
-// API-focused view
-view api {
-title "API Focus View"
-include Shop.API
-include Shop.DB
-exclude Shop.WebApp
-exclude User
-}
-
-// User experience view
-view user {
-title "User Experience View"
-include User
-include Shop.WebApp
-include Shop.API
-exclude Shop.DB
+  title "Everything Looks the Same"
+  include *
 }
 </code></pre>
-<h3 id="views-with-custom-styling"><a class="header" href="#views-with-custom-styling">Views with Custom Styling</a></h3>
+<p>Everything has equal visual weight. Your eye doesn't know where to go. You have to read every label to understand what's happening.</p>
+<h3 id="after-styled-with-purpose"><a class="header" href="#after-styled-with-purpose">After: Styled with Purpose</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+Customer = person "Customer"
+
+Shop = system "E-Commerce Shop" {
+  WebApp = container "Web Application"
+  API = container "API Service"
+  DB = database "Database"
+}
+
+Customer -&gt; Shop.WebApp "Uses"
+Shop.WebApp -&gt; Shop.API "Calls"
+Shop.API -&gt; Shop.DB "Reads/Writes"
+
+// Global styles apply to all views
+style {
+  // Databases are always cylinders in green
+  element "Database" {
+    shape cylinder
+    color "#10b981"  // Green - stable, persistent
+  }
+  
+  // Read operations in blue (cool, safe)
+  relation "Reads/Writes" {
+    color "#3b82f6"
+  }
+}
+
+view index {
+  title "Styled with Purpose"
+  include *
+}
+</code></pre>
+<p>Now, before you read anything, you already know:</p>
+<ul>
+<li>That cylinder thing is a database (shape)</li>
+<li>The database is stable/persistent (green color)</li>
+<li>Data flows to/from it (blue line)</li>
+</ul>
+<h2 id="sruja-styling-the-basics"><a class="header" href="#sruja-styling-the-basics">Sruja Styling: The Basics</a></h2>
+<p>Sruja gives you two levels of styling:</p>
+<h3 id="1-global-styles"><a class="header" href="#1-global-styles">1. Global Styles</a></h3>
+<p>Apply to all views. Use for consistent element types:</p>
+<pre><code class="language-sruja">// Define once, apply everywhere
+style {
+  element "Database" {
+    shape cylinder
+    color "#22c55e"
+  }
+  
+  element "Cache" {
+    shape cylinder
+    color "#f59e0b"  // Orange = fast, temporary
+  }
+  
+  relation "Processes payments" {
+    color "#ef4444"  // Red = critical path
+    thickness 3
+  }
+}
+</code></pre>
+<h3 id="2-view-specific-styles"><a class="header" href="#2-view-specific-styles">2. View-Specific Styles</a></h3>
+<p>Apply to one view. Use to highlight what matters in that context:</p>
+<pre><code class="language-sruja">view security {
+  title "Security View"
+  include PaymentGateway Shop.API Shop.DB
+  
+  // Only in this view: highlight security concerns
+  style {
+    element "API" {
+      color "#ef4444"  // Red = security focus
+    }
+    
+    relation "Processes payments" {
+      style dashed  // Dashed = needs review
+    }
+  }
+}
+</code></pre>
+<p>View-specific styles override global styles. This lets you maintain consistency while highlighting what matters for each audience.</p>
+<h2 id="complete-example-e-commerce-with-purposeful-styling"><a class="header" href="#complete-example-e-commerce-with-purposeful-styling">Complete Example: E-Commerce with Purposeful Styling</a></h2>
+<p>Let me show you a real-world example with intentional styling:</p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 
 ECommerce = system "E-Commerce System" {
-WebApp = container "Web Application"
-API = container "API Service"
-OrderDB = database "Order Database"
-ProductDB = database "Product Database"
+  WebApp = container "Web Application"
+  API = container "API Service"
+  OrderDB = database "Order Database"
+  ProductDB = database "Product Database"
 }
 
 Customer -&gt; ECommerce.WebApp "Browses"
@@ -243,46 +331,253 @@ ECommerce.WebApp -&gt; ECommerce.API "Fetches data"
 ECommerce.API -&gt; ECommerce.OrderDB "Stores orders"
 ECommerce.API -&gt; ECommerce.ProductDB "Queries products"
 
-// Global styles
+// Global styles: Consistent visual language
 style {
-element "Database" {
-  shape cylinder
-  color "#22c55e"
-}
-relation "Fetches data" {
-  color "#3b82f6"
-}
-relation "Stores" {
-  color "#ef4444"
-}
+  // All databases look the same
+  element "Database" {
+    shape cylinder
+    color "#22c55e"  // Green = stable, persistent
+  }
+  
+  // Data retrieval = blue (cool, safe)
+  relation "Fetches data" {
+    color "#3b82f6"
+  }
+  
+  // Data storage = orange (warm, action)
+  relation "Stores orders" {
+    color "#f59e0b"
+    thickness 2
+  }
+  
+  // Read operations = thinner
+  relation "Queries products" {
+    color "#3b82f6"
+    thickness 1
+  }
 }
 
+// Complete view with all styling
 view index {
-title "Complete View"
-include *
+  title "Complete System View"
+  include *
 }
 
-// Data flow view with custom styling
+// Data flow view with custom emphasis
 view dataflow {
-title "Data Flow View"
-include ECommerce.API
-include ECommerce.OrderDB
-include ECommerce.ProductDB
-exclude Customer
-exclude ECommerce.WebApp
-
-// View-specific styles override global styles
-style {
-  element "API" { color "#0ea5e9" }
-  relation "Stores" { color "#10b981" }
-}
+  title "Data Flow View"
+  include ECommerce.API
+  include ECommerce.OrderDB
+  include ECommerce.ProductDB
+  exclude Customer
+  exclude ECommerce.WebApp
+  
+  // Override global styles for this view
+  style {
+    element "API" {
+      color "#0ea5e9"  // Blue = data orchestrator
+      thickness 3
+    }
+    
+    // Emphasize write operations
+    relation "Stores orders" {
+      color "#ef4444"  // Red = critical writes
+      thickness 3
+    }
+  }
 }
 </code></pre>
-<h2 id="practice"><a class="header" href="#practice">Practice</a></h2>
+<h3 id="what-this-styling-communicates"><a class="header" href="#what-this-styling-communicates">What This Styling Communicates</a></h3>
+<p>Without reading a single label, the styling tells you:</p>
 <ul>
-<li>Create an "Data Flow" view focusing on <code>DB</code> reads/writes.</li>
-<li>Use view <code>styles</code> to highlight critical edges.</li>
+<li><strong>Green cylinders</strong> = Databases (stable, persistent storage)</li>
+<li><strong>Blue lines</strong> = Read operations (safe, idempotent)</li>
+<li><strong>Orange/red lines</strong> = Write operations (changes state, be careful)</li>
+<li><strong>Thick lines</strong> = Critical paths (important, frequent)</li>
+<li><strong>Thin lines</strong> = Secondary paths (less critical)</li>
 </ul>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="aws-color-coding-by-service-type"><a class="header" href="#aws-color-coding-by-service-type">AWS: Color Coding by Service Type</a></h3>
+<p>AWS architecture diagrams use consistent colors:</p>
+<ul>
+<li><strong>Orange</strong> = Compute (EC2, Lambda)</li>
+<li><strong>Blue</strong> = Storage (S3, EBS)</li>
+<li><strong>Green</strong> = Database (RDS, DynamoDB)</li>
+<li><strong>Purple</strong> = Analytics (Redshift, Athena)</li>
+</ul>
+<p>This consistency means AWS architects can look at any AWS diagram and instantly understand the service mix. No legend needed.</p>
+<h3 id="github-minimal-but-meaningful"><a class="header" href="#github-minimal-but-meaningful">GitHub: Minimal but Meaningful</a></h3>
+<p>GitHub's internal architecture docs use minimal styling:</p>
+<ul>
+<li><strong>Gray</strong> = Existing services</li>
+<li><strong>Blue</strong> = New services (in a proposal)</li>
+<li><strong>Red borders</strong> = Deprecated services</li>
+</ul>
+<p>Three colors. Clear meaning. Zero confusion.</p>
+<h3 id="spotify-styling-for-scale"><a class="header" href="#spotify-styling-for-scale">Spotify: Styling for Scale</a></h3>
+<p>Spotify's architecture diagrams use visual weight to show scale:</p>
+<ul>
+<li><strong>Large boxes</strong> = Major services (100+ instances)</li>
+<li><strong>Medium boxes</strong> = Standard services (10-100 instances)</li>
+<li><strong>Small boxes</strong> = Small services (&lt;10 instances)</li>
+<li><strong>Dashed borders</strong> = External dependencies</li>
+</ul>
+<p>Size communicates scale. Style communicates meaning.</p>
+<h2 id="when-to-style-framework"><a class="header" href="#when-to-style-framework">When to Style (Framework)</a></h2>
+<p>Here's my framework for deciding when to apply styling:</p>
+<h3 id="always-style"><a class="header" href="#always-style">Always Style:</a></h3>
+<p><strong>1. Element Types</strong></p>
+<ul>
+<li>Databases should look different from services</li>
+<li>External systems should look different from internal ones</li>
+<li>Use consistent shapes and colors for each type</li>
+</ul>
+<p><strong>2. Critical Relationships</strong></p>
+<ul>
+<li>Payment flows</li>
+<li>Security boundaries</li>
+<li>Data pipelines</li>
+<li>Anything that, if broken, causes major issues</li>
+</ul>
+<p><strong>3. State Changes</strong></p>
+<ul>
+<li>Read vs. write operations</li>
+<li>Sync vs. async communication</li>
+<li>Permanent vs. temporary data</li>
+</ul>
+<h3 id="sometimes-style"><a class="header" href="#sometimes-style">Sometimes Style:</a></h3>
+<p><strong>4. Performance Indicators</strong></p>
+<ul>
+<li>Hot paths (frequently used)</li>
+<li>Bottlenecks</li>
+<li>Cached vs. uncached data</li>
+</ul>
+<p><strong>5. Ownership Boundaries</strong></p>
+<ul>
+<li>Team A's services</li>
+<li>Team B's services</li>
+<li>Shared infrastructure</li>
+</ul>
+<h3 id="rarely-style"><a class="header" href="#rarely-style">Rarely Style:</a></h3>
+<p><strong>6. Technology Stack</strong></p>
+<ul>
+<li>Java vs. Python services</li>
+<li>PostgreSQL vs. MySQL databases</li>
+<li>This is usually noise, not signal</li>
+</ul>
+<p><strong>7. Version Information</strong></p>
+<ul>
+<li>v1 vs. v2 services</li>
+<li>Deprecated systems (use red border, but don't overdo it)</li>
+</ul>
+<h2 id="common-styling-mistakes"><a class="header" href="#common-styling-mistakes">Common Styling Mistakes</a></h2>
+<h3 id="mistake-1-the-rainbow-diagram"><a class="header" href="#mistake-1-the-rainbow-diagram">Mistake #1: The Rainbow Diagram</a></h3>
+<p><strong>What happens:</strong> You use 10+ colors because "they all have meaning."</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>No one can remember 10 color meanings</li>
+<li>Visual overload</li>
+<li>Looks unprofessional</li>
+</ul>
+<p><strong>The fix:</strong> Limit to 3-5 colors with clear, distinct meanings. If you need more, use shapes or line styles instead.</p>
+<h3 id="mistake-2-no-visual-hierarchy"><a class="header" href="#mistake-2-no-visual-hierarchy">Mistake #2: No Visual Hierarchy</a></h3>
+<p><strong>What happens:</strong> Everything is equally bold, equally colorful, equally large.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Viewer doesn't know where to look first</li>
+<li>Critical paths get lost in the noise</li>
+<li>Feels overwhelming</li>
+</ul>
+<p><strong>The fix:</strong> Make important things visually prominent. Use size, color intensity, and thickness to create hierarchy.</p>
+<h3 id="mistake-3-inconsistent-meaning"><a class="header" href="#mistake-3-inconsistent-meaning">Mistake #3: Inconsistent Meaning</a></h3>
+<p><strong>What happens:</strong> Blue means "database" in one diagram and "external service" in another.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Confuses people who see multiple diagrams</li>
+<li>Undermines trust in documentation</li>
+<li>Requires constant legend-checking</li>
+</ul>
+<p><strong>The fix:</strong> Create a style guide and stick to it across all diagrams.</p>
+<h3 id="mistake-4-style-over-substance"><a class="header" href="#mistake-4-style-over-substance">Mistake #4: Style Over Substance</a></h3>
+<p><strong>What happens:</strong> Beautiful diagrams that don't communicate clearly.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Form over function</li>
+<li>People admire the diagram but don't understand the architecture</li>
+<li>Time wasted on decoration</li>
+</ul>
+<p><strong>The fix:</strong> Before adding any style, ask: "Does this help the viewer understand faster?" If no, remove it.</p>
+<h3 id="mistake-5-ignoring-accessibility"><a class="header" href="#mistake-5-ignoring-accessibility">Mistake #5: Ignoring Accessibility</a></h3>
+<p><strong>What happens:</strong> Red/green color coding that's invisible to colorblind viewers.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>8% of men have some color blindness</li>
+<li>Excludes part of your audience</li>
+<li>May fail accessibility requirements</li>
+</ul>
+<p><strong>The fix:</strong></p>
+<ul>
+<li>Don't rely on color alone (use shapes, patterns, labels too)</li>
+<li>Test with color blindness simulators</li>
+<li>Use colorblind-friendly palettes (blue/orange instead of red/green)</li>
+</ul>
+<h2 id="the-style-framework"><a class="header" href="#the-style-framework">The STYLE Framework</a></h2>
+<p>When styling your diagrams, use this framework:</p>
+<p><strong>S - Semantic Meaning</strong></p>
+<ul>
+<li>Every style choice should communicate something</li>
+<li>If you can't explain why, remove it</li>
+</ul>
+<p><strong>T - Type Differentiation</strong></p>
+<ul>
+<li>Different element types should look different</li>
+<li>Databases ≠ Services ≠ External Systems</li>
+</ul>
+<p><strong>Y - Yield Hierarchy</strong></p>
+<ul>
+<li>Important things should be visually prominent</li>
+<li>Critical paths should stand out</li>
+</ul>
+<p><strong>L - Limit Colors</strong></p>
+<ul>
+<li>Maximum 5 colors with distinct meanings</li>
+<li>Use shapes and line styles for additional differentiation</li>
+</ul>
+<p><strong>E - Ensure Consistency</strong></p>
+<ul>
+<li>Same element type = same style across all diagrams</li>
+<li>Create and follow a style guide</li>
+</ul>
+<h2 id="practical-exercise"><a class="header" href="#practical-exercise">Practical Exercise</a></h2>
+<p>Take the e-commerce example above and create a new styled view:</p>
+<p><strong>Challenge:</strong> Create a "Performance View" that shows:</p>
+<ul>
+<li>Database query hot paths (thick lines)</li>
+<li>Cacheable vs. non-cacheable data (dashed vs. solid)</li>
+<li>Critical user journey (highlighted)</li>
+</ul>
+<p><strong>Hint:</strong> Use view-specific styles to override global styles for performance concerns.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<ol>
+<li><strong>Styling is communication, not decoration</strong> - Every style choice should convey meaning</li>
+<li><strong>Limit your palette</strong> - 3-5 colors max, each with distinct meaning</li>
+<li><strong>Create visual hierarchy</strong> - Important things should look important</li>
+<li><strong>Be consistent</strong> - Same element type = same style across all diagrams</li>
+<li><strong>Test accessibility</strong> - Don't rely on color alone; consider color blindness</li>
+<li><strong>Global styles for consistency, view styles for emphasis</strong> - Define element types globally, highlight specifics per view</li>
+<li><strong>When in doubt, simplify</strong> - Remove styling that doesn't clarify</li>
+</ol>
+<h2 id="when-to-skip-styling"><a class="header" href="#when-to-skip-styling">When to Skip Styling</a></h2>
+<p>Sometimes, plain is better:</p>
+<ul>
+<li><strong>Early exploration</strong> - When you're still figuring out the architecture, don't waste time on styling</li>
+<li><strong>Internal discussions</strong> - If only architects see it and they know the system, minimal styling is fine</li>
+<li><strong>Simple systems</strong> - 3 boxes don't need color coding</li>
+<li><strong>Rapid prototyping</strong> - Get the structure right first, style later</li>
+</ul>
+<p>Style when you need to communicate. Skip it when you're just thinking through problems.</p>
+<hr>
+<p><strong>Next up:</strong> We'll explore how to model complex real-world systems with all the techniques we've learned.</p>
 
                     </main>
 
@@ -337,9 +632,11 @@ style {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

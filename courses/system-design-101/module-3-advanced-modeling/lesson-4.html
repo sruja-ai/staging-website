@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -181,47 +181,62 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-4-architectural-perspectives"><a class="header" href="#lesson-4-architectural-perspectives">Lesson 4: Architectural Perspectives</a></h1>
-<p>As your system grows, a single diagram becomes too cluttered. You need different "maps" for different audiences:</p>
+<p>I'll never forget the board meeting where I learned this lesson the hard way.</p>
+<p>The VP of Engineering asked me to present our architecture to the executive team. I spent hours crafting this beautiful, comprehensive diagram showing every service, database, queue, and API endpoint. It was a masterpiece of technical completeness.</p>
+<p>I proudly projected it on the screen.</p>
+<p>The CEO stared at it for ten seconds, then asked: "So... where's the revenue coming from?"</p>
+<p>The diagram had 47 boxes. None of them mentioned customers, payments, or business value. I'd shown them the engine when they wanted to see the car.</p>
+<p>That's when I realized: <strong>one diagram cannot serve all audiences</strong>. You need different maps for different travelers.</p>
+<h2 id="the-google-maps-principle"><a class="header" href="#the-google-maps-principle">The Google Maps Principle</a></h2>
+<p>Think about Google Maps. Same underlying data, but multiple views:</p>
 <ul>
-<li><strong>Executives:</strong> Need a high-level overview (Context).</li>
-<li><strong>Architects:</strong> Need to see service boundaries (Containers).</li>
-<li><strong>Developers:</strong> Need to see internal details (Components).</li>
+<li><strong>Satellite view</strong> - See everything from above (executives)</li>
+<li><strong>Traffic view</strong> - See flow and congestion (architects)</li>
+<li><strong>Transit view</strong> - See routes and connections (developers)</li>
+<li><strong>Street view</strong> - See ground-level details (implementers)</li>
 </ul>
-<p>Sruja models naturally support multiple perspectives without special keywords. Use the built‑in elements, and tooling presents the right level of detail.</p>
+<p>You don't create four different maps. You create <strong>one model with multiple perspectives</strong>.</p>
+<p>That's exactly what architectural views do for your system.</p>
 <h2 id="one-model-multiple-perspectives"><a class="header" href="#one-model-multiple-perspectives">One Model, Multiple Perspectives</a></h2>
-<p>Sruja's <code>views</code> block lets you create custom perspectives from a single model. This is powerful for communicating with different audiences.</p>
+<p>Here's the beautiful thing about Sruja: you define your architecture <strong>once</strong>, then create different views for different audiences. No duplication. No inconsistency. No "wait, which version is current?"</p>
+<p>Let me show you how this works with a real example:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
+// Define people who interact with the system
 Customer = person "Customer"
 Admin = person "Administrator"
 
+// Define the main system
 Shop = system "E-Commerce Shop" {
-WebApp = container "Web Application" {
-  technology "React"
-  CartComponent = component "Shopping Cart"
-  ProductComponent = component "Product Catalog"
-}
-API = container "API Service" {
-  technology "Rust"
-  OrderController = component "Order Controller"
-  PaymentController = component "Payment Controller"
-}
-DB = database "Database" {
-  technology "PostgreSQL"
-}
-Cache = database "Cache" {
-  technology "Redis"
-}
+  WebApp = container "Web Application" {
+    technology "React"
+    CartComponent = component "Shopping Cart"
+    ProductComponent = component "Product Catalog"
+  }
+  
+  API = container "API Service" {
+    technology "Rust"
+    OrderController = component "Order Controller"
+    PaymentController = component "Payment Controller"
+  }
+  
+  DB = database "Database" {
+    technology "PostgreSQL"
+  }
+  
+  Cache = database "Cache" {
+    technology "Redis"
+  }
 }
 
+// Define external systems
 PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
   }
 }
 
-// Relations
+// Define relationships
 Customer -&gt; Shop.WebApp "Browses products"
 Admin -&gt; Shop.WebApp "Manages inventory"
 Shop.WebApp -&gt; Shop.API "Fetches data"
@@ -229,65 +244,240 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 Shop.API -&gt; Shop.Cache "Caches queries"
 Shop.API -&gt; PaymentGateway "Processes payments"
 
-// Executive view: High-level context
+// EXECUTIVE VIEW: Business context
 view executive {
-title "Executive Overview"
-include Customer
-include Admin
-include Shop
-include PaymentGateway
-exclude Shop.WebApp
-exclude Shop.API
-exclude Shop.DB
-exclude Shop.Cache
+  title "Executive Overview"
+  include Customer
+  include Admin
+  include Shop
+  include PaymentGateway
+  // Hide technical details
+  exclude Shop.WebApp
+  exclude Shop.API
+  exclude Shop.DB
+  exclude Shop.Cache
 }
 
-// Architect view: Container-level architecture
+// ARCHITECT VIEW: Service boundaries
 view architect {
-title "Architectural View"
-include Shop Shop.WebApp Shop.API Shop.DB Shop.Cache
-include PaymentGateway
-exclude Customer Admin
-exclude Shop.CartComponent Shop.ProductComponent Shop.OrderController Shop.PaymentController
+  title "Architectural View"
+  include Shop Shop.WebApp Shop.API Shop.DB Shop.Cache
+  include PaymentGateway
+  // Hide people and implementation details
+  exclude Customer Admin
+  exclude Shop.CartComponent Shop.ProductComponent
+  exclude Shop.OrderController Shop.PaymentController
 }
 
-// Developer view: Component-level details
+// DEVELOPER VIEW: Implementation details
 view developer {
-title "Developer View"
-include Shop.WebApp Shop.WebApp.CartComponent Shop.WebApp.ProductComponent
-include Shop.API Shop.API.OrderController Shop.API.PaymentController
-include Shop.DB Shop.Cache
-exclude Customer Admin PaymentGateway
+  title "Developer View"
+  include Shop.WebApp Shop.WebApp.CartComponent Shop.WebApp.ProductComponent
+  include Shop.API Shop.API.OrderController Shop.API.PaymentController
+  include Shop.DB Shop.Cache
+  // Hide external concerns
+  exclude Customer Admin PaymentGateway
 }
 
-// Data flow view: Focus on data dependencies
+// DATA FLOW VIEW: Data dependencies
 view dataflow {
-title "Data Flow View"
-include Shop.API Shop.DB Shop.Cache
-exclude Customer Admin Shop.WebApp PaymentGateway
+  title "Data Flow View"
+  include Shop.API Shop.DB Shop.Cache
+  // Hide everything else
+  exclude Customer Admin Shop.WebApp PaymentGateway
 }
 
-// Default view: Everything
+// COMPLETE VIEW: Everything
 view index {
-title "Complete System View"
-include *
+  title "Complete System View"
+  include *
 }
 </code></pre>
-<h3 id="key-benefits"><a class="header" href="#key-benefits">Key Benefits</a></h3>
+<p>One model. Five perspectives. Zero duplication.</p>
+<h2 id="real-world-case-studies"><a class="header" href="#real-world-case-studies">Real-World Case Studies</a></h2>
+<h3 id="netflix-views-for-scale"><a class="header" href="#netflix-views-for-scale">Netflix: Views for Scale</a></h3>
+<p>Netflix operates one of the world's most complex architectures. They use different views for:</p>
 <ol>
-<li><strong>Context View (Executive)</strong>: Shows systems and actors - perfect for stakeholders</li>
-<li><strong>Container View (Architect)</strong>: Shows deployable units and their relationships</li>
-<li><strong>Component View (Developer)</strong>: Shows internal structure and implementation details</li>
-<li><strong>Data Flow View</strong>: Focuses on data dependencies and storage</li>
-<li><strong>Complete View</strong>: Shows everything for comprehensive documentation</li>
+<li><strong>Board presentations</strong> - Show content delivery to customers, geographic reach, no mention of microservices</li>
+<li><strong>Architecture reviews</strong> - Show the 700+ microservices, their interactions, data flow</li>
+<li><strong>Incident response</strong> - Show specific service dependencies, failure domains, circuit breakers</li>
+<li><strong>Developer onboarding</strong> - Show just the relevant service group with its databases and queues</li>
 </ol>
-<h3 id="when-to-use-views"><a class="header" href="#when-to-use-views">When to Use Views</a></h3>
+<p>Imagine if they tried to put all of this on one diagram. It would be unusable.</p>
+<h3 id="amazon-the-working-backwards-views"><a class="header" href="#amazon-the-working-backwards-views">Amazon: The "Working Backwards" Views</a></h3>
+<p>Amazon takes this further. They start with the customer-facing view (press release style), then work backwards to technical architecture:</p>
+<ol>
+<li><strong>Customer view</strong> - What does the customer experience?</li>
+<li><strong>Business view</strong> - What business capabilities do we need?</li>
+<li><strong>Architecture view</strong> - What services support those capabilities?</li>
+<li><strong>Implementation view</strong> - How do we build those services?</li>
+</ol>
+<p>Each view serves a specific audience and decision-making process.</p>
+<h3 id="stripe-developer-friendly-views"><a class="header" href="#stripe-developer-friendly-views">Stripe: Developer-Friendly Views</a></h3>
+<p>Stripe's famous for their developer experience. Their architecture documentation has:</p>
 <ul>
-<li><strong>Different Audiences</strong>: Tailor diagrams to what each audience needs to see</li>
-<li><strong>Reduce Complexity</strong>: Hide irrelevant details for specific discussions</li>
-<li><strong>Documentation</strong>: Create multiple diagrams from one source of truth</li>
-<li><strong>Presentations</strong>: Switch views during presentations to zoom in/out</li>
+<li><strong>Product view</strong> - For potential customers evaluating Stripe</li>
+<li><strong>Integration view</strong> - For developers implementing payments</li>
+<li><strong>Architecture view</strong> - For security teams reviewing compliance</li>
+<li><strong>Operational view</strong> - For DevOps monitoring systems</li>
 </ul>
+<p>Same system. Different lenses.</p>
+<h2 id="when-to-create-views-framework"><a class="header" href="#when-to-create-views-framework">When to Create Views (Framework)</a></h2>
+<p>Here's the framework I use to decide which views to create:</p>
+<h3 id="always-create-these-views"><a class="header" href="#always-create-these-views">Always Create These Views:</a></h3>
+<p><strong>1. Context View (Executive)</strong></p>
+<ul>
+<li><strong>Audience:</strong> Executives, stakeholders, non-technical team members</li>
+<li><strong>Shows:</strong> Systems, external dependencies, users</li>
+<li><strong>Hides:</strong> Technical implementation details</li>
+<li><strong>Use when:</strong> Explaining business value, system scope, external integrations</li>
+</ul>
+<p><strong>2. Container View (Architect)</strong></p>
+<ul>
+<li><strong>Audience:</strong> Architects, tech leads, senior engineers</li>
+<li><strong>Shows:</strong> Deployable units, inter-service communication, tech stack</li>
+<li><strong>Hides:</strong> Internal code structure, business context</li>
+<li><strong>Use when:</strong> Planning deployments, discussing scalability, reviewing tech choices</li>
+</ul>
+<p><strong>3. Component View (Developer)</strong></p>
+<ul>
+<li><strong>Audience:</strong> Developers implementing features</li>
+<li><strong>Shows:</strong> Internal structure, code organization, responsibilities</li>
+<li><strong>Hides:</strong> External systems, high-level architecture</li>
+<li><strong>Use when:</strong> Onboarding developers, planning sprints, debugging</li>
+</ul>
+<h3 id="create-conditionally"><a class="header" href="#create-conditionally">Create Conditionally:</a></h3>
+<p><strong>4. Data Flow View</strong></p>
+<ul>
+<li><strong>Create when:</strong> System has complex data pipelines, multiple data stores, or data compliance requirements</li>
+<li><strong>Skip when:</strong> Simple CRUD operations with one database</li>
+</ul>
+<p><strong>5. Security View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Handling sensitive data, compliance requirements (HIPAA, PCI, GDPR)</li>
+<li><strong>Skip when:</strong> Internal tools with no sensitive data</li>
+</ul>
+<p><strong>6. Operational View</strong></p>
+<ul>
+<li><strong>Create when:</strong> Complex deployment, multiple environments, disaster recovery requirements</li>
+<li><strong>Skip when:</strong> Simple deployment (single service + database)</li>
+</ul>
+<h2 id="common-mistakes-i-see-all-the-time"><a class="header" href="#common-mistakes-i-see-all-the-time">Common Mistakes I See All the Time</a></h2>
+<h3 id="mistake-1-the-one-diagram-to-rule-them-all"><a class="header" href="#mistake-1-the-one-diagram-to-rule-them-all">Mistake #1: The "One Diagram to Rule Them All"</a></h3>
+<p><strong>What happens:</strong> You create one massive diagram with everything.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Executives can't find business value</li>
+<li>Developers can't find implementation details</li>
+<li>Architects can't see service boundaries</li>
+<li>Nobody can read it after 10 boxes</li>
+</ul>
+<p><strong>The fix:</strong> Start with your audience. What decision do they need to make? Show only what supports that decision.</p>
+<h3 id="mistake-2-creating-multiple-models-instead-of-multiple-views"><a class="header" href="#mistake-2-creating-multiple-models-instead-of-multiple-views">Mistake #2: Creating Multiple Models Instead of Multiple Views</a></h3>
+<p><strong>What happens:</strong> You create separate Sruja files for executives, architects, and developers.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Views get out of sync</li>
+<li>"Which file is the source of truth?"</li>
+<li>Update one, forget the others</li>
+<li>Conflicting information</li>
+</ul>
+<p><strong>The fix:</strong> One model. Multiple <code>view</code> blocks. Always in sync.</p>
+<h3 id="mistake-3-forgetting-the-developer-view"><a class="header" href="#mistake-3-forgetting-the-developer-view">Mistake #3: Forgetting the Developer View</a></h3>
+<p><strong>What happens:</strong> You have great executive and architect views, but nothing for developers.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>New developers struggle to understand the codebase</li>
+<li>"Where do I add this feature?"</li>
+<li>Inconsistent implementation patterns</li>
+</ul>
+<p><strong>The fix:</strong> Always create a developer view showing components, their responsibilities, and key dependencies.</p>
+<h3 id="mistake-4-showing-the-wrong-detail-level"><a class="header" href="#mistake-4-showing-the-wrong-detail-level">Mistake #4: Showing the Wrong Detail Level</a></h3>
+<p><strong>What happens:</strong> You show database schema to executives, or business context to developers.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Audience gets confused or frustrated</li>
+<li>"Why are you showing me this?"</li>
+<li>Loss of credibility</li>
+</ul>
+<p><strong>The fix:</strong> Match detail level to audience:</p>
+<ul>
+<li><strong>Executives:</strong> Systems and users (5-10 boxes)</li>
+<li><strong>Architects:</strong> Containers and databases (10-20 boxes)</li>
+<li><strong>Developers:</strong> Components and classes (20-50 boxes)</li>
+</ul>
+<h3 id="mistake-5-the-everything-view-default"><a class="header" href="#mistake-5-the-everything-view-default">Mistake #5: The "Everything View" Default</a></h3>
+<p><strong>What happens:</strong> Your <code>index</code> view is the only view, showing everything.</p>
+<p><strong>Why it fails:</strong></p>
+<ul>
+<li>Default view is overwhelming</li>
+<li>People stop looking at your architecture docs</li>
+<li>"It's too complicated, I'll just ask someone"</li>
+</ul>
+<p><strong>The fix:</strong> Make the default view match your most common audience (usually container-level for teams).</p>
+<h2 id="the-view-framework-a-decision-guide"><a class="header" href="#the-view-framework-a-decision-guide">The VIEW Framework: A Decision Guide</a></h2>
+<p>When someone asks for architecture documentation, use this framework:</p>
+<p><strong>V - Verify the Audience</strong></p>
+<ul>
+<li>"Who will see this diagram?"</li>
+<li>"What's their technical level?"</li>
+<li>"What decisions will they make?"</li>
+</ul>
+<p><strong>E - Establish the Purpose</strong></p>
+<ul>
+<li>"What question are we answering?"</li>
+<li>"What level of detail do they need?"</li>
+<li>"What can we safely hide?"</li>
+</ul>
+<p><strong>I - Identify the Scope</strong></p>
+<ul>
+<li>"Which systems/containers are relevant?"</li>
+<li>"What's out of scope?"</li>
+<li>"Should we show external dependencies?"</li>
+</ul>
+<p><strong>E - Exclude Ruthlessly</strong></p>
+<ul>
+<li>Remove everything that doesn't serve the purpose</li>
+<li>Less is more</li>
+<li>Clarity over completeness</li>
+</ul>
+<p><strong>W - Write the View</strong></p>
+<ul>
+<li>Create a named view with descriptive title</li>
+<li>Test it with someone from the target audience</li>
+<li>Iterate based on feedback</li>
+</ul>
+<h2 id="practical-exercise"><a class="header" href="#practical-exercise">Practical Exercise</a></h2>
+<p>Take the e-commerce example above and create a new view:</p>
+<p><strong>Challenge:</strong> Create a "Security View" for the compliance team that shows:</p>
+<ul>
+<li>Where customer data flows</li>
+<li>Which systems handle payments</li>
+<li>External integrations</li>
+<li>But hides implementation details</li>
+</ul>
+<p><strong>Hint:</strong> Focus on <code>PaymentGateway</code>, <code>Shop.API</code>, and data stores. Exclude UI components.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<ol>
+<li><strong>One model, multiple views</strong> - Define once, present many ways</li>
+<li><strong>Match the view to the audience</strong> - Executives, architects, and developers need different things</li>
+<li><strong>Use the VIEW framework</strong> - Verify, Establish, Identify, Exclude, Write</li>
+<li><strong>Less is more</strong> - The best view shows only what's needed, nothing more</li>
+<li><strong>Avoid duplication</strong> - Multiple views from one model, not multiple models</li>
+<li><strong>Test with your audience</strong> - If they can't understand it in 30 seconds, simplify</li>
+<li><strong>Keep views in sync</strong> - One source of truth means automatic consistency</li>
+</ol>
+<h2 id="when-to-skip-views"><a class="header" href="#when-to-skip-views">When to Skip Views</a></h2>
+<p>You don't always need all views. Skip creating multiple views when:</p>
+<ul>
+<li><strong>Simple systems</strong> - Single service + database doesn't need multiple perspectives</li>
+<li><strong>Single audience</strong> - If only developers will see it, one developer view is enough</li>
+<li><strong>Prototyping</strong> - During exploration, focus on the view that helps you think</li>
+<li><strong>Time pressure</strong> - Better to have one good view than five bad ones</li>
+</ul>
+<p>Start simple. Add views when you feel the pain of not having them.</p>
+<hr>
+<p><strong>Next up:</strong> We'll explore how to model complex relationships and data flows between your architectural elements.</p>
 
                     </main>
 
@@ -342,9 +532,11 @@ include *
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

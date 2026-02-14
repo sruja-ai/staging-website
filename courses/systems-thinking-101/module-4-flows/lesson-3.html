@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,275 +180,680 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-3-user-journeys"><a class="header" href="#lesson-3-user-journeys">Lesson 3: User Journeys</a></h1>
+                        <h1 id="walking-in-their-shoes-user-journeys"><a class="header" href="#walking-in-their-shoes-user-journeys">Walking in Their Shoes: User Journeys</a></h1>
+<p>Ever watched someone use a product you built? You notice things you never would—confusing buttons, unclear error messages, workflows that don't make sense. Why? Because you built it from your perspective, not theirs.</p>
+<p>User journeys (or scenarios) are your way to model the complete user experience—from their perspective. They show what users do, how your system responds, and what happens when things go right (and wrong).</p>
+<p>In this lesson, you'll learn to create user journeys that capture the complete user experience. You'll discover how to model happy paths and error paths, document edge cases, and create scenarios that serve as both requirements and test cases.</p>
+<p>Let's start by understanding what user journeys actually are.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Model user journeys and behavioral scenarios</li>
-<li>Use BDD-style scenarios for requirements</li>
-<li>Document test cases with flows</li>
+<li>Model user journeys and behavioral scenarios from user's perspective</li>
+<li>Use BDD-style scenarios to document requirements</li>
+<li>Model both happy paths and error paths</li>
+<li>Document edge cases and unusual scenarios</li>
+<li>Create scenarios that serve as test cases and documentation</li>
 </ul>
-<h2 id="what-are-user-journeys"><a class="header" href="#what-are-user-journeys">What Are User Journeys?</a></h2>
-<p>User journeys (or scenarios) show how users interact with a system to achieve a goal. They're behavioral flows that capture:</p>
+<h2 id="what-are-user-journeys-really"><a class="header" href="#what-are-user-journeys-really">What Are User Journeys, Really?</a></h2>
+<p>User journeys (also called scenarios or behavioral flows) show how a person interacts with your system to achieve a goal. Unlike data flows that show data moving through a system, user journeys show <strong>human behavior</strong> and <strong>system responses</strong>.</p>
+<p>Think of it like a story: "As a customer, I want to buy a product so I can use it." The journey shows every step—what the customer does, what the system does, and what the customer experiences.</p>
+<p><strong>User journeys capture:</strong></p>
 <ul>
-<li>User actions</li>
-<li>System responses</li>
-<li>Success and failure paths</li>
-<li>Decision points</li>
+<li>User actions (what they click, type, select)</li>
+<li>System responses (what happens, what they see)</li>
+<li>Success paths (when everything works)</li>
+<li>Error paths (when things go wrong)</li>
+<li>Decision points (where different things happen based on conditions)</li>
 </ul>
-<h2 id="user-journey-elements-in-sruja"><a class="header" href="#user-journey-elements-in-sruja">User Journey Elements in Sruja</a></h2>
-<h3 id="scenario-for-behavioral-flows"><a class="header" href="#scenario-for-behavioral-flows"><code>scenario</code> for Behavioral Flows</a></h3>
-<pre><code class="language-sruja">CheckoutScenario = scenario "User Checkout" {
-  Customer -&gt; Shop.WebApp "Clicks checkout"
-  Shop.WebApp -&gt; Shop.API "Validate cart"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  Shop.API -&gt; EmailService "Send confirmation"
-  Shop.WebApp -&gt; Customer "Show success page"
+<p><strong>What makes them special:</strong></p>
+<ul>
+<li>User's perspective (not system's)</li>
+<li>Behavioral (not just data)</li>
+<li>Complete experience (start to finish)</li>
+<li>Both happy and sad paths</li>
+</ul>
+<h2 id="why-user-journeys-matter"><a class="header" href="#why-user-journeys-matter">Why User Journeys Matter</a></h2>
+<p>I've learned this the hard way. I once built a feature without modeling user journeys, and when we launched, users were completely confused.</p>
+<p>They couldn't find the checkout button. When they did, error messages were cryptic. The "success" page didn't tell them what to do next. Support tickets flooded in. We had to rebuild the entire feature.</p>
+<p>If I'd modeled user journeys upfront, we would have seen these issues immediately. The journey would have shown: "User clicks checkout → System shows error 'ERR_500' → User is confused."</p>
+<p><strong>User journeys matter because:</strong></p>
+<h3 id="1-requirements-clarity"><a class="header" href="#1-requirements-clarity">1. Requirements Clarity</a></h3>
+<p>User journeys turn vague requirements into concrete scenarios:</p>
+<p><strong>Vague requirement:</strong> "Users should be able to check out"</p>
+<p><strong>User journey makes it concrete:</strong></p>
+<pre><code class="language-sruja">CheckoutJourney = scenario "Customer Checkout" {
+  Customer -&gt; WebApp "Clicks checkout button"
+  WebApp -&gt; API "Validates cart"
+  API -&gt; Database "Checks inventory"
+  Database -&gt; API "Inventory available"
+  API -&gt; PaymentGateway "Processes payment"
+  PaymentGateway -&gt; API "Payment successful"
+  API -&gt; Database "Saves order"
+  API -&gt; EmailService "Sends confirmation"
+  WebApp -&gt; Customer "Shows order confirmation page"
 }
 </code></pre>
-<h3 id="story-alias"><a class="header" href="#story-alias"><code>story</code> (alias)</a></h3>
-<pre><code class="language-sruja">CheckoutStory = story "As a customer, I want to checkout" {
-  Customer -&gt; Shop.WebApp "Clicks checkout"
-  Shop.WebApp -&gt; Shop.API "Validate cart"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  Shop.WebApp -&gt; Customer "Show success page"
+<p>Now everyone knows exactly what "checkout" means—every step, every system involved, every user action.</p>
+<h3 id="2-test-case-generation"><a class="header" href="#2-test-case-generation">2. Test Case Generation</a></h3>
+<p>User journeys become test cases automatically:</p>
+<pre><code class="language-sruja">HappyPathTest = scenario "Test: Successful Checkout" {
+  // From the user journey
+  Customer -&gt; WebApp "Clicks checkout"
+  WebApp -&gt; API "Validates cart"
+  // ... test each step
 }
-</code></pre>
-<h2 id="bdd-behavior-driven-development-style"><a class="header" href="#bdd-behavior-driven-development-style">BDD (Behavior-Driven Development) Style</a></h2>
-<h3 id="given-when-then-pattern"><a class="header" href="#given-when-then-pattern">Given-When-Then Pattern</a></h3>
-<pre><code class="language-sruja">// GIVEN: Customer has items in cart
-// WHEN: Customer clicks checkout
-// THEN: Payment is processed and confirmation shown
 
-CheckoutScenario = scenario "Customer Checkout" {
-  Customer -&gt; Shop.WebApp "Clicks checkout"
-  Shop.WebApp -&gt; Shop.API "Validate cart"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  Shop.API -&gt; Shop.WebApp "Order confirmation"
-  Shop.WebApp -&gt; Customer "Show success page"
+ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
+  Customer -&gt; WebApp "Clicks checkout"
+  WebApp -&gt; API "Validates cart"
+  API -&gt; PaymentGateway "Processes payment"
+  PaymentGateway -&gt; API "Payment declined: invalid card"
+  API -&gt; WebApp "Returns error: Invalid card"
+  WebApp -&gt; Customer "Shows error: Please check your card details"
 }
 </code></pre>
-<h2 id="user-journey-patterns"><a class="header" href="#user-journey-patterns">User Journey Patterns</a></h2>
-<h3 id="pattern-1-happy-path"><a class="header" href="#pattern-1-happy-path">Pattern 1: Happy Path</a></h3>
-<pre><code class="language-sruja">HappyPath = scenario "Successful User Registration" {
-  User -&gt; WebApp "Opens registration form"
-  WebApp -&gt; API "Submit registration"
-  API -&gt; Database "Create user"
-  API -&gt; EmailService "Send welcome email"
-  API -&gt; WebApp "Registration success"
-  WebApp -&gt; User "Show welcome page"
+<p>I've worked on teams where we spent weeks writing test cases manually. With user journeys, we just turn scenarios into tests. Huge time saver.</p>
+<h3 id="3-user-experience-visibility"><a class="header" href="#3-user-experience-visibility">3. User Experience Visibility</a></h3>
+<p>User journeys show the complete experience—not just what works, but how it feels:</p>
+<pre><code class="language-sruja">RegistrationJourney = scenario "User Registration" {
+  Customer -&gt; WebApp "Opens registration form"
+  Customer -&gt; WebApp "Enters name and email"
+  Customer -&gt; WebApp "Enters password"
+  Customer -&gt; WebApp "Clicks 'Create Account'"
+  WebApp -&gt; API "Submits registration"
+  API -&gt; Database "Creates user account"
+  API -&gt; EmailService "Sends welcome email"
+  WebApp -&gt; Customer "Shows 'Account created!' message"
+  WebApp -&gt; Customer "Redirects to dashboard"
 }
 </code></pre>
-<h3 id="pattern-2-error-path"><a class="header" href="#pattern-2-error-path">Pattern 2: Error Path</a></h3>
-<pre><code class="language-sruja">ErrorPath = scenario "Registration with Duplicate Email" {
-  User -&gt; WebApp "Submit registration"
-  WebApp -&gt; API "Submit registration"
-  API -&gt; Database "Check email exists"
+<p>See how this shows the full experience? Form entry → submission → success message → welcome email → dashboard. Anyone reading this understands exactly what users experience.</p>
+<h3 id="4-edge-case-discovery"><a class="header" href="#4-edge-case-discovery">4. Edge Case Discovery</a></h3>
+<p>When you model user journeys, you naturally think about edge cases:</p>
+<pre><code class="language-sruja">RegistrationEdgeCases = scenario "Registration Edge Cases" {
+  // Edge case 1: Duplicate email
+  Customer -&gt; WebApp "Registers with existing email"
+  WebApp -&gt; API "Submits registration"
+  API -&gt; Database "Checks email exists"
   Database -&gt; API "Email already exists"
-  API -&gt; WebApp "Return error"
-  WebApp -&gt; User "Show error: Email already registered"
+  API -&gt; WebApp "Returns error: Email already registered"
+  WebApp -&gt; Customer "Shows error: Email already in use"
+
+  // Edge case 2: Weak password
+  Customer -&gt; WebApp "Registers with weak password"
+  WebApp -&gt; API "Submits registration"
+  API -&gt; ValidationService "Validates password strength"
+  ValidationService -&gt; API "Password too weak"
+  API -&gt; WebApp "Returns error: Password must be at least 8 characters"
+  WebApp -&gt; Customer "Shows error: Password too weak"
 }
 </code></pre>
+<p>I once launched a feature without modeling edge cases. Users started using weird inputs, emojis in names, passwords with special characters, and the system broke in creative ways. Model edge cases upfront.</p>
+<h2 id="creating-user-journeys-in-sruja"><a class="header" href="#creating-user-journeys-in-sruja">Creating User Journeys in Sruja</a></h2>
+<p>Sruja gives you two keywords for user journeys, and they're interchangeable:</p>
+<h3 id="using-scenario"><a class="header" href="#using-scenario">Using <code>scenario</code></a></h3>
+<p>Use <code>scenario</code> for behavioral flows—it's the most common and descriptive choice:</p>
+<pre><code class="language-sruja">CheckoutScenario = scenario "Customer Checkout Experience" {
+  Customer -&gt; Shop.WebApp "Clicks checkout button"
+  Shop.WebApp -&gt; Shop.API "Validates shopping cart"
+  Shop.API -&gt; PaymentGateway "Processes payment"
+  Shop.WebApp -&gt; Customer "Shows order confirmation"
+}
+</code></pre>
+<h3 id="using-story"><a class="header" href="#using-story">Using <code>story</code></a></h3>
+<p>Use <code>story</code> when you want to emphasize the narrative or story aspect:</p>
+<pre><code class="language-sruja">CheckoutStory = story "As a customer, I want to checkout so I can purchase my items" {
+  Customer -&gt; Shop.WebApp "Clicks checkout button"
+  Shop.WebApp -&gt; Shop.API "Validates shopping cart"
+  Shop.API -&gt; PaymentGateway "Processes payment"
+  Shop.WebApp -&gt; Customer "Shows order confirmation"}
+}
+</code></pre>
+<p>The <code>story</code> keyword is great for BDD (Behavior-Driven Development) style where you write scenarios in "Given-When-Then" format.</p>
+<h2 id="bdd-behavior-driven-development-style"><a class="header" href="#bdd-behavior-driven-development-style">BDD (Behavior-Driven Development) Style</a></h2>
+<p>BDD is about writing requirements as behavior, not specifications. User journeys in Sruja map perfectly to BDD's "Given-When-Then" structure.</p>
+<h3 id="the-given-when-then-pattern"><a class="header" href="#the-given-when-then-pattern">The Given-When-Then Pattern</a></h3>
+<pre><code class="language-sruja">// GIVEN: Customer has items in shopping cart
+// WHEN: Customer clicks checkout and completes payment
+// THEN: Order is created and confirmation is shown
+
+CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
+  // GIVEN: Customer has items in cart
+  Customer -&gt; Shop.WebApp "Views shopping cart with 3 items"
+  Shop.WebApp -&gt; Shop.API "Fetches cart contents"
+  Shop.API -&gt; Shop.Database "Returns cart data"
+  
+  // WHEN: Customer completes checkout flow
+  Customer -&gt; Shop.WebApp "Clicks checkout button"
+  Shop.WebApp -&gt; Shop.API "Validates cart"
+  Shop.API -&gt; Shop.Database "Checks inventory"
+  Shop.Database -&gt; Shop.API "All items available"
+  Shop.API -&gt; PaymentGateway "Processes payment"
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  
+  // THEN: Order is created and confirmation shown
+  Shop.API -&gt; Shop.Database "Creates order"
+  Shop.API -&gt; Shop.Database "Reserves inventory"
+  Shop.API -&gt; EmailService "Sends confirmation email"
+  Shop.WebApp -&gt; Customer "Shows order confirmation page with order #12345"
+}
+</code></pre>
+<p><strong>Why BDD works:</strong></p>
+<ul>
+<li>It's in plain language anyone can understand</li>
+<li>It focuses on behavior, not implementation</li>
+<li>It serves as both requirements and tests</li>
+<li>It's unambiguous (unlike "system should work well")</li>
+</ul>
+<p>I've worked with product managers who couldn't understand technical specs. But they understood BDD scenarios immediately. It became our common language.</p>
+<h2 id="user-journey-patterns"><a class="header" href="#user-journey-patterns">User Journey Patterns</a></h2>
+<p>After modeling user journeys for years, I've found patterns that repeat constantly. Let me show you the ones I see most often.</p>
+<h3 id="pattern-1-happy-path"><a class="header" href="#pattern-1-happy-path">Pattern 1: Happy Path</a></h3>
+<p>The ideal scenario where everything works perfectly:</p>
+<pre><code class="language-sruja">HappyRegistration = scenario "User Registration (Happy Path)" {
+  Customer -&gt; WebApp "Opens registration form"
+  Customer -&gt; WebApp "Enters name, email, password"
+  Customer -&gt; WebApp "Clicks 'Create Account'"
+  WebApp -&gt; API "Submits registration"
+  API -&gt; Database "Creates user account"
+  Database -&gt; API "User created successfully"
+  API -&gt; EmailService "Sends welcome email"
+  EmailService -&gt; Customer "Receives welcome email"
+  API -&gt; WebApp "Returns success"
+  WebApp -&gt; Customer "Shows 'Account created! Welcome!' message"
+  WebApp -&gt; Customer "Redirects to dashboard"
+}
+</code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>No errors</li>
+<li>No branches</li>
+<li>Perfect flow from start to finish</li>
+<li>User achieves their goal</li>
+</ul>
+<p><strong>When to model:</strong></p>
+<ul>
+<li>First—model the ideal scenario</li>
+<li>Before optimizing, understand what success looks like</li>
+<li>Before testing edge cases, have a working baseline</li>
+</ul>
+<h3 id="pattern-2-error-path"><a class="header" href="#pattern-2-error-path">Pattern 2: Error Path</a></h3>
+<p>What happens when things go wrong:</p>
+<pre><code class="language-sruja">ErrorRegistration = scenario "User Registration (Error Path: Duplicate Email)" {
+  Customer -&gt; WebApp "Opens registration form"
+  Customer -&gt; WebApp "Enters existing email: john@example.com"
+  Customer -&gt; WebApp "Enters name and password"
+  Customer -&gt; WebApp "Clicks 'Create Account'"
+  WebApp -&gt; API "Submits registration"
+  API -&gt; Database "Checks if email exists"
+  Database -&gt; API "Email already exists: john@example.com"
+  API -&gt; WebApp "Returns error: Email already registered"
+  WebApp -&gt; Customer "Shows error: 'Email already in use. Try logging in or use a different email.'"
+}
+</code></pre>
+<p><strong>Common error paths to model:</strong></p>
+<ul>
+<li>Duplicate data (email, username)</li>
+<li>Invalid data (email format, weak password)</li>
+<li>Missing data (required fields empty)</li>
+<li>System errors (database down, API timeout)</li>
+<li>Business rule violations (age restriction, region blocking)</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Error occurs at some step</li>
+<li>System returns meaningful error</li>
+<li>User sees helpful error message</li>
+<li>User can correct and retry</li>
+</ul>
+<p><strong>When to model:</strong></p>
+<ul>
+<li>Always model critical error paths</li>
+<li>Focus on errors users actually encounter</li>
+<li>Ensure error messages are helpful, not cryptic</li>
+</ul>
+<p>I once worked on a system where error messages were like "ERR_500_CHECKOUT_FAILED." Users had no idea what went wrong. We rewrote them to be helpful: "Payment failed. Please check your card details or try a different payment method." Support tickets dropped by 70%.</p>
 <h3 id="pattern-3-branching-path"><a class="header" href="#pattern-3-branching-path">Pattern 3: Branching Path</a></h3>
-<pre><code class="language-sruja">BranchingPath = scenario "Order Approval" {
-  Manager -&gt; WebApp "Submit for approval"
-
-  // Branch 1: Auto-approved for &lt; $100
-  if value &lt; 100 {
-    WebApp -&gt; API "Auto-approve"
-    API -&gt; Database "Save approved order"
+<p>Different things happen based on conditions:</p>
+<pre><code class="language-sruja">BranchingApproval = scenario "Order Approval (Branching Based on Value)" {
+  Manager -&gt; WebApp "Submits order for approval"
+  WebApp -&gt; API "Processes approval request"
+  API -&gt; Database "Fetches order details"
+  Database -&gt; API "Returns order: value = $1500"
+  
+  // Branch 1: Auto-approve for low-value orders
+  if value &lt; 1000 {
+    API -&gt; Database "Updates order: auto-approved"
+    API -&gt; WebApp "Returns: Order auto-approved"
+    WebApp -&gt; Manager "Shows 'Order approved! Shipping soon.'"
   }
-
-  // Branch 2: Manual review for &gt; $100
-  if value &gt; 100 {
-    WebApp -&gt; API "Request manual approval"
-    API -&gt; Approver "Send approval request"
-    Approver -&gt; API "Approve order"
-    API -&gt; Database "Save approved order"
+  
+  // Branch 2: Manual review for high-value orders
+  if value &gt;= 1000 {
+    API -&gt; EmailService "Sends approval request to director"
+    EmailService -&gt; Director "Receives approval request"
+    Director -&gt; WebApp "Reviews order and approves"
+    WebApp -&gt; API "Submits approval decision"
+    API -&gt; Database "Updates order: manually approved"
+    API -&gt; WebApp "Returns: Order approved by director"
+    WebApp -&gt; Manager "Shows 'Order approved by director. Shipping soon.'"
   }
-
-  API -&gt; WebApp "Approval result"
-  WebApp -&gt; Manager "Show confirmation"
 }
 </code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Decision point in the flow</li>
+<li>Multiple possible paths</li>
+<li>Different actions based on conditions</li>
+<li>Paths may converge at the end</li>
+</ul>
+<p><strong>When to model:</strong></p>
+<ul>
+<li>Business logic has rules</li>
+<li>Different user types have different experiences</li>
+<li>System behavior changes based on context</li>
+</ul>
 <h3 id="pattern-4-retry-path"><a class="header" href="#pattern-4-retry-path">Pattern 4: Retry Path</a></h3>
-<pre><code class="language-sruja">RetryPath = scenario "Payment with Retry" {
-  Customer -&gt; WebApp "Submit order"
-  WebApp -&gt; API "Process order"
-
-  // First attempt fails
+<p>System tries multiple times before succeeding or failing:</p>
+<pre><code class="language-sruja">RetryPayment = scenario "Payment with Automatic Retry" {
+  Customer -&gt; WebApp "Clicks 'Place Order'"
+  WebApp -&gt; API "Submits order for payment"
+  
+  // Attempt 1: Fails with timeout
   API -&gt; PaymentGateway "Process payment"
   PaymentGateway -&gt; API "Payment failed: timeout"
-
-  // Retry
-  API -&gt; PaymentGateway "Retry payment"
-  PaymentGateway -&gt; API "Payment success"
-
-  API -&gt; Database "Save order"
-  API -&gt; WebApp "Order confirmed"
-  WebApp -&gt; Customer "Show confirmation"
+  API -&gt; WebApp "Returns: Processing, please wait..."
+  WebApp -&gt; Customer "Shows spinner: 'Processing your payment...'"
+  
+  // Attempt 2: Fails with timeout
+  API -&gt; PaymentGateway "Retry payment (attempt 2)"
+  PaymentGateway -&gt; API "Payment failed: timeout"
+  
+  // Attempt 3: Succeeds
+  API -&gt; PaymentGateway "Retry payment (attempt 3)"
+  PaymentGateway -&gt; API "Payment successful!"
+  
+  // Continue with success
+  API -&gt; Database "Saves order"
+  API -&gt; EmailService "Sends confirmation"
+  WebApp -&gt; Customer "Shows order confirmation"
 }
 </code></pre>
-<h2 id="user-journey-examples"><a class="header" href="#user-journey-examples">User Journey Examples</a></h2>
-<h3 id="example-1-e-commerce"><a class="header" href="#example-1-e-commerce">Example 1: E-Commerce</a></h3>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Same action repeated</li>
+<li>Eventually succeeds or fails permanently</li>
+<li>User sees "retrying" state</li>
+<li>Transparent about what's happening</li>
+</ul>
+<p><strong>When to model:</strong></p>
+<ul>
+<li>External services are flaky</li>
+<li>Network issues are common</li>
+<li>You want to handle transient failures gracefully</li>
+</ul>
+<h2 id="complete-user-journey-example"><a class="header" href="#complete-user-journey-example">Complete User Journey Example</a></h2>
+<p>Let me show you a complete user journey that brings everything together:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+// Person
 Customer = person "Customer"
 
+// System
 Shop = system "Shop" {
   WebApp = container "Web Application"
   API = container "API Service"
-  Database = database "Database"
+  Database = database "PostgreSQL"
 }
 
-PaymentGateway = system "Payment Gateway"
-EmailService = system "Email Service"
+// External systems
+PaymentGateway = system "Payment Gateway" {
+  metadata {
+    tags ["external", "vendor"]
+    sla "99.9% uptime"
+  }
+}
 
-// Complete user journey
-CheckoutJourney = scenario "Complete Checkout" {
-  Customer -&gt; Shop.WebApp "Add item to cart"
-  Customer -&gt; Shop.WebApp "Click checkout"
-  Shop.WebApp -&gt; Shop.API "Validate cart"
-  Shop.API -&gt; Shop.Database "Check inventory"
-  Shop.Database -&gt; Shop.API "Inventory available"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  PaymentGateway -&gt; Shop.API "Payment success"
-  Shop.API -&gt; Shop.Database "Save order"
-  Shop.API -&gt; EmailService "Send confirmation"
-  Shop.WebApp -&gt; Customer "Show order confirmation"
+EmailService = system "Email Service" {
+  metadata {
+    tags ["external", "vendor"]
+  }
+}
+
+// Complete user journey from browsing to confirmation
+CompleteCheckoutJourney = scenario "Complete Checkout Experience" {
+  // Step 1: Browse products
+  Customer -&gt; Shop.WebApp "Browses products"
+  Shop.WebApp -&gt; Shop.API "Fetches product list"
+  Shop.API -&gt; Shop.Database "Queries products"
+  Shop.Database -&gt; Shop.API "Returns 50 products"
+  Shop.API -&gt; Shop.WebApp "Returns product data"
+  Shop.WebApp -&gt; Customer "Displays products grid"
+
+  // Step 2: Add to cart
+  Customer -&gt; Shop.WebApp "Clicks 'Add to Cart' on Product #5"
+  Shop.WebApp -&gt; Shop.API "Adds item to cart"
+  Shop.API -&gt; Shop.Database "Saves cart item"
+
+  // Step 3: Review cart
+  Customer -&gt; Shop.WebApp "Clicks 'View Cart'"
+  Shop.WebApp -&gt; Shop.API "Fetches cart contents"
+  Shop.API -&gt; Shop.Database "Returns cart: 3 items, $75 total"
+  Shop.API -&gt; Shop.WebApp "Returns cart data"
+  Shop.WebApp -&gt; Customer "Shows cart with total"
+
+  // Step 4: Checkout
+  Customer -&gt; Shop.WebApp "Clicks 'Checkout'"
+  Shop.WebApp -&gt; Shop.API "Initiates checkout"
+  Shop.API -&gt; Shop.Database "Validates cart"
+  Shop.Database -&gt; Shop.API "Cart is valid"
+  
+  // Step 5: Payment processing
+  Shop.API -&gt; PaymentGateway "Process payment: $75"
+  PaymentGateway -&gt; Shop.API "Payment successful!"
+  
+  // Step 6: Order creation
+  Shop.API -&gt; Shop.Database "Creates order #12345"
+  Shop.API -&gt; Shop.Database "Reserves inventory"
+  Shop.API -&gt; EmailService "Send order confirmation"
+  
+  // Step 7: Confirmation page
+  Shop.API -&gt; Shop.WebApp "Returns order confirmation"
+  Shop.WebApp -&gt; Customer "Shows 'Order #12345 Confirmed!' page"
+  
+  // Step 8: Email delivery
+  EmailService -&gt; Customer "Sends confirmation email"
 }
 
 view index {
   include *
 }
 </code></pre>
-<h3 id="example-2-user-authentication"><a class="header" href="#example-2-user-authentication">Example 2: User Authentication</a></h3>
-<pre><code class="language-sruja">AuthJourney = scenario "User Login" {
-  User -&gt; WebApp "Enter credentials"
-  WebApp -&gt; API "Submit login"
-  API -&gt; Database "Verify credentials"
-  Database -&gt; API "Valid credentials"
-  API -&gt; AuthService "Generate JWT token"
-  AuthService -&gt; API "Token"
-  API -&gt; WebApp "Return token and user data"
-  WebApp -&gt; User "Show dashboard"
-}
-</code></pre>
-<h3 id="example-3-file-upload"><a class="header" href="#example-3-file-upload">Example 3: File Upload</a></h3>
-<pre><code class="language-sruja">UploadJourney = scenario "File Upload" {
-  User -&gt; WebApp "Select file and click upload"
-  WebApp -&gt; API "Upload file data"
-  API -&gt; Storage "Store file"
-  Storage -&gt; API "File URL"
-  API -&gt; ProcessingService "Process file"
-  ProcessingService -&gt; API "Processing complete"
-  API -&gt; WebApp "Upload success"
-  WebApp -&gt; User "Show file preview"
-}
-</code></pre>
-<h2 id="complex-user-journey"><a class="header" href="#complex-user-journey">Complex User Journey</a></h2>
-<pre><code class="language-sruja">ComplexJourney = scenario "Complete Order Workflow" {
-  Customer -&gt; Shop.WebApp "Browse products"
-  Shop.WebApp -&gt; Shop.API "Get products"
-  Shop.API -&gt; Shop.Database "Query products"
-  Shop.Database -&gt; Shop.API "Product data"
-  Shop.API -&gt; Shop.WebApp "Product list"
-  Shop.WebApp -&gt; Customer "Display products"
-
-  Customer -&gt; Shop.WebApp "Add to cart"
-  Shop.WebApp -&gt; Shop.API "Add to cart"
-  Shop.API -&gt; Shop.Database "Save cart item"
-
-  Customer -&gt; Shop.WebApp "Checkout"
-  Shop.WebApp -&gt; Shop.API "Create order"
-  Shop.API -&gt; Shop.Database "Save order"
-  Shop.API -&gt; PaymentGateway "Process payment"
-  PaymentGateway -&gt; Shop.API "Payment result"
-
-  // Success path
-  if payment_success {
-    Shop.API -&gt; EmailService "Send confirmation"
-    Shop.API -&gt; InventoryService "Reserve items"
-    Shop.API -&gt; NotificationService "Notify warehouse"
-    Shop.WebApp -&gt; Customer "Order confirmation"
-  }
-
-  // Failure path
-  if payment_failed {
-    Shop.API -&gt; Shop.WebApp "Payment error"
-    Shop.WebApp -&gt; Customer "Show error message"
-  }
-}
-</code></pre>
+<p>This journey shows the complete experience from start to finish—every user action, every system response, every step. Anyone reading this understands exactly what a customer experiences when checking out.</p>
 <h2 id="testing-with-scenarios"><a class="header" href="#testing-with-scenarios">Testing with Scenarios</a></h2>
-<h3 id="acceptance-criteria"><a class="header" href="#acceptance-criteria">Acceptance Criteria</a></h3>
-<pre><code class="language-sruja">// As a customer, I want to checkout so that I can purchase products
+<p>One of the most powerful things about user journeys: they become test cases automatically.</p>
+<h3 id="acceptance-criteria-as-scenarios"><a class="header" href="#acceptance-criteria-as-scenarios">Acceptance Criteria as Scenarios</a></h3>
+<pre><code class="language-sruja">// Acceptance criteria: As a customer, I want to checkout so that I can purchase products
 
-AcceptanceScenario = scenario "Checkout Acceptance Criteria" {
-  // AC1: Customer can checkout with valid payment
-  Customer -&gt; Shop.WebApp "Checkout with valid payment"
-  Shop.WebApp -&gt; Shop.API "Process order"
-  Shop.API -&gt; PaymentGateway "Charge card"
-  PaymentGateway -&gt; Shop.API "Success"
-  Shop.API -&gt; Shop.WebApp "Order confirmed"
-  Shop.WebApp -&gt; Customer "Show confirmation page"
+// AC1: Customer can checkout with valid payment
+HappyCheckout = scenario "AC1: Successful Checkout" {
+  Customer -&gt; Shop.WebApp "Clicks checkout with valid payment"
+  Shop.WebApp -&gt; Shop.API "Validates cart"
+  Shop.API -&gt; PaymentGateway "Process payment"
+  PaymentGateway -&gt; Shop.API "Payment successful"
+  Shop.API -&gt; Shop.Database "Creates order"
+  Shop.API -&gt; EmailService "Sends confirmation"
+  Shop.WebApp -&gt; Customer "Shows confirmation page"
+}
 
-  // AC2: Customer sees error with invalid payment
-  Customer -&gt; Shop.WebApp "Checkout with invalid card"
-  Shop.WebApp -&gt; Shop.API "Process order"
-  Shop.API -&gt; PaymentGateway "Charge card"
-  PaymentGateway -&gt; Shop.API "Declined"
-  Shop.API -&gt; Shop.WebApp "Payment failed"
-  Shop.WebApp -&gt; Customer "Show error message"
+// AC2: Customer sees helpful error with invalid payment
+InvalidPaymentCheckout = scenario "AC2: Checkout with Invalid Payment" {
+  Customer -&gt; Shop.WebApp "Clicks checkout with expired card"
+  Shop.WebApp -&gt; Shop.API "Validates cart"
+  Shop.API -&gt; PaymentGateway "Process payment"
+  PaymentGateway -&gt; Shop.API "Payment declined: card expired"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows 'Card expired. Please update your payment method.'"
+}
 
-  // AC3: Customer receives email confirmation
+// AC3: Customer receives confirmation email
+EmailConfirmation = scenario "AC3: Confirmation Email Sent" {
+  Shop.API -&gt; Shop.Database "Creates order"
   Shop.API -&gt; EmailService "Send confirmation"
-  Customer -&gt; EmailService "Receive confirmation email"
-}
+  EmailService -&gt; Customer "Receives confirmation email"}
 </code></pre>
+<p>I've worked on teams where we spent months debating requirements. When we turned them into BDD-style scenarios, everyone agreed. No ambiguity, no confusion, no "I thought you meant X."</p>
 <h2 id="documenting-edge-cases"><a class="header" href="#documenting-edge-cases">Documenting Edge Cases</a></h2>
-<h3 id="edge-case-scenarios"><a class="header" href="#edge-case-scenarios">Edge Case Scenarios</a></h3>
-<pre><code class="language-sruja">EdgeCase1 = scenario "Checkout with Expired Card" {
-  Customer -&gt; Shop.WebApp "Checkout"
-  Shop.WebApp -&gt; Shop.API "Process payment"
-  Shop.API -&gt; PaymentGateway "Charge card"
-  PaymentGateway -&gt; Shop.API "Card expired"
-  Shop.API -&gt; Shop.WebApp "Error: Card expired"
-  Shop.WebApp -&gt; Customer "Show error and prompt new card"
+<p>Don't just model happy paths. Edge cases are where systems break.</p>
+<h3 id="common-edge-cases-to-model"><a class="header" href="#common-edge-cases-to-model">Common Edge Cases to Model</a></h3>
+<pre><code class="language-sruja">// Edge case 1: Checkout with expired card
+ExpiredCardCheckout = scenario "Checkout with Expired Card" {
+  Customer -&gt; Shop.WebApp "Attempts checkout with expired card"
+  Shop.WebApp -&gt; Shop.API "Submits order"
+  Shop.API -&gt; PaymentGateway "Process payment"
+  PaymentGateway -&gt; Shop.API "Payment failed: card expired"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows 'Your card has expired. Please update your payment method.'"
 }
 
-EdgeCase2 = scenario "Checkout with Insufficient Inventory" {
-  Customer -&gt; Shop.WebApp "Checkout"
-  Shop.WebApp -&gt; Shop.API "Process order"
-  Shop.API -&gt; Shop.Database "Check inventory"
-  Shop.Database -&gt; Shop.API "Insufficient stock"
-  Shop.API -&gt; Shop.WebApp "Error: Not enough stock"
-  Shop.WebApp -&gt; Customer "Show error and suggest alternatives"
+// Edge case 2: Checkout with insufficient inventory
+InsufficientInventoryCheckout = scenario "Checkout with Insufficient Inventory" {
+  Customer -&gt; Shop.WebApp "Attempts checkout"
+  Shop.WebApp -&gt; Shop.API "Submits order"
+  Shop.API -&gt; Shop.Database "Checks inventory"
+  Shop.Database -&gt; Shop.API "Insufficient stock: 5 requested, 2 available"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows 'Sorry, only 2 items available. Would you like to proceed with 2?'"
+}
+
+// Edge case 3: Checkout during payment gateway outage
+GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
+  Customer -&gt; Shop.WebApp "Attempts checkout"
+  Shop.WebApp -&gt; Shop.API "Submits order"
+  Shop.API -&gt; PaymentGateway "Process payment"
+  PaymentGateway -&gt; Shop.API "Service unavailable: outage in progress"
+  Shop.API -&gt; Shop.WebApp "Returns error"
+  Shop.WebApp -&gt; Customer "Shows 'Payment service temporarily unavailable. Please try again in a few minutes. We've saved your cart.'"
 }
 </code></pre>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Create user journeys for:</p>
-<ol>
-<li><strong>Happy Path</strong>: User registers successfully</li>
-<li><strong>Error Path</strong>: User tries to register with existing email</li>
-<li><strong>Branching</strong>: User submits order that requires approval if &gt; $1000</li>
-<li><strong>Retry</strong>: Payment fails twice, succeeds on third attempt</li>
-</ol>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Use <code>scenario</code>/<code>story</code></strong>: For behavioral flows</li>
-<li><strong>Model happy and error paths</strong>: Document all outcomes</li>
-<li><strong>Include user actions</strong>: From user perspective</li>
-<li><strong>Document edge cases</strong>: Unexpected scenarios</li>
-<li><strong>Use for testing</strong>: Scenarios make good test cases</li>
-</ol>
-<h2 id="module-4-complete"><a class="header" href="#module-4-complete">Module 4 Complete</a></h2>
-<p>You've completed Flows! You now understand:</p>
+<p><strong>Why model edge cases:</strong></p>
 <ul>
-<li>What flows are and when to use them</li>
-<li>Data Flow Diagrams (DFDs)</li>
-<li>User journeys and behavioral scenarios</li>
+<li>They expose gaps in your design</li>
+<li>They become test cases automatically</li>
+<li>They help teams discuss "what if" scenarios</li>
+<li>They prevent surprises in production</li>
 </ul>
-<p><strong>Next</strong>: Learn about <a href="../module-5-feedback-loops/module-overview.html">Module 5: Feedback Loops</a>.</p>
+<p>I once launched a feature without modeling edge cases. Users immediately found scenarios we hadn't considered—checking out with gift cards during sales, checking out from different countries with different currencies, checking out with addresses that don't validate. We spent months fixing edge cases we could have caught upfront.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>User journeys tell the story of how users interact with your system—from their perspective. When you create user journeys:</p>
+<ul>
+<li><strong>Focus on user's experience</strong> — Not just what works, but how it feels</li>
+<li><strong>Model both paths</strong> — Happy paths AND error paths</li>
+<li><strong>Use BDD style</strong> — "Given-When-Then" for clarity</li>
+<li><strong>Document edge cases</strong> — Unusual but important scenarios</li>
+<li><strong>Make them testable</strong> — Each scenario becomes a test case</li>
+<li><strong>Write helpful errors</strong> — Users should understand what went wrong</li>
+</ul>
+<p>If you take away one thing, let it be this: <strong>user journeys are your best tool for ensuring your system actually works for real humans, not just in theory</strong>. They bridge the gap between requirements, testing, and documentation.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding.</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're modeling a user registration flow for a social media app. Which scenario best represents a BDD-style "Given-When-Then" structure?</p>
+<p><strong>A)</strong></p>
+<pre><code class="language-sruja">RegistrationFlow = scenario "User Registration" {
+  Customer -&gt; WebApp "Registers"
+  WebApp -&gt; API "Saves user"
+  API -&gt; Database "Persists"
+}
+</code></pre>
+<p><strong>B)</strong></p>
+<pre><code class="language-sruja">RegistrationFlow = scenario "As a new user, I want to register so I can use the app" {
+  // GIVEN: User is on registration page
+  Customer -&gt; WebApp "Views registration form"
+  
+  // WHEN: User submits valid registration
+  Customer -&gt; WebApp "Enters email and password"
+  Customer -&gt; WebApp "Clicks 'Sign Up'"
+  WebApp -&gt; API "Submits registration"
+  
+  // THEN: Account is created and user is logged in
+  API -&gt; Database "Creates user account"
+  API -&gt; WebApp "Returns success with session token"
+  WebApp -&gt; Customer "Shows 'Welcome! Redirecting to dashboard...'"
+}
+</code></pre>
+<p><strong>C)</strong></p>
+<pre><code class="language-sruja">RegistrationFlow = scenario "Registration Process" {
+  Start -&gt; Database "Create user"
+  Database -&gt; Email "Send welcome"
+}
+</code></pre>
+<p><strong>D)</strong></p>
+<pre><code class="language-sruja">RegistrationFlow = story "User Registration Story" {
+  WebApp -&gt; API "Register"
+  API -&gt; Database "Save"
+}
+</code></pre>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) BDD-style "Given-When-Then" scenario</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. This scenario is too abstract. It shows the technical steps (registers, saves, persists) but doesn't capture the user's perspective or experience. There's no "Given-When-Then" structure—it's just a sequence of technical actions. This reads more like a data flow than a user journey.</p>
+<p><strong>B)</strong> Correct! This is a perfect BDD-style user journey because:</p>
+<ul>
+<li><strong>Title</strong>: "As a new user, I want to register so I can use the app" follows the user story format</li>
+<li><strong>GIVEN</strong>: "User is on registration page" — sets up the starting state</li>
+<li><strong>WHEN</strong>: "User submits valid registration" — describes the user action</li>
+<li><strong>THEN</strong>: "Account is created and user is logged in" — describes the expected outcome</li>
+<li><strong>User's perspective</strong>: Shows what the user sees (form, button, welcome message, redirect)</li>
+<li><strong>Complete experience</strong>: From viewing the form to being logged in</li>
+</ul>
+<p>This scenario serves multiple purposes:</p>
+<ul>
+<li><strong>Requirements</strong>: It's unambiguous what "register" means</li>
+<li><strong>Tests</strong>: It can be turned directly into a test case</li>
+<li><strong>Documentation</strong>: Anyone reading understands the user experience</li>
+<li><strong>Communication</strong>: Product managers, developers, and testers all agree on what "register" means</li>
+</ul>
+<p><strong>C)</strong> Incorrect. This is far too abstract. "Start → Database → Email" tells you nothing about the user. What does the user do? What do they see? What happens from their perspective? This looks more like a data flow (and a poor one at that) than a user journey. It's missing the most important part—the human user.</p>
+<p><strong>D)</strong> Incorrect. While this uses the <code>story</code> keyword (which is fine), it's far too simple to be useful. "Register → Save" doesn't tell you:</p>
+<ul>
+<li>What the user actually does (enters email? clicks button?)</li>
+<li>What the system shows (success page? error message?)</li>
+<li>What the experience is (how long does it take? what do they see?)</li>
+<li>What happens if something goes wrong</li>
+</ul>
+<p>This scenario is so vague it provides no real value. A BDD scenario should be detailed enough that anyone—developer, tester, product manager—understands exactly what happens.</p>
+<p><strong>Key insight:</strong> BDD-style scenarios focus on the user's experience, not just technical steps. They follow a clear "Given-When-Then" structure that makes requirements unambiguous. A good scenario should be detailed enough that it can serve as both requirements documentation and a test case.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're modeling a login flow and want to document an error path. Which scenario best models a meaningful error handling experience?</p>
+<p><strong>A)</strong></p>
+<pre><code class="language-sruja">LoginError = scenario "Login Error" {
+  User -&gt; WebApp "Login with wrong password"
+  WebApp -&gt; API "Authenticate"
+  API -&gt; Database "Check password"
+  Database -&gt; API "Password doesn't match"
+  API -&gt; WebApp "Return error"
+  WebApp -&gt; User "Shows error"}
+</code></pre>
+<p><strong>B)</strong></p>
+<pre><code class="language-sruja">LoginError = scenario "Login Error" {
+  User -&gt; WebApp "Login with wrong password"
+  WebApp -&gt; API "Authenticate"
+  API -&gt; Database "Check password"
+  Database -&gt; API "Password doesn't match"
+  API -&gt; WebApp "Return error: AUTH_FAILED"
+  WebApp -&gt; User "Shows error: 'Authentication failed'"}
+</code></pre>
+<p><strong>C)</strong></p>
+<pre><code class="language-sruja">LoginError = scenario "Login with Incorrect Password" {
+  User -&gt; WebApp "Enters email: user@example.com and wrong password"
+  User -&gt; WebApp "Clicks 'Log In'"
+  WebApp -&gt; API "Submits login"
+  API -&gt; Database "Verifies credentials"
+  Database -&gt; API "Password doesn't match"
+  API -&gt; WebApp "Returns error: Invalid credentials"
+  WebApp -&gt; User "Shows 'Password incorrect. Please try again or reset your password if you've forgotten it.' with link to password reset"}
+</code></pre>
+<p><strong>D)</strong></p>
+<pre><code class="language-sruja">LoginError = scenario "Login Failed" {
+  API -&gt; Database "Check"
+  Database -&gt; API "No match"
+  API -&gt; WebApp "Error"
+  WebApp -&gt; User "Can't login"}
+</code></pre>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: C) Shows user action, system response, and helpful error message</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Incorrect. While this scenario shows the error occurring, it's missing crucial details:</p>
+<ul>
+<li>It shows the user action ("Login with wrong password") but doesn't show the specific form interaction (enters email? clicks button?)</li>
+<li>It shows "Return error" but doesn't specify what the error is</li>
+<li>It shows "Shows error" but doesn't tell you what error message the user sees</li>
+<li>It doesn't help the user understand what to do next</li>
+</ul>
+<p>The error message is cryptic—"Shows error" tells the user nothing. What kind of error? What should they do? Try again? Reset password? Contact support?</p>
+<p><strong>B)</strong> Incorrect. This is better than option A but still has problems:</p>
+<ul>
+<li>The error code "AUTH_FAILED" is technical and cryptic to users</li>
+<li>The error message "Authentication failed" is vague and unhelpful</li>
+<li>It doesn't guide the user on what to do next</li>
+<li>It doesn't offer alternatives (password reset, contact support)</li>
+</ul>
+<p>Users seeing this error will be confused: "Authentication failed? What does that mean? Is my email wrong? My password? My account locked? Should I try again? Reset my password?"</p>
+<p><strong>C)</strong> Correct! This scenario models an excellent error handling experience because:</p>
+<ul>
+<li><strong>User action is specific</strong>: User enters email AND wrong password AND clicks "Log In" — shows the complete action</li>
+<li><strong>System response is clear</strong>: API returns "Invalid credentials" — specific, not generic</li>
+<li><strong>User experience is helpful</strong>: Error message is "Password incorrect. Please try again or reset your password if you've forgotten it." — tells the user what's wrong and what they can do about it</li>
+<li><strong>Provides alternatives</strong>: Links to password reset if they've forgotten it</li>
+<li><strong>User's perspective</strong>: Shows what the user actually sees and experiences</li>
+</ul>
+<p>This error message follows best practices:</p>
+<ul>
+<li><strong>Specific</strong>: Tells you exactly what's wrong (password, not email or account)</li>
+<li><strong>Actionable</strong>: Tells you what you can do (try again or reset password)</li>
+<li><strong>Helpful</strong>: Provides a link to password reset</li>
+<li><strong>Human</strong>: Not "ERR_AUTH_403" or "Authentication failed"</li>
+</ul>
+<p><strong>D)</strong> Incorrect. This scenario is a mess:</p>
+<ul>
+<li>It starts with "API" instead of showing the user action — this is from the system's perspective, not the user's</li>
+<li>"Check" and "No match" are meaningless labels — they don't tell you what's actually happening</li>
+<li>"Error" is vague — what kind of error?</li>
+<li>"Can't login" is the user's experience, but it doesn't help them understand why or what to do</li>
+</ul>
+<p>This scenario is too abstract to be useful. It doesn't capture the user's perspective, doesn't provide helpful information, and doesn't guide next steps.</p>
+<p><strong>Key insight:</strong> Error paths should be just as well-designed as happy paths. When modeling errors:</p>
+<ul>
+<li>Be specific about what went wrong (not just "error occurred")</li>
+<li>Write helpful error messages (not cryptic codes)</li>
+<li>Guide the user on next steps (try again? reset password? contact support?)</li>
+<li>Provide alternatives when appropriate (password reset link, different payment method, etc.)</li>
+<li>Think from the user's perspective (what do they see? what do they understand? what do they do next?)</li>
+</ul>
+<p>A well-designed error path turns a frustrating experience into a helpful one. I once saw error messages drop support tickets by 70% just by making them more helpful and actionable.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Congratulations! You've completed Module 4: Flows. You now understand:</p>
+<ul>
+<li>What flows are and how they differ from static relationships</li>
+<li>How to create data flow diagrams that show lineage and transformations</li>
+<li>How to model user journeys that capture the complete user experience</li>
+<li>How to document both happy paths and error paths</li>
+<li>How to use BDD-style scenarios for requirements and testing</li>
+</ul>
+<p>You can now create diagrams that tell complete stories—stories about how data moves through your system, and stories about how users experience your system. You can model data lineage, transformations, bottlenecks, and user journeys.</p>
+<p>In the next module, you'll learn about <strong>feedback loops</strong>—how systems regulate themselves through circular cause-and-effect relationships. You'll discover how positive feedback loops amplify change and negative feedback loops stabilize systems. You'll learn to recognize these patterns in real systems and understand their powerful effects.</p>
+<p>See you there!</p>
+<hr>
+<h2 id="module-4-complete"><a class="header" href="#module-4-complete">Module 4 Complete!</a></h2>
+<p>You've now mastered the art of modeling flows. Here's what you've learned:</p>
+<p><strong>Lesson 1: Understanding Flows</strong></p>
+<ul>
+<li>Flows show sequence and transformation, not just connections</li>
+<li>Different types: data flows, user journeys, control flows, event flows</li>
+<li>Use flows when order matters, when you need to see bottlenecks</li>
+</ul>
+<p><strong>Lesson 2: Data Flow Diagrams</strong></p>
+<ul>
+<li>Data flows show lineage: where data comes from and where it goes</li>
+<li>Document transformations: how data changes shape at each step</li>
+<li>Common patterns: ETL pipelines, event sourcing, real-time analytics, lambda architecture</li>
+</ul>
+<p><strong>Lesson 3: User Journeys</strong></p>
+<ul>
+<li>User journeys show the complete user experience from their perspective</li>
+<li>Model both happy paths and error paths</li>
+<li>Use BDD-style "Given-When-Then" for clarity</li>
+<li>Document edge cases and unusual scenarios</li>
+</ul>
+<p>You're ready to tackle more advanced concepts. Let's continue!</p>
 
                     </main>
 
@@ -503,9 +908,11 @@ EdgeCase2 = scenario "Checkout with Insufficient Inventory" {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

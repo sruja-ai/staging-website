@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,98 +180,39 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-4-hierarchy-and-nesting"><a class="header" href="#lesson-4-hierarchy-and-nesting">Lesson 4: Hierarchy and Nesting</a></h1>
+                        <h1 id="bringing-order-to-chaos-hierarchy-and-nesting"><a class="header" href="#bringing-order-to-chaos-hierarchy-and-nesting">Bringing Order to Chaos: Hierarchy and Nesting</a></h1>
+<p>Imagine walking into a house where everything is dumped in one giant room—furniture, kitchen appliances, clothes, tools, books. You could find what you're looking for eventually, but it would be frustrating and inefficient. That's what an unorganized architecture feels like.</p>
+<p>Hierarchy and nesting are your tools for bringing order to chaos. They help you organize your system's parts in a way that makes sense, is easy to understand, and scales as your system grows.</p>
+<p>In this lesson, you'll learn how to structure your systems effectively using the C4 model's hierarchy. You'll discover when to nest, when to keep things flat, and how to create diagrams that tell a clear story at any level of detail.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Understand how to organize parts hierarchically</li>
-<li>Learn nesting patterns for containers and components</li>
-<li>Model complex systems with clear structure</li>
-<li>Balance detail and clarity</li>
+<li>Understand the C4 model's four-level hierarchy</li>
+<li>Know when to nest components and when to keep them separate</li>
+<li>Reference nested elements using dot notation</li>
+<li>Create systems that are consistent and easy to navigate</li>
+<li>Choose the right level of detail for your audience</li>
 </ul>
-<h2 id="the-c4-hierarchy"><a class="header" href="#the-c4-hierarchy">The C4 Hierarchy</a></h2>
-<p>Sruja follows the C4 model hierarchy:</p>
-<pre><code>Person (Level 1)
-  ↓
-System (Level 2)
-  ↓
-Container (Level 3)
-  ↓
-Component (Level 4)
+<h2 id="the-c4-hierarchy-your-foundation"><a class="header" href="#the-c4-hierarchy-your-foundation">The C4 Hierarchy: Your Foundation</a></h2>
+<p>Let's revisit the C4 model's hierarchy because it's the foundation for everything we'll discuss. Think of it like building a city:</p>
+<pre><code>People (Level 1)
+  ↓ The citizens who live there
+  
+Systems (Level 2)
+  ↓ The buildings and facilities
+  
+Containers (Level 3)
+  ↓ The rooms and departments within buildings
+  
+Components (Level 4)
+  ↓ The furniture and equipment within rooms
 </code></pre>
+<p>Each level contains the one below it. People interact with systems, systems contain containers, containers contain components. This nested structure is what makes architectures clear and navigable.</p>
+<p>I've found this metaphor really helps people understand why we nest things. You don't put a couch (component) directly in the middle of the street (system). It belongs in a living room (container), which is inside a house (system). The same principle applies to software architecture.</p>
 <h2 id="nesting-containers-in-systems"><a class="header" href="#nesting-containers-in-systems">Nesting Containers in Systems</a></h2>
-<p>Systems contain containers:</p>
+<p>Systems contain containers. This is where most of the action happens.</p>
+<h3 id="the-basic-pattern"><a class="header" href="#the-basic-pattern">The Basic Pattern</a></h3>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-Shop = system "E-Commerce Platform" {
-  WebApp = container "Web Application" {
-    technology "React"
-  }
-
-  API = container "API Service" {
-    technology "Node.js"
-  }
-
-  DB = database "PostgreSQL" {
-    technology "PostgreSQL 14"
-  }
-}
-</code></pre>
-<h3 id="benefits-of-nesting"><a class="header" href="#benefits-of-nesting">Benefits of Nesting</a></h3>
-<ul>
-<li><strong>Clear ownership</strong>: Containers belong to systems</li>
-<li><strong>Logical grouping</strong>: Related components together</li>
-<li><strong>Simpler references</strong>: Use dot notation</li>
-<li><strong>Better organization</strong>: Easier to navigate</li>
-</ul>
-<h2 id="nesting-components-in-containers"><a class="header" href="#nesting-components-in-containers">Nesting Components in Containers</a></h2>
-<p>Containers contain components:</p>
-<pre><code class="language-sruja">API = container "API Service" {
-  AuthService = component "Authentication Service"
-  ProductService = component "Product Service"
-  CartService = component "Cart Service"
-  OrderService = component "Order Service"
-}
-</code></pre>
-<h3 id="when-to-add-components"><a class="header" href="#when-to-add-components">When to Add Components</a></h3>
-<p>Add components when:</p>
-<ul>
-<li>Container is complex (&gt;5 logical parts)</li>
-<li>Different teams own different parts</li>
-<li>Need to show internal architecture</li>
-<li>Documenting for implementation</li>
-</ul>
-<p>Skip components when:</p>
-<ul>
-<li>Container is simple (monolith)</li>
-<li>Too much detail for audience</li>
-<li>Container level is sufficient</li>
-</ul>
-<h2 id="reference-patterns"><a class="header" href="#reference-patterns">Reference Patterns</a></h2>
-<h3 id="level-1-to-level-2-person-to-system"><a class="header" href="#level-1-to-level-2-person-to-system">Level 1 to Level 2 (Person to System)</a></h3>
-<pre><code class="language-sruja">Customer -&gt; Shop "Uses"
-</code></pre>
-<h3 id="level-2-to-level-3-system-to-container"><a class="header" href="#level-2-to-level-3-system-to-container">Level 2 to Level 3 (System to Container)</a></h3>
-<p>Use dot notation:</p>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Browses"
-Customer -&gt; Shop.API "Submits order"
-</code></pre>
-<h3 id="level-3-to-level-3-container-to-container"><a class="header" href="#level-3-to-level-3-container-to-container">Level 3 to Level 3 (Container to Container)</a></h3>
-<pre><code class="language-sruja">Shop.WebApp -&gt; Shop.API "Sends requests"
-Shop.API -&gt; Shop.DB "Persists data"
-</code></pre>
-<h3 id="level-3-to-level-4-container-to-component"><a class="header" href="#level-3-to-level-4-container-to-component">Level 3 to Level 4 (Container to Component)</a></h3>
-<pre><code class="language-sruja">Shop.API -&gt; Shop.API.ProductService "Get products"
-Shop.API -&gt; Shop.API.OrderService "Create order"
-</code></pre>
-<h3 id="level-4-to-level-4-component-to-component"><a class="header" href="#level-4-to-level-4-component-to-component">Level 4 to Level 4 (Component to Component)</a></h3>
-<pre><code class="language-sruja">Shop.API.ProductService -&gt; Shop.API.CartService "Get product details"
-Shop.API.CartService -&gt; Shop.API.OrderService "Create order"
-</code></pre>
-<h2 id="multi-level-systems"><a class="header" href="#multi-level-systems">Multi-Level Systems</a></h2>
-<h3 id="complex-example"><a class="header" href="#complex-example">Complex Example</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-Customer = person "Customer"
 
 ECommerce = system "E-Commerce Platform" {
   WebApp = container "Web Application" {
@@ -280,12 +221,6 @@ ECommerce = system "E-Commerce Platform" {
 
   API = container "API Service" {
     technology "Node.js"
-
-    ProductService = component "Product Service"
-    CartService = component "Cart Service"
-    OrderService = component "Order Service"
-    PaymentService = component "Payment Service"
-    NotificationService = component "Notification Service"
   }
 
   Database = database "PostgreSQL" {
@@ -296,29 +231,149 @@ ECommerce = system "E-Commerce Platform" {
     technology "Redis 7"
   }
 }
-
-PaymentGateway = system "Payment Gateway" {
-  metadata {
-    tags ["external"]
-  }
-}
-
-EmailService = system "Email Service" {
-  metadata {
-    tags ["external"]
-  }
-}
-
-// Relationships at different levels
-Customer -&gt; ECommerce.WebApp "Browses"
-ECommerce.WebApp -&gt; ECommerce.API "Makes requests"
-ECommerce.API.ProductService -&gt; ECommerce.Cache "Reads cache"
-ECommerce.API.PaymentService -&gt; PaymentGateway "Process payment"
-ECommerce.API.NotificationService -&gt; EmailService "Send notifications"
 </code></pre>
-<h2 id="hierarchy-best-practices"><a class="header" href="#hierarchy-best-practices">Hierarchy Best Practices</a></h2>
-<h3 id="1-be-consistent"><a class="header" href="#1-be-consistent">1. Be Consistent</a></h3>
-<p>Don't mix levels:</p>
+<h3 id="why-nesting-matters"><a class="header" href="#why-nesting-matters">Why Nesting Matters</a></h3>
+<p>When I first started modeling systems, I sometimes put everything at the same level—all containers, no systems. It seemed simpler, but it created confusion:</p>
+<ul>
+<li><strong>Who owns what?</strong> Without systems, ownership is unclear</li>
+<li><strong>What belongs together?</strong> Related containers end up scattered</li>
+<li><strong>How do I reference things?</strong> Dot notation becomes meaningless</li>
+</ul>
+<p>Nesting containers in systems solves all these problems. It's clear what belongs together, who owns it, and how to reference it.</p>
+<h3 id="a-real-world-example"><a class="header" href="#a-real-world-example">A Real-World Example</a></h3>
+<p>Let me show you a more realistic example from a project I worked on—a healthcare platform:</p>
+<pre><code class="language-sruja">HealthcarePlatform = system "Healthcare Platform" {
+  PatientPortal = container "Patient Portal" {
+    technology "React"
+    description "Web app for patients to manage appointments"
+  }
+
+  DoctorDashboard = container "Doctor Dashboard" {
+    technology "Vue.js"
+    description "Web app for doctors to view patient records"
+  }
+
+  API = container "API Gateway" {
+    technology "Kong"
+    description "Routes requests to microservices"
+  }
+
+  EHR = container "EHR System" {
+    technology "Java"
+    description "Electronic health records system"
+  }
+}
+</code></pre>
+<p>See how each container has a clear purpose? The system groups them together and tells you they're all part of the same platform. Anyone looking at this diagram immediately understands the big picture.</p>
+<h2 id="nesting-components-in-containers"><a class="header" href="#nesting-components-in-containers">Nesting Components in Containers</a></h2>
+<p>This is where you need to be careful. Components are powerful, but only when used appropriately.</p>
+<h3 id="the-decision-framework"><a class="header" href="#the-decision-framework">The Decision Framework</a></h3>
+<p>I use this simple framework to decide whether to add components:</p>
+<p><strong>Add components when:</strong></p>
+<ul>
+<li>You're documenting for developers who need implementation details</li>
+<li>A container is complex (more than 5-6 logical parts)</li>
+<li>Different teams own different parts of the same container</li>
+<li>You need to show internal architecture for a design review</li>
+</ul>
+<p><strong>Skip components when:</strong></p>
+<ul>
+<li>You're presenting to stakeholders who don't need technical details</li>
+<li>The container is simple enough to explain at a high level</li>
+<li>The internal structure is still evolving and changing</li>
+</ul>
+<h3 id="when-to-nest-components"><a class="header" href="#when-to-nest-components">When to Nest Components</a></h3>
+<p>Let me show you an example where components make sense:</p>
+<pre><code class="language-sruja">API = container "API Service" {
+  technology "Node.js"
+  description "RESTful API handling all business logic"
+
+  // Authentication and authorization
+  AuthService = component "Authentication Service" {
+    technology "Node.js"
+    description "Handles login, registration, JWT tokens"
+  }
+
+  // Domain services
+  UserService = component "User Service" {
+    description "User profile and preferences"
+  }
+  
+  ProductService = component "Product Service" {
+    description "Product catalog and inventory"
+  }
+  
+  CartService = component "Cart Service" {
+    description "Shopping cart and checkout"
+  }
+  
+  OrderService = component "Order Service" {
+    description "Order processing and fulfillment"
+  }
+
+  // Integration services
+  PaymentService = component "Payment Service" {
+    description "Payment gateway integration"
+  }
+  
+  NotificationService = component "Notification Service" {
+    description "Email and SMS notifications"
+  }
+}
+</code></pre>
+<p>This makes sense because:</p>
+<ul>
+<li>The API is complex with multiple distinct services</li>
+<li>Different teams might own different services</li>
+<li>Developers need to understand the internal architecture</li>
+</ul>
+<h3 id="when-to-keep-it-simple"><a class="header" href="#when-to-keep-it-simple">When to Keep It Simple</a></h3>
+<p>Now, here's an example where I would <strong>not</strong> use components:</p>
+<pre><code class="language-sruja">SimpleAPI = container "Simple API" {
+  technology "Node.js"
+  description "Basic CRUD API for a small application"
+}
+</code></pre>
+<p>Why no components? Because:</p>
+<ul>
+<li>It's simple enough to explain at the container level</li>
+<li>The audience (stakeholders) doesn't need implementation details</li>
+<li>The internal structure might change as we iterate</li>
+</ul>
+<p>The key insight: <strong>match the level of detail to your audience's needs</strong>.</p>
+<h2 id="referencing-nested-elements"><a class="header" href="#referencing-nested-elements">Referencing Nested Elements</a></h2>
+<p>Once you have nested elements, you need to know how to reference them. Sruja uses dot notation, which is intuitive once you get the hang of it.</p>
+<h3 id="the-reference-patterns"><a class="header" href="#the-reference-patterns">The Reference Patterns</a></h3>
+<pre><code class="language-sruja">// Level 1 to Level 2 (Person to System)
+Customer -&gt; ECommerce "Uses platform"
+
+// Level 2 to Level 3 (System to Container)
+Customer -&gt; ECommerce.PatientPortal "Manages appointments"
+Doctor -&gt; ECommerce.DoctorDashboard "Views patient records"
+
+// Level 3 to Level 3 (Container to Container)
+ECommerce.PatientPortal -&gt; ECommerce.API "Submits requests"
+ECommerce.API -&gt; ECommerce.EHR "Retrieves patient data"
+
+// Level 3 to Level 4 (Container to Component)
+ECommerce.API -&gt; ECommerce.API.AuthService "Validates user"
+
+// Level 4 to Level 4 (Component to Component)
+ECommerce.API.AuthService -&gt; ECommerce.API.UserService "Fetches user profile"
+</code></pre>
+<h3 id="cross-system-references"><a class="header" href="#cross-system-references">Cross-System References</a></h3>
+<p>What if you need to reference something inside another system? Dot notation still works:</p>
+<pre><code class="language-sruja">// Reference a service inside an external system
+ECommerce.API.PaymentService -&gt; Stripe.ChargeService "Process payment"
+
+// Reference a database inside another system
+ECommerce.API -&gt; AnalyticsDB.DataWarehouse "Push analytics data"
+</code></pre>
+<p>This level of detail can be useful when debugging integrations or documenting specific API contracts.</p>
+<h2 id="consistency-the-golden-rule"><a class="header" href="#consistency-the-golden-rule">Consistency: The Golden Rule</a></h2>
+<p>If there's one thing I've learned from years of modeling systems, it's this: <strong>consistency matters more than any individual decision</strong>.</p>
+<h3 id="consistency-in-nesting"><a class="header" href="#consistency-in-nesting">Consistency in Nesting</a></h3>
+<p>Don't mix levels inconsistently:</p>
 <pre><code class="language-sruja">// Bad: Inconsistent nesting
 App = system "App" {
   Frontend = container "Frontend"
@@ -339,97 +394,49 @@ App = system "App" {
   Database = database "Database"
 }
 </code></pre>
-<h3 id="2-right-level-of-detail"><a class="header" href="#2-right-level-of-detail">2. Right Level of Detail</a></h3>
-<p>Match detail to audience:</p>
-<pre><code class="language-sruja">// For business stakeholders
-Platform = system "Platform" {
-  WebApp = container "Web App"
-  API = container "API"
-}
+<p>In the bad example, why does Backend have components but Frontend doesn't? Is Frontend simpler? Did we forget to break it down? The inconsistency creates confusion. The good example shows a consistent approach.</p>
+<h3 id="consistency-in-naming"><a class="header" href="#consistency-in-naming">Consistency in Naming</a></h3>
+<p>Use consistent naming conventions across your hierarchy:</p>
+<pre><code class="language-sruja">// Good: Consistent suffixes
+UserService = component "User Service"
+OrderService = component "Order Service"
+PaymentService = component "Payment Service"
 
-// For developers
-Platform = system "Platform" {
-  WebApp = container "Web App" {
-    Auth = component "Auth Module"
-    Dashboard = component "Dashboard"
-  }
-  API = container "API" {
-    UserService = component "User Service"
-    ProductService = component "Product Service"
-  }
-}
+// Bad: Inconsistent suffixes
+UserService = component "User Service"
+Order = component "Order"
+Payment = component "Payment Service"
 </code></pre>
-<h3 id="3-logical-grouping"><a class="header" href="#3-logical-grouping">3. Logical Grouping</a></h3>
-<p>Group related components:</p>
-<pre><code class="language-sruja">// Good: Logical grouping
-API = container "API" {
-  UserServices = component "User Service"
-  ProductServices = component "Product Service"
-  OrderServices = component "Order Service"
-}
-
-// Also Good: Domain-based grouping
-API = container "API" {
-  UserDomain = component "User Module"
-  ProductDomain = component "Product Module"
-  OrderDomain = component "Order Module"
-}
-</code></pre>
-<h2 id="implied-relationships"><a class="header" href="#implied-relationships">Implied Relationships</a></h2>
-<p>Sruja automatically infers some relationships:</p>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Uses"
-// Implies: Customer -&gt; Shop
-</code></pre>
-<p>This reduces boilerplate while maintaining accuracy.</p>
-<h2 id="views-and-hierarchy"><a class="header" href="#views-and-hierarchy">Views and Hierarchy</a></h2>
-<p>Create views at different hierarchy levels:</p>
-<pre><code class="language-sruja">// Level 1 view (System Context)
-view index {
-  title "System Context"
-  include *
-}
-
-// Level 2 view (System)
-view system_view of Shop {
-  title "Shop System"
-  include Shop
-}
-
-// Level 3 view (Containers)
-view container_view of Shop {
-  title "Shop Containers"
-  include Shop.*
-  exclude Shop.Database
-}
-
-// Level 4 view (Components)
-view component_view of Shop.API {
-  title "API Components"
-  include Shop.API.*
-}
-</code></pre>
-<h2 id="anti-patterns-to-avoid"><a class="header" href="#anti-patterns-to-avoid">Anti-Patterns to Avoid</a></h2>
-<h3 id="anti-pattern-1-deep-nesting"><a class="header" href="#anti-pattern-1-deep-nesting">Anti-Pattern 1: Deep Nesting</a></h3>
-<pre><code class="language-sruja">// Bad: Too deep (hard to read)
+<p>In the bad example, why is it "User Service" but just "Order"? The inconsistency makes people wonder if there's a meaningful difference. Spoiler: there usually isn't.</p>
+<h2 id="pitfalls-ive-encountered-so-you-dont-have-to"><a class="header" href="#pitfalls-ive-encountered-so-you-dont-have-to">Pitfalls I've Encountered (So You Don't Have To)</a></h2>
+<p>Let me share some mistakes I've made and seen others make. Hopefully, you can avoid them.</p>
+<h3 id="pitfall-1-deep-nesting"><a class="header" href="#pitfall-1-deep-nesting">Pitfall 1: Deep Nesting</a></h3>
+<pre><code class="language-sruja">// Bad: Too deep (5+ levels)
 App = system "App" {
   Frontend = container "Frontend" {
     Layout = component "Layout" {
       Header = component "Header" {
-        Navigation = component "Navigation"
+        Navigation = component "Navigation" {
+          Menu = component "Menu"
+        }
       }
     }
   }
 }
 </code></pre>
-<p><strong>Solution</strong>: Keep nesting to 3-4 levels max.</p>
-<h3 id="anti-pattern-2-orphaned-elements"><a class="header" href="#anti-pattern-2-orphaned-elements">Anti-Pattern 2: Orphaned Elements</a></h3>
+<p>This is unreadable. Who can understand a 5-level deep structure? Nobody. The diagram becomes useless because it's too complex.</p>
+<p><strong>Solution:</strong> Keep nesting to 3-4 levels max. If you're going deeper, you're probably in implementation territory, not architecture.</p>
+<h3 id="pitfall-2-orphaned-elements"><a class="header" href="#pitfall-2-orphaned-elements">Pitfall 2: Orphaned Elements</a></h3>
 <pre><code class="language-sruja">// Bad: Component without container
 Shop = system "Shop"
 WebApp = container "Web App"
-API = component "API Service"  // Should be in a container
+API = container "API"
+Database = database "Database"
+AuthService = component "Auth Service"  // Orphan!
 </code></pre>
-<p><strong>Solution</strong>: Nest components properly.</p>
-<h3 id="anti-pattern-3-flat-everything"><a class="header" href="#anti-pattern-3-flat-everything">Anti-Pattern 3: Flat Everything</a></h3>
+<p>Where does AuthService belong? Is it in WebApp? In API? Orphaned elements confuse everyone who looks at the diagram.</p>
+<p><strong>Solution:</strong> Every component must belong to a container. Every container must belong to a system. No exceptions.</p>
+<h3 id="pitfall-3-flat-everything"><a class="header" href="#pitfall-3-flat-everything">Pitfall 3: Flat Everything</a></h3>
 <pre><code class="language-sruja">// Bad: Everything at same level
 Customer = person "Customer"
 WebApp = container "Web App"
@@ -437,35 +444,139 @@ API = container "API"
 Database = database "Database"
 AuthService = component "Auth Service"
 </code></pre>
-<p><strong>Solution</strong>: Show proper hierarchy.</p>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Create a nested architecture for:</p>
-<blockquote>
-<p>"A social media platform with users, posts, and comments. The platform has a web frontend, mobile API, and backend services. The backend has user management, post management, and notification services. Data is stored in PostgreSQL and cached in Redis."</p>
-</blockquote>
-<p><strong>Create:</strong></p>
+<p>This shows no structure. Is WebApp part of API? Are they siblings? Who knows?</p>
+<p><strong>Solution:</strong> Show the hierarchy. Nest things properly. Make it clear what belongs to what.</p>
+<h2 id="creating-views-at-different-levels"><a class="header" href="#creating-views-at-different-levels">Creating Views at Different Levels</a></h2>
+<p>One of the most powerful features of Sruja is the ability to create views at different hierarchy levels. This lets you tell the right story to the right audience.</p>
+<h3 id="level-1-system-context-view"><a class="header" href="#level-1-system-context-view">Level 1: System Context View</a></h3>
+<pre><code class="language-sruja">view system_context {
+  title "System Context"
+  include *
+}
+</code></pre>
+<p>This view shows everything: people, systems, external dependencies. Perfect for stakeholders who want the big picture.</p>
+<h3 id="level-2-system-view"><a class="header" href="#level-2-system-view">Level 2: System View</a></h3>
+<pre><code class="language-sruja">view system_view of ECommerce {
+  title "E-Commerce System"
+  include ECommerce
+}
+</code></pre>
+<p>This view shows a single system and all its containers. Great for developers who need to understand how a specific system is structured.</p>
+<h3 id="level-3-container-view"><a class="header" href="#level-3-container-view">Level 3: Container View</a></h3>
+<pre><code class="language-sruja">view container_view of ECommerce.API {
+  title "API Containers"
+  include ECommerce.API.*
+  exclude ECommerce.API.Database
+}
+</code></pre>
+<p>This view shows the internals of a container. Perfect for teams working on that specific service.</p>
+<h3 id="level-4-component-view"><a class="header" href="#level-4-component-view">Level 4: Component View</a></h3>
+<pre><code class="language-sruja">view component_view of ECommerce.API {
+  title "API Components"
+  include ECommerce.API.*
+}
+</code></pre>
+<p>This view shows all components within a container. Ideal for detailed design reviews and implementation planning.</p>
+<p>The beauty is that you can have multiple views of the same architecture, each tailored to a different audience. The stakeholders get the big picture. Developers get the details. Everyone gets what they need.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Hierarchy and nesting are about bringing order to complexity. When you're structuring your systems:</p>
 <ul>
-<li>Person level</li>
-<li>System level with nested containers</li>
-<li>Component level for at least one container</li>
-</ul>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Follow C4 hierarchy</strong>: Person → System → Container → Component</li>
+<li><strong>Follow the C4 hierarchy</strong>: Person → System → Container → Component</li>
 <li><strong>Nest logically</strong>: Group related parts together</li>
-<li><strong>Use dot notation</strong>: Reference nested elements</li>
-<li><strong>Right level of detail</strong>: Match audience needs</li>
-<li><strong>Create multiple views</strong>: Show different hierarchy levels</li>
-</ol>
-<h2 id="module-2-complete"><a class="header" href="#module-2-complete">Module 2 Complete</a></h2>
-<p>You've completed Parts and Relationships! You now understand:</p>
-<ul>
-<li>How to identify system parts</li>
-<li>Sruja's element types</li>
-<li>Defining meaningful relationships</li>
-<li>Organizing parts hierarchically</li>
+<li><strong>Be consistent</strong>: Use the same patterns throughout</li>
+<li><strong>Match detail to audience</strong>: Don't show components to stakeholders</li>
+<li><strong>Create multiple views</strong>: Tell different stories to different audiences</li>
+<li><strong>Keep it simple</strong>: Avoid deep nesting and over-complexity</li>
 </ul>
-<p><strong>Next</strong>: Learn about <a href="../module-3-boundaries/module-overview.html">Module 3: Boundaries</a>.</p>
+<p>If you take away one thing, let it be this: <strong>a well-structured hierarchy makes complex systems understandable</strong>. Everything else flows from that principle.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding:</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're modeling a simple mobile app with these requirements:</p>
+<blockquote>
+<p>"Users can create profiles, post content, and like posts. The app has a mobile frontend, API backend, and database."</p>
+</blockquote>
+<p>At what level should you stop modeling? Should you include components?</p>
+<p><strong>A)</strong> Yes, always include components for completeness
+<strong>B)</strong> No, containers are sufficient for this system
+<strong>C)</strong> Include components for the API but not the mobile frontend
+<strong>D)</strong> Include components only if using microservices</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) No, containers are sufficient for this system</strong></p>
+<p>Here's why:</p>
+<ul>
+<li>The system is simple (mobile frontend, API, database)</li>
+<li>Three containers is manageable complexity</li>
+<li>There's no indication that the API is internally complex</li>
+<li>Components would add unnecessary detail for a straightforward system</li>
+</ul>
+<p>The decision framework I use:</p>
+<ul>
+<li><strong>Is the container complex?</strong> No, it sounds simple.</li>
+<li><strong>Is the audience developers?</strong> Maybe, but even developers don't always need component-level detail.</li>
+<li><strong>Will it add clarity?</strong> Probably not—it might just add noise.</li>
+</ul>
+<p>If this system grows and the API becomes complex with 10+ services, then yes, add components. But for now? Keep it at the container level.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're referencing nested elements in your architecture. Which reference is correctly formatted?</p>
+<p><strong>A)</strong> <code>WebApp.API.Database "Queries data"</code>
+<strong>B)</strong> <code>API.AuthService -&gt; UserService "Gets profile"</code>
+<strong>C)</strong> <code>Shop.API.ProductService -&gt; CartService "Adds item"</code>
+<strong>D)</strong> <code>System.Container.Service -&gt; External.Service "Calls"</code></p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) API.AuthService -&gt; UserService "Gets profile"</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> <code>WebApp.API.Database "Queries data"</code> — Wrong. This implies WebApp has an API, which has a Database. But typically, API and Database are siblings within the System, not nested. It should probably be <code>System.Database</code>.</p>
+<p><strong>B)</strong> <code>API.AuthService -&gt; UserService "Gets profile"</code> — Correct! This shows a component (AuthService) within a container (API) communicating with another component (UserService) within the same container. Perfect dot notation.</p>
+<p><strong>C)</strong> <code>Shop.API.ProductService -&gt; CartService "Adds item"</code> — Almost correct, but incomplete. CartService should be fully qualified as <code>Shop.API.CartService</code>. Otherwise, it's unclear where CartService lives.</p>
+<p><strong>D)</strong> <code>System.Container.Service -&gt; External.Service "Calls"</code> — Wrong on multiple levels. External systems shouldn't have components in your architecture model—you don't control them. Also, it's unclear where External.Service is.</p>
+<p>The key insight: <strong>use full dot notation when referencing nested elements</strong>. Make it clear where every element lives in the hierarchy.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Congratulations! You've completed Module 2: Parts and Relationships. You now have a complete toolkit for:</p>
+<ul>
+<li>Identifying the key parts of any system</li>
+<li>Modeling parts using Sruja's element types</li>
+<li>Defining meaningful relationships between parts</li>
+<li>Organizing everything with clear hierarchy and structure</li>
+</ul>
+<p>You can now create diagrams that tell stories about how systems work—stories that are clear, consistent, and useful for your audience.</p>
+<p>In the next module, you'll learn about <strong>boundaries</strong>—how to define where one system ends and another begins. This is crucial for understanding dependencies, managing complexity, and designing systems that are decoupled and maintainable.</p>
+<p>See you there!</p>
+<hr>
+<h2 id="module-2-complete"><a class="header" href="#module-2-complete">Module 2 Complete!</a></h2>
+<p>You've now mastered the fundamentals of modeling systems. Here's what you've learned:</p>
+<p><strong>Lesson 1: Identifying Parts</strong></p>
+<ul>
+<li>Start with people, then systems, then containers, then components</li>
+<li>Use the C4 hierarchy as your guide</li>
+<li>Match the level of detail to your audience</li>
+</ul>
+<p><strong>Lesson 2: Sruja Elements</strong></p>
+<ul>
+<li>Four element types: person, system, container, component</li>
+<li>Add details that matter: technology, description, SLOs</li>
+<li>Use naming conventions consistently</li>
+</ul>
+<p><strong>Lesson 3: Defining Relationships</strong></p>
+<ul>
+<li>Write labels that tell a story</li>
+<li>Use tags to add meaningful context</li>
+<li>Reference nested elements with dot notation</li>
+</ul>
+<p><strong>Lesson 4: Hierarchy and Nesting</strong></p>
+<ul>
+<li>Structure your systems consistently</li>
+<li>Avoid deep nesting and over-complexity</li>
+<li>Create multiple views for different audiences</li>
+</ul>
+<p>You're ready to tackle more advanced concepts. Let's continue!</p>
 
                     </main>
 
@@ -520,9 +631,11 @@ AuthService = component "Auth Service"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

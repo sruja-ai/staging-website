@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -181,102 +181,854 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-3-governance-as-code"><a class="header" href="#lesson-3-governance-as-code">Lesson 3: Governance as Code</a></h1>
-<p>As your organization scales, manually reviewing every architectural change becomes impossible. You need automated guardrails to ensure consistency and security.</p>
+<p>The SOC 2 auditor asked a simple question: "Can you show me all databases that store customer PII and confirm they're encrypted?"</p>
+<p>I froze.</p>
+<p>We had 47 databases across 12 services. I had no idea which ones stored PII. I had no idea which ones were encrypted. I had no idea which ones were even in scope for the audit.</p>
+<p>It took us three weeks to manually audit every database. We found three unencrypted databases with customer data. We failed the audit. The company lost a $2M contract that required SOC 2 compliance.</p>
+<p><strong>The worst part?</strong> We'd passed the audit six months earlier. But in those six months, developers had added new databases. No one checked if they were encrypted. No one even knew they existed.</p>
+<p>That's when I learned: <strong>manual governance doesn't scale</strong>. If your governance depends on people remembering rules, you've already failed.</p>
+<p>This lesson is about Governance as Code: treating architectural policies as executable code that validates your architecture automatically.</p>
 <h2 id="what-is-governance-as-code"><a class="header" href="#what-is-governance-as-code">What is Governance as Code?</a></h2>
-<p>Governance as Code treats architectural policies (e.g., "All databases must be encrypted", "No circular dependencies") as executable code that can be validated automatically in your CI/CD pipeline.</p>
-<h2 id="built-in-validation-rules"><a class="header" href="#built-in-validation-rules">Built-in Validation Rules</a></h2>
-<p>Sruja validates common architectural concerns automatically:</p>
+<p><strong>Governance as Code</strong> means expressing architectural policies as machine-readable rules that can be validated automatically:</p>
+<ul>
+<li>"All databases must be encrypted" → Validator checks encryption tags</li>
+<li>"No circular dependencies" → Validator checks dependency graph</li>
+<li>"All services must have SLOs" → Validator checks for SLO definitions</li>
+<li>"No public APIs without authentication" → Validator checks auth requirements</li>
+</ul>
+<p><strong>Without Governance as Code:</strong></p>
+<ul>
+<li>Policies exist in wikis and documents</li>
+<li>Compliance depends on code reviews</li>
+<li>Violations found late (or never)</li>
+<li>Audits require manual inspection</li>
+<li>Inconsistent enforcement</li>
+</ul>
+<p><strong>With Governance as Code:</strong></p>
+<ul>
+<li>Policies are executable code</li>
+<li>Validation runs in CI/CD</li>
+<li>Violations caught immediately</li>
+<li>Audits are automated</li>
+<li>Consistent, reliable enforcement</li>
+</ul>
+<h2 id="the-three-types-of-governance"><a class="header" href="#the-three-types-of-governance">The Three Types of Governance</a></h2>
+<h3 id="type-1-guardrails-prevent-bad-things"><a class="header" href="#type-1-guardrails-prevent-bad-things">Type 1: Guardrails (Prevent Bad Things)</a></h3>
+<p><strong>Purpose:</strong> Stop dangerous or non-compliant architecture choices.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Databases storing PII must be encrypted</li>
+<li>No public endpoints without authentication</li>
+<li>No single points of failure</li>
+<li>No databases in unauthorized regions</li>
+</ul>
+<p><strong>Real-world example:</strong> Netflix</p>
+<p>Netflix has a guardrail: "No service can depend on a single availability zone." Their validation tool checks every service's deployment configuration. If it's single-AZ, the build fails. This guardrail has prevented dozens of potential outages.</p>
+<p><strong>Sruja example:</strong></p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+// Define the policy
+policy EncryptionPolicy "All databases must be encrypted" {
+  category "security"
+  enforcement "required"
+  
+  rule {
+    element_type "database"
+    required_tags ["encrypted"]
+    error "Database {element} missing 'encrypted' tag. All databases must be encrypted at rest."
+  }
+}
+
+// Apply to your architecture
+ECommerce = system "E-Commerce" {
+  // This will PASS validation
+  SecureDB = database "Customer Database" {
+    technology "PostgreSQL"
+    tags ["encrypted", "pci-compliant"]
+  }
+  
+  // This will FAIL validation
+  InsecureDB = database "Analytics Database" {
+    technology "MySQL"
+    // Missing "encrypted" tag - violation!
+  }
+}
+
+view index {
+  include *
+}
+</code></pre>
+<h3 id="type-2-standards-enforce-consistency"><a class="header" href="#type-2-standards-enforce-consistency">Type 2: Standards (Enforce Consistency)</a></h3>
+<p><strong>Purpose:</strong> Ensure architectural consistency across teams.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>All services must use the same logging format</li>
+<li>All APIs must follow REST naming conventions</li>
+<li>All services must have health check endpoints</li>
+<li>All databases must have backup policies</li>
+</ul>
+<p><strong>Real-world example:</strong> Google</p>
+<p>Google has thousands of services, but they all follow the same API design guidelines. Why? Because they have automated validators that check every API against their standards. Inconsistent APIs fail the build.</p>
+<p><strong>Sruja example:</strong></p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+policy LoggingStandard "Services must have structured logging" {
+  category "operations"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    required_tags ["structured-logging"]
+    error "Service {element} must implement structured logging per company standard."
+  }
+}
+
+policy SLOStandard "Services must have SLOs defined" {
+  category "reliability"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    requires_slo true
+    error "Service {element} missing SLO definitions. All production services must have SLOs."
+  }
+}
+
+ECommerce = system "E-Commerce" {
+  API = container "API Service" {
+    technology "Rust"
+    tags ["structured-logging"]
+    
+    slo {
+      availability {
+        target "99.9%"
+        window "30 days"
+      }
+      latency {
+        p95 "200ms"
+        p99 "500ms"
+      }
+    }
+  }
+}
+
+view index {
+  include *
+}
+</code></pre>
+<h3 id="type-3-best-practices-codified-wisdom"><a class="header" href="#type-3-best-practices-codified-wisdom">Type 3: Best Practices (Codified Wisdom)</a></h3>
+<p><strong>Purpose:</strong> Encode architectural lessons learned.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Services with &gt; 10 dependencies should be split</li>
+<li>Databases accessed by &gt; 5 services need a cache layer</li>
+<li>Services handling payments need circuit breakers</li>
+<li>Critical services need multi-region deployment</li>
+</ul>
+<p><strong>Real-world example:</strong> Amazon</p>
+<p>Amazon learned the hard way that services with too many dependencies become bottlenecks. They codified this lesson: "If a service has more than 20 dependencies, architecture review required." This rule is enforced automatically.</p>
+<p><strong>Sruja example:</strong></p>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+policy DependencyLimit "Services should not have too many dependencies" {
+  category "architecture"
+  enforcement "warning"
+  
+  rule {
+    element_type "container"
+    max_incoming_relations 10
+    warning "Service {element} has {count} incoming dependencies. Consider splitting if &gt; 10."
+  }
+  
+  rule {
+    element_type "container"
+    max_outgoing_relations 15
+    error "Service {element} has {count} outgoing dependencies. Split required if &gt; 15."
+  }
+}
+
+ECommerce = system "E-Commerce" {
+  API = container "API Service" {
+    technology "Rust"
+  }
+  
+  // Imagine 20 services all calling API
+  Service1 = container "Service 1" { API -&gt; Service1 }
+  Service2 = container "Service 2" { API -&gt; Service2 }
+  // ... and 18 more
+  
+  // This would trigger the dependency limit warning
+}
+
+view index {
+  include *
+}
+</code></pre>
+<h2 id="real-world-governance-stories"><a class="header" href="#real-world-governance-stories">Real-World Governance Stories</a></h2>
+<h3 id="netflix-resilience-governance"><a class="header" href="#netflix-resilience-governance">Netflix: Resilience Governance</a></h3>
+<p><strong>The problem:</strong> Netflix had services that weren't resilient. They'd fail when dependencies failed.</p>
+<p><strong>The solution:</strong> Governance rules requiring:</p>
+<ul>
+<li>Every service must have fallback behavior</li>
+<li>Every external call must have a timeout</li>
+<li>Critical services must have circuit breakers</li>
+</ul>
+<p><strong>The enforcement:</strong> Their Chaos Monkey tool tests these rules in production. If a service can't handle failure, Chaos Monkey finds out. Publicly.</p>
+<p><strong>The result:</strong> 99.99% availability, even with thousands of service failures per day.</p>
+<h3 id="amazon-team-size-governance"><a class="header" href="#amazon-team-size-governance">Amazon: Team Size Governance</a></h3>
+<p><strong>The problem:</strong> Large teams move slowly and create coordination overhead.</p>
+<p><strong>The solution:</strong> "Two-pizza team" rule - teams should be small enough to be fed by two pizzas (6-10 people).</p>
+<p><strong>The enforcement:</strong> Each service has a defined owner. If the team grows too large, governance tools flag it. Architecture review required.</p>
+<p><strong>The result:</strong> Faster decisions, clearer ownership, decentralized architecture.</p>
+<h3 id="google-api-standards-governance"><a class="header" href="#google-api-standards-governance">Google: API Standards Governance</a></h3>
+<p><strong>The problem:</strong> Inconsistent APIs made integration difficult. Every team invented their own patterns.</p>
+<p><strong>The solution:</strong> Google API Design Guide - comprehensive standards for all APIs.</p>
+<p><strong>The enforcement:</strong> Automated linters check every API definition. Non-compliant APIs fail CI builds. No exceptions.</p>
+<p><strong>The result:</strong> Consistent developer experience across thousands of APIs.</p>
+<h3 id="stripe-security-governance"><a class="header" href="#stripe-security-governance">Stripe: Security Governance</a></h3>
+<p><strong>The problem:</strong> Handling payments requires strict security. Manual security reviews don't scale.</p>
+<p><strong>The solution:</strong> Codified security policies:</p>
+<ul>
+<li>All PII must be encrypted at rest</li>
+<li>All APIs must use TLS 1.3+</li>
+<li>All databases must have audit logs</li>
+<li>All services must have vulnerability scanning</li>
+</ul>
+<p><strong>The enforcement:</strong> Automated security scanners check every deployment. Violations block production.</p>
+<p><strong>The result:</strong> PCI-DSS compliance maintained across thousands of changes per day.</p>
+<h2 id="common-governance-rules"><a class="header" href="#common-governance-rules">Common Governance Rules</a></h2>
+<p>Here are the governance rules I see most often in production systems:</p>
+<h3 id="security-rules"><a class="header" href="#security-rules">Security Rules</a></h3>
+<pre><code class="language-sruja">// Rule 1: All databases encrypted
+policy EncryptionPolicy "All databases must be encrypted" {
+  rule {
+    element_type "database"
+    required_tags ["encrypted"]
+  }
+}
+
+// Rule 2: No sensitive data in caches
+policy CacheDataPolicy "No PII in cache layers" {
+  rule {
+    element_type "database"
+    tag "cache"
+    forbidden_tags ["pii", "sensitive"]
+  }
+}
+
+// Rule 3: All external APIs authenticated
+policy APIAuthPolicy "External APIs must require authentication" {
+  rule {
+    element_type "container"
+    tag "public-api"
+    required_tags ["authentication"]
+  }
+}
+
+// Rule 4: No databases in unauthorized regions
+policy DataResidencyPolicy "Data must stay in approved regions" {
+  rule {
+    element_type "database"
+    tag "pii"
+    allowed_regions ["us-east-1", "eu-west-1"]
+  }
+}
+</code></pre>
+<h3 id="architecture-rules"><a class="header" href="#architecture-rules">Architecture Rules</a></h3>
+<pre><code class="language-sruja">// Rule 5: No circular dependencies
+policy NoCircularDeps "Services cannot have circular dependencies" {
+  rule {
+    check_circular_dependencies true
+    error "Circular dependency detected between {source} and {target}"
+  }
+}
+
+// Rule 6: Services must have owners
+policy OwnershipPolicy "All services must have defined owners" {
+  rule {
+    element_type "container"
+    required_metadata ["owner", "team"]
+  }
+}
+
+// Rule 7: No single points of failure
+policy RedundancyPolicy "Critical services must be redundant" {
+  rule {
+    element_type "container"
+    tag "critical"
+    requires_scale true
+    min_replicas 3
+  }
+}
+
+// Rule 8: Layer violations prohibited
+policy LayerPolicy "Respect architectural layers" {
+  rule {
+    element_type "container"
+    tag "presentation"
+    cannot_depend_on "datastore"
+  }
+}
+</code></pre>
+<h3 id="operations-rules"><a class="header" href="#operations-rules">Operations Rules</a></h3>
+<pre><code class="language-sruja">// Rule 9: All services must have SLOs
+policy SLOPolicy "Services must have SLOs defined" {
+  rule {
+    element_type "container"
+    requires_slo true
+  }
+}
+
+// Rule 10: All services must be monitored
+policy MonitoringPolicy "Services must be monitored" {
+  rule {
+    element_type "container"
+    required_tags ["monitored"]
+  }
+}
+
+// Rule 11: All databases must have backups
+policy BackupPolicy "Databases must have backup policies" {
+  rule {
+    element_type "database"
+    required_tags ["backed-up"]
+    required_metadata ["backup_frequency", "backup_retention"]
+  }
+}
+
+// Rule 12: All services must have health checks
+policy HealthCheckPolicy "Services must implement health checks" {
+  rule {
+    element_type "container"
+    required_tags ["health-check"]
+  }
+}
+</code></pre>
+<h3 id="compliance-rules"><a class="header" href="#compliance-rules">Compliance Rules</a></h3>
+<pre><code class="language-sruja">// Rule 13: PII handling requirements
+policy PIIHandlingPolicy "PII must be handled correctly" {
+  rule {
+    element_type "database"
+    tag "pii"
+    required_tags ["encrypted", "audit-logged", "access-controlled"]
+  }
+}
+
+// Rule 14: Payment data requirements
+policy PCICompliancePolicy "Payment data must be PCI compliant" {
+  rule {
+    element_type "container"
+    tag "payment-processing"
+    required_tags ["pci-compliant", "pci-audited"]
+  }
+}
+
+// Rule 15: Data retention requirements
+policy DataRetentionPolicy "Data must have retention policies" {
+  rule {
+    element_type "database"
+    required_metadata ["retention_period", "deletion_policy"]
+  }
+}
+</code></pre>
+<h2 id="cicd-integration"><a class="header" href="#cicd-integration">CI/CD Integration</a></h2>
+<p>Governance only works if it's enforced. Here's how to integrate with your pipeline:</p>
+<h3 id="stage-1-pre-commit-hooks"><a class="header" href="#stage-1-pre-commit-hooks">Stage 1: Pre-Commit Hooks</a></h3>
+<p><strong>What:</strong> Validate architecture changes before they're committed.</p>
+<pre><code class="language-bash"># .git/hooks/pre-commit
+#!/bin/bash
+sruja validate architecture.sruja
+if [ $? -ne 0 ]; then
+  echo "Architecture validation failed. Fix violations before committing."
+  exit 1
+fi
+</code></pre>
+<p><strong>Catches:</strong> Basic violations early, before code review.</p>
+<h3 id="stage-2-pull-request-validation"><a class="header" href="#stage-2-pull-request-validation">Stage 2: Pull Request Validation</a></h3>
+<p><strong>What:</strong> Validate architecture in CI when PRs are created.</p>
+<pre><code class="language-yaml"># .github/workflows/architecture-validation.yml
+name: Architecture Validation
+
+on: [pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Validate Architecture
+        run: |
+          sruja validate architecture.sruja --strict
+          
+      - name: Check Compliance
+        run: |
+          sruja compliance-check --policies ./policies/
+</code></pre>
+<p><strong>Catches:</strong> All violations before merge.</p>
+<h3 id="stage-3-deployment-gates"><a class="header" href="#stage-3-deployment-gates">Stage 3: Deployment Gates</a></h3>
+<p><strong>What:</strong> Validate architecture before production deployment.</p>
+<pre><code class="language-yaml"># deployment-pipeline.yml
+stages:
+  - name: validate-architecture
+    steps:
+      - sruja validate architecture.sruja
+      - sruja compliance-check --policies ./policies/production/
+      
+  - name: deploy-production
+    needs: validate-architecture
+    if: success()
+    steps:
+      - deploy-to-production
+</code></pre>
+<p><strong>Catches:</strong> Production-specific violations (security, compliance).</p>
+<h3 id="stage-4-continuous-monitoring"><a class="header" href="#stage-4-continuous-monitoring">Stage 4: Continuous Monitoring</a></h3>
+<p><strong>What:</strong> Validate running infrastructure matches architecture.</p>
+<pre><code class="language-bash"># Run continuously (e.g., every hour)
+sruja drift-detect --architecture architecture.sruja --live-infrastructure
+</code></pre>
+<p><strong>Catches:</strong> Configuration drift, manual changes, unapproved modifications.</p>
+<h2 id="governance-maturity-model"><a class="header" href="#governance-maturity-model">Governance Maturity Model</a></h2>
+<p>Where is your organization on the governance journey?</p>
+<h3 id="level-0-no-governance"><a class="header" href="#level-0-no-governance">Level 0: No Governance</a></h3>
+<p><strong>What it looks like:</strong></p>
+<ul>
+<li>No documented policies</li>
+<li>Decisions made ad-hoc</li>
+<li>Compliance discovered during audits</li>
+<li>Inconsistent architecture</li>
+</ul>
+<p><strong>Real-world example:</strong> Early-stage startups</p>
+<p><strong>The problem:</strong> You'll fail audits eventually. But you're probably too small to care yet.</p>
+<p><strong>When it's okay:</strong> &lt; 10 engineers, pre-revenue, learning phase.</p>
+<h3 id="level-1-manual-governance"><a class="header" href="#level-1-manual-governance">Level 1: Manual Governance</a></h3>
+<p><strong>What it looks like:</strong></p>
+<ul>
+<li>Policies documented in wikis</li>
+<li>Architecture reviews are manual</li>
+<li>Compliance checks during audits</li>
+<li>Some consistency through code review</li>
+</ul>
+<p><strong>Real-world example:</strong> Growing companies (50-200 engineers)</p>
+<p><strong>The problem:</strong> Doesn't scale. Policies become outdated. Reviews are inconsistent. Violations slip through.</p>
+<p><strong>How to improve:</strong> Start automating the most critical checks.</p>
+<h3 id="level-2-automated-checks"><a class="header" href="#level-2-automated-checks">Level 2: Automated Checks</a></h3>
+<p><strong>What it looks like:</strong></p>
+<ul>
+<li>Key policies automated</li>
+<li>CI/CD validation runs automatically</li>
+<li>Violations caught early</li>
+<li>Consistent enforcement</li>
+</ul>
+<p><strong>Real-world example:</strong> Mature companies (200-1000 engineers)</p>
+<p><strong>The benefit:</strong> Scales with team size. Consistent enforcement. Early violation detection.</p>
+<p><strong>How to improve:</strong> Expand coverage, add more policies.</p>
+<h3 id="level-3-continuous-enforcement"><a class="header" href="#level-3-continuous-enforcement">Level 3: Continuous Enforcement</a></h3>
+<p><strong>What it looks like:</strong></p>
+<ul>
+<li>Most policies automated</li>
+<li>Real-time validation</li>
+<li>Drift detection</li>
+<li>Self-documenting compliance</li>
+</ul>
+<p><strong>Real-world example:</strong> Tech giants (Google, Netflix, Amazon)</p>
+<p><strong>The benefit:</strong> Compliance is continuous, not periodic. Audits are easy. Architecture stays healthy.</p>
+<p><strong>How to improve:</strong> Fine-tune policies, reduce false positives.</p>
+<h3 id="level-4-self-service-with-guardrails"><a class="header" href="#level-4-self-service-with-guardrails">Level 4: Self-Service with Guardrails</a></h3>
+<p><strong>What it looks like:</strong></p>
+<ul>
+<li>Developers can deploy freely</li>
+<li>Guardrails prevent bad choices</li>
+<li>Compliance is transparent</li>
+<li>Architecture evolves safely</li>
+</ul>
+<p><strong>Real-world example:</strong> Very few companies (Spotify, Netflix)</p>
+<p><strong>The benefit:</strong> Fast development, safe architecture. Best of both worlds.</p>
+<p><strong>The goal:</strong> This is where you want to be.</p>
+<h2 id="common-governance-mistakes"><a class="header" href="#common-governance-mistakes">Common Governance Mistakes</a></h2>
+<h3 id="mistake-1-governance-theater"><a class="header" href="#mistake-1-governance-theater">Mistake #1: Governance Theater</a></h3>
+<p><strong>What happens:</strong> You have lots of policies, but they're not enforced.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Wiki says "All databases must be encrypted"</li>
+<li>But no automated checks</li>
+<li>Some databases encrypted, some not</li>
+<li>Audit fails</li>
+</ul>
+<p><strong>The fix:</strong> If a policy isn't enforced, delete it or enforce it.</p>
+<h3 id="mistake-2-too-many-rules"><a class="header" href="#mistake-2-too-many-rules">Mistake #2: Too Many Rules</a></h3>
+<p><strong>What happens:</strong> You create policies for everything.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>200 governance rules</li>
+<li>Developers need exceptions for 50% of changes</li>
+<li>Governance becomes a bottleneck</li>
+<li>People work around it</li>
+</ul>
+<p><strong>The fix:</strong> Start with 5-10 critical policies. Add more only when needed.</p>
+<h3 id="mistake-3-rules-without-context"><a class="header" href="#mistake-3-rules-without-context">Mistake #3: Rules Without Context</a></h3>
+<p><strong>What happens:</strong> Policies exist but no one knows why.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-sruja">// BAD: No explanation
+policy Rule42 "Services must have tag X" {
+  // Why? What's the purpose?
+}
+</code></pre>
+<p><strong>The fix:</strong> Every policy should explain:</p>
+<ul>
+<li>Why it exists</li>
+<li>What problem it solves</li>
+<li>When it applies</li>
+<li>How to comply</li>
+</ul>
+<pre><code class="language-sruja">// GOOD: Clear context
+policy EncryptionPolicy "All databases must be encrypted" {
+  category "security"
+  
+  description "
+    Unencrypted databases expose customer data if compromised.
+    Required for SOC 2, PCI-DSS, GDPR compliance.
+    Applies to all databases storing production data.
+    Encrypt using AWS KMS or equivalent.
+  "
+  
+  rule {
+    element_type "database"
+    required_tags ["encrypted"]
+  }
+}
+</code></pre>
+<h3 id="mistake-4-no-exceptions-process"><a class="header" href="#mistake-4-no-exceptions-process">Mistake #4: No Exceptions Process</a></h3>
+<p><strong>What happens:</strong> Rules are rigid with no way to handle edge cases.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Legacy system can't comply with new encryption rule</li>
+<li>No way to get exception</li>
+<li>System remains non-compliant forever</li>
+<li>Governance loses credibility</li>
+</ul>
+<p><strong>The fix:</strong> Create an exceptions process:</p>
+<ol>
+<li>Document why exception is needed</li>
+<li>Define mitigation plan</li>
+<li>Set expiration date</li>
+<li>Require approval</li>
+<li>Review periodically</li>
+</ol>
+<h3 id="mistake-5-one-size-fits-all-rules"><a class="header" href="#mistake-5-one-size-fits-all-rules">Mistake #5: One-Size-Fits-All Rules</a></h3>
+<p><strong>What happens:</strong> Same rules applied to all systems regardless of context.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>"All services must have 99.99% availability"</li>
+<li>Even internal admin tools</li>
+<li>Over-engineering everywhere</li>
+<li>Wasted resources</li>
+</ul>
+<p><strong>The fix:</strong> Tiered policies based on criticality:</p>
+<ul>
+<li>Critical services: Strict rules</li>
+<li>Standard services: Moderate rules</li>
+<li>Internal tools: Basic rules</li>
+</ul>
+<h3 id="mistake-6-governance-as-afterthought"><a class="header" href="#mistake-6-governance-as-afterthought">Mistake #6: Governance as Afterthought</a></h3>
+<p><strong>What happens:</strong> Architecture is designed first, governance added later.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Build the system</li>
+<li>Try to add governance</li>
+<li>Discover fundamental violations</li>
+<li>Expensive refactoring</li>
+</ul>
+<p><strong>The fix:</strong> Governance from the start. Define policies first, design architecture to comply.</p>
+<h2 id="the-govern-framework"><a class="header" href="#the-govern-framework">The GOVERN Framework</a></h2>
+<p>When implementing Governance as Code, use this framework:</p>
+<p><strong>G - Identify Goals</strong></p>
+<ul>
+<li>What are you trying to achieve?</li>
+<li>What problems are you solving?</li>
+<li>What's the risk of no governance?</li>
+</ul>
+<p><strong>O - Define Outcomes</strong></p>
+<ul>
+<li>What does compliance look like?</li>
+<li>How will you measure success?</li>
+<li>What's acceptable vs. unacceptable?</li>
+</ul>
+<p><strong>V - Validate Automatically</strong></p>
+<ul>
+<li>Which rules can be automated?</li>
+<li>What checks run in CI/CD?</li>
+<li>What needs continuous monitoring?</li>
+</ul>
+<p><strong>E - Educate Teams</strong></p>
+<ul>
+<li>Do developers understand the rules?</li>
+<li>Is documentation clear?</li>
+<li>How do people learn about violations?</li>
+</ul>
+<p><strong>R - Review Regularly</strong></p>
+<ul>
+<li>Are policies still relevant?</li>
+<li>Are there too many false positives?</li>
+<li>What new policies are needed?</li>
+</ul>
+<p><strong>N - Nurture Culture</strong></p>
+<ul>
+<li>Is governance seen as help or hindrance?</li>
+<li>Do teams buy in?</li>
+<li>How do you handle exceptions?</li>
+</ul>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<ol>
+<li>
+<p><strong>Manual governance doesn't scale</strong> - If you're relying on people remembering rules, you've already failed</p>
+</li>
+<li>
+<p><strong>Start with critical policies</strong> - Security, compliance, reliability. Add more later.</p>
+</li>
+<li>
+<p><strong>Automate enforcement</strong> - Policies without enforcement are just suggestions</p>
+</li>
+<li>
+<p><strong>Integrate with CI/CD</strong> - Validate early, validate often, validate automatically</p>
+</li>
+<li>
+<p><strong>Explain the why</strong> - Every policy should have clear context and rationale</p>
+</li>
+<li>
+<p><strong>Allow exceptions</strong> - Rigid rules without exceptions create workarounds</p>
+</li>
+<li>
+<p><strong>Tier your rules</strong> - Not all services need the same governance level</p>
+</li>
+<li>
+<p><strong>Make compliance transparent</strong> - Developers should know status without asking</p>
+</li>
+<li>
+<p><strong>Review and evolve</strong> - Governance should improve over time, not stagnate</p>
+</li>
+<li>
+<p><strong>Governance enables speed</strong> - Good governance lets teams move fast safely</p>
+</li>
+</ol>
+<h2 id="when-to-start-governance"><a class="header" href="#when-to-start-governance">When to Start Governance</a></h2>
+<p><strong>Phase 1: Prototype (Skip governance)</strong></p>
+<ul>
+<li>Focus on learning</li>
+<li>Minimal policies</li>
+<li>Manual reviews fine</li>
+</ul>
+<p><strong>Phase 2: Production (Start governing)</strong></p>
+<ul>
+<li>Critical security policies</li>
+<li>Basic compliance checks</li>
+<li>CI/CD integration</li>
+</ul>
+<p><strong>Phase 3: Scale (Govern seriously)</strong></p>
+<ul>
+<li>Comprehensive policies</li>
+<li>Continuous enforcement</li>
+<li>Self-service with guardrails</li>
+</ul>
+<p><strong>Phase 4: Enterprise (Govern everything)</strong></p>
+<ul>
+<li>Full audit automation</li>
+<li>Real-time compliance</li>
+<li>Multi-team coordination</li>
+</ul>
+<h2 id="practical-exercise"><a class="header" href="#practical-exercise">Practical Exercise</a></h2>
+<p>Implement governance for a real or hypothetical system:</p>
+<p><strong>Step 1: Identify Critical Policies</strong></p>
+<ul>
+<li>What are your top 5 security risks?</li>
+<li>What compliance requirements exist?</li>
+<li>What architectural standards matter?</li>
+</ul>
+<p><strong>Step 2: Write Policies as Code</strong></p>
+<ul>
+<li>Express each policy in Sruja</li>
+<li>Include context and rationale</li>
+<li>Define clear validation rules</li>
+</ul>
+<p><strong>Step 3: Integrate with CI/CD</strong></p>
+<ul>
+<li>Add validation to pull requests</li>
+<li>Block non-compliant changes</li>
+<li>Provide clear error messages</li>
+</ul>
+<p><strong>Step 4: Create Compliance Dashboard</strong></p>
+<ul>
+<li>Show current compliance status</li>
+<li>Track violations over time</li>
+<li>Make status visible to all</li>
+</ul>
+<p><strong>Step 5: Document Exception Process</strong></p>
+<ul>
+<li>How to request exceptions</li>
+<li>Who approves</li>
+<li>How to track</li>
+</ul>
+<p><strong>Time:</strong> 60-90 minutes</p>
+<h2 id="complete-example-production-governance"><a class="header" href="#complete-example-production-governance">Complete Example: Production Governance</a></h2>
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+
+// ============ GOVERNANCE POLICIES ============
+
+// Security policies
+policy EncryptionPolicy "All databases must be encrypted" {
+  category "security"
+  enforcement "required"
+  
+  description "
+    Unencrypted databases expose data if compromised.
+    Required for SOC 2, PCI-DSS compliance.
+  "
+  
+  rule {
+    element_type "database"
+    required_tags ["encrypted"]
+    error "Database {element} must be encrypted. Add 'encrypted' tag."
+  }
+}
+
+policy PIIPolicy "PII data requires special handling" {
+  category "security"
+  enforcement "required"
+  
+  rule {
+    element_type "database"
+    tag "pii"
+    required_tags ["encrypted", "audit-logged", "access-controlled"]
+    error "PII database {element} missing required controls."
+  }
+}
+
+// Reliability policies
+policy SLOPolicy "Services must have SLOs" {
+  category "reliability"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    tag "production"
+    requires_slo true
+    error "Production service {element} must have SLOs defined."
+  }
+}
+
+policy RedundancyPolicy "Critical services must be redundant" {
+  category "reliability"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    tag "critical"
+    requires_scale true
+    min_replicas 3
+    error "Critical service {element} must have min 3 replicas."
+  }
+}
+
+// Architecture policies
+policy OwnershipPolicy "Services must have owners" {
+  category "operations"
+  enforcement "required"
+  
+  rule {
+    element_type "container"
+    required_metadata ["owner", "team"]
+    error "Service {element} missing owner/team metadata."
+  }
+}
+
+policy NoCircularDeps "No circular dependencies" {
+  category "architecture"
+  enforcement "required"
+  
+  rule {
+    check_circular_dependencies true
+    error "Circular dependency detected. Services cannot depend on each other."
+  }
+}
+
+// ============ ARCHITECTURE ============
 
 PaymentService = system "Payment Service" {
-    API = container "Payment API" {
-        technology "Rust"
-        tags ["encrypted", "pci-compliant"]
-
-        // SLOs for payment processing
-        slo {
-            availability {
-                target "99.99%"
-                window "30 days"
-                current "99.98%"
-                description "Payment processing must be highly available"
-            }
-            latency {
-                p95 "100ms"
-                p99 "200ms"
-                window "7 days"
-                current {
-                    p95 "95ms"
-                    p99 "190ms"
-                }
-                description "Fast payment processing critical for UX"
-            }
-            errorRate {
-                target "&lt; 0.01%"
-                window "30 days"
-                current "0.008%"
-                description "Payment errors must be extremely rare"
-            }
-            throughput {
-                target "500 req/s"
-                window "1 hour"
-                current "480 req/s"
-                description "Handle peak payment volumes"
-            }
-        }
+  API = container "Payment API" {
+    technology "Rust"
+    tags ["production", "critical"]
+    
+    metadata {
+      owner "payments-team"
+      team "payments@company.com"
     }
-
-    DB = database "Payment Database" {
-        technology "PostgreSQL"
-        tags ["encrypted", "backed-up"]
-
-        // Database SLOs
-        slo {
-            availability {
-                target "99.95%"
-                window "30 days"
-                current "99.92%"
-            }
-            latency {
-                p95 "20ms"
-                p99 "50ms"
-                window "7 days"
-            }
-        }
+    
+    slo {
+      availability {
+        target "99.99%"
+        window "30 days"
+      }
+      latency {
+        p95 "100ms"
+        p99 "200ms"
+      }
     }
+  }
+  
+  DB = database "Payment Database" {
+    technology "PostgreSQL"
+    tags ["encrypted", "pii", "pci-compliant", "audit-logged", "access-controlled"]
+    
+    slo {
+      availability {
+        target "99.99%"
+        window "30 days"
+      }
+    }
+  }
 }
 
 Auditor = person "Security Auditor"
 Auditor -&gt; PaymentService.API "Reviews"
 PaymentService.API -&gt; PaymentService.DB "Reads/Writes"
 
+// ============ VIEWS ============
+
 view index {
-title "Payment Service with Governance"
-include *
+  title "Payment Service Architecture"
+  include *
 }
 
-// SLO monitoring view
-view slos {
-title "SLO Monitoring View"
-include PaymentService.API PaymentService.DB
-exclude Auditor
-description "Focuses on components with SLOs defined"
-}
-
-// Compliance view
 view compliance {
-title "Compliance View"
-include PaymentService.API PaymentService.DB
-exclude Auditor
-description "Shows components with compliance tags"
+  title "Compliance Status"
+  include PaymentService.API PaymentService.DB
+  description "Shows compliance with governance policies"
 }
+
+view slos {
+  title "SLO Dashboard"
+  include PaymentService.API PaymentService.DB
+  exclude Auditor
+}
+
+// ============ VALIDATION ============
+// Run: sruja validate architecture.sruja
+// This will check all policies and report violations
 </code></pre>
-<h2 id="automated-validation"><a class="header" href="#automated-validation">Automated Validation</a></h2>
-<p>The real power comes when you run the Sruja CLI. It can check your architecture against these policies and fail the build if violations are found.</p>
-<pre><code class="language-bash">sruja validate architecture.sruja
-</code></pre>
-<p>This ensures that your architecture isn't just a diagram—it's a specification that is continuously verified.</p>
+<hr>
+<p><strong>Congratulations!</strong> You've completed Module 4: Production Readiness. You now have all the tools to create production-ready architecture that's documented, deployable, and governed.</p>
+<p><strong>Next steps:</strong> Apply these lessons to your real systems. Start with one module, get good at it, then expand. Architecture is a practice, not a destination.</p>
+<hr>
+<p><strong>Course Complete!</strong> 🎉</p>
+<p>You've finished the System Design 101 course. You now understand:</p>
+<ul>
+<li>How to think about systems (Module 1)</li>
+<li>How to model them effectively (Module 2)</li>
+<li>Advanced techniques for complex scenarios (Module 3)</li>
+<li>How to make architecture production-ready (Module 4)</li>
+</ul>
+<p>The best architects aren't the ones who know the most patterns. They're the ones who can communicate their decisions clearly, maintain their documentation, and govern their architecture effectively. You now have those skills.</p>
+<p>Go build great systems! 🚀</p>
 
                     </main>
 
@@ -331,9 +1083,11 @@ description "Shows components with compliance tags"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

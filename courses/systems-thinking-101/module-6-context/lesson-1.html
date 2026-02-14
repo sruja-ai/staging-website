@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,15 +180,26 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-1-understanding-context"><a class="header" href="#lesson-1-understanding-context">Lesson 1: Understanding Context</a></h1>
+                        <h1 id="the-context-trap-why-great-architecture-needs-more-than-great-code"><a class="header" href="#the-context-trap-why-great-architecture-needs-more-than-great-code">The Context Trap: Why Great Architecture Needs More Than Great Code</a></h1>
+<p>I once worked on what we thought was the perfect e-commerce platform. Clean microservices architecture, elegant APIs, comprehensive test coverage, the works. We were proud. Three months after launch, the project was cancelled.</p>
+<p>The problem? We'd built the wrong thing.</p>
+<p>Our payment processing was elegant—but the company had negotiated a deal with a specific payment provider we couldn't use. Our real-time inventory tracking was brilliant—but the warehouse team needed daily batches, not real-time updates. Our admin interface was beautiful—but the support team needed bulk operations, not pretty screens.</p>
+<p>We had built a technical masterpiece that solved nobody's actual problems.</p>
+<p>The missing piece was context. We'd designed the system in isolation, without understanding the organizational constraints, stakeholder needs, and business realities that surrounded it. The architecture was technically sound but organizationally wrong.</p>
+<p>This lesson is about avoiding that trap. You'll learn how to see the invisible environment that shapes every system—the stakeholders, dependencies, constraints, and success criteria that determine whether your architecture succeeds or fails, regardless of how elegant your code might be.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Understand what context is in systems thinking</li>
-<li>Recognize the different layers of context</li>
-<li>Learn why context matters for architecture</li>
+<li>Identify the multiple layers of context that surround any system</li>
+<li>Recognize why context matters just as much as technical architecture</li>
+<li>Model stakeholder, technical, and organizational context using Sruja</li>
+<li>Avoid the trap of designing systems in isolation</li>
+<li>Document constraints and dependencies that affect design decisions</li>
 </ul>
-<h2 id="what-is-context"><a class="header" href="#what-is-context">What Is Context?</a></h2>
-<p>Context is the environment your system operates in. It includes everything that affects or is affected by your system, even if it's not part of the system itself.</p>
+<h2 id="context-the-invisible-environment"><a class="header" href="#context-the-invisible-environment">Context: The Invisible Environment</a></h2>
+<p>Here's a question that changed how I think about architecture: <strong>What surrounds your system?</strong></p>
+<p>Not what's inside it. Not what code it runs. But what's around it—the environment it operates in, the people who use it, the systems it depends on, the constraints it must satisfy.</p>
+<p>Context is everything that affects your system or is affected by it, even though it's not part of the system itself. Think of it like the water a fish swims in—the fish doesn't see it, but it determines everything about how the fish lives.</p>
 <pre><code>┌─────────────────────────────────────────────┐
 │              ORGANIZATIONAL CONTEXT          │
 │  Company culture, processes, constraints    │
@@ -208,57 +219,74 @@
 │   └─────────────────────────────────────┘   │
 └─────────────────────────────────────────────┘
 </code></pre>
-<h2 id="layers-of-context"><a class="header" href="#layers-of-context">Layers of Context</a></h2>
-<h3 id="1-stakeholder-context"><a class="header" href="#1-stakeholder-context">1. Stakeholder Context</a></h3>
-<p>Who cares about your system?</p>
-<pre><code class="language-sruja">// People who use or influence the system
+<p>Each of these layers matters. Miss any of them, and you're designing in the dark.</p>
+<h3 id="the-three-layers-of-context"><a class="header" href="#the-three-layers-of-context">The Three Layers of Context</a></h3>
+<p><strong>Stakeholder context</strong> answers the question: Who cares about this system? This includes users, certainly, but also business owners, support teams, compliance officers, and anyone else affected by what you build. Each has different needs, and ignoring any of them creates problems.</p>
+<p><strong>Technical context</strong> covers the systems and services yours depends on: payment gateways, email services, databases, APIs. These dependencies constrain what's possible and create failure modes you need to handle.</p>
+<p><strong>Organizational context</strong> captures the business realities: budget constraints, team size, compliance requirements, strategic goals, timelines. These often matter more than technical constraints but are easier to overlook.</p>
+<h2 id="why-context-matters-beyond-theory"><a class="header" href="#why-context-matters-beyond-theory">Why Context Matters (Beyond Theory)</a></h2>
+<p>Let me share three real experiences that taught me why context isn't optional.</p>
+<h3 id="the-payment-gateway-surprise"><a class="header" href="#the-payment-gateway-surprise">The Payment Gateway Surprise</a></h3>
+<p>A startup I advised built their entire checkout flow around a specific payment gateway's API. Clean code, well-tested, ready to ship. Two weeks before launch, they learned that their business deal required using a different gateway with a completely different API.</p>
+<p>The technical work wasn't wasted, but they had to rewrite significant portions and delay launch by a month. Had they modeled their payment gateway as an external dependency with the constraint that it might change, they would have built an abstraction layer from the start.</p>
+<p>The cost of missing context? A month of delay and a lot of rework.</p>
+<h3 id="the-compliance-awakening"><a class="header" href="#the-compliance-awakening">The Compliance Awakening</a></h3>
+<p>I consulted for a healthcare company that built a beautiful patient data system. It was fast, user-friendly, and technically impressive. Then they tried to deploy it and learned about HIPAA compliance requirements they'd never considered.</p>
+<p>The system needed audit logging, data encryption at rest, access controls, and a dozen other features they hadn't built. Six months of work had to be redone to add compliance.</p>
+<p>The cost of missing context? Six months of rework.</p>
+<h3 id="the-stakeholder-disconnect"><a class="header" href="#the-stakeholder-disconnect">The Stakeholder Disconnect</a></h3>
+<p>A team built an internal deployment tool that developers loved. It was elegant and powerful. But the DevOps team couldn't use it—it didn't integrate with their monitoring systems or provide the audit trails they needed for compliance.</p>
+<p>Two teams, one tool, completely different needs. The developers got their tool, but the DevOps team continued using their old scripts, creating fragmentation and confusion.</p>
+<p>The cost of missing context? A tool that solved half the problem and created new ones.</p>
+<h2 id="modeling-context-in-sruja"><a class="header" href="#modeling-context-in-sruja">Modeling Context in Sruja</a></h2>
+<p>This is where architecture diagrams become powerful. Sruja gives you specific tools to capture context, not just system internals.</p>
+<h3 id="documenting-stakeholders"><a class="header" href="#documenting-stakeholders">Documenting Stakeholders</a></h3>
+<p>Use <code>person</code> to capture who cares about your system:</p>
+<pre><code class="language-sruja">// The people who matter
 Customer = person "Customer"
 Administrator = person "Administrator"
 SupportTeam = person "Support Team"
 BusinessOwner = person "Business Owner"
+ComplianceOfficer = person "Compliance Officer"
 </code></pre>
-<h3 id="2-technical-context"><a class="header" href="#2-technical-context">2. Technical Context</a></h3>
-<p>What technical dependencies exist?</p>
-<pre><code class="language-sruja">// External systems and services
-PaymentGateway = system "Payment Gateway"
-EmailService = system "Email Service"
-Analytics = system "Analytics Platform"
-CDN = system "Content Delivery Network"
-</code></pre>
-<h3 id="3-organizational-context"><a class="header" href="#3-organizational-context">3. Organizational Context</a></h3>
-<p>What organizational factors affect the system?</p>
-<pre><code class="language-sruja">// Documented in metadata
-Shop = system "Shop" {
+<p>This isn't just documentation—it's a reminder that your system serves different people with different needs.</p>
+<h3 id="capturing-external-dependencies"><a class="header" href="#capturing-external-dependencies">Capturing External Dependencies</a></h3>
+<p>Use <code>system</code> for everything your system depends on:</p>
+<pre><code class="language-sruja">// What you depend on
+PaymentGateway = system "Payment Gateway" {
   metadata {
-    team ["platform-team"]
-    business_unit ["e-commerce"]
-    compliance ["PCI-DSS"]
-    cost_center ["engineering"]
+    tags ["external", "critical", "pci-compliant"]
+    sla "99.9% uptime"
+    fallback "Manual payment processing"
+  }
+}
+
+EmailService = system "Email Service" {
+  metadata {
+    tags ["external", "low-priority"]
+    impact "Notifications delayed but system works"
+  }
+}
+
+AnalyticsService = system "Analytics Service" {
+  metadata {
+    tags ["external", "optional"]
+    impact "Analytics lost but core functionality works"
   }
 }
 </code></pre>
-<h2 id="why-context-matters"><a class="header" href="#why-context-matters">Why Context Matters</a></h2>
-<h3 id="1-stakeholder-alignment"><a class="header" href="#1-stakeholder-alignment">1. Stakeholder Alignment</a></h3>
-<p>Understand who your system serves:</p>
-<pre><code class="language-sruja">// Different stakeholders have different needs
+<p>The metadata captures critical information: Is this dependency critical? What happens if it fails? What's the SLA? This isn't just documentation—it's risk assessment.</p>
+<h3 id="showing-stakeholder-needs"><a class="header" href="#showing-stakeholder-needs">Showing Stakeholder Needs</a></h3>
+<p>Relationships reveal what different stakeholders need:</p>
+<pre><code class="language-sruja">// Different stakeholders, different needs
 Customer -&gt; Shop "Wants fast checkout"
 Administrator -&gt; Shop "Wants easy management"
 BusinessOwner -&gt; Shop "Wants high conversion"
 ComplianceOfficer -&gt; Shop "Wants data security"
 </code></pre>
-<h3 id="2-dependency-management"><a class="header" href="#2-dependency-management">2. Dependency Management</a></h3>
-<p>Know what you depend on:</p>
-<pre><code class="language-sruja">Shop = system "Shop"
-
-// Explicit dependencies
-Shop -&gt; PaymentGateway "Depends on for payments"
-Shop -&gt; EmailService "Depends on for notifications"
-Shop -&gt; Analytics "Depends on for tracking"
-
-// If any dependency fails, what's the impact?
-</code></pre>
-<h3 id="3-constraint-awareness"><a class="header" href="#3-constraint-awareness">3. Constraint Awareness</a></h3>
-<p>Understand limitations:</p>
+<p>These arrows seem simple, but they remind you that you're balancing competing needs. Fast checkout might conflict with security. Easy management might conflict with simplicity. These tensions are real and ignoring them doesn't make them go away.</p>
+<h3 id="documenting-constraints"><a class="header" href="#documenting-constraints">Documenting Constraints</a></h3>
+<p>Use <code>metadata</code> to capture organizational realities:</p>
 <pre><code class="language-sruja">Shop = system "Shop" {
   metadata {
     constraints {
@@ -270,8 +298,9 @@ Shop -&gt; Analytics "Depends on for tracking"
   }
 }
 </code></pre>
-<h3 id="4-success-criteria"><a class="header" href="#4-success-criteria">4. Success Criteria</a></h3>
-<p>Define what success looks like:</p>
+<p>These constraints are just as real as technical constraints. A $500/month budget limits your infrastructure choices. A 3-person team limits how complex the system can be. Pretending these don't exist doesn't help anyone.</p>
+<h3 id="defining-success"><a class="header" href="#defining-success">Defining Success</a></h3>
+<p>Use <code>slo</code> and <code>success_criteria</code> to define what "good" looks like:</p>
 <pre><code class="language-sruja">Shop = system "Shop" {
   slo {
     availability {
@@ -291,75 +320,32 @@ Shop -&gt; Analytics "Depends on for tracking"
   }
 }
 </code></pre>
-<h2 id="context-in-sruja"><a class="header" href="#context-in-sruja">Context in Sruja</a></h2>
-<h3 id="using-overview-block"><a class="header" href="#using-overview-block">Using <code>overview</code> Block</a></h3>
-<pre><code class="language-sruja">overview {
-  summary "E-commerce platform for online retail"
-  audience "Customers, administrators, business owners"
-  scope "Shopping cart, checkout, order management"
-  goals [
-    "Fast and reliable checkout",
-    "Easy order management",
-    "Real-time inventory tracking"
-  ]
-  non_goals [
-    "Social features",
-    "Mobile app (web-only)"
-  ]
-  risks [
-    "Payment gateway downtime",
-    "Database scaling limits"
-  ]
-}
-</code></pre>
-<h3 id="using-person-for-stakeholders"><a class="header" href="#using-person-for-stakeholders">Using <code>person</code> for Stakeholders</a></h3>
-<pre><code class="language-sruja">// Different types of stakeholders
-Customer = person "Customer"
-Administrator = person "Administrator"
-SupportAgent = person "Support Agent"
-ProductManager = person "Product Manager"
-ComplianceOfficer = person "Compliance Officer"
-</code></pre>
-<h3 id="using-system-for-external-dependencies"><a class="header" href="#using-system-for-external-dependencies">Using <code>system</code> for External Dependencies</a></h3>
-<pre><code class="language-sruja">// Document external services
-PaymentGateway = system "Payment Gateway" {
-  metadata {
-    tags ["external", "critical"]
-    sla "99.9% uptime"
-  }
-}
-
-EmailService = system "Email Service" {
-  metadata {
-    tags ["external"]
-    priority "low"  // Email can be delayed
-  }
-}
-</code></pre>
-<h3 id="using-requirements"><a class="header" href="#using-requirements">Using <code>requirements</code></a></h3>
-<pre><code class="language-sruja">// Capture constraints and requirements
-R1 = requirement functional "Must support multiple payment methods"
-R2 = requirement constraint "Must be PCI-DSS compliant"
-R3 = requirement performance "Page load time &lt; 2 seconds"
-R4 = requirement security "All data encrypted at rest"
-</code></pre>
-<h2 id="context-examples"><a class="header" href="#context-examples">Context Examples</a></h2>
-<h3 id="example-1-e-commerce-platform"><a class="header" href="#example-1-e-commerce-platform">Example 1: E-Commerce Platform</a></h3>
+<p>Without explicit success criteria, how do you know if you've succeeded? How do you make trade-offs? How do you prioritize features?</p>
+<h2 id="a-complete-example"><a class="header" href="#a-complete-example">A Complete Example</a></h2>
+<p>Let me show you how this comes together in a real architecture:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-// Stakeholder context
+// Stakeholder context: Who cares?
 Customer = person "Customer"
 Administrator = person "Administrator"
 BusinessOwner = person "Business Owner"
 SupportTeam = person "Support Team"
 
-// System
-Shop = system "Shop"
+// Your system
+Shop = system "Shop" {
+  metadata {
+    constraints {
+      "PCI-DSS compliance required",
+      "Team size: 3 engineers"
+    }
+  }
+}
 
-// Technical context (dependencies)
+// Technical context: What do you depend on?
 PaymentGateway = system "Payment Gateway" {
   metadata {
-    tags ["external", "critical", "pci-compliant"]
+    tags ["external", "critical"]
+    sla "99.9% uptime"
   }
 }
 
@@ -375,11 +361,12 @@ AnalyticsService = system "Analytics Service" {
   }
 }
 
-// Relationships show dependencies
+// Show the dependencies
 Shop -&gt; PaymentGateway "Depends on for payments"
 Shop -&gt; EmailService "Depends on for notifications"
 Shop -&gt; AnalyticsService "Depends on for tracking"
 
+// Show stakeholder needs
 Customer -&gt; Shop "Wants fast, reliable shopping"
 Administrator -&gt; Shop "Wants easy management"
 BusinessOwner -&gt; Shop "Wants high revenue"
@@ -389,92 +376,23 @@ view index {
   include *
 }
 </code></pre>
-<h3 id="example-2-internal-tool"><a class="header" href="#example-2-internal-tool">Example 2: Internal Tool</a></h3>
-<pre><code class="language-sruja">// Stakeholder context (internal only)
-Developer = person "Developer"
-QAEngineer = person "QA Engineer"
-DevOpsEngineer = person "DevOps Engineer"
-
-// System
-DeploymentTool = system "Deployment Tool"
-
-// Technical context
-GitHub = system "GitHub" {
-  metadata {
-    tags ["external"]
-  }
-}
-
-AWS = system "Amazon Web Services" {
-  metadata {
-    tags ["external", "infrastructure"]
-  }
-}
-
-Slack = system "Slack" {
-  metadata {
-    tags ["external", "communication"]
-  }
-}
-
-// Dependencies
-DeploymentTool -&gt; GitHub "Fetches code"
-DeploymentTool -&gt; AWS "Deploys to AWS"
-DeploymentTool -&gt; Slack "Sends notifications"
-
-// Context shows different stakeholders have different needs
-Developer -&gt; DeploymentTool "Wants simple interface"
-QAEngineer -&gt; DeploymentTool "Wants detailed logs"
-DevOpsEngineer -&gt; DeploymentTool "Wants monitoring &amp; alerts"
-</code></pre>
-<h2 id="context-anti-patterns"><a class="header" href="#context-anti-patterns">Context Anti-Patterns</a></h2>
-<h3 id="anti-pattern-1-no-context"><a class="header" href="#anti-pattern-1-no-context">Anti-Pattern 1: No Context</a></h3>
-<pre><code class="language-sruja">// Bad: System in isolation
-Shop = system "Shop" {
-  WebApp = container "Web App"
-  API = container "API"
-}
-</code></pre>
-<p><strong>Solution</strong>: Add stakeholders and dependencies.</p>
-<h3 id="anti-pattern-2-too-much-context"><a class="header" href="#anti-pattern-2-too-much-context">Anti-Pattern 2: Too Much Context</a></h3>
-<pre><code class="language-sruja">// Bad: Everything is context, system is lost
-Customer = person "Customer"
-Manager = person "Manager"
-Support = person "Support"
-Finance = person "Finance"
-Legal = person "Legal"
-HR = person "HR"
-Marketing = person "Marketing"
-// ... 20 more stakeholders
-</code></pre>
-<p><strong>Solution</strong>: Focus on key stakeholders directly affected.</p>
-<h3 id="anti-pattern-3-wrong-level-of-context"><a class="header" href="#anti-pattern-3-wrong-level-of-context">Anti-Pattern 3: Wrong Level of Context</a></h3>
-<pre><code class="language-sruja">// Bad: Too detailed (implementation, not context)
-Shop = system "Shop"
-PostgreSQL = system "PostgreSQL"
-Redis = system "Redis"
-Nginx = system "Nginx"
-</code></pre>
-<p><strong>Solution</strong>: Group into higher-level services.</p>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Identify the context layers for a hotel booking system:</p>
-<p><strong>Requirements</strong>: "A hotel booking system allows guests to search rooms, make reservations, and manage bookings. Hotel staff can manage room inventory and view reports. The system integrates with a payment gateway for payments and sends SMS confirmations. Hotel management needs reporting on occupancy and revenue."</p>
-<p><strong>Identify:</strong></p>
-<ol>
-<li>Stakeholders: <strong><strong><strong>_</strong></strong></strong></li>
-<li>External dependencies: <strong><strong><strong>_</strong></strong></strong></li>
-<li>Organizational constraints: <strong><strong><strong>_</strong></strong></strong></li>
-</ol>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Context is the environment</strong>: Everything affecting or affected by your system</li>
-<li><strong>Multiple layers</strong>: Stakeholder, technical, organizational</li>
-<li><strong>Use Sruja features</strong>: <code>overview</code>, <code>person</code>, <code>system</code>, <code>requirements</code></li>
-<li><strong>Balance detail</strong>: Don't ignore context, don't overwhelm</li>
-<li><strong>Context matters</strong>: Affects design, decisions, and success</li>
-</ol>
-<h2 id="next-lesson"><a class="header" href="#next-lesson">Next Lesson</a></h2>
-<p>In <a href="lesson-2.html">Lesson 2</a>, you'll learn how to model stakeholders and their relationships to your system.</p>
+<p>This diagram tells a story. You can see who matters, what the system depends on, what the constraints are, and what success looks like. That's the power of modeling context.</p>
+<h2 id="common-context-mistakes"><a class="header" href="#common-context-mistakes">Common Context Mistakes</a></h2>
+<p>After years of watching teams struggle with this, I've seen a few patterns repeat.</p>
+<p><strong>Mistake 1: Ignoring context entirely.</strong> Teams build elegant systems that solve the wrong problems. The architecture is technically beautiful but organizationally useless.</p>
+<p><strong>Mistake 2: Adding too much context.</strong> Some teams try to document everything and everyone, creating diagrams that are more confusing than helpful. Focus on stakeholders who directly affect or are affected by the system.</p>
+<p><strong>Mistake 3: Context at the wrong level.</strong> Documenting individual databases and caches instead of higher-level services. Context should clarify, not overwhelm.</p>
+<p>The key is balance: enough context to understand the system's environment, not so much that you lose the system itself.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Context isn't optional—it's half the architecture. The most elegant technical solution fails if it ignores stakeholder needs, organizational constraints, or external dependencies.</p>
+<p><strong>Model stakeholders explicitly.</strong> Use <code>person</code> to capture who cares about your system and what they need.</p>
+<p><strong>Document dependencies clearly.</strong> Use <code>system</code> for external services and metadata to capture criticality and fallbacks.</p>
+<p><strong>Capture constraints honestly.</strong> Budget, team size, compliance, timelines—these are real constraints that shape design decisions.</p>
+<p><strong>Define success criteria.</strong> Without explicit goals, you can't make trade-offs or know when you're done.</p>
+<p><strong>Balance detail.</strong> Enough context to understand the environment, not so much that the system gets lost.</p>
+<p>Context-aware architecture isn't about adding more documentation—it's about seeing the full picture before you start building. The time you spend understanding context pays back tenfold in avoided rework and better decisions.</p>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next</a></h2>
+<p>Now that you understand context as a concept, <a href="lesson-2.html">Lesson 2</a> dives deep into stakeholders—the people who use, build, and depend on your system. You'll learn how to identify different stakeholder types and model their needs in Sruja.</p>
 
                     </main>
 
@@ -529,9 +447,11 @@ Nginx = system "Nginx"
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 

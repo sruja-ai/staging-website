@@ -27,7 +27,7 @@
         <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../../../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../../../style-40f3ebf4.css">
+        <link rel="stylesheet" href="../../../style-6e6b2cea.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-9f7a5a1f.js";
+            window.path_to_searchindex_js = "../../../searchindex-604652c3.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -180,67 +180,131 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="lesson-3-crossing-boundaries"><a class="header" href="#lesson-3-crossing-boundaries">Lesson 3: Crossing Boundaries</a></h1>
+                        <hr>
+<h1 id="crossing-the-line-integrations-at-boundaries"><a class="header" href="#crossing-the-line-integrations-at-boundaries">Crossing the Line: Integrations at Boundaries</a></h1>
+<p>Imagine crossing a border between countries. You need a passport, you might wait in customs, and there are rules about what you can bring across. Sometimes the border is open and easy to cross. Sometimes it's closed, and you're stuck.</p>
+<p>Boundaries in software architecture work the same way. Every time you cross from your internal system to an external one, you're dealing with integration complexity, potential failures, and risks you don't control.</p>
+<p>In this lesson, you'll learn to model these boundary crossings effectively. You'll discover how to plan for failures, document interface contracts, and design fallback strategies that keep your system resilient when external dependencies misbehave.</p>
+<p>Let's start by understanding what boundary crossings actually are.</p>
 <h2 id="learning-goals"><a class="header" href="#learning-goals">Learning Goals</a></h2>
+<p>By the end of this lesson, you'll be able to:</p>
 <ul>
-<li>Model integrations across boundaries</li>
-<li>Plan for failures at boundaries</li>
-<li>Document interface contracts</li>
-<li>Design fallback strategies</li>
+<li>Model integrations across boundaries clearly</li>
+<li>Identify different integration patterns and when to use each</li>
+<li>Plan for common failure scenarios at boundaries</li>
+<li>Document interface contracts that prevent misunderstandings</li>
+<li>Design fallback strategies that keep your system resilient</li>
 </ul>
-<h2 id="boundary-crossings"><a class="header" href="#boundary-crossings">Boundary Crossings</a></h2>
-<p>Every time a relationship crosses from internal to external, it's a boundary crossing:</p>
+<h2 id="boundary-crossings-the-reality"><a class="header" href="#boundary-crossings-the-reality">Boundary Crossings: The Reality</a></h2>
+<p>Every relationship that goes from internal to external (or external to internal) is a boundary crossing. These are the riskiest parts of your system.</p>
 <pre><code class="language-sruja">// Internal → External = Boundary crossing
 Shop.API -&gt; PaymentGateway "Process payment"
 
 // External → Internal = Boundary crossing
 PaymentGateway -&gt; Shop.API "Payment result"
 </code></pre>
-<h2 id="integration-patterns"><a class="header" href="#integration-patterns">Integration Patterns</a></h2>
-<h3 id="pattern-1-request-response"><a class="header" href="#pattern-1-request-response">Pattern 1: Request-Response</a></h3>
+<p>Why are these risky? Because <strong>you don't control what's on the other side</strong>.</p>
+<p>I learned this the hard way early in my career. We had an e-commerce site that depended on a single payment gateway. When that gateway went down for six hours during Black Friday, we lost millions in sales because we hadn't planned for boundary failures.</p>
+<p>Lesson learned: <strong>every boundary crossing is a potential failure point</strong>. Plan accordingly.</p>
+<h2 id="integration-patterns-youll-use"><a class="header" href="#integration-patterns-youll-use">Integration Patterns You'll Use</a></h2>
+<p>After years of building systems, I've found there are really three main integration patterns you'll encounter. Understanding which one you're using helps you plan correctly.</p>
+<h3 id="pattern-1-request-response-synchronous"><a class="header" href="#pattern-1-request-response-synchronous">Pattern 1: Request-Response (Synchronous)</a></h3>
+<p>This is the most common pattern. You send a request, you wait for a response.</p>
 <pre><code class="language-sruja">Shop.API -&gt; PaymentGateway "Process payment"
 PaymentGateway -&gt; Shop.API "Payment result"
-
-// Characteristics:
-// - Synchronous
-// - Real-time
-// - Tight coupling
 </code></pre>
-<h3 id="pattern-2-event-driven"><a class="header" href="#pattern-2-event-driven">Pattern 2: Event-Driven</a></h3>
-<pre><code class="language-sruja">Shop.API -&gt; EventQueue "Publish order event"
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><strong>Synchronous</strong> — Your system waits for the response</li>
+<li><strong>Real-time</strong> — The customer sees the result immediately</li>
+<li><strong>Tight coupling</strong> — If the external service is down, you're down too</li>
+<li><strong>Simple to implement</strong> — One call, one response</li>
+</ul>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>When you need an immediate response (payment processing, real-time validation)</li>
+<li>When the operation is critical to the user's workflow</li>
+<li>When the external service has good uptime guarantees</li>
+</ul>
+<p><strong>Risks:</strong></p>
+<ul>
+<li>Your users wait if the external service is slow</li>
+<li>Your system fails if the external service is down</li>
+<li>Timeouts need to be configured carefully</li>
+</ul>
+<p>This is the pattern I see most often. It's simple, but it's fragile if you don't handle failures properly.</p>
+<h3 id="pattern-2-event-driven-asynchronous"><a class="header" href="#pattern-2-event-driven-asynchronous">Pattern 2: Event-Driven (Asynchronous)</a></h3>
+<p>You publish an event, and other systems process it whenever they can.</p>
+<pre><code class="language-sruja">Shop.API -&gt; EventQueue "Publish order created"
 EventQueue -&gt; PaymentProcessor "Consume order event"
-
-// Characteristics:
-// - Asynchronous
-// - Decoupled
-// - Resilient
+EventQueue -&gt; EmailService "Consume order event"
 </code></pre>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><strong>Asynchronous</strong> — You don't wait for a response</li>
+<li><strong>Decoupled</strong> — Your system continues even if others are slow</li>
+<li><strong>Resilient</strong> — If a consumer fails, the queue buffers events</li>
+<li><strong>More complex</strong> — You need infrastructure (Kafka, RabbitMQ, etc.)</li>
+</ul>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>When the operation can happen in the background (sending emails, updating analytics)</li>
+<li>When you have multiple consumers who need to process the same event</li>
+<li>When you want resilience and fault tolerance</li>
+</ul>
+<p><strong>Risks:</strong></p>
+<ul>
+<li>Eventual consistency (the user sees "processing" before it's actually done)</li>
+<li>More complex infrastructure to maintain</li>
+<li>Harder to debug when things go wrong</li>
+</ul>
+<p>I used to think event-driven was overkill for small systems. Then I built a notification system that sent welcome emails, onboarding sequences, and marketing emails. Trying to send all those synchronously was a nightmare. Moving to events made everything so much smoother.</p>
 <h3 id="pattern-3-polling"><a class="header" href="#pattern-3-polling">Pattern 3: Polling</a></h3>
-<pre><code class="language-sruja">Shop.API -&gt; ExternalAPI "Check status"
+<p>Your system periodically checks for updates from an external service.</p>
+<pre><code class="language-sruja">Shop.API -&gt; ExternalAPI "Check order status"
 ExternalAPI -&gt; Shop.API "Return status"
-
-// Characteristics:
-// - Periodic checks
-// - No webhooks
-// - Simpler but less efficient
 </code></pre>
-<h2 id="integration-considerations"><a class="header" href="#integration-considerations">Integration Considerations</a></h2>
-<h3 id="1-error-handling"><a class="header" href="#1-error-handling">1. Error Handling</a></h3>
-<p>What happens when external service fails?</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><strong>Periodic</strong> — You check on a schedule (every minute, every hour, etc.)</li>
+<li><strong>Simple</strong> — No webhooks or real-time infrastructure needed</li>
+<li><strong>Less efficient</strong> — You make calls even when nothing has changed</li>
+<li><strong>Eventual</strong> — There's always a delay between an event and when you discover it</li>
+</ul>
+<p><strong>When to use it:</strong></p>
+<ul>
+<li>When the external service doesn't support webhooks</li>
+<li>When you need to check status periodically (order fulfillment, shipment tracking)</li>
+<li>When the external API doesn't have push notifications</li>
+</ul>
+<p><strong>Risks:</strong></p>
+<ul>
+<li>You're wasting resources polling when nothing changes</li>
+<li>There's always a delay before you see updates</li>
+<li>Rate limiting can become an issue</li>
+</ul>
+<p>I only use polling when I have no other choice. It's simple, but it's inefficient and introduces latency.</p>
+<h2 id="integration-considerations-what-actually-matters"><a class="header" href="#integration-considerations-what-actually-matters">Integration Considerations (What Actually Matters)</a></h2>
+<p>Now that you know the patterns, let's talk about what you actually need to think about when crossing boundaries.</p>
+<h3 id="1-error-handling-what-happens-when-it-breaks"><a class="header" href="#1-error-handling-what-happens-when-it-breaks">1. Error Handling: What Happens When It Breaks?</a></h3>
+<p>External services fail. It's not a question of "if," it's "when."</p>
 <pre><code class="language-sruja">// Document expected failure modes
 PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
     sla "99.9% uptime"
-    failure_modes ["timeout", "service unavailable", "network error"]
+    failure_modes ["timeout", "service unavailable", "network error", "rate limit"]
   }
 }
 
 // Model fallbacks
-Shop.API -&gt; PaymentGateway "Process payment" [primary]
-Shop.API -&gt; PaymentGatewayBackup "Process payment" [fallback]
+Shop.API -&gt; PrimaryPayment "Process payment" [primary]
+Shop.API -&gt; BackupPayment "Process payment" [fallback]
 </code></pre>
-<h3 id="2-timeouts-and-latency"><a class="header" href="#2-timeouts-and-latency">2. Timeouts and Latency</a></h3>
+<p>I've seen systems that don't document failure modes. When something breaks, nobody knows what to expect. Does the external service retry automatically? Do they return specific error codes? What's the timeout?</p>
+<p>Document this upfront. It saves hours of debugging later.</p>
+<h3 id="2-timeouts-and-latency-how-long-is-too-long"><a class="header" href="#2-timeouts-and-latency-how-long-is-too-long">2. Timeouts and Latency: How Long Is Too Long?</a></h3>
+<p>External services can be slow. You need to configure timeouts that protect your system without being too aggressive.</p>
 <pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
@@ -253,39 +317,65 @@ Shop.API -&gt; PaymentGatewayBackup "Process payment" [fallback]
 Shop.API = container "API Service" {
   slo {
     latency {
-      p95 "200ms"
-      p99 "500ms"
+      p95 "200ms"  // 95% of requests complete in 200ms
+      p99 "500ms"  // 99% of requests complete in 500ms
     }
   }
 }
 </code></pre>
-<h3 id="3-data-consistency"><a class="header" href="#3-data-consistency">3. Data Consistency</a></h3>
-<pre><code class="language-sruja">// Document consistency guarantees
-Shop.API -&gt; PaymentGateway "Process payment"
+<p>I once worked on a system that had no timeout configured. An external service got slow, and our threads hung indefinitely. The entire system ground to a halt.</p>
+<p>Set timeouts. Always. Even if the external service is usually fast.</p>
+<h3 id="3-data-consistency-what-happens-when-things-go-wrong"><a class="header" href="#3-data-consistency-what-happens-when-things-go-wrong">3. Data Consistency: What Happens When Things Go Wrong?</a></h3>
+<p>What if the payment succeeds but saving the order fails? Or the order saves but the payment fails?</p>
+<pre><code class="language-sruja">Shop.API -&gt; PaymentGateway "Process payment"
+Shop.API -&gt; Shop.Database "Save order"
+
 // If payment succeeds but order save fails:
-// - Idempotent payment calls
-// - Compensating transactions
-// - Eventual consistency
+// - Did you charge the customer?
+// - Is the order lost?
+// - How do you reconcile?
 </code></pre>
-<h3 id="4-security"><a class="header" href="#4-security">4. Security</a></h3>
-<pre><code class="language-sruja">// Security at boundary
+<p>You need strategies for handling this:</p>
+<ul>
+<li><strong>Idempotent payment calls</strong> — Calling the same payment ID twice should only charge once</li>
+<li><strong>Compensating transactions</strong> — If the order save fails after payment, refund automatically</li>
+<li><strong>Eventual consistency</strong> — Accept that things might be inconsistent briefly, then reconcile</li>
+<li><strong>Two-phase commits</strong> — Complex, but guarantees consistency</li>
+</ul>
+<p>I once worked on a system where we charged customers but lost their orders. We spent weeks manually reconciling payments and orders. Awful experience.</p>
+<p>Plan for consistency issues at boundaries. They will happen.</p>
+<h3 id="4-security-what-protects-your-data"><a class="header" href="#4-security-what-protects-your-data">4. Security: What Protects Your Data?</a></h3>
+<p>Crossing a boundary is where attacks happen. This is where you need to be most careful.</p>
+<pre><code class="language-sruja">// Security at the boundary
 Shop.API -&gt; PaymentGateway "Process payment" [encrypted, authenticated, tls1.3]
 
 PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external", "pci-compliant"]
     security ["mutual TLS", "API key authentication"]
+    compliance ["PCI-DSS Level 1"]
   }
 }
 </code></pre>
+<p>Security controls at boundaries:</p>
+<ul>
+<li><strong>Authentication</strong> — Prove who you are</li>
+<li><strong>Authorization</strong> — Prove you're allowed to do what you're asking</li>
+<li><strong>Encryption</strong> — Protect data in transit</li>
+<li><strong>Validation</strong> — Don't trust anything coming from outside</li>
+</ul>
+<p>I learned this lesson painfully. We had an internal API that we exposed to the web without proper validation. Someone sent malformed requests that brought down our database.</p>
+<p>Validate everything at your boundaries. Trust nothing from external systems.</p>
 <h2 id="documenting-interface-contracts"><a class="header" href="#documenting-interface-contracts">Documenting Interface Contracts</a></h2>
+<p>One of the most important things you can do for boundary crossings is document the interface contract. This is the agreement between your system and the external one.</p>
 <h3 id="api-contract"><a class="header" href="#api-contract">API Contract</a></h3>
 <pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
     api_endpoint "https://api.payment.com/v1"
-    authentication "API Key"
+    authentication "API Key (Bearer token)"
     rate_limit "1000 req/min"
+    supported_methods ["POST /charges", "GET /charges/:id", "POST /refunds"]
   }
 }
 
@@ -293,41 +383,79 @@ Shop.API = container "API Service" {
   metadata {
     api_consumer "Payment Gateway Client"
     retry_policy "3 retries with exponential backoff"
+    circuit_breaker "Enabled (5 failures = open for 60s)"
   }
 }
 </code></pre>
+<p>This contract tells everyone:</p>
+<ul>
+<li><strong>Where</strong> the API is</li>
+<li><strong>How</strong> to authenticate</li>
+<li><strong>What</strong> methods are available</li>
+<li><strong>What</strong> limits exist</li>
+<li><strong>How</strong> to handle retries and failures</li>
+</ul>
+<p>I've seen so many integration disasters because nobody documented the contract. Teams assumed different APIs, different limits, different behaviors. When something changed, everything broke.</p>
+<p>Document your interface contracts. Make them explicit.</p>
 <h3 id="data-format"><a class="header" href="#data-format">Data Format</a></h3>
 <pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
   metadata {
+    tags ["external"]
     data_format "JSON"
     schema_version "v1.2"
     validation "Strict schema validation"
+    date_format "ISO 8601 (UTC)"
+    currency_format "ISO 4217 (e.g., 'USD')"
   }
 }
 </code></pre>
+<p>Don't let data format be implicit. Specify:</p>
+<ul>
+<li>JSON vs. XML vs. Protocol Buffers</li>
+<li>Schema version (what happens when it changes?)</li>
+<li>Date formats (timezone matters!)</li>
+<li>Currency formats</li>
+<li>Number formats (decimal precision, rounding)</li>
+</ul>
+<p>I once dealt with a system where dates were sometimes in US format (MM/DD/YYYY) and sometimes in ISO format (YYYY-MM-DD), depending on which service you called. Bugs everywhere.</p>
 <h3 id="sla-and-reliability"><a class="header" href="#sla-and-reliability">SLA and Reliability</a></h3>
 <pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
     sla "99.9% uptime"
-    mttr "4 hours"
-    support "24/7 enterprise support"
+    mttr "4 hours"  // Mean Time To Repair
+    support_tier "24/7 enterprise support"
+    escalation_path "Support → Account Manager → CTO"
   }
 }
 </code></pre>
-<h2 id="fallback-strategies"><a class="header" href="#fallback-strategies">Fallback Strategies</a></h2>
+<p>SLA documentation tells you:</p>
+<ul>
+<li><strong>What</strong> uptime they're committing to</li>
+<li><strong>How fast</strong> they'll fix things when they break</li>
+<li><strong>Who</strong> to contact and how to escalate</li>
+<li><strong>What</strong> compensation you get if they violate SLA</li>
+</ul>
+<p>Knowing the SLA helps you decide: do you need a fallback? Can you tolerate 43 minutes of downtime per month (99.9%)? Or do you need 99.99% (4 minutes)?</p>
+<h2 id="fallback-strategies-planning-for-failure"><a class="header" href="#fallback-strategies-planning-for-failure">Fallback Strategies: Planning for Failure</a></h2>
+<p>External systems fail. You need fallback strategies. Here are the ones I use most often.</p>
 <h3 id="strategy-1-redundant-providers"><a class="header" href="#strategy-1-redundant-providers">Strategy 1: Redundant Providers</a></h3>
+<p>Have a backup provider you can switch to if the primary fails.</p>
 <pre><code class="language-sruja">// Primary provider
-PrimaryPayment = system "Primary Payment Gateway" {
+PrimaryPayment = system "Stripe" {
   metadata {
     tags ["external", "primary"]
+    sla "99.99% uptime"
+    owner "Stripe"
   }
 }
 
 // Backup provider
-BackupPayment = system "Backup Payment Gateway" {
+BackupPayment = system "PayPal" {
   metadata {
     tags ["external", "backup"]
+    sla "99.9% uptime"
+    owner "PayPal"
   }
 }
 
@@ -335,38 +463,82 @@ BackupPayment = system "Backup Payment Gateway" {
 Shop.API -&gt; PrimaryPayment "Process payment" [primary]
 Shop.API -&gt; BackupPayment "Process payment" [fallback]
 </code></pre>
+<p><strong>Why this works:</strong> If Stripe is down, you can still process payments through PayPal.</p>
+<p><strong>Challenge:</strong> Supporting two payment gateways is complex. You need to reconcile transactions, handle different APIs, manage different fee structures.</p>
+<p>I've used this strategy for critical paths (payments, messaging, notifications). It adds complexity, but it buys you resilience.</p>
 <h3 id="strategy-2-circuit-breaker"><a class="header" href="#strategy-2-circuit-breaker">Strategy 2: Circuit Breaker</a></h3>
+<p>Stop calling a failing service automatically instead of hammering it with requests.</p>
 <pre><code class="language-sruja">Shop.API = container "API Service" {
   metadata {
     circuit_breaker {
       enabled true
-      failure_threshold "5"
-      recovery_timeout "60s"
+      failure_threshold 5  // Open after 5 failures
+      recovery_timeout "60s"  // Try again after 60 seconds
+      half_open_attempts 3  // Send 3 test requests before closing
     }
   }
 }
 </code></pre>
+<p><strong>How it works:</strong></p>
+<ol>
+<li><strong>Closed</strong> — Normal operation, requests go through</li>
+<li><strong>Open</strong> — After N failures, stop sending requests</li>
+<li><strong>Half-open</strong> — After timeout, send a few test requests</li>
+<li><strong>Closed</strong> — If tests succeed, go back to normal</li>
+</ol>
+<p><strong>Why this works:</strong> Instead of hammering a failing service with 1000 requests/second (which might make recovery worse), you stop calling it and fail fast.</p>
+<p>This is one of my favorite patterns. It's saved me from cascading failures more times than I can count.</p>
 <h3 id="strategy-3-degraded-mode"><a class="header" href="#strategy-3-degraded-mode">Strategy 3: Degraded Mode</a></h3>
-<pre><code class="language-sruja">// If external analytics fails, continue operation
+<p>Continue operating even if a non-critical external service is down.</p>
+<pre><code class="language-sruja">// Non-critical: If analytics fails, continue
 Shop.API -&gt; AnalyticsService "Track events" [non_critical]
 
-// If email fails, queue for later
+// Queue for later: If email fails, queue it
 Shop.API -&gt; EmailService "Send notifications" [async_queue]
 </code></pre>
+<p><strong>Why this works:</strong> Not every external dependency is critical. If analytics is down, you can still process orders. If email is down, queue messages and send later.</p>
+<p><strong>What this requires:</strong> You need to distinguish between:</p>
+<ul>
+<li><strong>Critical paths</strong> — System can't function without them (payments)</li>
+<li><strong>Important paths</strong> — System functions, but with degraded UX (email, push notifications)</li>
+<li><strong>Nice-to-have paths</strong> — System functions perfectly without them (analytics)</li>
+</ul>
+<p>I used to treat all dependencies as critical. Then I realized: if analytics is down for an hour, does anyone actually care? No. Mark it non-critical and move on.</p>
 <h3 id="strategy-4-cache-external-data"><a class="header" href="#strategy-4-cache-external-data">Strategy 4: Cache External Data</a></h3>
-<pre><code class="language-sruja">// Cache external API responses
-Shop.API -&gt; ExternalAPI "Get exchange rates"
-Shop.Cache -&gt; Shop.API "Return cached rates"
+<p>Cache responses from external APIs so you can serve from cache if the external service is down.</p>
+<pre><code class="language-sruja">// External API call
+Shop.API -&gt; ExchangeRateAPI "Get exchange rates"
 
-// Fallback to cache if external fails
+// Cache for backup
+Shop.API -&gt; Shop.Cache "Get cached rates"
+
+// Fallback strategy
+Shop.API -&gt; ExchangeRateAPI "Get exchange rates" [primary]
 Shop.API -&gt; Shop.Cache "Get cached rates" [fallback]
 </code></pre>
+<p><strong>Why this works:</strong> Even if the external API is down, you can serve slightly stale data from cache.</p>
+<p><strong>What to consider:</strong></p>
+<ul>
+<li>How stale is acceptable? (10 minutes? 1 hour? 24 hours?)</li>
+<li>How do you detect when the external service is back up?</li>
+<li>Do you need to warm the cache before the service goes down?</li>
+</ul>
+<p>I've used this for exchange rates, product catalogs, weather data—anything that's expensive to fetch and acceptable to serve slightly stale.</p>
 <h2 id="complete-integration-example"><a class="header" href="#complete-integration-example">Complete Integration Example</a></h2>
+<p>Let me show you a complete example that brings everything together.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
+// People
 Customer = person "Customer"
 
+// Your system
 Shop = system "Shop" {
+  metadata {
+    tags ["internal"]
+    owner "Shop Team"
+    slack "#shop-team"
+  }
+
   WebApp = container "Web Application"
   API = container "API Service" {
     metadata {
@@ -385,31 +557,41 @@ Shop = system "Shop" {
 // Primary payment provider
 Stripe = system "Stripe" {
   metadata {
-    tags ["external", "primary", "pci-compliant"]
+    tags ["external", "primary", "vendor"]
     owner "Stripe Inc."
     sla "99.99% uptime"
+    mttr "4 hours"
     api_endpoint "https://api.stripe.com/v1"
-    authentication "API Key"
+    authentication "API Key (Bearer token)"
     rate_limit "1000 req/min"
     data_format "JSON"
+    schema_version "v1.2"
+    security ["TLS 1.3", "API key authentication"]
+    compliance ["PCI-DSS Level 1"]
+    support "24/7 enterprise support"
+    escalation_path "Support → Account Manager → CTO"
   }
 }
 
 // Backup payment provider
 PayPal = system "PayPal" {
   metadata {
-    tags ["external", "backup"]
+    tags ["external", "backup", "vendor"]
     owner "PayPal"
     sla "99.9% uptime"
+    api_endpoint "https://api.paypal.com/v2"
+    authentication "OAuth 2.0"
   }
 }
 
 // Email service
 SendGrid = system "SendGrid" {
   metadata {
-    tags ["external"]
+    tags ["external", "vendor"]
+    owner "SendGrid"
     sla "99.9% uptime"
     timeout "10s"
+    api_endpoint "https://api.sendgrid.com/v3"
   }
 }
 
@@ -417,67 +599,157 @@ SendGrid = system "SendGrid" {
 Customer -&gt; Shop.WebApp "Checkout"
 Shop.WebApp -&gt; Shop.API "Process order"
 
-// Primary payment integration (encrypted, authenticated)
+// Primary payment (encrypted, authenticated)
 Shop.API -&gt; Stripe "Process payment" [primary, encrypted, tls1.3]
 Stripe -&gt; Shop.API "Payment result"
 
-// Fallback to backup
+// Fallback to backup if Stripe fails
 Shop.API -&gt; PayPal "Process payment" [fallback, encrypted]
 
 // Email (non-critical, can queue)
 Shop.API -&gt; SendGrid "Send confirmation" [non_critical, async_queue]
 
-// Cache external API calls
-Shop.Cache -&gt; Shop.API "Return cached data"
+// Cache exchange rates
+Shop.API -&gt; ExchangeRateAPI "Get exchange rates"
+Shop.API -&gt; Shop.Cache "Get cached rates" [fallback]
 
 view index {
   include *
 }
 </code></pre>
-<h2 id="boundary-testing"><a class="header" href="#boundary-testing">Boundary Testing</a></h2>
-<h3 id="what-to-test-at-boundaries"><a class="header" href="#what-to-test-at-boundaries">What to Test at Boundaries</a></h3>
-<pre><code class="language-sruja">// Document test requirements
-PaymentGateway = system "Payment Gateway" {
-  metadata {
-    tags ["external"]
-    tests [
-      "Happy path integration test",
-      "Timeout handling",
-      "Error response handling",
-      "Rate limiting",
-      "Authentication failure"
-    ]
-  }
-}
-</code></pre>
-<h2 id="exercise"><a class="header" href="#exercise">Exercise</a></h2>
-<p>Design an integration for:</p>
-<blockquote>
-<p>"A weather application displays current weather and forecasts. The app fetches weather data from OpenWeatherMap API and sends location-based ads to users. The ad service is provided by an external vendor."</p>
-</blockquote>
-<p><strong>Consider:</strong></p>
-<ol>
-<li>Boundary crossings</li>
-<li>Error handling</li>
-<li>Caching strategy</li>
-<li>Fallbacks (if any)</li>
-</ol>
-<h2 id="key-takeaways"><a class="header" href="#key-takeaways">Key Takeaways</a></h2>
-<ol>
-<li><strong>Every boundary crossing is an integration point</strong></li>
-<li><strong>Document interface contracts</strong>: API endpoints, data formats, SLAs</li>
-<li><strong>Plan for failures</strong>: Timeouts, errors, service outages</li>
-<li><strong>Design fallbacks</strong>: Redundant providers, degraded modes, caching</li>
-<li><strong>Test boundaries</strong>: Integration tests, error scenarios</li>
-</ol>
-<h2 id="module-3-complete"><a class="header" href="#module-3-complete">Module 3 Complete</a></h2>
-<p>You've completed Boundaries! You now understand:</p>
+<p>This example shows:</p>
 <ul>
-<li>What boundaries are and why they matter</li>
-<li>How to mark internal vs. external components</li>
-<li>How to model integrations and plan for boundary crossings</li>
+<li>Clear external/internal boundaries with rich metadata</li>
+<li>Multiple integration patterns (synchronous payment, asynchronous email)</li>
+<li>Fallback strategies (backup provider, cache)</li>
+<li>Failure documentation (timeouts, circuit breaker, retry policy)</li>
+<li>Interface contracts (API endpoints, authentication, data formats)</li>
 </ul>
-<p><strong>Next</strong>: Learn about <a href="../module-4-flows/module-overview.html">Module 4: Flows</a>.</p>
+<p>This is the kind of documentation that saves you when things go wrong at 3 AM.</p>
+<h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
+<p>Crossing boundaries is where systems are most fragile. When you model and plan for boundary crossings:</p>
+<ul>
+<li><strong>Document everything</strong> — API contracts, failure modes, SLAs, security requirements</li>
+<li><strong>Plan for failures</strong> — Timeouts, retries, circuit breakers, fallbacks</li>
+<li><strong>Use the right pattern</strong> — Synchronous for critical paths, asynchronous for background work</li>
+<li><strong>Protect your system</strong> — Authentication, encryption, validation at every boundary</li>
+<li><strong>Design resilience</strong> — Redundant providers, caching, degraded modes</li>
+<li><strong>Test thoroughly</strong> — Integration tests, chaos engineering, failure scenarios</li>
+</ul>
+<p>If you take away one thing, let it be this: <strong>every boundary crossing is both an opportunity and a risk</strong>. The opportunity is integrating with powerful external services. The risk is depending on something you don't control. Plan for that risk.</p>
+<hr>
+<h2 id="check-your-understanding"><a class="header" href="#check-your-understanding">Check Your Understanding</a></h2>
+<p>Let's see if you've got this. Here are a couple of questions to test your understanding.</p>
+<h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
+<p>You're modeling a weather application that fetches data from an external API. Which integration pattern is most appropriate?</p>
+<blockquote>
+<p>"The weather app needs to display current weather and 7-day forecasts for cities around the world. Users expect to see real-time weather data. The external weather API has good uptime and supports synchronous calls."</p>
+</blockquote>
+<p><strong>A)</strong> Request-Response (Synchronous)
+<strong>B)</strong> Event-Driven (Asynchronous)
+<strong>C)</strong> Polling
+<strong>D)</strong> All of the above are equally appropriate</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: A) Request-Response (Synchronous)</strong></p>
+<p>Let's analyze each option:</p>
+<p><strong>A)</strong> Correct! Request-response is the right choice here because:</p>
+<ul>
+<li>The weather data is needed <strong>in real-time</strong> (users expect to see current weather immediately)</li>
+<li>The operation is <strong>critical to the user's workflow</strong> (the app's main purpose is displaying weather)</li>
+<li>The external API has <strong>good uptime</strong> (so reliability risk is manageable)</li>
+<li>It's <strong>simple to implement</strong> (one call, one response)</li>
+</ul>
+<p><strong>B)</strong> Incorrect. Event-driven is asynchronous—you publish an event, and consumers process it whenever they can. This doesn't work for real-time weather display because:</p>
+<ul>
+<li>There's a delay between requesting and receiving data</li>
+<li>You'd need a background worker to consume events</li>
+<li>The user would see "loading..." longer than necessary</li>
+<li>It adds unnecessary complexity for a simple request-response scenario</li>
+</ul>
+<p><strong>C)</strong> Incorrect. Polling is periodic checking on a schedule (e.g., checking every hour). This doesn't work here because:</p>
+<ul>
+<li>Users want to see weather <strong>when they open the app</strong>, not according to a schedule</li>
+<li>There's unnecessary latency (user opens app, but has to wait for next poll cycle)</li>
+<li>It's inefficient (you'd be calling the API even when no one's viewing data)</li>
+</ul>
+<p><strong>D)</strong> Incorrect. These patterns are not equally appropriate. Request-response is clearly the best fit for this scenario. The other patterns introduce unnecessary complexity or don't meet the real-time requirement.</p>
+<p><strong>Key insight:</strong> Choose integration patterns based on your requirements. Need immediate results? Use synchronous. Can happen in background? Use asynchronous. No webhooks available? Use polling (as a last resort). Match the pattern to the problem.</p>
+</details>
+<hr>
+<h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
+<p>You're designing the payment processing flow for an e-commerce platform. The payment gateway has an SLA of 99.9% uptime. What does this mean for your system?</p>
+<p><strong>A)</strong> You don't need to worry about failures—99.9% is very reliable
+<strong>B)</strong> You should have a fallback strategy because 99.9% still means ~43 minutes of downtime per month
+<strong>C)</strong> You should only process payments when the gateway is at 100% uptime
+<strong>D)</strong> You should switch to a different payment gateway immediately</p>
+<details>
+<summary>Click to see the answer</summary>
+<p><strong>Answer: B) You should have a fallback strategy because 99.9% still means ~43 minutes of downtime per month</strong></p>
+<p>Let's break down what 99.9% actually means:</p>
+<p><strong>The math:</strong></p>
+<ul>
+<li>99.9% uptime = 0.1% downtime</li>
+<li>0.1% of a month (30 days × 24 hours × 60 minutes = 43,200 minutes) = ~43 minutes</li>
+<li>That's <strong>43 minutes per month</strong> of potential payment processing outages</li>
+</ul>
+<p><strong>Why other options are wrong:</strong></p>
+<p><strong>A)</strong> Incorrect. 99.9% might sound high, but 43 minutes of downtime is significant if it happens during peak shopping hours (Black Friday, Cyber Monday, etc.). You absolutely need to worry about failures and plan for them.</p>
+<p><strong>C)</strong> Incorrect. No system has 100% uptime. Waiting for perfect uptime means your system never processes payments. This is unrealistic. You need to work with the reality that failures will happen.</p>
+<p><strong>D)</strong> Incorrect. Switching to a different payment gateway "immediately" is overkill. 99.9% uptime means the gateway is working 99.9% of the time. You should:</p>
+<ul>
+<li>Have a <strong>backup gateway</strong> as a fallback</li>
+<li>Implement <strong>circuit breakers</strong> to detect and route around failures</li>
+<li>Use <strong>caching</strong> for less-critical payment info</li>
+<li>Consider <strong>degraded modes</strong> (e.g., show "payment processing temporarily unavailable" instead of failing completely)</li>
+</ul>
+<p><strong>What you should actually do:</strong></p>
+<ul>
+<li>Document the 99.9% SLA in your metadata</li>
+<li>Calculate the business impact of 43 minutes/month downtime</li>
+<li>Design fallback strategies (backup provider, queueing, retry logic)</li>
+<li>Set up monitoring and alerting for gateway outages</li>
+<li>Have an escalation path with the gateway vendor</li>
+</ul>
+<p><strong>Key insight:</strong> SLAs give you information to make decisions. 99.9% tells you to plan for ~43 minutes of monthly downtime. Don't ignore it—plan for it.</p>
+</details>
+<hr>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
+<p>Congratulations! You've completed Module 3: Boundaries. You now understand:</p>
+<ul>
+<li><strong>What boundaries are</strong> and why they matter for ownership, risk, and clarity</li>
+<li><strong>How to mark internal vs. external components</strong> using metadata and tags</li>
+<li><strong>How to model boundary crossings</strong> with proper planning for failures and fallbacks</li>
+</ul>
+<p>You can now create architectures that clearly distinguish what you control from what you depend on. You can plan for failures at boundaries instead of being surprised by them. You can document interface contracts that prevent integration disasters.</p>
+<p>You're building resilient systems.</p>
+<p>In the next module, you'll learn about <strong>flows</strong>—how information moves through your system over time. You'll discover how to model data flow, process flows, and temporal behaviors that tell a richer story than static diagrams can.</p>
+<p>See you there!</p>
+<hr>
+<h2 id="module-3-complete"><a class="header" href="#module-3-complete">Module 3 Complete!</a></h2>
+<p>You've now mastered the art of defining and crossing boundaries. Here's what you've learned:</p>
+<p><strong>Lesson 1: Understanding Boundaries</strong></p>
+<ul>
+<li>Boundaries separate what's inside from what's outside</li>
+<li>Multiple types of boundaries: system, team, organization, deployment, trust</li>
+<li>Clear boundaries prevent confusion and clarify ownership</li>
+</ul>
+<p><strong>Lesson 2: Internal vs. External</strong></p>
+<ul>
+<li>Use metadata tags to mark external systems clearly</li>
+<li>Document ownership, SLAs, and support contacts</li>
+<li>Remember: people are always outside your system boundary</li>
+<li>Create different views for different audiences</li>
+</ul>
+<p><strong>Lesson 3: Crossing Boundaries</strong></p>
+<ul>
+<li>Every boundary crossing is an integration point and potential failure</li>
+<li>Choose the right integration pattern (synchronous, asynchronous, polling)</li>
+<li>Document interface contracts (API endpoints, data formats, security)</li>
+<li>Design fallback strategies (redundant providers, circuit breakers, degraded modes, caching)</li>
+<li>Plan for failures—they will happen</li>
+</ul>
+<p>You're ready to tackle more advanced concepts. Let's continue!</p>
 
                     </main>
 
@@ -532,9 +804,11 @@ PaymentGateway = system "Payment Gateway" {
         <!-- Custom JS scripts -->
         <script src="../../../menu-bar-home-4c4b4f1f.js"></script>
         <script src="../../../mermaid-eefea253.min.js"></script>
-        <script src="../../../mermaid-init-ccf746f1.js"></script>
-        <script src="../../../code-block-actions-4ed12467.js"></script>
+        <script src="../../../mermaid-init-fc5b08eb.js"></script>
+        <script src="../../../code-block-actions-6c203224.js"></script>
         <script src="../../../google-analytics-544300b7.js"></script>
+        <script src="../../../progress-tracker-cb047100.js"></script>
+        <script src="../../../quiz-helper-c6714342.js"></script>
 
 
 
