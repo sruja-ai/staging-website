@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-604652c3.js";
+            window.path_to_searchindex_js = "searchindex-fc06ba90.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -11358,7 +11358,206 @@ include Twitter.TimelineAPI Twitter.TweetDB
 </details>
 <h2 id="quiz-test-your-knowledge-1"><a class="header" href="#quiz-test-your-knowledge-1">Quiz: Test Your Knowledge</a></h2>
 <p>Ready to apply what you've learned? Take the interactive quiz for this lesson!</p>
-<p>{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-1-quiz.toml}}</p>
+<p><strong>1. In system design, what do we call requirements that describe the features and functionality of a system (what it should do)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Functional</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>functional requirements</li>
+</ul>
+<p><strong>Explanation:</strong>
+Functional requirements define the features and capabilities of the system. Examples: "User can post a tweet," "User can browse products."</p>
+</details>
+<hr>
+<p><strong>2. In system design, what do we call requirements that describe how the system should perform (constraints like speed, scalability, reliability)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Non-functional</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>non-functional</li>
+<li>non functional</li>
+<li>NFR</li>
+<li>NFRs</li>
+</ul>
+<p><strong>Explanation:</strong>
+Non-functional requirements define the quality attributes and constraints of the system. Examples: "Must handle 100M users," "Response time &lt;200ms."</p>
+</details>
+<hr>
+<p><strong>3. A banking system must ensure that account balances are always accurate and transactions cannot be lost. Which trade-off would you prioritize?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Prioritize availability over consistency (it's better to show wrong data than no data)</li>
+<li><input disabled="" type="checkbox"> b) Prioritize development speed over performance (ship a MVP first)</li>
+<li><input disabled="" type="checkbox"> c) Prioritize write speed over read speed (logging-focused optimization)</li>
+<li><input disabled="" type="checkbox"> d) Prioritize consistency over availability (brief downtime is acceptable, but data must be correct)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    In banking, financial accuracy is critical. You would choose a CP system (Consistent, Partition-tolerant) over AP, accepting brief outages to ensure no incorrect transactions.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>4. You're building a real-time chat application like Discord. Users expect messages to appear instantly across all devices. What's the best architecture approach?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Use relational database with strong consistency (PostgreSQL) for all message storage</li>
+<li><input disabled="" type="checkbox"> b) Use HTTP polling where clients check for new messages every 5 seconds</li>
+<li><input disabled="" type="checkbox"> c) Use eventual consistency with 24-hour delay synchronization</li>
+<li><input disabled="" type="checkbox"> d) Use WebSockets for real-time push with eventual consistency for message storage</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Real-time chat requires low latency. WebSockets eliminate the overhead of polling (which generates 20K requests/second for 100K users). Eventual consistency is acceptable for message delivery.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>5. Netflix experienced a major outage in 2008 when their single datacenter failed. What was their system design solution?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Bought a bigger, more expensive datacenter with better hardware (Vertical scaling)</li>
+<li><input disabled="" type="checkbox"> b) Hired more operations engineers to manually failover systems</li>
+<li><input disabled="" type="checkbox"> c) Built a single, massive monolithic application on dedicated servers</li>
+<li><input disabled="" type="checkbox"> d) Moved to cloud infrastructure with microservices and built Chaos Monkey to test resilience</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Netflix adopted horizontal scaling on AWS, microservices architecture, and Chaos Monkey (randomly kills services to test resilience). This transformed their availability from 99.9% to 99.99%+.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>6. Healthcare.gov's initial launch in 2013 was a disaster. Which of these was NOT one of their system design mistakes?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) No load testing before launch</li>
+<li><input disabled="" type="checkbox"> b) Tightly coupled architecture with no caching layer</li>
+<li><input disabled="" type="checkbox"> c) Single database bottleneck with no sharding</li>
+<li><input disabled="" type="checkbox"> d) Using cloud infrastructure instead of dedicated on-premise servers</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Healthcare.gov's actual mistakes were: no load testing, tight coupling, single database bottleneck, and no graceful degradation. Using cloud infrastructure itself wasn't the problem—it was the poor architecture.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>7. You're building a product search engine for an e-commerce site handling 10M products. The search feature generates 99% of traffic. What optimization should you prioritize?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Optimize for write speed (since products are added frequently)</li>
+<li><input disabled="" type="checkbox"> b) Use a single-node relational database for simplicity</li>
+<li><input disabled="" type="checkbox"> c) Disable caching to ensure always-fresh search results</li>
+<li><input disabled="" type="checkbox"> d) Use read replicas and a specialized search engine like Elasticsearch</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    With a 99% read workload, you optimize for read performance. Read replicas distribute query load, and Elasticsearch provides full-text search capabilities that relational databases lack.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>8. Instagram launched with 2 servers and grew to 10M users in one month. What was their key architectural change to handle this growth?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Rewrote the entire application in a different programming language</li>
+<li><input disabled="" type="checkbox"> b) Bought the biggest available server (vertical scaling)</li>
+<li><input disabled="" type="checkbox"> c) Removed all features to reduce complexity</li>
+<li><input disabled="" type="checkbox"> d) Implemented database sharding, CDN for images, and async processing for image handling</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Instagram used database sharding (split data across multiple DBs), CDN for global image delivery, and async processing for heavy operations. This scaled them from 2 servers to 500+ servers in 6 months.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>9. Which of the following statements best describes the relationship between latency and throughput?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Low latency always means high throughput</li>
+<li><input disabled="" type="checkbox"> b) High latency always means high throughput</li>
+<li><input disabled="" type="checkbox"> c) Latency and throughput are the same thing</li>
+<li><input disabled="" type="checkbox"> d) A system can have low latency but low throughput, or high latency but high throughput</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Latency = time for ONE request. Throughput = number of concurrent requests. Example: A highway can have high latency (traffic jam) and high throughput (10 lanes), or low latency (empty road) and low throughput (1 lane).
+  </div>
+
+</div>
+
+<hr>
+<p><strong>10. Your boss says "We need to handle infinite users." What's the most appropriate response?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Great! I'll immediately implement Kubernetes and distributed sharding</li>
+<li><input disabled="" type="checkbox"> b) Impossible! Let's cap users at 1,000 and reject anyone else</li>
+<li><input disabled="" type="checkbox"> c) Let's build the system assuming unlimited resources regardless of cost</li>
+<li><input disabled="" type="checkbox"> d) Infinite is expensive. Let's define realistic targets for the next 12 months (e.g., 100K users) and design for that</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    The best engineers clarify requirements first. The design for 1K users costs $50/month, while 100M users costs $50K/month. Always define realistic, time-boxed targets.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>11. What is the term for the system design principle that means every decision involves sacrificing one quality to gain another (e.g., choosing consistency means sacrificing availability)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Trade-off</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>trade-off</li>
+<li>tradeoff</li>
+</ul>
+<p><strong>Explanation:</strong>
+Trade-offs are fundamental to system design. There are no perfect solutions—every architecture choice involves benefits and costs. "It depends" is the correct answer because it depends on which trade-offs you choose.</p>
+</details>
+<hr>
 <p>This quiz covers:</p>
 <ul>
 <li>Functional vs Non-functional requirements</li>
@@ -11457,7 +11656,376 @@ include *
 </details>
 <h2 id="quiz-test-your-knowledge-2"><a class="header" href="#quiz-test-your-knowledge-2">Quiz: Test Your Knowledge</a></h2>
 <p>Ready to apply what you've learned? Take the interactive quiz for this lesson!</p>
-<p>{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-2-quiz.toml}}</p>
+<p><strong>1. What type of scaling involves upgrading a single machine with more resources (more RAM, CPU, disk space)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Vertical</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>vertical scaling</li>
+<li>scale up</li>
+<li>scale-up</li>
+</ul>
+<p><strong>Explanation:</strong>
+Vertical scaling (or scaling up) means making a single machine more powerful. Example: Upgrading from 4GB RAM to 64GB RAM on one server.</p>
+</details>
+<hr>
+<p><strong>2. What type of scaling involves adding more machines to distribute the load?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Horizontal</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>horizontal scaling</li>
+<li>scale out</li>
+<li>scale-out</li>
+</ul>
+<p><strong>Explanation:</strong>
+Horizontal scaling (or scaling out) means adding more machines to handle increased load. Example: Adding 10 servers instead of upgrading one server to be more powerful.</p>
+</details>
+<hr>
+<p><strong>3. Why don't we just vertically scale forever to handle all growth?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Vertical scaling is always more expensive than horizontal scaling</li>
+<li><input disabled="" type="checkbox"> b) Vertical scaling requires more maintenance and monitoring</li>
+<li><input disabled="" type="checkbox"> c) Vertical scaling is only available on cloud platforms</li>
+<li><input disabled="" type="checkbox"> d) There are physical limits to how powerful a single machine can be, and it's a single point of failure</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Physics limits how fast a single CPU can be. Also, if that one super-computer fails, your entire system goes down. Horizontal scaling provides both infinite growth potential and resilience.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>4. Your application needs to handle 10x traffic during a holiday sale (from 100K to 1M users per hour). You have 2 weeks to prepare. What's the best approach?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Vertically scale by buying the most powerful server available (it handles 2M users)</li>
+<li><input disabled="" type="checkbox"> b) Rewrite the entire application to be microservices-based</li>
+<li><input disabled="" type="checkbox"> c) Tell users the site will be slow during the sale</li>
+<li><input disabled="" type="checkbox"> d) Implement horizontal scaling with auto-scaling groups that can add servers automatically based on load</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Auto-scaling allows you to start with minimal servers and automatically add more as traffic increases. This is cost-effective and can handle unpredictable traffic spikes during events like Black Friday.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>5. A startup has a monolithic application running on a single server. They expect to grow from 100 to 10,000 users over the next year. What's their best scaling strategy?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Immediately migrate to microservices architecture on Kubernetes</li>
+<li><input disabled="" type="checkbox"> b) Start with 100 servers to prepare for future growth</li>
+<li><input disabled="" type="checkbox"> c) Do nothing and hope the single server handles the load</li>
+<li><input disabled="" type="checkbox"> d) Start with vertical scaling, then migrate to horizontal scaling when needed</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    For early-stage startups, vertical scaling is simpler and requires no code changes. As you grow, gradually move to horizontal scaling. Don't over-engineer early—ship first, optimize later.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>6. What's the main disadvantage of horizontal scaling?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) It's more expensive than vertical scaling</li>
+<li><input disabled="" type="checkbox"> b) It has a finite limit to how much you can scale</li>
+<li><input disabled="" type="checkbox"> c) It can't handle traffic spikes</li>
+<li><input disabled="" type="checkbox"> d) It introduces complexity in data consistency, load balancing, and distributed systems management</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Horizontal scaling requires managing multiple servers, handling data consistency across them, implementing load balancers, and dealing with distributed systems challenges like network partitions and eventual consistency.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>7. You're designing a high-frequency trading system where every microsecond matters. Which scaling approach is most appropriate?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Horizontal scaling across multiple datacenters worldwide</li>
+<li><input disabled="" type="checkbox"> b) Caching everything and accepting stale data</li>
+<li><input disabled="" type="checkbox"> c) No scaling needed, as HFT systems don't handle much traffic</li>
+<li><input disabled="" type="checkbox"> d) Vertical scaling on a single machine in the same datacenter as the stock exchange</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    In high-frequency trading, network latency matters more than processing capacity. Minimizing distance and hops (using a single, powerful server colocated with the exchange) provides the lowest possible latency.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>8. What term describes the time it takes for a single request to complete, measured in milliseconds?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Latency</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>response time</li>
+<li>latency</li>
+</ul>
+<p><strong>Explanation:</strong>
+Latency is the time from when a request is sent to when the response is received. Think of it as the time it takes to drive from point A to point B.</p>
+</details>
+<hr>
+<p><strong>9. What term describes how many requests a system can handle simultaneously, measured in requests per second (RPS)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Throughput</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>throughput</li>
+<li>capacity</li>
+<li>concurrent requests</li>
+</ul>
+<p><strong>Explanation:</strong>
+Throughput is the volume of work a system can handle. Think of it as the width of a highway—how many cars can travel per hour.</p>
+</details>
+<hr>
+<p><strong>10. Can a system have low latency but low throughput?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) No, low latency always means high throughput</li>
+<li><input disabled="" type="checkbox"> b) No, these terms are synonyms</li>
+<li><input disabled="" type="checkbox"> c) Only in distributed systems</li>
+<li><input disabled="" type="checkbox"> d) Yes—a single-lane road has low latency (no traffic jam) but low throughput (few cars per hour)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Latency and throughput are independent. A system can be fast for one user but crash if multiple users use it simultaneously. Conversely, a system can handle many users (high throughput) but be slow for each one (high latency).
+  </div>
+
+</div>
+
+<hr>
+<p><strong>11. YouTube must serve videos to millions of users simultaneously. What's the most important metric for their success?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Low latency for video upload</li>
+<li><input disabled="" type="checkbox"> b) High throughput for video streaming</li>
+<li><input disabled="" type="checkbox"> c) Strong consistency for user preferences</li>
+<li><input disabled="" type="checkbox"> d) High throughput for video streaming with acceptable latency for video start</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    YouTube's primary challenge is serving millions of concurrent video streams. While latency matters (video shouldn't buffer), throughput is the bigger challenge—handling millions of requests per second.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>12. A REST API averages 50ms latency but can only handle 100 requests/second before becoming unresponsive. You need to support 1,000 requests/second. What's the first step?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Optimize code to reduce latency from 50ms to 5ms</li>
+<li><input disabled="" type="checkbox"> b) Increase the timeout to handle more concurrent requests</li>
+<li><input disabled="" type="checkbox"> c) Add caching for everything</li>
+<li><input disabled="" type="checkbox"> d)  horizontally scale by running multiple instances behind a load balancer</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    The problem is throughput (100 RPS), not latency (50ms is good). Adding more instances in parallel increases throughput without changing latency. A load balancer distributes traffic across all instances.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>13. Google Search needs to return results in under 500 milliseconds for 63,000 queries per second. What's their architectural approach?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) One supercomputer with infinite RAM</li>
+<li><input disabled="" type="checkbox"> b) Caching everything for 24 hours</li>
+<li><input disabled="" type="checkbox"> c) Accepting slower response times during peak hours</li>
+<li><input disabled="" type="checkbox"> d) Horizontal scaling with distributed computing, pre-computed indexes, and edge caching</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Google uses thousands of servers working in parallel, pre-computed search indexes, and content delivery networks at the edge to achieve both low latency (&lt;500ms) and high throughput (63K queries/sec).
+  </div>
+
+</div>
+
+<hr>
+<p><strong>14. Your database has a read-to-write ratio of 1000:1 (users read data 1000x more than they write it). What scaling strategy is most effective?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Add more powerful CPUs for write operations</li>
+<li><input disabled="" type="checkbox"> b) Shard the database based on write patterns</li>
+<li><input disabled="" type="checkbox"> c) Optimize write queries since they're the bottleneck</li>
+<li><input disabled="" type="checkbox"> d) Use read replicas to distribute read load across multiple database copies</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    With a 1000:1 read/write ratio, writes are rare. Read replicas allow you to scale read operations horizontally while writes go to a single primary database. This dramatically increases throughput for read-heavy workloads.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>15. When should you choose vertical scaling over horizontal scaling?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) When you need to handle millions of concurrent users</li>
+<li><input disabled="" type="checkbox"> b) When your application has no shared state and is stateless</li>
+<li><input disabled="" type="checkbox"> c) When cost and complexity are not concerns</li>
+<li><input disabled="" type="checkbox"> d) When you need a quick solution, have low traffic, or your application has complex shared state</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Vertical scaling is ideal for: early-stage startups, applications with complex state management, databases with complex transactions, or when you need to scale quickly without architectural changes.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>16. What component distributes incoming network traffic across multiple servers to enable horizontal scaling?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Load balancer</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>load balancer</li>
+<li>load balancers</li>
+<li>LB</li>
+<li>proxy</li>
+</ul>
+<p><strong>Explanation:</strong>
+Load balancers are the "traffic cops" that distribute requests across multiple servers, enabling horizontal scaling and providing resilience by routing around failed servers.</p>
+</details>
+<hr>
+<p><strong>17. In a horizontally scaled system, what happens if one server fails?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) The entire system crashes</li>
+<li><input disabled="" type="checkbox"> b) All traffic stops until the server is repaired</li>
+<li><input disabled="" type="checkbox"> c) The load balancer sends more traffic to the failed server</li>
+<li><input disabled="" type="checkbox"> d) The load balancer stops sending traffic to the failed server and routes it to the remaining healthy servers</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    One of the key benefits of horizontal scaling is resilience. If one server fails, the load balancer detects it and routes traffic to other servers, maintaining system availability.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>18. Sruja allows you to define horizontal scaling explicitly. What does <code>min: 3, max: 100, metric: "cpu &gt; 80%"</code> mean in a scale block?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Always run exactly 3 servers, maximum CPU usage 80%</li>
+<li><input disabled="" type="checkbox"> b) Scale vertically when CPU is under 80%</li>
+<li><input disabled="" type="checkbox"> c) Never scale down below 3 servers regardless of CPU</li>
+<li><input disabled="" type="checkbox"> d) Start with 3 servers, add more up to 100 when CPU exceeds 80%, remove servers when CPU is below threshold</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    This defines auto-scaling behavior: minimum baseline of 3 servers, maximum capacity of 100 servers, and scaling trigger based on CPU usage. This is how cloud platforms like AWS and Kubernetes implement horizontal scaling.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>19. Your e-commerce site's product catalog page loads in 2 seconds, but during a sale it slows to 10 seconds. Which metric degraded?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Throughput decreased</li>
+<li><input disabled="" type="checkbox"> b) The database ran out of storage</li>
+<li><input disabled="" type="checkbox"> c) The page size increased</li>
+<li><input disabled="" type="checkbox"> d) Latency increased (response time got worse) due to increased load on the system</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Latency degraded from 2s to 10s because the system was overloaded. This might be caused by insufficient throughput capacity—not enough servers to handle the concurrent users during the sale.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>20. A system has 99.9% uptime, meaning it can be down for about 8.77 hours per year. If you want 99.99% uptime, how much downtime is acceptable per year?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) 8.77 hours (same as 99.9%)</li>
+<li><input disabled="" type="checkbox"> b) 1 hour</li>
+<li><input disabled="" type="checkbox"> c) 1 minute</li>
+<li><input disabled="" type="checkbox"> d) About 52.6 minutes (8.77 hours / 10)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Each additional "9" in uptime reduces downtime by a factor of 10. 99.9% = 8.77 hours/year. 99.99% = 52.6 minutes/year. 99.999% = 5.26 minutes/year. Achieving higher uptime requires horizontal scaling and redundancy.
+  </div>
+
+</div>
+
+<hr>
 <p>This quiz covers:</p>
 <ul>
 <li>Vertical vs Horizontal scaling strategies</li>
@@ -11537,7 +12105,400 @@ include *
 
 Ready to apply what you've learned? Take the interactive quiz for this lesson!
 
-{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-3-quiz.toml}}
+**1. In system design, what term describes the percentage of time a system is operational and accessible (uptime)?**
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Click to see answer&lt;/strong&gt;&lt;/summary&gt;
+
+**Answer:** Availability
+
+**Alternative answers:**
+- availability
+- uptime
+
+**Explanation:**
+Availability measures how often a system is up and accessible. It's about uptime percentage (e.g., 99.9%).
+
+
+&lt;/details&gt;
+
+---
+
+**2. In system design, what term describes the probability that a system will function correctly without failure for a specified period (correctness)?**
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Click to see answer&lt;/strong&gt;&lt;/summary&gt;
+
+**Answer:** Reliability
+
+**Alternative answers:**
+- reliability
+- correctness
+
+**Explanation:**
+Reliability measures how often a system functions correctly without errors. A system can be available (up) but unreliable (returning 500 errors).
+
+
+&lt;/details&gt;
+
+---
+
+**3. Which availability level allows approximately 8.76 hours of downtime per year?**
+
+- [ ] a) 99% (Two nines) - 3.65 days/year
+- [ ] b) 99.99% (Four nines) - 52.6 minutes/year
+- [ ] c) 99.999% (Five nines) - 5.26 minutes/year
+- [ ] d) 99.9% (Three nines) - 8.76 hours/year
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    99.9% availability = 99.9% uptime = 0.1% downtime = 0.001 × 365 days × 24 hours = 8.76 hours/year.
+    Each additional "9" reduces downtime by a factor of 10.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**4. AWS S3 provides 99.999999999% durability (11 nines). What does this mean in practical terms?**
+
+- [ ] a) S3 can be down for 5 minutes per year
+- [ ] b) If you store 10,000 objects, you'll lose one per year
+- [ ] c) S3 guarantees 11 nines availability (uptime)
+- [ ] d) If you store 10,000 objects, you'll lose one on average every 10,000,000 years
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    99.999999999% durability means 0.000000001% chance of data loss. For 10,000 objects, that's a 0.01% chance per year = once every 10,000 years.
+    Note: Durability ≠ Availability. S3's availability is 99.99% (52.6 minutes/year downtime).
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**5. A system has a Single Point of Failure (SPOF). What happens if that component fails?**
+
+- [ ] a) The system continues operating normally with degraded performance
+- [ ] b) The load balancer automatically routes traffic to other components
+- [ ] c) The system fails gracefully with an error message
+- [ ] d) The entire system becomes unavailable or non-functional
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    A Single Point of Failure is a component whose failure causes the entire system to fail. Redundancy is used to eliminate SPOFs by having backup components.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**6. In an Active-Passive redundancy setup, what happens when the active server fails?**
+
+- [ ] a) Both servers were handling traffic, so traffic continues normally
+- [ ] b) The passive server automatically starts handling all traffic (failover)
+- [ ] c) The system sends an error to users until manual intervention
+- [ ] d) The passive server takes over (failover), but there's a brief interruption during switch
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Active-Passive: One server handles traffic, the other is on standby. Failover happens automatically, but there's typically a few seconds of interruption as the passive server comes online.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**7. In an Active-Active redundancy setup, what happens when one server fails?**
+
+- [ ] a) The entire system goes down because both servers were critical
+- [ ] b) The other server takes 5 minutes to restart before accepting traffic
+- [ ] c) Users connected to the failed server experience errors until they reconnect
+- [ ] d) Traffic is redistributed to the remaining server(s) with minimal or no interruption
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Active-Active: Both servers handle traffic simultaneously. If one fails, the other continues handling its traffic plus takes over some traffic from the failed server.
+    Minimal interruption if load balancer detects failure quickly.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**8. You're building a banking application that processes financial transactions. Which redundancy approach is most appropriate?**
+
+- [ ] a) Active-Active with no failover testing (cheaper)
+- [ ] b) Active-Passive with automatic failover (good balance)
+- [ ] c) No redundancy (transactions are rare, so SPOF is acceptable)
+- [ ] d) Active-Active with rigorous failover testing and synchronous replication
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Banking requires both high availability and strong consistency. Active-Active with synchronous replication ensures no data loss during failover.
+    Regular chaos engineering tests (like Netflix's Chaos Monkey) ensure failover actually works when needed.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**9. A content delivery network (CDN) has 100 edge servers worldwide. If 5 servers fail simultaneously, the CDN remains operational. This is an example of:**
+
+- [ ] a) Vertical scaling
+- [ ] b) Single Point of Failure
+- [ ] c) Active-Passive redundancy
+- [ ] d) Elimination of Single Points of Failure through redundancy
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    With 100 servers, the failure of 5 has minimal impact because there's no single critical component. This is horizontal scaling providing both availability and resilience.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**10. Your database server fails. You have a standby replica that can take over in 30 seconds. What's your Recovery Time Objective (RTO)?**
+
+- [ ] a) 0 seconds (no data loss)
+- [ ] b) 30 seconds (time to detect and switch)
+- [ ] c) 1 minute (time to fully restore service)
+- [ ] d) 30 seconds (time to detect failure and failover to standby)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    RTO (Recovery Time Objective) is the maximum acceptable time to restore service after a disruption.
+    In this case, RTO = 30 seconds (detection + failover time).
+    RPO (Recovery Point Objective) would be how much data is lost (depends on replication lag).
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**11. Netflix uses Chaos Monkey, a tool that randomly terminates instances in production. What is the purpose of this?**
+
+- [ ] a) To save money by reducing server count
+- [ ] b) To test if the system can handle automatic failover and resilience
+- [ ] c) To identify which servers are underutilized
+- [ ] d) To proactively test that the system remains available when components fail
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Chaos Engineering is about intentionally causing failures to test resilience. If Chaos Monkey kills a server and Netflix users don't notice, the system is resilient.
+    This practice transformed Netflix's availability from 99.9% to 99.99%+ by finding and fixing weaknesses before real outages occur.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**12. Your e-commerce site's primary database fails. You have a standby replica with 5 minutes of replication lag (meaning it's missing the last 5 minutes of orders). What's your RPO?**
+
+- [ ] a) 0 minutes (no data lost)
+- [ ] b) 5 minutes (you lose up to 5 minutes of data)
+- [ ] c) Infinite (you can't recover the data)
+- [ ] d) 5 minutes (you lose up to 5 minutes of transaction data)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    RPO (Recovery Point Objective) is the maximum acceptable data loss measured in time.
+    With 5 minutes of replication lag, RPO = 5 minutes. Any orders placed in the last 5 minutes would need to be recovered from logs or customer records.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**13. A system has 99.9% availability. How much downtime is this per month?**
+
+- [ ] a) 8.76 hours (same as per year)
+- [ ] b) 43.8 minutes (8.76 hours ÷ 12)
+- [ ] c) 5 minutes (same as five nines per year)
+- [ ] d) 43.8 minutes (8.76 hours ÷ 12 months)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    99.9% = 8.76 hours downtime/year ÷ 12 months = 0.73 hours = 43.8 minutes per month.
+    This means the system can be down for ~43 minutes each month while maintaining 99.9% availability SLA.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**14. You're designing a global video streaming service. Users expect 99.99% availability. What's the maximum acceptable downtime per month?**
+
+- [ ] a) 43.8 minutes (same as 99.9%)
+- [ ] b) 5.26 minutes (same as five nines per year)
+- [ ] c) 4.38 minutes (52.6 minutes/year ÷ 12)
+- [ ] d) 4.38 minutes (52.6 minutes/year ÷ 12 months)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    99.99% = 52.6 minutes downtime/year ÷ 12 months = 4.38 minutes per month.
+    Achieving this requires Active-Active setup across multiple regions with automatic failover, as any maintenance or failure costs precious minutes.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**15. In Sruja, how would you model a database with a standby replica for high availability?**
+
+- [ ] a) Use a single database component with 'standby' in description
+- [ ] b) Create two databases and don't connect them (Sruja auto-discovers)
+- [ ] c) Use a load balancer with one database connection
+- [ ] d) Define two database components (Primary and Standby) with a replication relationship
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    In Sruja, you explicitly model redundant components:
+
+    ```sruja
+    PrimaryDB = database "Primary Database" { ... }
+    StandbyDB = database "Standby Database" {
+    description "Replicates from PrimaryDB. Promoted to primary if PrimaryDB fails."
+    }
+    PrimaryDB -&gt; StandbyDB "Replicates data"
+    ```
+
+    This makes the redundancy strategy visible in your architecture diagrams.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**16. Which scenario demonstrates the difference between availability and reliability?**
+
+- [ ] a) Server crashes and the site goes down (neither available nor reliable)
+- [ ] b) Site loads quickly and returns correct data (both available and reliable)
+- [ ] c) Site is accessible but returns random 500 errors to users
+- [ ] d) Site is accessible but returns random 500 errors to users
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    This is AVAILABLE (site is up) but NOT RELIABLE (not functioning correctly).
+    - Available = 100% uptime (never down)
+    - Reliable = 100% correct (no errors)
+    - Perfect = Both available and reliable
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**17. Your company's SLA (Service Level Agreement) promises 99.9% uptime. In the last month, you had 1 hour of downtime. What's the penalty?**
+
+- [ ] a) No penalty (1 hour &amp;lt; 43.8 minutes allowed)
+- [ ] b) 50% penalty for missing the SLA
+- [ ] c) Calculate the difference: (60 min - 43.8 min) × penalty rate
+- [ ] d) 16.2 minutes exceeded (60 min - 43.8 min = 16.2 min beyond SLA)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    99.9% SLA = 43.8 minutes downtime/month allowed.
+    Actual = 60 minutes downtime.
+    Exceeded by 16.2 minutes.
+    Penalty is typically calculated based on the exceeded minutes times a penalty rate (e.g., 1% credit per minute exceeded).
+    This demonstrates why monitoring availability in real-time is critical for SLA compliance.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**18. What is the term for the process of switching from a failed primary component to a redundant standby component?**
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Click to see answer&lt;/strong&gt;&lt;/summary&gt;
+
+**Answer:** Failover
+
+**Alternative answers:**
+- failover
+- fail-over
+- switchover
+
+**Explanation:**
+Failover is the process of automatically or manually switching to a redundant system upon failure. This is critical for high availability systems.
+Failover can be automatic (system detects failure and switches) or manual (operator triggers switch).
+
+
+&lt;/details&gt;
+
+---
+
+**19. A healthcare application must be available 24/7 for emergency access. The database can only be down for maintenance 4 hours per year. What's the minimum availability required?**
+
+- [ ] a) 99% (allows 3.65 days/year)
+- [ ] b) 99.9% (allows 8.76 hours/year)
+- [ ] c) 99.999% (allows 5.26 minutes/year)
+- [ ] d) 99.95% (allows 4.38 hours/year, just under the 4-hour requirement)
+
+&lt;button class="check-answer-btn" data-correct="d"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    4 hours/year downtime tolerance:
+    4 hours ÷ (365 days × 24 hours) = 4 ÷ 8760 = 0.0457% downtime
+    Availability = 100% - 0.0457% = 99.954%
+
+    Rounding to standard availability levels: 99.95% allows 4.38 hours/year, which meets the requirement.
+    This requires careful planning: Active-Active setup, scheduled maintenance windows, and minimal unplanned outages.
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
 
 This quiz covers:
 - Availability vs Reliability definitions
@@ -11600,7 +12561,460 @@ include *
 </code></pre>
 <h2 id="quiz-test-your-knowledge-3"><a class="header" href="#quiz-test-your-knowledge-3">Quiz: Test Your Knowledge</a></h2>
 <p>Ready to apply what you've learned? Take the interactive quiz for this lesson!</p>
-<p>{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-4-quiz.toml}}</p>
+<p><strong>1. What term in the CAP theorem means every read receives the most recent write or an error (all nodes see the same data)?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Consistency</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>consistency</li>
+<li>C</li>
+</ul>
+<p><strong>Explanation:</strong>
+Consistency ensures all nodes see the same data at the same time. When a write is confirmed, any subsequent read returns that value.</p>
+</details>
+<hr>
+<p><strong>2. What term in the CAP theorem means every request receives a non-error response, without guaranteeing it contains the most recent write?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Availability</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>availability</li>
+<li>A</li>
+</ul>
+<p><strong>Explanation:</strong>
+Availability means the system is always responsive. Even if some nodes are out of sync, the system returns a response (possibly stale data) rather than an error.</p>
+</details>
+<hr>
+<p><strong>3. What term in the CAP theorem means the system continues to operate despite network failures or message loss between nodes?</strong></p>
+<details>
+<summary><strong>Click to see answer</strong></summary>
+<p><strong>Answer:</strong> Partition Tolerance</p>
+<p><strong>Alternative answers:</strong></p>
+<ul>
+<li>partition tolerance</li>
+<li>partition-tolerance</li>
+<li>P</li>
+</ul>
+<p><strong>Explanation:</strong>
+Partition Tolerance ensures the system works even when network communication between nodes fails. In distributed systems, partitions are inevitable, so P is mandatory.</p>
+</details>
+<hr>
+<p><strong>4. In a distributed system, you must choose between CP and AP when a network partition occurs. Why?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Because P is optional in most systems</li>
+<li><input disabled="" type="checkbox"> b) Because you can only implement two of the three guarantees simultaneously</li>
+<li><input disabled="" type="checkbox"> c) Because C and A are mutually exclusive by definition</li>
+<li><input disabled="" type="checkbox"> d) Because network partitions (P) are inevitable in distributed systems</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    The CAP theorem states you can only have 2 of 3. Since network partitions are inevitable in distributed systems, P is mandatory. You must choose between C (Consistency) or A (Availability) during partitions.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>5. A banking system must ensure that account balances are always correct. During a network partition, the system rejects transactions if it can't confirm data consistency. This is what type of system?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) AP (Available) - better to allow transactions with possibly incorrect balances</li>
+<li><input disabled="" type="checkbox"> b) CA (Consistent and Available) - possible in single-node systems only</li>
+<li><input disabled="" type="checkbox"> c) P (Partition Tolerance) only - data consistency isn't important</li>
+<li><input disabled="" type="checkbox"> d) CP (Consistent and Partition Tolerant)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    CP systems prioritize data correctness. During a partition, the system returns errors rather than allowing inconsistent operations.
+Banking uses CP because incorrect balances = financial disasters.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>6. A social media feed shows posts from friends. If a partition occurs, users see slightly outdated posts rather than an error page. This is what type of system?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) CP (Consistent) - reject requests if data isn't perfectly synced</li>
+<li><input disabled="" type="checkbox"> b) CA (Consistent and Available) - impossible in distributed systems</li>
+<li><input disabled="" type="checkbox"> c) P (Partition Tolerance) only - doesn't describe the full trade-off</li>
+<li><input disabled="" type="checkbox"> d) AP (Available and Partition Tolerant)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    AP systems prioritize availability. Users see stale data rather than errors.
+Social media uses AP because it's better to show slightly old posts than a broken feed.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>7. Which system would prioritize CP (Consistency) over Availability?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Instagram photo feed</li>
+<li><input disabled="" type="checkbox"> b) YouTube video recommendations</li>
+<li><input disabled="" type="checkbox"> c) E-commerce product catalog (non-critical)</li>
+<li><input disabled="" type="checkbox"> d) PayPal payment processing</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Payment systems prioritize CP because incorrect transactions are unacceptable.
+Instagram, YouTube, and product catalogs can use AP (showing slightly stale content is acceptable).
+  </div>
+
+</div>
+
+<hr>
+<p><strong>8. Which system would prioritize AP (Availability) over Consistency?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Banking transaction system</li>
+<li><input disabled="" type="checkbox"> b) Inventory management for critical medical supplies</li>
+<li><input disabled="" type="checkbox"> c) Stock trading platform for high-frequency trading</li>
+<li><input disabled="" type="checkbox"> d) Netflix video streaming recommendations</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Netflix recommendations can be slightly stale and still provide value. AP is acceptable.
+Banking, medical inventory, and HFT require strong consistency (CP) because errors are unacceptable.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>9. What is the difference between Strong Consistency and Eventual Consistency?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Strong Consistency is slower, Eventual is always faster</li>
+<li><input disabled="" type="checkbox"> b) Strong Consistency allows stale reads, Eventual doesn't</li>
+<li><input disabled="" type="checkbox"> c) There's no difference, they're synonyms</li>
+<li><input disabled="" type="checkbox"> d) Strong Consistency: all nodes see same data immediately. Eventual: nodes eventually converge if no new writes occur.</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Strong Consistency: Read after write always returns the latest value (e.g., banking).
+Eventual Consistency: Reads might return stale data, but eventually all nodes converge (e.g., social media).
+  </div>
+
+</div>
+
+<hr>
+<p><strong>10. A user posts a tweet. The tweet immediately appears in their own timeline but takes up to 30 seconds to appear in followers' feeds. What consistency model is this?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Strong Consistency (everyone sees the tweet immediately)</li>
+<li><input disabled="" type="checkbox"> b) No consistency (data is randomly shown or hidden)</li>
+<li><input disabled="" type="checkbox"> c) CP system (rejects posts during partitions)</li>
+<li><input disabled="" type="checkbox"> d) Eventual Consistency (followers eventually see the tweet)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Twitter uses Eventual Consistency for timeline delivery. The tweet is written immediately, but propagation to followers happens asynchronously.
+This is acceptable because users don't expect perfect real-time synchronization.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>11. A database has a replication factor of 3 (3 copies of data). Writes are confirmed after writing to 2 nodes. If one node is down, what happens?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Write fails because all 3 nodes must be available</li>
+<li><input disabled="" type="checkbox"> b) Write succeeds because only 2 nodes are required (quorum)</li>
+<li><input disabled="" type="checkbox"> c) System becomes completely unavailable</li>
+<li><input disabled="" type="checkbox"> d) Write succeeds because quorum (2 out of 3 nodes) is available</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    With a quorum-based approach, writes succeed if a majority of nodes acknowledge.
+This provides both consistency (majority agreement) and availability (tolerates 1 node failure).
+This is a practical implementation of CP with tunable consistency.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>12. Cassandra is a distributed database designed for AP systems. If you need strong consistency in Cassandra, what configuration would you use?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Replication factor of 1 (single node)</li>
+<li><input disabled="" type="checkbox"> b) Read/write with QUORUM consistency level</li>
+<li><input disabled="" type="checkbox"> c) Set consistency level to ONE (fast but weak)</li>
+<li><input disabled="" type="checkbox"> d) Read/write with QUORUM consistency level (majority of replicas)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Cassandra defaults to AP (ONE consistency), but you can tune it:
+- ONE: Fast, AP behavior (eventual consistency)
+- QUORUM: Slower, CP-like behavior (strong consistency from majority)
+- ALL: Slowest, strongest consistency (all replicas must acknowledge)
+  </div>
+
+</div>
+
+<hr>
+<p><strong>13. You're designing a global e-commerce platform with product catalogs, user sessions, and order processing. Which should use strong consistency?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Product catalog (catalog changes are frequent)</li>
+<li><input disabled="" type="checkbox"> b) User sessions (session data isn't critical)</li>
+<li><input disabled="" type="checkbox"> c) Search results (stale results are acceptable)</li>
+<li><input disabled="" type="checkbox"> d) Order processing and inventory management</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Order processing and inventory require strong consistency to prevent:
+- Double-selling the same item
+- Incorrect charge amounts
+- Lost or duplicate orders
+<p>Product catalogs, user sessions, and search can use eventual consistency for performance.</p>
+  </div>
+
+</div>
+
+<hr>
+<p><strong>14. In a globally distributed system, network latency between regions is 200ms. If you need strong consistency, what's the minimum write latency?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) 0ms (write happens locally and asynchronously replicates)</li>
+<li><input disabled="" type="checkbox"> b) 50ms (compression reduces latency)</li>
+<li><input disabled="" type="checkbox"> c) 200ms (only need to write to one region)</li>
+<li><input disabled="" type="checkbox"> d) 400ms+ (must wait for acknowledgment from majority of regions)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    For strong consistency across regions:
+1. Write to primary region: ~0ms local
+2. Replicate to at least one other region: 200ms round-trip
+3. Wait for acknowledgment: 400ms+
+<p>This is why global AP systems are faster - they write locally and replicate asynchronously.</p>
+  </div>
+
+</div>
+
+<hr>
+<p><strong>15. What's the difference between BASE (Basically Available, Soft state, Eventual consistency) and ACID (Atomicity, Consistency, Isolation, Durability)?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) BASE is stricter than ACID, requiring perfect consistency</li>
+<li><input disabled="" type="checkbox"> b) They're synonyms, just different names for the same concept</li>
+<li><input disabled="" type="checkbox"> c) BASE is for distributed systems, ACID is only for single-node databases</li>
+<li><input disabled="" type="checkbox"> d) BASE is an alternative to ACID that prioritizes availability over strong consistency</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    ACID: Strict consistency, all-or-nothing transactions (e.g., PostgreSQL).
+BASE: Flexible, available, eventual consistency (e.g., Cassandra, DynamoDB).
+ACID = CP systems (banking, inventory)
+BASE = AP systems (social media, caching)
+  </div>
+
+</div>
+
+<hr>
+<p><strong>16. A read-after-write consistency model ensures that a client always sees their own writes. What consistency level is this?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Weak Consistency (writes might not be visible)</li>
+<li><input disabled="" type="checkbox"> b) Strong Consistency (all clients see all writes immediately)</li>
+<li><input disabled="" type="checkbox"> c) Eventual Consistency (eventually converges)</li>
+<li><input disabled="" type="checkbox"> d) Causal Consistency (session consistency)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Causal Consistency ensures that a client sees their own writes immediately (session-level consistency).
+This is stronger than eventual consistency but weaker than strong consistency.
+It's commonly used in distributed databases to provide a good balance of performance and correctness.
+  </div>
+
+</div>
+
+<hr>
+<p><strong>17. In Sruja, how would you document that a database uses eventual consistency for high availability?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Use a 'relaxed' tag in the relationship</li>
+<li><input disabled="" type="checkbox"> b) Don't model it - Sruja assumes strong consistency by default</li>
+<li><input disabled="" type="checkbox"> c) Create two databases and say they're 'somewhat consistent'</li>
+<li><input disabled="" type="checkbox"> d) Add tags like 'AP-System' and 'Eventual-Consistency' to the database definition</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    In Sruja, you explicitly document consistency guarantees:
+<pre><code class="language-sruja">UserDB = database "User Database" {
+    technology "Cassandra"
+    description "Replication factor 3, eventual consistency for high availability"
+    tags ["AP-System", "Eventual-Consistency"]
+}
+</code></pre>
+<p>This makes architectural trade-offs visible in your documentation.</p>
+  </div>
+
+</div>
+
+<hr>
+<p><strong>18. A system needs 99.999% availability but can tolerate 5-second data staleness. What's the best approach?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Strong consistency with synchronous replication across all nodes</li>
+<li><input disabled="" type="checkbox"> b) Single-node database (simplest, no network issues)</li>
+<li><input disabled="" type="checkbox"> c) Reject all writes during network partitions</li>
+<li><input disabled="" type="checkbox"> d) Eventual consistency with asynchronous replication and caching</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    99.999% availability requires AP design. 5-second staleness is acceptable for eventual consistency.
+Approach:
+- Write to local node immediately (low latency, always available)
+- Replicate asynchronously (eventual consistency)
+- Cache reads aggressively (reduce staleness perception)
+- Use read-your-writes consistency for critical user operations
+  </div>
+
+</div>
+
+<hr>
+<p><strong>19. What happens when a CP system experiences a network partition?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) The system continues serving all requests with slightly stale data</li>
+<li><input disabled="" type="checkbox"> b) The system becomes completely unavailable (no data can be read or written)</li>
+<li><input disabled="" type="checkbox"> c) The system switches to AP mode automatically</li>
+<li><input disabled="" type="checkbox"> d) The system rejects requests that can't be guaranteed to be consistent (returns errors)</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    CP systems prioritize consistency. During a partition:
+- If a write can't be replicated to a majority, it's rejected
+- If a read can't get the latest data, it's rejected
+- Users see errors, but never incorrect data
+- This is acceptable in banking, inventory, and other correctness-critical systems
+  </div>
+
+</div>
+
+<hr>
+<p><strong>20. A distributed database has 5 nodes. Network partition splits them: 3 nodes in group A, 2 nodes in group B. What happens in a CP system?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Both groups accept writes (both available)</li>
+<li><input disabled="" type="checkbox"> b) Group B accepts writes (it's smaller, so it's backup)</li>
+<li><input disabled="" type="checkbox"> c) Neither group can operate (complete system failure)</li>
+<li><input disabled="" type="checkbox"> d) Only group A (3 nodes, majority) can accept writes. Group B is read-only or unavailable.</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    In CP systems with majority consensus:
+- Group A (3 nodes) has quorum (majority): can accept writes and reads
+- Group B (2 nodes) lacks quorum: read-only or rejects writes
+- After partition heals, Group B syncs data from Group A
+- This ensures consistency (no conflicting writes) but reduces availability for Group B users
+  </div>
+
+</div>
+
+<hr>
+<p><strong>21. What's the relationship between latency and consistency in distributed systems?</strong></p>
+<ul>
+<li><input disabled="" type="checkbox"> a) Strong consistency always has lower latency than eventual consistency</li>
+<li><input disabled="" type="checkbox"> b) Eventual consistency always has lower latency, regardless of design</li>
+<li><input disabled="" type="checkbox"> c) Latency and consistency are independent - no relationship exists</li>
+<li><input disabled="" type="checkbox"> d) Strong consistency typically requires more coordination, resulting in higher latency</li>
+</ul>
+<p><button class="check-answer-btn" data-correct="d">Check Answer</button></p>
+<div class="answer-feedback" style="display: none;">
+  
+<p class="feedback-text"></p>
+
+  
+<div class="explanation" style="display: none;">
+    Strong consistency needs:
+- Synchronous replication across nodes
+- Distributed consensus protocols (Paxos, Raft)
+- Waiting for acknowledgments
+<p>Eventual consistency:</p>
+<ul>
+<li>Write locally, replicate asynchronously</li>
+<li>No coordination overhead</li>
+<li>Lower latency but risk of stale reads</li>
+</ul>
+<p>Trade-off: Stronger consistency = higher latency</p>
+  </div>
+
+</div>
+
+<hr>
 <p>This quiz covers:</p>
 <ul>
 <li>CAP theorem definitions (Consistency, Availability, Partition Tolerance)</li>
@@ -11672,7 +13086,175 @@ include *
 
 Ready to apply what you've learned? Take the interactive quiz for this lesson!
 
-{{#quiz ../../quizzes/system-design-101/module-1-fundamentals/lesson-5-quiz.toml}}
+**1. What is a user scenario in system design?**
+
+- [ ] a) A description of the system's architecture and components
+- [ ] b) A series of steps a user takes to achieve a specific goal within the system
+- [ ] c) A list of technical requirements for the system
+- [ ] d) A diagram showing database relationships
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    A user scenario describes the series of steps a user takes to achieve a specific goal within your system. While static architecture diagrams show structure, user scenarios show behavior.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**2. Which of the following is NOT a benefit of modeling user scenarios?**
+
+- [ ] a) Validation - ensures all required components exist and are connected
+- [ ] b) Performance - improves system response times
+- [ ] c) Clarity - helps stakeholders understand the system from a user's perspective
+- [ ] d) Testing - serves as a blueprint for integration and end-to-end tests
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    The three main benefits of modeling user scenarios are: Validation (ensuring components exist and are connected), Clarity (helping stakeholders understand), and Testing (providing blueprints for tests). Performance improvement is not a direct benefit of scenario modeling.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**3. In the "Buying a Ticket" scenario example, what is the correct order of steps?**
+
+- [ ] a) User searches for events → User selects a ticket → System sends confirmation email → User enters payment details → System processes payment
+- [ ] b) User enters payment details → User searches for events → User selects a ticket → System processes payment → System sends confirmation email
+- [ ] c) User searches for events → User selects a ticket → User enters payment details → System processes payment → System sends confirmation email
+- [ ] d) System processes payment → User searches for events → User selects a ticket → User enters payment details → System sends confirmation email
+
+&lt;button class="check-answer-btn" data-correct="c"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    The correct order is: 1) User searches for events, 2) User selects a ticket, 3) User enters payment details, 4) System processes payment, 5) System sends confirmation email. This follows the natural flow from user action to system response.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**4. What does the scenario keyword in Sruja allow you to do?**
+
+- [ ] a) Define database schemas and relationships
+- [ ] b) Model user interactions and visualize the flow of data across your architecture
+- [ ] c) Create automated test scripts
+- [ ] d) Generate API documentation
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Sruja's scenario keyword allows you to model user interactions explicitly and visualize the flow of data across your defined architecture. This helps bridge the gap between static architecture diagrams and dynamic user behavior.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**5. How do user scenarios differ from static architecture diagrams?**
+
+- [ ] a) Architecture diagrams show structure, user scenarios show behavior
+- [ ] b) Architecture diagrams are for developers, user scenarios are for managers
+- [ ] c) Architecture diagrams use UML, user scenarios use flowcharts
+- [ ] d) Architecture diagrams are optional, user scenarios are required
+
+&lt;button class="check-answer-btn" data-correct="a"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    While static architecture diagrams show the structure of a system (components, connections, relationships), user scenarios show the behavior - the dynamic flow of actions and data as users interact with the system over time.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**6. You're building an e-commerce platform. Which scenario best demonstrates a complete user journey?**
+
+- [ ] a) "User adds item to cart"
+- [ ] b) "User browses products → User adds item to cart → User enters shipping info → User completes payment → System confirms order"
+- [ ] c) "Database stores product information"
+- [ ] d) "Payment API processes transactions"
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    A complete user journey shows the full series of steps from start to finish. Option (b) shows the complete flow from browsing to order confirmation, representing a full user scenario. The other options are either too narrow (single action) or describe system behavior rather than user journey.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**7. What is the primary purpose of validating user scenarios against your architecture?**
+
+- [ ] a) To ensure the code compiles without errors
+- [ ] b) To verify that all components required for a feature exist and are properly connected
+- [ ] c) To reduce the cost of infrastructure
+- [ ] d) To improve the user interface design
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    Validation of user scenarios ensures that all the components, services, and connections needed to support a user feature actually exist in your architecture. This helps catch missing or incomplete implementations before development or deployment.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**8. When modeling a scenario in Sruja, you define:**
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Click to see answer&lt;/strong&gt;&lt;/summary&gt;
+
+**Answer:** Actors, systems, containers, and the flow of data between them
+
+You define the actors (users or external systems), the systems and containers they interact with, and use arrows (-&gt;) to show the flow of data and interactions between components.
+
+&lt;/details&gt;
+
+---
+
+**9. A ride-sharing app has this scenario: "User requests ride → System matches driver → Driver accepts → User receives driver details → Trip begins". What architectural component is likely missing if the scenario fails at the matching step?**
+
+- [ ] a) Payment processing service
+- [ ] b) Driver matching algorithm or service
+- [ ] c) User authentication system
+- [ ] d) Email notification service
+
+&lt;button class="check-answer-btn" data-correct="b"&gt;Check Answer&lt;/button&gt;
+
+&lt;div class="answer-feedback" style="display: none;"&gt;
+  &lt;p class="feedback-text"&gt;&lt;/p&gt;
+  &lt;div class="explanation" style="display: none;"&gt;
+    If the scenario fails at the matching step, the driver matching algorithm or service is likely missing or malfunctioning. This component is responsible for connecting users with available drivers. The other components (payment, auth, email) are important but not directly related to the matching step.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+**10. Why are user scenarios valuable for testing?**
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Click to see answer&lt;/strong&gt;&lt;/summary&gt;
+
+**Answer:** They serve as blueprints for integration and end-to-end tests
+
+User scenarios provide a step-by-step description of how the system should behave from a user's perspective, making them perfect templates for writing integration tests and end-to-end tests. They help ensure that all components work together correctly to support real user workflows.
+
+&lt;/details&gt;
+
+---
 
 This quiz covers:
 - User scenario definitions
