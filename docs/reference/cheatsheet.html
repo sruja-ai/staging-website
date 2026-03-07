@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-fc06ba90.js";
+            window.path_to_searchindex_js = "../../searchindex-9f0c9db0.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-f200db4f.js"></script>
@@ -186,16 +186,16 @@
 
 User = person "User"
 App = system "App" {
-    Web = container "Web"
-    API = container "API"
-    DB = database "DB"
+  Web = container "Web"
+  API = container "API"
+  DB = database "DB"
 }
 User -&gt; App.Web "Uses"
 App.Web -&gt; App.API "Calls"
 App.API -&gt; App.DB "Reads/Writes"
 
 view index {
-    include *
+  include *
 }
 </code></pre>
 <blockquote class="blockquote-tag blockquote-tag-tip">
@@ -206,9 +206,9 @@ view index {
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 App = system "App" {
-    Web = container "Web" {
-        Cart = component "Cart"
-    }
+  Web = container "Web" {
+    Cart = component "Cart"
+  }
 }
 </code></pre>
 <h2 id="scenario"><a class="header" href="#scenario">Scenario</a></h2>
@@ -217,15 +217,15 @@ App = system "App" {
 User = person "User"
 
 App = system "App" {
-    Web = container "Web"
-    API = container "API"
-    DB = database "Database"
+  Web = container "Web"
+  API = container "API"
+  DB = database "Database"
 }
 
 scenario Checkout "Checkout Flow" {
-    User -&gt; App.Web "adds items"
-    App.Web -&gt; App.API "validates"
-    App.API -&gt; App.DB "stores order"
+  User -&gt; App.Web "adds items"
+  App.Web -&gt; App.API "validates"
+  App.API -&gt; App.DB "stores order"
 }
 </code></pre>
 <h2 id="deployment"><a class="header" href="#deployment">Deployment</a></h2>

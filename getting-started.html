@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-fc06ba90.js";
+            window.path_to_searchindex_js = "searchindex-9f0c9db0.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -199,11 +199,11 @@ make build
 system = kind "System"
 container = kind "Container"
 
-user = person "User" {}
-app = system "My App" {
-  web = container "Web Server" { technology "Node.js" }
+User = person "User" {}
+App = system "My App" {
+  Web = container "Web Server" { technology "Node.js" }
 }
-user -&gt; app.web "visits"
+User -&gt; App.Web "visits"
 </code></pre>
 <h2 id="validate-and-export"><a class="header" href="#validate-and-export">Validate and export</a></h2>
 <pre><code class="language-bash">sruja lint example.sruja

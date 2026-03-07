@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-fc06ba90.js";
+            window.path_to_searchindex_js = "../../../searchindex-9f0c9db0.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -189,7 +189,7 @@
 <li><strong>Database</strong>: PostgreSQL - Reliable, ACID compliant (critical for money).</li>
 </ol>
 <h2 id="modeling-in-sruja"><a class="header" href="#modeling-in-sruja">Modeling in Sruja</a></h2>
-<p>We define these choices in our <code>container</code> definitions.</p>
+<p>We define these choices in our <code>container</code> and <code>database</code> definitions.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 
@@ -204,7 +204,7 @@ API = container "Core API" {
   description "REST API handling business logic."
 }
 
-Database = container "Primary DB" {
+Database = database "Primary DB" {
   technology "PostgreSQL 15"
   description "Stores orders, products, and users."
 }
