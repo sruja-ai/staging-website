@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9f0c9db0.js";
+            window.path_to_searchindex_js = "searchindex-3fcd0f9a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -1702,7 +1702,7 @@ AIQA.Indexer -&gt; AIQA.VectorDB "Writes embeddings"
 AIQA.Retriever -&gt; AIQA.VectorDB "Searches"
 AIQA.Generator -&gt; AIQA.Retriever "Fetches contexts"
 </code></pre>
-<p>See <code>examples/pattern_rag_pipeline.sruja</code> for a production-ready model.</p>
+<p>See <code>book/valid-examples/pattern-rag-pipeline.sruja</code> for a production-ready model.</p>
 <h2 id="agentic-orchestration"><a class="header" href="#agentic-orchestration">Agentic Orchestration</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
@@ -1724,7 +1724,7 @@ view index {
 include *
 }
 </code></pre>
-<p>See <code>examples/pattern_agentic_ai.sruja</code> for a complete agent graph.</p>
+<p>See <code>book/valid-examples/pattern-agentic-ai.sruja</code> for a complete agent graph.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sruja-cheatsheet"><a class="header" href="#sruja-cheatsheet">Sruja Cheatsheet</a></h1>
 <h2 id="elements-1"><a class="header" href="#elements-1">Elements</a></h2>
@@ -2245,7 +2245,7 @@ jobs:
 <li><strong>AI editors and catching bugs</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo</li>
 <li><strong>Reviewing AI-generated code</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/REVIEWING_AI_GENERATED_CODE.md">Reviewing AI-generated code</a> in the repo</li>
 <li><strong>Adoption and rollout</strong> – <a href="#sruja-adoption-guide">Adoption guide</a> and <a href="#adoption-playbook">Adoption playbook</a> in this book</li>
-<li><strong>Examples</strong> – <a href="https://github.com/sruja-ai/sruja/tree/main/examples">examples/</a> in the Sruja repo</li>
+<li><strong>Examples</strong> – <a href="examples/index.html">Examples Gallery</a> (canonical book-backed examples)</li>
 </ul>
 <p>Sruja is open source. To report issues or suggest improvements, use <a href="https://github.com/sruja-ai/sruja/issues">GitHub Issues</a> or <a href="https://github.com/sruja-ai/sruja/discussions">Discussions</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -3039,7 +3039,7 @@ App.Web -&gt; App.API "Calls"
 <li>Add test cases</li>
 <li>Fix small bugs</li>
 <li>Improve error messages</li>
-<li>Add examples to the <code>examples/</code> directory</li>
+<li>Add examples to <code>book/valid-examples/</code> and a matching page under <code>book/src/examples/</code></li>
 <li>Improve CLI help text</li>
 </ul>
 <p><strong>Documentation Code</strong></p>
@@ -3158,7 +3158,7 @@ App.Web -&gt; App.API "Calls"
 <li><strong>Join Discord</strong> and introduce yourself</li>
 <li><strong>Star the repository</strong> on GitHub to show your support</li>
 <li><strong>Fix a typo</strong> in the documentation</li>
-<li><strong>Add an example</strong> to the <code>examples/</code> directory</li>
+<li><strong>Add an example</strong> to <code>book/valid-examples/</code> and a matching page under <code>book/src/examples/</code></li>
 <li><strong>Share your use case</strong> in GitHub Discussions</li>
 </ol>
 <p>Every contribution, no matter how small, helps make Sruja better for everyone. Thank you for being part of the community!</p>
@@ -27756,7 +27756,7 @@ ECommerce -&gt; EmailService "Sends notifications"
 </ul>
 <h2 id="next-steps-16"><a class="header" href="#next-steps-16">Next Steps</a></h2>
 <ul>
-<li>Try the complete example: <code>examples/systems_thinking.sruja</code></li>
+<li>Try the complete example: <code>book/valid-examples/feedback-loops-basic.sruja</code> and <code>book/valid-examples/causal-loops-basic.sruja</code></li>
 <li>Learn <a href="tutorials/basic/tutorials/advanced/deployment-modeling.html">Deployment Modeling</a> for infrastructure perspective</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -27995,7 +27995,7 @@ include *
 - uses: ./.github/actions/sruja-validate
   with:
     working-directory: .
-    files: "examples/**/*.sruja" # or '**/*.sruja'
+    files: "book/valid-examples/**/*.sruja" # or '**/*.sruja'
     run-export: "false"
 </code></pre>
 <h3 id="basic-setup-any-repository"><a class="header" href="#basic-setup-any-repository">Basic setup (any repository)</a></h3>
@@ -28450,7 +28450,7 @@ RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 </code></pre>
 <h2 id="next-steps-17"><a class="header" href="#next-steps-17">Next Steps</a></h2>
 <ul>
-<li>Explore <code>examples/pattern_agentic_ai.sruja</code> and <code>examples/pattern_rag_pipeline.sruja</code></li>
+<li>Explore <code>book/valid-examples/pattern-agentic-ai.sruja</code> and <code>book/valid-examples/pattern-rag-pipeline.sruja</code></li>
 <li>Add scenarios to capture common workflows</li>
 <li>Use views to present developer vs. executive perspectives</li>
 </ul>
