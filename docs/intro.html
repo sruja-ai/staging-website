@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-f0967439.js";
+            window.path_to_searchindex_js = "../searchindex-c5b6d55e.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f200db4f.js"></script>
+        <script src="../toc-4ef37301.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,28 +181,74 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Sruja is an <strong>open source</strong> architecture-as-code tool for the <strong>AI SDLC process</strong>.</p>
+<p><strong>Stop diagramming. Start version-controlling your architecture.</strong></p>
+<p>Sruja uses AI to analyze your code and generate architecture as code—so it never drifts from reality.</p>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="../getting-started.html">Quick start</a> (about 5 min), then the <a href="beginner-path.html">Beginner path</a> (2–3 hours). It helps teams define, validate, and evolve software architecture in code—so architecture stays in sync with design, review, CI, and docs. We are <strong>not</strong> a diagramming tool; diagrams are one output, not the product.</p>
+<p><strong>New here?</strong> Do <a href="../getting-started.html">Quick start</a> (about 5 min), then the <a href="beginner-path.html">Beginner path</a> (2–3 hours). You don't write <code>.sruja</code> files manually—your AI does it for you.</p>
 </blockquote>
-<h2 id="why-sruja"><a class="header" href="#why-sruja">Why Sruja?</a></h2>
-<p>Most teams document architecture in static diagrams (Miro, LucidChart, Visio) or inconsistent Wiki pages. These suffer from:</p>
-<ol>
-<li><strong>Drift:</strong> The code changes, but the diagram doesn't.</li>
-<li><strong>Inconsistency:</strong> Every architect draws "boxes and arrows" differently.</li>
-<li><strong>No Validation:</strong> You can't "test" a PNG image for broken dependencies.</li>
-</ol>
-<p><strong>Sruja treats Architecture like Code:</strong></p>
+<h2 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h2>
+<p>How do you document architecture today?</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Your approach</th><th>Problems</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Drawings in Miro/LucidChart</strong></td><td>Manual updates, easy to forget, drifts from code</td></tr>
+<tr><td><strong>Wiki pages</strong></td><td>Inconsistent, hard to maintain, no validation</td></tr>
+<tr><td><strong>PNG/PDF diagrams</strong></td><td>Can't version control diff, outdated quickly</td></tr>
+</tbody>
+</table>
+</div>
+<p>Sound familiar? You're not alone. Most teams struggle with this.</p>
+<h2 id="the-solution"><a class="header" href="#the-solution">The Solution</a></h2>
+<p><strong>Architecture as code.</strong></p>
+<p>With Sruja:</p>
 <ul>
-<li><strong>Version Control:</strong> Commit your architecture to Git.</li>
-<li><strong>Validation:</strong> CI/CD checks for circular dependencies and rule violations.</li>
-<li><strong>Consistency:</strong> Based on the <strong><a href="docs/concepts/c4-model.html">C4 Model</a></strong> for clear, hierarchical abstractions. (See <a href="docs/glossary.html">Glossary</a> for definitions of key terms.)</li>
+<li>AI analyzes your codebase automatically</li>
+<li>You get a <code>repo.sruja</code> file (architecture definition)</li>
+<li>Validate it automatically in CI/CD</li>
+<li>Export diagrams when needed (not as the source)</li>
 </ul>
+<p><strong>You don't learn a new language.</strong> You ask your AI to generate the file, and it handles the syntax.</p>
+<h2 id="how-this-helps"><a class="header" href="#how-this-helps">How This Helps</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Before Sruja</th><th>With Sruja</th></tr>
+</thead>
+<tbody>
+<tr><td>Update diagrams manually</td><td>AI generates from code</td></tr>
+<tr><td>Diagram drifts from reality</td><td>Always in sync</td></tr>
+<tr><td>Can't catch errors</td><td>Validation catches issues</td></tr>
+<tr><td>Hard to review changes</td><td>Git diff shows everything</td></tr>
+<tr><td>Scattered tools</td><td>Single source of truth</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h2>
+<p><strong>Architecture as Code:</strong> Instead of drawing boxes, you define structure in code. AI writes it, you validate it, and everyone uses the same source.</p>
+<p><strong>Validation:</strong> Like <code>lint</code> for code, <code>sruja lint</code> checks for:</p>
+<ul>
+<li>Circular dependencies</li>
+<li>Orphaned components</li>
+<li>Missing connections</li>
+<li>Rule violations</li>
+</ul>
+<p><strong>C4 Model:</strong> Sruja uses the C4 approach, which organizes architecture into levels:</p>
+<ul>
+<li><strong>Person:</strong> Users, external systems</li>
+<li><strong>System:</strong> Major boundaries (e.g., "Order System")</li>
+<li><strong>Container:</strong> Deployable units (e.g., "API Service")</li>
+<li><strong>Component:</strong> Internal parts (e.g., "Payment Module")</li>
+</ul>
+<p>This hierarchy makes architecture clear and understandable.</p>
 <h2 id="who-is-sruja-for"><a class="header" href="#who-is-sruja-for">Who is Sruja For?</a></h2>
 <h3 id="students--learners"><a class="header" href="#students--learners">Students &amp; Learners</a></h3>
 <ul>
-<li><strong>Learn system design</strong> with production-ready examples from fintech, healthcare, and e-commerce</li>
-<li><strong>Hands-on courses</strong> covering fundamentals to advanced patterns</li>
+<li><strong>Understand system design</strong> through production-ready examples from fintech, healthcare, and e-commerce</li>
+<li><strong>Use AI skills</strong> to generate architecture and explore patterns without manual DSL writing</li>
 <li><strong>Real-world scenarios</strong> that prepare you for interviews and real projects</li>
 </ul>
 <h3 id="software-architects"><a class="header" href="#software-architects">Software Architects</a></h3>
@@ -254,7 +300,7 @@ view index {
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <ul>
 <li><strong>New to Sruja?</strong> Start with <a href="docs/getting-started.html">Getting Started</a></li>
-<li><strong>Want to learn?</strong> Explore <a href="courses/system-design-101/course-overview.html">Courses</a> and <a href="tutorials/basic/cli-basics.html">Tutorials</a></li>
+<li><strong>Use AI:</strong> Install the skill in your editor and let AI generate architecture from your codebase</li>
 <li><strong>Need examples?</strong> Check out <a href="docs/examples.html">Real-World Examples</a></li>
 <li><strong>Ready to build?</strong> Use the <a href="../vscode.html">VS Code extension</a> for diagram preview</li>
 </ul>
