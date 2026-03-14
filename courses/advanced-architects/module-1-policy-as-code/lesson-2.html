@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3fcd0f9a.js";
+            window.path_to_searchindex_js = "../../../searchindex-4511ffc8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-f200db4f.js"></script>
@@ -209,7 +209,7 @@ jobs:
           sruja lint architecture.sruja
       
       - name: Check Constraints
-        run: sruja validate --constraints architecture.sruja
+        run: sruja validate architecture.sruja
       
       - name: Export Documentation
         run: sruja export markdown architecture.sruja &gt; architecture.md
@@ -225,7 +225,7 @@ architecture-validation:
   script:
     - sruja fmt architecture.sruja
     - sruja lint architecture.sruja
-    - sruja validate --constraints architecture.sruja
+    - sruja validate architecture.sruja
   only:
     - merge_requests
     - main
@@ -234,8 +234,8 @@ architecture-validation:
 <p>Generate compliance reports in CI/CD:</p>
 <pre><code class="language-yaml">- name: Generate Compliance Report
   run: |
-    sruja validate --constraints architecture.sruja --format json &gt; violations.json
-    sruja score architecture.sruja &gt; score.json
+    sruja validate architecture.sruja --format-json &gt; violations.json
+    sruja compliance -r . -a architecture.sruja -f json &gt; compliance.json
   
 - name: Upload Reports
   uses: actions/upload-artifact@v3
@@ -243,7 +243,7 @@ architecture-validation:
     name: architecture-reports
     path: |
       violations.json
-      score.json
+      compliance.json
       architecture.md
 </code></pre>
 <h2 id="multi-repository-governance"><a class="header" href="#multi-repository-governance">Multi-Repository Governance</a></h2>
@@ -254,10 +254,8 @@ architecture-validation:
     # Fetch shared policies from central repo
     git clone https://github.com/your-org/architecture-policies.git /tmp/policies
     
-    # Validate against shared constraints
-    sruja validate \
-      --constraints /tmp/policies/global-constraints.sruja \
-      --constraints architecture.sruja
+    # Validate architecture and optional external constraint files
+    sruja validate architecture.sruja -c /tmp/policies/global-constraints.sruja
 </code></pre>
 <h2 id="pre-commit-hooks"><a class="header" href="#pre-commit-hooks">Pre-commit Hooks</a></h2>
 <p>Catch violations before they're committed:</p>
@@ -277,7 +275,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-sruja validate --constraints architecture.sruja
+sruja validate architecture.sruja
 if [ $? -ne 0 ]; then
   echo "❌ Constraint violations found. Fix before committing."
   exit 1
@@ -290,14 +288,14 @@ exit 0
 <p>Add architecture validation as a required check:</p>
 <pre><code class="language-yaml">- name: Architecture Gate
   run: |
-    sruja validate --constraints architecture.sruja --fail-on-violations
+    sruja validate architecture.sruja --fail-on-violations
 </code></pre>
 <p><strong>Result:</strong> PRs can't be merged until architecture is valid.</p>
 <h2 id="monitoring-compliance"><a class="header" href="#monitoring-compliance">Monitoring Compliance</a></h2>
 <p>Track compliance over time:</p>
 <pre><code class="language-yaml">- name: Track Compliance Metrics
   run: |
-    sruja score architecture.sruja --format json &gt; compliance-metrics.json
+    sruja compliance -r . -a architecture.sruja -f json &gt; compliance-metrics.json
     
     # Send to monitoring system
     curl -X POST https://your-monitoring-system/api/metrics \

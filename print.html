@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-3fcd0f9a.js";
+            window.path_to_searchindex_js = "searchindex-4511ffc8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-f200db4f.js"></script>
@@ -662,7 +662,7 @@ view index {
 <ul>
 <li><strong>Local development</strong>: <code>sruja fmt</code>, <code>sruja lint</code>, <code>sruja export</code>.</li>
 <li><strong>CI/CD</strong>: Validate and export architecture in pipelines.</li>
-<li><strong>Export</strong>: <code>sruja export json</code>, <code>sruja export markdown</code>, <code>sruja export dot</code>, and more.</li>
+<li><strong>Export</strong>: <code>sruja export json</code>, <code>sruja export mermaid</code>, <code>sruja export markdown</code>, <code>sruja export context</code>, <code>sruja export dsl</code>.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="examples--patterns"><a class="header" href="#examples--patterns">Examples &amp; Patterns</a></h1>
@@ -2036,7 +2036,7 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <ol>
 <li><strong>Complete Self-Assessment</strong> (above)</li>
 <li><strong>Calculate Value</strong> (Step 2)</li>
-<li><strong>Try Sruja</strong> (see <a href="docs/docs/getting-started">Getting Started</a>)</li>
+<li><strong>Try Sruja</strong> (see <a href="#your-first-architecture">Getting Started</a>)</li>
 <li><strong>Join Community</strong> (GitHub Discussions, Discord, etc.)</li>
 </ol>
 <h3 id="decision-timeline"><a class="header" href="#decision-timeline">Decision Timeline</a></h3>
@@ -2048,9 +2048,9 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 </ul>
 <h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
 <ul>
-<li><strong>Getting Started</strong>: <a href="docs/docs/getting-started">Getting Started Guide</a></li>
+<li><strong>Getting Started</strong>: <a href="#your-first-architecture">Getting Started Guide</a></li>
 <li><strong>Executive Overview</strong>: <a href="/investors/executive-overview">Executive Overview</a></li>
-<li><strong>Adoption Playbook</strong>: <a href="docs/docs/adoption-playbook">Adoption Playbook</a></li>
+<li><strong>Adoption Playbook</strong>: <a href="#adoption-playbook">Adoption Playbook</a></li>
 <li><strong>Decision Framework</strong>: <a href="docs/docs/decision-framework">Quick Decision Framework</a></li>
 </ul>
 <h2 id="open-source--community-support"><a class="header" href="#open-source--community-support">Open Source &amp; Community Support</a></h2>
@@ -26788,7 +26788,7 @@ jobs:
       - name: Validate Architecture
         run: sruja lint architecture.sruja
       - name: Check Constraints
-        run: sruja validate --constraints architecture.sruja
+        run: sruja validate architecture.sruja
 </code></pre>
 <p><strong>Result:</strong> Violations block merges automatically.</p>
 <h2 id="key-takeaways-4"><a class="header" href="#key-takeaways-4">Key Takeaways</a></h2>
@@ -26837,7 +26837,7 @@ jobs:
           sruja lint architecture.sruja
       
       - name: Check Constraints
-        run: sruja validate --constraints architecture.sruja
+        run: sruja validate architecture.sruja
       
       - name: Export Documentation
         run: sruja export markdown architecture.sruja &gt; architecture.md
@@ -26853,7 +26853,7 @@ architecture-validation:
   script:
     - sruja fmt architecture.sruja
     - sruja lint architecture.sruja
-    - sruja validate --constraints architecture.sruja
+    - sruja validate architecture.sruja
   only:
     - merge_requests
     - main
@@ -26862,8 +26862,8 @@ architecture-validation:
 <p>Generate compliance reports in CI/CD:</p>
 <pre><code class="language-yaml">- name: Generate Compliance Report
   run: |
-    sruja validate --constraints architecture.sruja --format json &gt; violations.json
-    sruja score architecture.sruja &gt; score.json
+    sruja validate architecture.sruja --format-json &gt; violations.json
+    sruja compliance -r . -a architecture.sruja -f json &gt; compliance.json
   
 - name: Upload Reports
   uses: actions/upload-artifact@v3
@@ -26871,7 +26871,7 @@ architecture-validation:
     name: architecture-reports
     path: |
       violations.json
-      score.json
+      compliance.json
       architecture.md
 </code></pre>
 <h2 id="multi-repository-governance"><a class="header" href="#multi-repository-governance">Multi-Repository Governance</a></h2>
@@ -26882,10 +26882,8 @@ architecture-validation:
     # Fetch shared policies from central repo
     git clone https://github.com/your-org/architecture-policies.git /tmp/policies
     
-    # Validate against shared constraints
-    sruja validate \
-      --constraints /tmp/policies/global-constraints.sruja \
-      --constraints architecture.sruja
+    # Validate architecture and optional external constraint files
+    sruja validate architecture.sruja -c /tmp/policies/global-constraints.sruja
 </code></pre>
 <h2 id="pre-commit-hooks"><a class="header" href="#pre-commit-hooks">Pre-commit Hooks</a></h2>
 <p>Catch violations before they're committed:</p>
@@ -26905,7 +26903,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-sruja validate --constraints architecture.sruja
+sruja validate architecture.sruja
 if [ $? -ne 0 ]; then
   echo "❌ Constraint violations found. Fix before committing."
   exit 1
@@ -26918,14 +26916,14 @@ exit 0
 <p>Add architecture validation as a required check:</p>
 <pre><code class="language-yaml">- name: Architecture Gate
   run: |
-    sruja validate --constraints architecture.sruja --fail-on-violations
+    sruja validate architecture.sruja --fail-on-violations
 </code></pre>
 <p><strong>Result:</strong> PRs can't be merged until architecture is valid.</p>
 <h2 id="monitoring-compliance"><a class="header" href="#monitoring-compliance">Monitoring Compliance</a></h2>
 <p>Track compliance over time:</p>
 <pre><code class="language-yaml">- name: Track Compliance Metrics
   run: |
-    sruja score architecture.sruja --format json &gt; compliance-metrics.json
+    sruja compliance -r . -a architecture.sruja -f json &gt; compliance-metrics.json
     
     # Send to monitoring system
     curl -X POST https://your-monitoring-system/api/metrics \
@@ -27026,10 +27024,10 @@ sruja compile example.sruja
 <pre><code class="language-bash">sruja fmt example.sruja &gt; example.formatted.sruja
 </code></pre>
 <h2 id="tree-view"><a class="header" href="#tree-view">Tree View</a></h2>
-<pre><code class="language-bash">sruja tree --file example.sruja
+<pre><code class="language-bash">sruja tree example.sruja
 </code></pre>
-<h2 id="export-to-d2"><a class="header" href="#export-to-d2">Export to D2</a></h2>
-<pre><code class="language-bash">sruja export d2 example.sruja &gt; example.d2
+<h2 id="export-to-mermaid"><a class="header" href="#export-to-mermaid">Export to Mermaid</a></h2>
+<pre><code class="language-bash">sruja export mermaid example.sruja &gt; example.mmd
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="dsl-basics"><a class="header" href="#dsl-basics">DSL Basics</a></h1>
@@ -27921,7 +27919,7 @@ include *
 <p>Export to various formats:</p>
 <pre><code class="language-bash">sruja export markdown architecture.sruja
 sruja export mermaid architecture.sruja
-sruja export svg architecture.sruja
+sruja export mermaid architecture.sruja
 </code></pre>
 <p><strong>Outcome</strong>: Living docs and diagrams generated from the model.</p>
 <hr>
