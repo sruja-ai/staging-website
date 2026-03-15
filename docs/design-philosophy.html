@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "../searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -453,7 +453,8 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 </ul>
 <h2 id="migration-path"><a class="header" href="#migration-path">Migration Path</a></h2>
 <h3 id="from-c4-to-sruja"><a class="header" href="#from-c4-to-sruja">From C4 to Sruja:</a></h3>
-<pre><code class="language-sruja">// C4: System Context
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// C4: System Context
 system "E-Commerce System" {
     // C4: Container
     container "Web Application" {
@@ -463,7 +464,8 @@ system "E-Commerce System" {
 }
 </code></pre>
 <h3 id="from-data-modeling-to-sruja"><a class="header" href="#from-data-modeling-to-sruja">From Data Modeling to Sruja:</a></h3>
-<pre><code class="language-sruja">// Data structures
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Data structures
 module Orders {
     data Order {
         id string
@@ -482,7 +484,8 @@ module Orders {
 }
 </code></pre>
 <h3 id="from-er-to-sruja"><a class="header" href="#from-er-to-sruja">From ER to Sruja:</a></h3>
-<pre><code class="language-sruja">datastore Database {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+datastore Database {
     data User {
         id string
         email string
@@ -507,7 +510,8 @@ module Orders {
 </ol>
 <h3 id="how-sruja-makes-systems-thinking-simple"><a class="header" href="#how-sruja-makes-systems-thinking-simple">How Sruja Makes Systems Thinking Simple</a></h3>
 <p><strong>1. Parts and Relationships</strong> (Already Built-In)</p>
-<pre><code class="language-sruja">system ShopAPI {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+system ShopAPI {
     container WebApp
     container Database
 }
@@ -516,7 +520,8 @@ ShopAPI.WebApp -&gt; ShopAPI.Database "Reads/Writes"
 </code></pre>
 <p><strong>Simple Insight</strong>: Just draw boxes and connect them with arrows. The relationships show how parts interact.</p>
 <p><strong>2. Boundaries</strong> (Natural in Sruja)</p>
-<pre><code class="language-sruja">system ShopAPI {  // Inside boundary
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+system ShopAPI {  // Inside boundary
     container WebApp
 }
 
@@ -525,7 +530,8 @@ User -&gt; ShopAPI "Uses"
 </code></pre>
 <p><strong>Simple Insight</strong>: <code>system</code> defines the boundary. <code>person</code> and external systems are outside. Clear and intuitive.</p>
 <p><strong>3. Flows</strong> (Built-In Flow Syntax)</p>
-<pre><code class="language-sruja">// Data Flow Diagram (DFD) style — use scenario
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Data Flow Diagram (DFD) style — use scenario
 scenario OrderProcess "Order Processing" {
     Customer -&gt; Shop.WebApp "Order Details"
     Shop.WebApp -&gt; Shop.Database "Save Order"
@@ -546,7 +552,8 @@ Shop.OrderService -&gt; Shop.PaymentService "Charges"
 </code></pre>
 <p><strong>Simple Insight</strong>: Use <code>flow</code> for data flows (DFD), <code>story</code>/<code>scenario</code> for user stories, or simple relationships for basic flows. Events show what happens: <code>event OrderPlaced</code>.</p>
 <p><strong>4. Feedback Loops</strong> (Cycles in Relationships)</p>
-<pre><code class="language-sruja">// Simple feedback: User action triggers system response
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Simple feedback: User action triggers system response
 User -&gt; System "Requests"
 System -&gt; User "Responds"
 
@@ -571,7 +578,8 @@ PaymentService -&gt; OrderService "Confirms Payment"
 </ul>
 <p><strong>Note</strong>: Sruja allows cycles - they're a natural part of system design. The validator will inform you about cycles but won't block them, as they're often intentional architectural patterns.</p>
 <p><strong>5. Context</strong> (Persons and External Systems)</p>
-<pre><code class="language-sruja">person Customer "End User"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+person Customer "End User"
 person Admin "System Administrator"
 
 system PaymentGateway "Third-party service" {
@@ -598,12 +606,15 @@ myApp = system "MyApp" {
 myApp.frontend -&gt; myApp.backend "Calls"
 </code></pre>
 <p><strong>Intermediate</strong>: Add flows and events</p>
-<pre><code class="language-sruja">// Simple qualified relationships
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Simple qualified relationships
 user -&gt; myApp.frontend "Clicks"
 myApp.frontend -&gt; myApp.backend "Sends request"
 myApp.backend -&gt; myApp.database "Saves"
 
 // DFD-style — use scenario
+```sruja
+&lt;!-- partial --&gt;
 scenario OrderFlow "Order Processing" {
     user -&gt; myApp.frontend "Submits"
     myApp.frontend -&gt; myApp.backend "Processes"
@@ -611,7 +622,8 @@ scenario OrderFlow "Order Processing" {
 }
 </code></pre>
 <p><strong>Advanced</strong>: Model feedback loops and system behavior</p>
-<pre><code class="language-sruja">// Feedback loop: User action -&gt; System response -&gt; User sees result
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Feedback loop: User action -&gt; System response -&gt; User sees result
 story CompleteOrder "Order Completion Flow" {
     user -&gt; shop.system "Submits"
     shop.system -&gt; shop.database "Stores"

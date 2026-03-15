@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "../../searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -182,7 +182,8 @@
                     <main>
                         <h1 id="syntax-reference"><a class="header" href="#syntax-reference">Syntax Reference</a></h1>
 <h2 id="elements"><a class="header" href="#elements">Elements</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 ID = person "Label"
@@ -193,7 +194,8 @@ ID = queue "Label" { ... }
 ID = component "Label" { ... }
 </code></pre>
 <h2 id="relations"><a class="header" href="#relations">Relations</a></h2>
-<pre><code class="language-sruja">Source -&gt; Target "Label"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+Source -&gt; Target "Label"
 // Use fully qualified names when referring to nested elements:
 System.Container -&gt; System.API "Label"
 System.Container.Component -&gt; System.API.Component "Label"
@@ -211,7 +213,8 @@ MySystem = system "MySystem" {
 }
 </code></pre>
 <h2 id="deployment"><a class="header" href="#deployment">Deployment</a></h2>
-<pre><code class="language-sruja">deployment Prod {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment Prod {
   node Cloud {
     node Region {
       node Service {

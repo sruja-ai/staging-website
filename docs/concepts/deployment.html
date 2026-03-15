@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "../../searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -185,7 +185,8 @@
 <h2 id="deployment-node"><a class="header" href="#deployment-node">Deployment Node</a></h2>
 <p>A <strong>Deployment Node</strong> is something like physical hardware, a virtual machine, a Docker container, a Kubernetes pod, etc. Nodes can be nested.</p>
 <h3 id="syntax"><a class="header" href="#syntax">Syntax</a></h3>
-<pre><code class="language-sruja">deployment "Environment" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment "Environment" {
     node "Node Name" {
         // ...
     }
@@ -194,19 +195,22 @@
 <h2 id="infrastructure-node"><a class="header" href="#infrastructure-node">Infrastructure Node</a></h2>
 <p>An <strong>Infrastructure Node</strong> represents infrastructure software that isn't one of your containers (e.g., DNS, Load Balancer, External Database Service).</p>
 <h3 id="syntax-1"><a class="header" href="#syntax-1">Syntax</a></h3>
-<pre><code class="language-sruja">node "App Server" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+node "App Server" {
     containerInstance WebApp
 }
 </code></pre>
 <h2 id="container-instance"><a class="header" href="#container-instance">Container Instance</a></h2>
 <p>A <strong>Container Instance</strong> represents a runtime instance of one of your defined Containers running on a Deployment Node.</p>
 <h3 id="syntax-2"><a class="header" href="#syntax-2">Syntax</a></h3>
-<pre><code class="language-sruja">containerInstance ContainerID {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+containerInstance ContainerID {
     instanceId 1 // Optional
 }
 </code></pre>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
-<pre><code class="language-sruja">deployment "Production" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment "Production" {
     node "AWS" {
         node "US-East-1" {
             node "App Server" {

@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "../../searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -183,7 +183,8 @@
                         <h1 id="relations"><a class="header" href="#relations">Relations</a></h1>
 <p><strong>Relations</strong> describe how elements interact with each other. They are the lines connecting the boxes in your diagram.</p>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 // Relations use element IDs
@@ -192,7 +193,8 @@ Source -&gt; Destination "Label"
 System.Container -&gt; System.Container.Component "Label"
 </code></pre>
 <p>Or with a technology/protocol:</p>
-<pre><code class="language-sruja">Source -&gt; Destination "Label" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+Source -&gt; Destination "Label" {
 technology "HTTPS/JSON"
 }
 </code></pre>

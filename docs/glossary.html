@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "../searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -281,7 +281,8 @@ Admin = person "Administrator"
 <h3 id="relation"><a class="header" href="#relation">Relation</a></h3>
 <p>A connection between two elements, showing how they interact. Relations are defined using the <code>-&gt;</code> operator.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">User -&gt; App.Web "Visits"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+User -&gt; App.Web "Visits"
 App.Web -&gt; App.API "Calls"
 </code></pre>
 <h3 id="requirement"><a class="header" href="#requirement">Requirement</a></h3>
@@ -296,7 +297,8 @@ App.Web -&gt; App.API "Calls"
 <h3 id="scenario"><a class="header" href="#scenario">Scenario</a></h3>
 <p>A sequence of interactions that describe how users or systems interact to accomplish a goal. Scenarios help document user flows and system behavior.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">scenario Checkout "Checkout Flow" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+scenario Checkout "Checkout Flow" {
   User -&gt; App.Web "adds items to cart"
   App.Web -&gt; App.API "validates cart"
   App.API -&gt; App.DB "stores order"

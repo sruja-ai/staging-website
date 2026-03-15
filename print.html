@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b9f4d777.js";
+            window.path_to_searchindex_js = "searchindex-47a0c38a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -723,7 +723,8 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
 </ol>
 <h2 id="architecture-diagram"><a class="header" href="#architecture-diagram">Architecture Diagram</a></h2>
 <p>Explore the Sruja architecture itself using the interactive viewer below. This diagram is defined in Sruja DSL!</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 RootSystem = system "The Sruja Platform" {
@@ -2044,7 +2045,8 @@ Customer = person "Bank Customer" {
 <h1 id="relations"><a class="header" href="#relations">Relations</a></h1>
 <p><strong>Relations</strong> describe how elements interact with each other. They are the lines connecting the boxes in your diagram.</p>
 <h2 id="syntax-6"><a class="header" href="#syntax-6">Syntax</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 // Relations use element IDs
@@ -2053,7 +2055,8 @@ Source -&gt; Destination "Label"
 System.Container -&gt; System.Container.Component "Label"
 </code></pre>
 <p>Or with a technology/protocol:</p>
-<pre><code class="language-sruja">Source -&gt; Destination "Label" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+Source -&gt; Destination "Label" {
 technology "HTTPS/JSON"
 }
 </code></pre>
@@ -2168,7 +2171,8 @@ include *
 <h2 id="deployment-node"><a class="header" href="#deployment-node">Deployment Node</a></h2>
 <p>A <strong>Deployment Node</strong> is something like physical hardware, a virtual machine, a Docker container, a Kubernetes pod, etc. Nodes can be nested.</p>
 <h3 id="syntax-8"><a class="header" href="#syntax-8">Syntax</a></h3>
-<pre><code class="language-sruja">deployment "Environment" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment "Environment" {
     node "Node Name" {
         // ...
     }
@@ -2177,19 +2181,22 @@ include *
 <h2 id="infrastructure-node"><a class="header" href="#infrastructure-node">Infrastructure Node</a></h2>
 <p>An <strong>Infrastructure Node</strong> represents infrastructure software that isn't one of your containers (e.g., DNS, Load Balancer, External Database Service).</p>
 <h3 id="syntax-1-1"><a class="header" href="#syntax-1-1">Syntax</a></h3>
-<pre><code class="language-sruja">node "App Server" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+node "App Server" {
     containerInstance WebApp
 }
 </code></pre>
 <h2 id="container-instance"><a class="header" href="#container-instance">Container Instance</a></h2>
 <p>A <strong>Container Instance</strong> represents a runtime instance of one of your defined Containers running on a Deployment Node.</p>
 <h3 id="syntax-2-1"><a class="header" href="#syntax-2-1">Syntax</a></h3>
-<pre><code class="language-sruja">containerInstance ContainerID {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+containerInstance ContainerID {
     instanceId 1 // Optional
 }
 </code></pre>
 <h2 id="example-7"><a class="header" href="#example-7">Example</a></h2>
-<pre><code class="language-sruja">deployment "Production" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment "Production" {
     node "AWS" {
         node "US-East-1" {
             node "App Server" {
@@ -2356,7 +2363,8 @@ ADR003 = adr "Deferred Decision"
 <h1 id="policy"><a class="header" href="#policy">Policy</a></h1>
 <p>Policies define architectural rules, standards, and constraints that your system must follow. They help enforce best practices, compliance requirements, and organizational standards directly in your architecture model.</p>
 <h2 id="syntax-12"><a class="header" href="#syntax-12">Syntax</a></h2>
-<pre><code class="language-sruja">PolicyID = policy "Description" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+PolicyID = policy "Description" {
   category "category-name"
   enforcement "required" // "required" | "recommended" | "optional"
   description "Detailed description"
@@ -2462,7 +2470,8 @@ view index {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="syntax-reference"><a class="header" href="#syntax-reference">Syntax Reference</a></h1>
 <h2 id="elements"><a class="header" href="#elements">Elements</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 ID = person "Label"
@@ -2473,7 +2482,8 @@ ID = queue "Label" { ... }
 ID = component "Label" { ... }
 </code></pre>
 <h2 id="relations-1"><a class="header" href="#relations-1">Relations</a></h2>
-<pre><code class="language-sruja">Source -&gt; Target "Label"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+Source -&gt; Target "Label"
 // Use fully qualified names when referring to nested elements:
 System.Container -&gt; System.API "Label"
 System.Container.Component -&gt; System.API.Component "Label"
@@ -2491,7 +2501,8 @@ MySystem = system "MySystem" {
 }
 </code></pre>
 <h2 id="deployment-1"><a class="header" href="#deployment-1">Deployment</a></h2>
-<pre><code class="language-sruja">deployment Prod {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment Prod {
   node Cloud {
     node Region {
       node Service {
@@ -2521,7 +2532,8 @@ include *
 }
 </code></pre>
 <h2 id="event-driven"><a class="header" href="#event-driven">Event-Driven</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 Orders = system "Order System" {
@@ -2537,7 +2549,8 @@ include *
 }
 </code></pre>
 <h2 id="saga"><a class="header" href="#saga">Saga</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+import { * } from 'sruja.ai/stdlib'
 
 
 Orders = system "Order System" {
@@ -2663,7 +2676,8 @@ scenario Checkout "Checkout Flow" {
 }
 </code></pre>
 <h2 id="deployment-2"><a class="header" href="#deployment-2">Deployment</a></h2>
-<pre><code class="language-sruja">deployment Prod {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+deployment Prod {
   node Cloud {
     node Region {
       node Service {
@@ -3410,7 +3424,8 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 </ul>
 <h2 id="migration-path"><a class="header" href="#migration-path">Migration Path</a></h2>
 <h3 id="from-c4-to-sruja"><a class="header" href="#from-c4-to-sruja">From C4 to Sruja:</a></h3>
-<pre><code class="language-sruja">// C4: System Context
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// C4: System Context
 system "E-Commerce System" {
     // C4: Container
     container "Web Application" {
@@ -3420,7 +3435,8 @@ system "E-Commerce System" {
 }
 </code></pre>
 <h3 id="from-data-modeling-to-sruja"><a class="header" href="#from-data-modeling-to-sruja">From Data Modeling to Sruja:</a></h3>
-<pre><code class="language-sruja">// Data structures
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Data structures
 module Orders {
     data Order {
         id string
@@ -3439,7 +3455,8 @@ module Orders {
 }
 </code></pre>
 <h3 id="from-er-to-sruja"><a class="header" href="#from-er-to-sruja">From ER to Sruja:</a></h3>
-<pre><code class="language-sruja">datastore Database {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+datastore Database {
     data User {
         id string
         email string
@@ -3464,7 +3481,8 @@ module Orders {
 </ol>
 <h3 id="how-sruja-makes-systems-thinking-simple"><a class="header" href="#how-sruja-makes-systems-thinking-simple">How Sruja Makes Systems Thinking Simple</a></h3>
 <p><strong>1. Parts and Relationships</strong> (Already Built-In)</p>
-<pre><code class="language-sruja">system ShopAPI {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+system ShopAPI {
     container WebApp
     container Database
 }
@@ -3473,7 +3491,8 @@ ShopAPI.WebApp -&gt; ShopAPI.Database "Reads/Writes"
 </code></pre>
 <p><strong>Simple Insight</strong>: Just draw boxes and connect them with arrows. The relationships show how parts interact.</p>
 <p><strong>2. Boundaries</strong> (Natural in Sruja)</p>
-<pre><code class="language-sruja">system ShopAPI {  // Inside boundary
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+system ShopAPI {  // Inside boundary
     container WebApp
 }
 
@@ -3482,7 +3501,8 @@ User -&gt; ShopAPI "Uses"
 </code></pre>
 <p><strong>Simple Insight</strong>: <code>system</code> defines the boundary. <code>person</code> and external systems are outside. Clear and intuitive.</p>
 <p><strong>3. Flows</strong> (Built-In Flow Syntax)</p>
-<pre><code class="language-sruja">// Data Flow Diagram (DFD) style — use scenario
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Data Flow Diagram (DFD) style — use scenario
 scenario OrderProcess "Order Processing" {
     Customer -&gt; Shop.WebApp "Order Details"
     Shop.WebApp -&gt; Shop.Database "Save Order"
@@ -3503,7 +3523,8 @@ Shop.OrderService -&gt; Shop.PaymentService "Charges"
 </code></pre>
 <p><strong>Simple Insight</strong>: Use <code>flow</code> for data flows (DFD), <code>story</code>/<code>scenario</code> for user stories, or simple relationships for basic flows. Events show what happens: <code>event OrderPlaced</code>.</p>
 <p><strong>4. Feedback Loops</strong> (Cycles in Relationships)</p>
-<pre><code class="language-sruja">// Simple feedback: User action triggers system response
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Simple feedback: User action triggers system response
 User -&gt; System "Requests"
 System -&gt; User "Responds"
 
@@ -3528,7 +3549,8 @@ PaymentService -&gt; OrderService "Confirms Payment"
 </ul>
 <p><strong>Note</strong>: Sruja allows cycles - they're a natural part of system design. The validator will inform you about cycles but won't block them, as they're often intentional architectural patterns.</p>
 <p><strong>5. Context</strong> (Persons and External Systems)</p>
-<pre><code class="language-sruja">person Customer "End User"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+person Customer "End User"
 person Admin "System Administrator"
 
 system PaymentGateway "Third-party service" {
@@ -3555,12 +3577,15 @@ myApp = system "MyApp" {
 myApp.frontend -&gt; myApp.backend "Calls"
 </code></pre>
 <p><strong>Intermediate</strong>: Add flows and events</p>
-<pre><code class="language-sruja">// Simple qualified relationships
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Simple qualified relationships
 user -&gt; myApp.frontend "Clicks"
 myApp.frontend -&gt; myApp.backend "Sends request"
 myApp.backend -&gt; myApp.database "Saves"
 
 // DFD-style — use scenario
+```sruja
+&lt;!-- partial --&gt;
 scenario OrderFlow "Order Processing" {
     user -&gt; myApp.frontend "Submits"
     myApp.frontend -&gt; myApp.backend "Processes"
@@ -3568,7 +3593,8 @@ scenario OrderFlow "Order Processing" {
 }
 </code></pre>
 <p><strong>Advanced</strong>: Model feedback loops and system behavior</p>
-<pre><code class="language-sruja">// Feedback loop: User action -&gt; System response -&gt; User sees result
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Feedback loop: User action -&gt; System response -&gt; User sees result
 story CompleteOrder "Order Completion Flow" {
     user -&gt; shop.system "Submits"
     shop.system -&gt; shop.database "Stores"
@@ -3743,7 +3769,8 @@ Admin = person "Administrator"
 <h3 id="relation"><a class="header" href="#relation">Relation</a></h3>
 <p>A connection between two elements, showing how they interact. Relations are defined using the <code>-&gt;</code> operator.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">User -&gt; App.Web "Visits"
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+User -&gt; App.Web "Visits"
 App.Web -&gt; App.API "Calls"
 </code></pre>
 <h3 id="requirement"><a class="header" href="#requirement">Requirement</a></h3>
@@ -3758,7 +3785,8 @@ App.Web -&gt; App.API "Calls"
 <h3 id="scenario-2"><a class="header" href="#scenario-2">Scenario</a></h3>
 <p>A sequence of interactions that describe how users or systems interact to accomplish a goal. Scenarios help document user flows and system behavior.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">scenario Checkout "Checkout Flow" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+scenario Checkout "Checkout Flow" {
   User -&gt; App.Web "adds items to cart"
   App.Web -&gt; App.API "validates cart"
   App.API -&gt; App.DB "stores order"
