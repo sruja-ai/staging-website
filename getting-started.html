@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-0de43a85.js";
+            window.path_to_searchindex_js = "searchindex-b9f4d777.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -184,62 +184,33 @@
 <p><strong>Get architecture from code in 5 minutes.</strong></p>
 <p>You don't write <code>.sruja</code> files. Your AI does it for you. Here's how:</p>
 <hr>
-<h2 id="step-1-install-the-cli-2-minutes"><a class="header" href="#step-1-install-the-cli-2-minutes">Step 1: Install the CLI (2 minutes)</a></h2>
-<p>The CLI is what analyzes your code and validates architecture files.</p>
-<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-</code></pre>
-<p><strong>What this does:</strong> Downloads the latest Sruja binary and adds it to your system path.</p>
-<p><strong>Check it worked:</strong></p>
-<pre><code class="language-bash">sruja --version
-</code></pre>
-<p>You should see something like: <code>sruja version v0.2.0</code></p>
-<hr>
-<h2 id="step-2-install-the-ai-skill-1-minute"><a class="header" href="#step-2-install-the-ai-skill-1-minute">Step 2: Install the AI skill (1 minute)</a></h2>
-<p>This teaches your AI editor how to generate Sruja files.</p>
+<h2 id="step-1-install-the-ai-skill-1-minute"><a class="header" href="#step-1-install-the-ai-skill-1-minute">Step 1: Install the AI skill (1 minute)</a></h2>
+<p>This teaches your AI editor how to generate Sruja files. The skill will guide you to install the CLI when needed.</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
 <p><strong>Supported editors:</strong> Cursor, GitHub Copilot, Claude, Continue.dev</p>
 <hr>
-<h2 id="step-3-see-whats-in-your-codebase-1-minute"><a class="header" href="#step-3-see-whats-in-your-codebase-1-minute">Step 3: See what's in your codebase (1 minute)</a></h2>
-<p>Run this in your project folder:</p>
-<pre><code class="language-bash">cd your-project
-sruja quickstart -r .
+<h2 id="step-2-generate-your-architecture-file-2-minutes"><a class="header" href="#step-2-generate-your-architecture-file-2-minutes">Step 2: Generate your architecture file (2 minutes)</a></h2>
+<p>Open your AI editor and ask it to generate your architecture:</p>
+<pre><code>Use sruja-architecture skill. Analyze my codebase, generate a repo.sruja file, 
+then run sruja lint and fix any errors until it passes.
 </code></pre>
-<p><strong>What you'll see:</strong></p>
-<pre><code>📊 Architecture Inventory
-  • 5 services detected
-  • 2 databases
-  • 12 modules
-
-💚 Architecture Health Score: 75/100
-
-🔍 Top Findings
-  • Missing: Payment module not connected
-  • Orphan: Analytics service has no consumers
-</code></pre>
-<p><strong>No AI needed yet</strong>—this is just code analysis.</p>
-<hr>
-<h2 id="step-4-generate-your-architecture-file-1-minute"><a class="header" href="#step-4-generate-your-architecture-file-1-minute">Step 4: Generate your architecture file (1 minute)</a></h2>
-<p>Open your AI editor and paste this prompt:</p>
-<pre><code>Use sruja-architecture. Run `sruja discover --context -r . --format json`,
-gather evidence from my code, ask targeted questions if needed,
-generate repo.sruja, then run `sruja lint` and fix until it passes.
-</code></pre>
-<p><strong>What your AI will do:</strong></p>
+<p><strong>What happens:</strong></p>
 <ol>
-<li>Run <code>sruja discover</code> to understand your code structure</li>
-<li>Ask you 2-3 questions if anything is unclear (e.g., "What's this service for?")</li>
-<li>Generate a <code>repo.sruja</code> file with your architecture</li>
-<li>Run <code>sruja lint</code> to check for errors</li>
-<li>Fix any errors automatically</li>
+<li>The skill runs <code>sruja discover</code> to understand your code structure (installs CLI if needed)</li>
+<li>Asks you 2-3 questions if anything is unclear (e.g., "What's this service for?")</li>
+<li>Generates a <code>repo.sruja</code> file with your architecture</li>
+<li>Runs <code>sruja lint</code> to check for errors</li>
+<li>Fixes any errors automatically</li>
 </ol>
 <p><strong>Result:</strong> You now have a <code>repo.sruja</code> file in your project root!</p>
 <hr>
-<h2 id="step-5-validate-it-optional-but-recommended"><a class="header" href="#step-5-validate-it-optional-but-recommended">Step 5: Validate it (optional but recommended)</a></h2>
+<h2 id="step-3-validate-it-optional"><a class="header" href="#step-3-validate-it-optional">Step 3: Validate it (optional)</a></h2>
+<p>The skill already validated your file, but you can check manually:</p>
 <pre><code class="language-bash">sruja lint repo.sruja
 </code></pre>
 <p>If it says "✅ All checks passed", you're good!</p>
-<p>If you see errors, just paste the output to your AI: "Fix these errors."</p>
+<p>If you see errors, just ask your AI: "Fix these errors."</p>
 <hr>
 <h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
 <p>You have architecture in code. Now what?</p>
@@ -266,10 +237,8 @@ sruja export markdown repo.sruja &gt; ARCHITECTURE.md
 <tr><th>What you want</th><th>Command</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Install</strong></td><td><code>curl -fsSL https://sruja.ai/install.sh | bash</code></td></tr>
 <tr><td><strong>Install skill</strong></td><td><code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code></td></tr>
-<tr><td><strong>Analyze code</strong></td><td><code>sruja quickstart -r .</code></td></tr>
-<tr><td><strong>Generate with AI</strong></td><td>See Step 4 above</td></tr>
+<tr><td><strong>Generate with AI</strong></td><td>Ask your AI: "Use sruja-architecture skill to generate my architecture"</td></tr>
 <tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
 <tr><td><strong>Export diagram</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
 <tr><td><strong>Check for drift</strong></td><td><code>sruja drift -r .</code></td></tr>

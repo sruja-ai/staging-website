@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0de43a85.js";
+            window.path_to_searchindex_js = "../searchindex-b9f4d777.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -367,6 +367,51 @@ view index {
 <li><strong>CI/CD</strong>: Validate and export architecture in pipelines.</li>
 <li><strong>Export</strong>: <code>sruja export json</code>, <code>sruja export mermaid</code>, <code>sruja export markdown</code>, <code>sruja export context</code>, <code>sruja export dsl</code>.</li>
 </ul>
+<h2 id="architecture-intelligence"><a class="header" href="#architecture-intelligence">Architecture Intelligence</a></h2>
+<p>Sruja provides <strong>architecture intelligence</strong> across four progressive layers:</p>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│  Layer 4: Intent                                            │
+│  "What did we intend vs what exists?"                       │
+│  Commands: sruja drift -a, sruja intent check               │
+├─────────────────────────────────────────────────────────────┤
+│  Layer 3: Semantic                                          │
+│  "What does this mean? (vocabulary, patterns)"              │
+│  Commands: sruja analyze --semantic                         │
+├─────────────────────────────────────────────────────────────┤
+│  Layer 2: Structural                                        │
+│  "What exists? (components, deps, metrics)"                 │
+│  Commands: sruja scan, sruja quickstart, sruja discover    │
+├─────────────────────────────────────────────────────────────┤
+│  Layer 1: Syntactic                                         │
+│  "Is the DSL valid?"                                        │
+│  Commands: sruja lint                                       │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<p>Each layer builds on the previous:</p>
+<ul>
+<li><strong>Syntactic</strong>: Is the <code>.sruja</code> file valid? (lint)</li>
+<li><strong>Structural</strong>: What components and dependencies exist? (scan, discover)</li>
+<li><strong>Semantic</strong>: What patterns and relationships mean? (analyze)</li>
+<li><strong>Intent</strong>: Does reality match declared architecture? (drift, intent check)</li>
+</ul>
+<h3 id="ai-skill-multiplies-intelligence"><a class="header" href="#ai-skill-multiplies-intelligence">AI Skill Multiplies Intelligence</a></h3>
+<p>The <strong>sruja-architecture skill</strong> enhances all four layers:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Layer</th><th>CLI Only</th><th>CLI + Skill</th></tr>
+</thead>
+<tbody>
+<tr><td>Syntactic</td><td><code>sruja lint</code></td><td>Pattern-aware DSL generation</td></tr>
+<tr><td>Structural</td><td><code>sruja scan</code></td><td>Evidence-based discovery</td></tr>
+<tr><td>Semantic</td><td><code>sruja analyze</code></td><td>Patterns and trade-offs</td></tr>
+<tr><td>Intent</td><td><code>sruja drift</code></td><td>Multi-perspective review</td></tr>
+</tbody>
+</table>
+</div>
+<p>Install the skill to unlock AI-powered architecture intelligence:</p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
+</code></pre>
 
                     </main>
 
