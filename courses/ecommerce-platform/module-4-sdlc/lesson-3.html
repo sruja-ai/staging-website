@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-37155361.js";
+            window.path_to_searchindex_js = "../../../searchindex-d3d419fa.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -186,7 +186,7 @@
 <p>In your GitHub Actions or Jenkins pipeline, add a step to install and run Sruja.</p>
 <pre><code class="language-yaml">steps:
   - name: Checkout
-    uses: actions/checkout@v3
+    uses: actions/checkout@v6
 
   - name: Install Sruja
     run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked

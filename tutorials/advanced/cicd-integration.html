@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-37155361.js";
+            window.path_to_searchindex_js = "../../searchindex-d3d419fa.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -215,7 +215,7 @@
 <p>Sruja’s CLI is written in Rust. In CI you can either build from source in this repo or install from the Git repo with <code>cargo install</code>. A reusable composite action is available in the Sruja repo for building and validating.</p>
 <h3 id="using-the-sruja-repo-reusable-action-this-repository"><a class="header" href="#using-the-sruja-repo-reusable-action-this-repository">Using the Sruja repo reusable action (this repository)</a></h3>
 <p>If your workflow runs inside the <a href="https://github.com/sruja-ai/sruja">sruja</a> repo, use the composite action so the CLI is built once and lint/export run on your files:</p>
-<pre><code class="language-yaml">- uses: actions/checkout@v4
+<pre><code class="language-yaml">- uses: actions/checkout@v6
 - uses: ./.github/actions/sruja-validate
   with:
     working-directory: .
@@ -237,7 +237,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -269,7 +269,7 @@ jobs:
   enforce-architecture:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Full history for diff
 
@@ -324,7 +324,7 @@ jobs:
           - services/order-service.sruja
           - services/user-service.sruja
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -474,7 +474,7 @@ jobs:
   update-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -509,7 +509,7 @@ jobs:
   track-changes:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -558,7 +558,7 @@ jobs:
           - user-service
           - inventory-service
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -575,7 +575,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: validate-architecture
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
