@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-1128be65.js";
+            window.path_to_searchindex_js = "searchindex-541db760.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -543,38 +543,39 @@ view index {
 <hr>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <ul>
-<li><strong>Sruja CLI</strong> – See <a href="#quick-start">Quick Start</a> to install</li>
 <li><strong>AI editor</strong> – Cursor, Copilot, Claude, Continue.dev, etc.</li>
-<li><strong>AI skill</strong> – See <a href="../docs/INSTALL_AS_SKILL.html">Install as a Skill</a></li>
+<li><strong>AI skill</strong> – Install first: <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
+<li><strong>Sruja CLI</strong> – Needed when the skill runs discover/lint/drift; the skill will guide you to install it if missing (<code>curl -fsSL https://sruja.ai/install.sh | bash</code>)</li>
 </ul>
 <hr>
-<h2 id="step-1-analyze-your-codebase"><a class="header" href="#step-1-analyze-your-codebase">Step 1: Analyze Your Codebase</a></h2>
-<p>Run this in your project folder:</p>
+<h2 id="step-1-gather-evidence-or-let-the-skill-do-it"><a class="header" href="#step-1-gather-evidence-or-let-the-skill-do-it">Step 1: Gather evidence (or let the skill do it)</a></h2>
+<p>When you use the <strong>sruja-architecture skill</strong>, it runs discovery for you. Discovery is <strong>not</strong> just a file list—under the hood the CLI runs <strong>Tree-sitter</strong> on your code to build a <strong>graph of components and their dependency relations</strong> (who imports whom, which modules call which). That graph is the evidence the skill uses.</p>
+<p>If you want to run discovery yourself (e.g. to inspect the summary), run:</p>
 <pre><code class="language-bash">cd your-project
 sruja discover --context -r . --format json
 </code></pre>
-<p><strong>What this does:</strong> Analyzes your code and returns detailed information.</p>
-<p><strong>Output includes:</strong></p>
+<p><strong>What this does:</strong> Scans your repo with Tree-sitter, builds the component/dependency graph, then outputs a <strong>summary</strong> of that graph (so the AI can scope and ask targeted questions). The full graph is used internally; for the actual list of nodes and edges (structural relations), use <code>sruja scan -r . -o graph.json</code>.</p>
+<p><strong>Summary output includes:</strong></p>
 <ul>
-<li>Repository structure</li>
-<li>Detected technologies (Node.js, Python, Go, etc.)</li>
-<li>Module boundaries</li>
-<li>Entry points</li>
-<li>Dependencies</li>
+<li>Component and edge <strong>counts</strong> (from the Tree-sitter graph)</li>
+<li>Primary language and framework</li>
+<li>Inferred architecture style (monolith / microservices)</li>
+<li>Suggested areas (top-level path segments for scoping)</li>
 </ul>
-<p><strong>Example output:</strong></p>
+<p><strong>Example summary (actual schema):</strong></p>
 <pre><code class="language-json">{
   "repo": "my-app",
-  "technologies": ["Node.js", "PostgreSQL", "Redis"],
-  "modules": [
-    {"name": "api", "type": "service"},
-    {"name": "worker", "type": "service"}
-  ],
-  "databases": [
-    {"name": "postgres", "technology": "PostgreSQL"}
-  ]
+  "scan_scope": { "included": [], "excluded": [] },
+  "components": 42,
+  "edges": 58,
+  "primary_language": "TypeScript",
+  "framework": "React",
+  "architecture_style": "monolith",
+  "domain": null,
+  "suggested_areas": ["src", "lib", "apps"]
 }
 </code></pre>
+<p>To get the <strong>full graph</strong> (every component and its relations) for the skill or tooling: <code>sruja scan -r . -o graph.json</code>.</p>
 <hr>
 <h2 id="step-2-generate-architecture-with-ai"><a class="header" href="#step-2-generate-architecture-with-ai">Step 2: Generate Architecture with AI</a></h2>
 <p>In your AI editor, run:</p>
@@ -1579,6 +1580,28 @@ Update the description to mention rate limiting.
 <li><strong>Sruja</strong> – Documents what your code actually does</li>
 </ul>
 <p>You can use both: Sruja documents your Spring-based microservices architecture.</p>
+<hr>
+<h2 id="ai-and-architecture"><a class="header" href="#ai-and-architecture">AI and Architecture</a></h2>
+<h3 id="why-do-i-need-the-sruja-skill-when-i-can-just-ask-ai-for-architecture"><a class="header" href="#why-do-i-need-the-sruja-skill-when-i-can-just-ask-ai-for-architecture">Why do I need the Sruja skill when I can just ask AI for architecture?</a></h3>
+<p><strong>AI proposes; Sruja grounds, validates, and persists.</strong></p>
+<p>Without Sruja, AI can suggest architecture, but it's:</p>
+<ul>
+<li><strong>Ungrounded:</strong> AI may invent components or dependencies that don't exist in your code</li>
+<li><strong>Ephemeral:</strong> You get ad-hoc text or diagrams with no single source of truth</li>
+</ul>
+<p>The Sruja skill gives AI:</p>
+<ul>
+<li><strong>Real evidence</strong> (from your codebase) to reason about</li>
+<li><strong>Validation</strong> (lint, drift) to ensure accuracy</li>
+<li><strong>Persistence</strong> (<code>repo.sruja</code> as a first-class artifact in your repo)</li>
+</ul>
+<p><strong>Three pillars:</strong></p>
+<ol>
+<li><strong>Grounding</strong> — The skill feeds the model real data (discover, context, graph) so it reasons on what's actually in the codebase, not on guesses. Without Sruja, the model can hallucinate modules and edges.</li>
+<li><strong>Validation and sync</strong> — The skill uses <code>sruja lint</code> (valid DSL), <code>sruja drift</code> (declared vs actual), and intent check. So you get architecture that is valid and stays in sync with code, not a one-off diagram.</li>
+<li><strong>Persistence and reuse</strong> — Architecture lives as <code>repo.sruja</code> in the repo: versionable, exportable, comparable over time. The model without Sruja gives ad-hoc text or Mermaid; with Sruja, the output is a first-class artifact the whole team and CI can use.</li>
+</ol>
+<p><strong>Think of it this way:</strong> AI is the architect proposing designs. Sruja is the structural engineer providing real data, validating plans, and making sure the blueprint is saved in your repo.</p>
 <hr>
 <h2 id="language-support"><a class="header" href="#language-support">Language Support</a></h2>
 <h3 id="what-programming-languages-does-sruja-support"><a class="header" href="#what-programming-languages-does-sruja-support">What programming languages does Sruja support?</a></h3>

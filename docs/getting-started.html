@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-1128be65.js";
+            window.path_to_searchindex_js = "../searchindex-541db760.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -186,38 +186,39 @@
 <hr>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <ul>
-<li><strong>Sruja CLI</strong> – See <a href="../getting-started.html">Quick Start</a> to install</li>
 <li><strong>AI editor</strong> – Cursor, Copilot, Claude, Continue.dev, etc.</li>
-<li><strong>AI skill</strong> – See <a href="../../docs/INSTALL_AS_SKILL.html">Install as a Skill</a></li>
+<li><strong>AI skill</strong> – Install first: <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
+<li><strong>Sruja CLI</strong> – Needed when the skill runs discover/lint/drift; the skill will guide you to install it if missing (<code>curl -fsSL https://sruja.ai/install.sh | bash</code>)</li>
 </ul>
 <hr>
-<h2 id="step-1-analyze-your-codebase"><a class="header" href="#step-1-analyze-your-codebase">Step 1: Analyze Your Codebase</a></h2>
-<p>Run this in your project folder:</p>
+<h2 id="step-1-gather-evidence-or-let-the-skill-do-it"><a class="header" href="#step-1-gather-evidence-or-let-the-skill-do-it">Step 1: Gather evidence (or let the skill do it)</a></h2>
+<p>When you use the <strong>sruja-architecture skill</strong>, it runs discovery for you. Discovery is <strong>not</strong> just a file list—under the hood the CLI runs <strong>Tree-sitter</strong> on your code to build a <strong>graph of components and their dependency relations</strong> (who imports whom, which modules call which). That graph is the evidence the skill uses.</p>
+<p>If you want to run discovery yourself (e.g. to inspect the summary), run:</p>
 <pre><code class="language-bash">cd your-project
 sruja discover --context -r . --format json
 </code></pre>
-<p><strong>What this does:</strong> Analyzes your code and returns detailed information.</p>
-<p><strong>Output includes:</strong></p>
+<p><strong>What this does:</strong> Scans your repo with Tree-sitter, builds the component/dependency graph, then outputs a <strong>summary</strong> of that graph (so the AI can scope and ask targeted questions). The full graph is used internally; for the actual list of nodes and edges (structural relations), use <code>sruja scan -r . -o graph.json</code>.</p>
+<p><strong>Summary output includes:</strong></p>
 <ul>
-<li>Repository structure</li>
-<li>Detected technologies (Node.js, Python, Go, etc.)</li>
-<li>Module boundaries</li>
-<li>Entry points</li>
-<li>Dependencies</li>
+<li>Component and edge <strong>counts</strong> (from the Tree-sitter graph)</li>
+<li>Primary language and framework</li>
+<li>Inferred architecture style (monolith / microservices)</li>
+<li>Suggested areas (top-level path segments for scoping)</li>
 </ul>
-<p><strong>Example output:</strong></p>
+<p><strong>Example summary (actual schema):</strong></p>
 <pre><code class="language-json">{
   "repo": "my-app",
-  "technologies": ["Node.js", "PostgreSQL", "Redis"],
-  "modules": [
-    {"name": "api", "type": "service"},
-    {"name": "worker", "type": "service"}
-  ],
-  "databases": [
-    {"name": "postgres", "technology": "PostgreSQL"}
-  ]
+  "scan_scope": { "included": [], "excluded": [] },
+  "components": 42,
+  "edges": 58,
+  "primary_language": "TypeScript",
+  "framework": "React",
+  "architecture_style": "monolith",
+  "domain": null,
+  "suggested_areas": ["src", "lib", "apps"]
 }
 </code></pre>
+<p>To get the <strong>full graph</strong> (every component and its relations) for the skill or tooling: <code>sruja scan -r . -o graph.json</code>.</p>
 <hr>
 <h2 id="step-2-generate-architecture-with-ai"><a class="header" href="#step-2-generate-architecture-with-ai">Step 2: Generate Architecture with AI</a></h2>
 <p>In your AI editor, run:</p>

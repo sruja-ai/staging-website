@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-1128be65.js";
+            window.path_to_searchindex_js = "../searchindex-541db760.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -389,6 +389,28 @@ Update the description to mention rate limiting.
 <li><strong>Sruja</strong> – Documents what your code actually does</li>
 </ul>
 <p>You can use both: Sruja documents your Spring-based microservices architecture.</p>
+<hr>
+<h2 id="ai-and-architecture"><a class="header" href="#ai-and-architecture">AI and Architecture</a></h2>
+<h3 id="why-do-i-need-the-sruja-skill-when-i-can-just-ask-ai-for-architecture"><a class="header" href="#why-do-i-need-the-sruja-skill-when-i-can-just-ask-ai-for-architecture">Why do I need the Sruja skill when I can just ask AI for architecture?</a></h3>
+<p><strong>AI proposes; Sruja grounds, validates, and persists.</strong></p>
+<p>Without Sruja, AI can suggest architecture, but it's:</p>
+<ul>
+<li><strong>Ungrounded:</strong> AI may invent components or dependencies that don't exist in your code</li>
+<li><strong>Ephemeral:</strong> You get ad-hoc text or diagrams with no single source of truth</li>
+</ul>
+<p>The Sruja skill gives AI:</p>
+<ul>
+<li><strong>Real evidence</strong> (from your codebase) to reason about</li>
+<li><strong>Validation</strong> (lint, drift) to ensure accuracy</li>
+<li><strong>Persistence</strong> (<code>repo.sruja</code> as a first-class artifact in your repo)</li>
+</ul>
+<p><strong>Three pillars:</strong></p>
+<ol>
+<li><strong>Grounding</strong> — The skill feeds the model real data (discover, context, graph) so it reasons on what's actually in the codebase, not on guesses. Without Sruja, the model can hallucinate modules and edges.</li>
+<li><strong>Validation and sync</strong> — The skill uses <code>sruja lint</code> (valid DSL), <code>sruja drift</code> (declared vs actual), and intent check. So you get architecture that is valid and stays in sync with code, not a one-off diagram.</li>
+<li><strong>Persistence and reuse</strong> — Architecture lives as <code>repo.sruja</code> in the repo: versionable, exportable, comparable over time. The model without Sruja gives ad-hoc text or Mermaid; with Sruja, the output is a first-class artifact the whole team and CI can use.</li>
+</ol>
+<p><strong>Think of it this way:</strong> AI is the architect proposing designs. Sruja is the structural engineer providing real data, validating plans, and making sure the blueprint is saved in your repo.</p>
 <hr>
 <h2 id="language-support"><a class="header" href="#language-support">Language Support</a></h2>
 <h3 id="what-programming-languages-does-sruja-support"><a class="header" href="#what-programming-languages-does-sruja-support">What programming languages does Sruja support?</a></h3>
