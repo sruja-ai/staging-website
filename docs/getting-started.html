@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-541db760.js";
+            window.path_to_searchindex_js = "../searchindex-887696be.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -197,7 +197,7 @@
 <pre><code class="language-bash">cd your-project
 sruja discover --context -r . --format json
 </code></pre>
-<p><strong>What this does:</strong> Scans your repo with Tree-sitter, builds the component/dependency graph, then outputs a <strong>summary</strong> of that graph (so the AI can scope and ask targeted questions). The full graph is used internally; for the actual list of nodes and edges (structural relations), use <code>sruja scan -r . -o graph.json</code>.</p>
+<p><strong>What this does:</strong> Scans your repo with Tree-sitter, builds the component/dependency graph, then outputs a <strong>summary</strong> of that graph (so the AI can scope and ask targeted questions). The skill prefers <code>.sruja/context.json</code> and <code>.sruja/graph.json</code> when present (e.g. after <code>sruja sync</code> or the extension's <strong>Refresh repo context</strong>); when missing, it runs discover for you—no need to run a command first. For the full graph on demand: <code>sruja scan -r . -o graph.json</code>, or use the graph written by sync at <code>.sruja/graph.json</code>.</p>
 <p><strong>Summary output includes:</strong></p>
 <ul>
 <li>Component and edge <strong>counts</strong> (from the Tree-sitter graph)</li>
@@ -218,7 +218,7 @@ sruja discover --context -r . --format json
   "suggested_areas": ["src", "lib", "apps"]
 }
 </code></pre>
-<p>To get the <strong>full graph</strong> (every component and its relations) for the skill or tooling: <code>sruja scan -r . -o graph.json</code>.</p>
+<p>The <strong>full graph</strong> is written by <code>sruja sync</code> to <code>.sruja/graph.json</code>. You can also produce it on demand with <code>sruja scan -r . -o graph.json</code>.</p>
 <hr>
 <h2 id="step-2-generate-architecture-with-ai"><a class="header" href="#step-2-generate-architecture-with-ai">Step 2: Generate Architecture with AI</a></h2>
 <p>In your AI editor, run:</p>
