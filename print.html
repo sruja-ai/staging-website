@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-887696be.js";
+            window.path_to_searchindex_js = "searchindex-0de43a85.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -361,7 +361,7 @@ export PATH="$HOME/.local/bin:$PATH"
 <p>You can still use Sruja manually:</p>
 <ul>
 <li>Run <code>sruja discover</code> to get JSON output</li>
-<li>Create <code>repo.sruja</code> by hand (see <a href="docs/reference/language-spec.html">Language spec</a>)</li>
+<li>Create <code>repo.sruja</code> by hand (see <a href="#sruja-language-specification">Language spec</a>)</li>
 <li>Use <code>sruja lint</code> to validate</li>
 </ul>
 <p>But AI makes it much easier—consider using Cursor or installing skills.sh.</p>
@@ -3034,7 +3034,7 @@ sruja lint --help
 sruja init my-service
 # Creates: my-service.sruja, .cursorrules, .copilot-instructions.md, .architecture-skill.md
 </code></pre>
-<p>Or add a single file, e.g. <code>architecture.sruja</code> or <code>docs/architecture.sruja</code>, and define your systems/containers/relationships (see <a href="#sruja-language-specification">Language specification</a> and <a href="https://github.com/sruja-ai/sruja/tree/main/examples">examples</a>).</p>
+<p>Or add a single file, e.g. <code>architecture.sruja</code> or <code>docs/architecture.sruja</code>, and define your systems/containers/relationships (see <a href="#sruja-language-specification">Language specification</a> and the <a href="examples/index.html">Examples Gallery</a>).</p>
 <h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
 <p>The files created by <code>sruja init</code> are enough for most teams:</p>
 <ul>
@@ -28351,7 +28351,7 @@ include *
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
-  DB = datastore "Database"
+  DB = database "Database"
 }
 
 // Outside boundary: External entities
@@ -28386,7 +28386,7 @@ Customer = person "Customer"
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
-  DB = datastore "Database"
+  DB = database "Database"
 }
 PaymentGateway = system "PaymentGateway" {
   tags ["external"]
@@ -28474,7 +28474,7 @@ App.WebApp -&gt; User "Shows Feedback"
 Admin = person "Administrator"
 Shop = system "Shop" {
   API = container "API"
-  Inventory = datastore "Inventory"
+  Inventory = database "Inventory"
 }
 
 // Event-driven feedback loop

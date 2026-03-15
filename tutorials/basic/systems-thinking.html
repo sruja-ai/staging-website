@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-887696be.js";
+            window.path_to_searchindex_js = "../../searchindex-0de43a85.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -222,7 +222,7 @@ include *
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
-  DB = datastore "Database"
+  DB = database "Database"
 }
 
 // Outside boundary: External entities
@@ -257,7 +257,7 @@ Customer = person "Customer"
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
-  DB = datastore "Database"
+  DB = database "Database"
 }
 PaymentGateway = system "PaymentGateway" {
   tags ["external"]
@@ -345,7 +345,7 @@ App.WebApp -&gt; User "Shows Feedback"
 Admin = person "Administrator"
 Shop = system "Shop" {
   API = container "API"
-  Inventory = datastore "Inventory"
+  Inventory = database "Inventory"
 }
 
 // Event-driven feedback loop
