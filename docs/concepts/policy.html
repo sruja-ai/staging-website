@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-022a6647.js";
+            window.path_to_searchindex_js = "../../searchindex-9d933815.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -278,8 +278,86 @@ view index {
 <li><strong>Compliance</strong>: Track regulatory and organizational requirements</li>
 <li><strong>Governance</strong>: Enforce architectural decisions and patterns</li>
 </ul>
-<h2 id="note-on-rules"><a class="header" href="#note-on-rules">Note on Rules</a></h2>
-<p>The <code>rule</code> keyword inside policies is not yet implemented. For now, policies serve as documentation and can be validated manually or through external tooling.</p>
+<h2 id="policy-rules"><a class="header" href="#policy-rules">Policy Rules</a></h2>
+<p>Policies can include <strong>structured rules</strong> that are evaluated by the rule engine (deterministic; no ad-hoc phrase parsing).</p>
+<h3 id="selectors"><a class="header" href="#selectors">Selectors</a></h3>
+<p>Policy rules match elements using <strong>selectors</strong>:</p>
+<pre><code class="language-sruja">{ 
+  kind "database"
+  id "Shop.DB"
+  tag "production"
+  technology "PostgreSQL"
+  meta "owner" "team-payments"
+}
+</code></pre>
+<p>Supported selector fields:</p>
+<ul>
+<li><code>kind "..."</code> — element kind (normalized: lowercase; spaces/hyphens become underscores)</li>
+<li><code>id "..."</code> — element id (fully-qualified like <code>Shop.DB</code> or leaf id like <code>DB</code>)</li>
+<li><code>tag "..."</code> — required tag (can also be written as <code>#tag</code> / <code>@tag</code> on elements)</li>
+<li><code>technology "..."</code> — matches <code>technology "..."</code> on elements</li>
+<li><code>meta "key" "value"</code> — matches <code>metadata { key "value" }</code> on elements (value match is case-insensitive)</li>
+</ul>
+<h3 id="deny-edge"><a class="header" href="#deny-edge"><code>deny edge</code></a></h3>
+<p>Deny a class of edges by matching source and target selectors:</p>
+<pre><code class="language-sruja">NoExtToDb = policy "External APIs must not call databases" {
+  category "security"
+  enforcement "required"
+  rule deny edge from { kind "external_api" } to { kind "database" }
+}
+</code></pre>
+<p>When you run <code>sruja lint</code> or drift/compliance checks, the rule engine evaluates each edge in the graph; if an edge matches (source selector → target selector), a policy violation is reported.</p>
+<p>You can also add:</p>
+<ul>
+<li><code>except from { ... } to { ... }</code> — allow a specific edge pattern</li>
+<li><code>message "..."</code> — override the default violation message</li>
+<li><code>suggest "..."</code> — add one or more suggestions (repeatable)</li>
+</ul>
+<pre><code class="language-sruja">NoServiceToDb = policy "Services must not call DBs" {
+  enforcement "required"
+  rule deny edge
+    from { kind "service" }
+    to { kind "database" }
+    except from { id "Checkout" } to { id "PaymentsDb" }
+    message "Direct DB access is forbidden"
+    suggest "Route via an API"
+    suggest "If intentional, add an exception"
+}
+</code></pre>
+<h3 id="require-tags"><a class="header" href="#require-tags"><code>require tags</code></a></h3>
+<p>Require one or more tags to exist on matched elements:</p>
+<pre><code class="language-sruja">EncryptionPolicy = policy "DBs must be encrypted" {
+  enforcement "required"
+  rule require tags on { kind "database" } tags ["encrypted"]
+}
+</code></pre>
+<p>Optional tail items:</p>
+<ul>
+<li><code>except { ... }</code> — exclude elements matching a selector</li>
+<li><code>message "..."</code> / <code>suggest "..."</code> — same as <code>deny edge</code></li>
+</ul>
+<h3 id="require-metadata"><a class="header" href="#require-metadata"><code>require metadata</code></a></h3>
+<p>Require a metadata key (and optionally a specific value) on matched elements:</p>
+<pre><code class="language-sruja">OwnershipPolicy = policy "Containers must declare owners" {
+  enforcement "recommended"
+  rule require metadata on { kind "container" } key "owner"
+}
+</code></pre>
+<p>With a required value:</p>
+<pre><code class="language-sruja">EnvPolicy = policy "Production containers must declare environment" {
+  enforcement "required"
+  rule require metadata on { kind "container" tag "production" } key "environment" value "prod"
+}
+</code></pre>
+<h3 id="require-slo"><a class="header" href="#require-slo"><code>require slo</code></a></h3>
+<p>Require an <code>slo { ... }</code> block on matched elements:</p>
+<pre><code class="language-sruja">SloPolicy = policy "Production containers must have SLOs" {
+  enforcement "required"
+  rule require slo on { kind "container" tag "production" }
+}
+</code></pre>
+<h3 id="evaluation"><a class="header" href="#evaluation">Evaluation</a></h3>
+<p>Policy evaluation is <strong>rule-based</strong>: the DSL is the way you author rules, and the evaluator runs them deterministically over the architecture graph. Policy titles/descriptions document intent; only <code>rule ...</code> entries are evaluated.</p>
 <h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
 <ul>
 <li><a href="docs/concepts/architecture.html">Architecture</a></li>

@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-022a6647.js";
+            window.path_to_searchindex_js = "../../searchindex-9d933815.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -254,6 +254,23 @@ OrderProcess = flow "Order Processing" {
 <li>Use fully qualified names when referring outside the current context</li>
 <li>Use <code>scenario</code> or <code>story</code> for behavior; use <code>flow</code> for data flows; use relations for structure</li>
 </ul>
+<h2 id="policy-enforcement"><a class="header" href="#policy-enforcement">Policy Enforcement</a></h2>
+<p>Policy rules can also be enforced on scenario/flow steps.</p>
+<p>Today, <code>deny edge</code> policy rules are evaluated against each <code>step from -&gt; to</code> in a scenario/flow, using the same selector semantics as graph edges:</p>
+<pre><code class="language-sruja">NoExternalToDb = policy "No external to db" {
+  enforcement "required"
+  rule deny edge from { kind "container" tag "external" } to { kind "database" }
+}
+
+Ext = container "External" {
+  tags ["external"]
+}
+Db = database "DB"
+
+BadFlow = scenario "Bad Flow" {
+  step Ext -&gt; Db "direct access"
+}
+</code></pre>
 <h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
 <ul>
 <li><a href="docs/concepts/layering.html">Layering</a></li>
