@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-a1cfecc5.js";
+            window.path_to_searchindex_js = "../searchindex-479737b4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -186,15 +186,56 @@
 <p>Sruja is a domain-specific language (DSL) for defining software architecture models. It supports C4 model concepts (systems, containers, components), requirements, ADRs, scenarios, flows, policies, SLOs, and more.</p>
 <h2 id="language-grammar"><a class="header" href="#language-grammar">Language Grammar</a></h2>
 <h3 id="file-structure"><a class="header" href="#file-structure">File Structure</a></h3>
-<p>Sruja uses a <strong>flat syntax</strong> — all declarations are top-level, no wrapper blocks required.</p>
-<pre><code class="language-sruja">// Elements
-User = person "User"
-Shop = system "E-commerce Shop"
+<p>Sruja uses a <strong>nested syntax</strong> that follows the C4 model hierarchy:</p>
+<ul>
+<li><strong>Systems</strong> are defined at the top level</li>
+<li><strong>Containers</strong> must be nested inside a system</li>
+<li><strong>Components</strong> must be nested inside a container</li>
+<li><strong>Persons</strong> can be defined at the top level (external actors)</li>
+</ul>
+<pre><code class="language-sruja">// Element kinds (required at top of file)
+person = kind "Person"
+system = kind "System"
+container = kind "Container"
+component = kind "Component"
 
-// Relationships
-User -&gt; Shop "uses"
+// External actors (top level)
+User = person "User" {
+  description "End user of the system"
+}
 
-// Governance
+// System with nested containers
+Shop = system "E-commerce Shop" {
+  description "Online shopping platform"
+
+  // Containers MUST be nested inside systems
+  WebApp = container "Web Application" {
+    technology "React"
+    description "Customer-facing web app"
+
+    // Components MUST be nested inside containers
+    Cart = component "Shopping Cart" {
+      description "Shopping cart functionality"
+    }
+  }
+
+  API = container "API Gateway" {
+    technology "Node.js"
+    description "API gateway"
+  }
+
+  DB = database "Product Database" {
+    technology "PostgreSQL"
+    description "Product catalog storage"
+  }
+}
+
+// Relationships between nested elements use dot notation
+User -&gt; Shop.WebApp "Browses"
+Shop.WebApp -&gt; Shop.API "Calls"
+Shop.API -&gt; Shop.DB "Reads/Writes"
+
+// Governance (top level)
 R1 = requirement functional "Must handle 10k users"
 SecurityPolicy = policy "Encrypt all data" category "security"
 </code></pre>
@@ -683,9 +724,9 @@ view container_view of Shop {
 </code></pre>
 <h2 id="key-rules"><a class="header" href="#key-rules">Key Rules</a></h2>
 <ol>
-<li><strong>Flat Syntax</strong>: All declarations are top-level, no <code>specification {}</code>, <code>model {}</code>, or <code>views {}</code> wrapper blocks</li>
+<li><strong>Nested Syntax</strong>: Containers and components must be nested inside their parent element (system and container respectively). Only persons, systems, and governance items (requirements, ADRs, policies) can be at top level.</li>
 <li><strong>IDs</strong>: Must be unique within their scope</li>
-<li><strong>References</strong>: Use dot notation (e.g., <code>System.Container</code>)</li>
+<li><strong>References</strong>: Use dot notation (e.g., <code>System.Container</code>, <code>System.Container.Component</code>)</li>
 <li><strong>Relations</strong>: Can be defined anywhere (implied relationships are automatically inferred)</li>
 <li><strong>Metadata</strong>: Freeform key-value pairs</li>
 <li><strong>Descriptions</strong>: Optional string values</li>
