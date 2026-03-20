@@ -429,6 +429,10 @@ function __wbg_get_imports() {
                 wasm.__wbindgen_export3(deferred0_0, deferred0_1, 1);
             }
         },
+        __wbg_getTime_1dad7b5386ddd2d9: function(arg0) {
+            const ret = getObject(arg0).getTime();
+            return ret;
+        },
         __wbg_new_0_1dcafdf5e786e876: function() {
             const ret = new Date();
             return addHeapObject(ret);
