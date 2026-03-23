@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b82d0999.js";
+            window.path_to_searchindex_js = "../../searchindex-b82f5381.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -193,7 +193,6 @@ Shop = system "Shop" {
   DB = database "Database"
 }
 
-// Scenarios using flat syntax
 CheckoutFlow = scenario "User Checkout" {
   step Customer -&gt; Shop.WebApp "adds items to cart"
   step Shop.WebApp -&gt; Shop.API "submits cart"
@@ -202,7 +201,6 @@ CheckoutFlow = scenario "User Checkout" {
   step Shop.WebApp -&gt; Customer "displays success"
 }
 
-// 'story' is an alias for 'scenario'
 LoginStory = story "User Login" {
   step Customer -&gt; Shop.WebApp "enters credentials"
   step Shop.WebApp -&gt; Shop.API "validates user"
@@ -217,7 +215,7 @@ view index {
 <ul>
 <li><strong><code>scenario</code></strong>: Models behavioral flows (e.g., Use Cases, User Journeys).</li>
 <li><strong><code>story</code></strong>: An alias for <code>scenario</code> (e.g., User Stories).</li>
-<li><strong><code>flow</code></strong>: Models data movement (e.g., Data Flow Diagrams).</li>
+<li><strong><code>flow</code></strong>: Models data movement (e.g., Data Flow Diagrams, pipelines).</li>
 </ul>
 <p>While the syntax is the same, using the appropriate keyword helps readers understand the <em>nature</em> of the interaction being modeled.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -230,17 +228,15 @@ Shop = system "Shop" {
   DB = database "Database"
 }
 
-// Scenario: User behavior
 Checkout = scenario "User Checkout" {
-  Customer -&gt; Shop.WebApp "adds items to cart"
-  Shop.WebApp -&gt; Shop.API "submits cart"
+  step Customer -&gt; Shop.WebApp "adds items to cart"
+  step Shop.WebApp -&gt; Shop.API "submits cart"
 }
 
-// Flow: Data flow
 OrderProcess = flow "Order Processing" {
-  Customer -&gt; Shop "Order Details"
-  Shop -&gt; Shop.API "Processes"
-  Shop.API -&gt; Shop.DB "Save Order"
+OrderProcess = flow "Order Processing" {
+  step Customer -&gt; Shop "order details"
+  step Shop.API -&gt; Shop.DB "persist order"
 }
 </code></pre>
 <p><strong>When to use:</strong></p>
@@ -248,11 +244,31 @@ OrderProcess = flow "Order Processing" {
 <li>Use <code>scenario</code> for user journeys, business processes, and behavioral flows</li>
 <li>Use <code>flow</code> for data pipelines, ETL processes, and system-to-system data flows</li>
 </ul>
+<h2 id="step-fields"><a class="header" href="#step-fields">Step fields</a></h2>
+<p>Scenario/story steps support optional tags and ordering:</p>
+<pre><code class="language-sruja">HappyCheckout = scenario "Checkout (happy path)" {
+  step Customer -&gt; Shop.WebApp "add items" [happy_path] order "1"
+  step Shop.WebApp -&gt; Shop.API "submit cart" [happy_path] order "2"
+}
+</code></pre>
+<p>Flow steps focus on the connection and description; tags and ordering are not currently parsed on flow steps.</p>
+<h2 id="alternative-body-form-scenariostory"><a class="header" href="#alternative-body-form-scenariostory">Alternative body form (scenario/story)</a></h2>
+<p>You can also use a block form that keeps metadata and steps visually separated:</p>
+<pre><code class="language-sruja">Checkout = scenario {
+  title "Checkout"
+  description "Happy-path behavior for placing an order."
+  steps [
+    step Customer -&gt; Shop.WebApp "add items"
+    step Shop.WebApp -&gt; Shop.API "submit cart"
+  ]
+}
+</code></pre>
 <h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
 <ul>
 <li>Keep step labels short and action‑oriented</li>
 <li>Use fully qualified names when referring outside the current context</li>
 <li>Use <code>scenario</code> or <code>story</code> for behavior; use <code>flow</code> for data flows; use relations for structure</li>
+<li>Prefer multiple focused scenarios over one mega-scenario (happy path, retry path, failure path)</li>
 </ul>
 <h2 id="policy-enforcement"><a class="header" href="#policy-enforcement">Policy Enforcement</a></h2>
 <p>Policy rules can also be enforced on scenario/flow steps.</p>
@@ -271,6 +287,11 @@ BadFlow = scenario "Bad Flow" {
   step Ext -&gt; Db "direct access"
 }
 </code></pre>
+<h2 id="editor-and-ci-integration"><a class="header" href="#editor-and-ci-integration">Editor and CI integration</a></h2>
+<ul>
+<li>The VS Code extension surfaces scenarios/flows in the outline and highlights invalid steps and policy violations.</li>
+<li>The Markdown export renders scenarios and flows as Mermaid sequence diagrams.</li>
+</ul>
 <h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
 <ul>
 <li><a href="docs/concepts/layering.html">Layering</a></li>

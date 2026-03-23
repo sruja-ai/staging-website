@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b82d0999.js";
+            window.path_to_searchindex_js = "../../searchindex-b82f5381.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -182,6 +182,13 @@
                     <main>
                         <h1 id="architecture-decision-records-adr"><a class="header" href="#architecture-decision-records-adr">Architecture Decision Records (ADR)</a></h1>
 <p>Sruja allows you to capture <strong>Architecture Decision Records (ADRs)</strong> directly within your architecture model. This keeps the "why" close to the "what".</p>
+<h2 id="when-to-write-an-adr"><a class="header" href="#when-to-write-an-adr">When to write an ADR</a></h2>
+<ul>
+<li>A decision is hard to reverse (database choice, major dependency, core integration pattern)</li>
+<li>The team might ask "why did we do this?" in 3–6 months</li>
+<li>There are meaningful trade-offs (security, performance, cost, operability)</li>
+<li>A policy, constraint, or convention depends on the decision</li>
+</ul>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
 <h3 id="defining-an-adr"><a class="header" href="#defining-an-adr">Defining an ADR</a></h3>
 <p>You can define an ADR with a full body describing the context, decision, and consequences.</p>
@@ -195,26 +202,46 @@ decision "We will use PostgreSQL 15."
 consequences "Good ecosystem support, but requires managing migrations."
 }
 </code></pre>
-<h3 id="linking-adrs"><a class="header" href="#linking-adrs">Linking ADRs</a></h3>
-<p>You can link an ADR to the elements it affects (System, Container, Component) by referencing its ID inside the element's block.</p>
+<p>You can also use the non-assignment form:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-Backend = system "Backend API" {
-// Link to the ADR (via metadata in future)
+adr ADR001 "Use PostgreSQL" {
+  status "Accepted"
+  context "We need a relational database with strong consistency guarantees."
+  decision "We will use PostgreSQL 15."
+  consequences "Good ecosystem support, but requires managing migrations."
 }
 </code></pre>
-<h3 id="optional-title"><a class="header" href="#optional-title">Optional Title</a></h3>
-<p>The title is optional if you are just referencing an ADR or if you want to define it later.</p>
-<pre><code class="language-sruja">adr = kind "ADR"
-ADR003 = adr "Deferred Decision"
-</code></pre>
-<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<h2 id="writing-strong-adrs"><a class="header" href="#writing-strong-adrs">Writing strong ADRs</a></h2>
+<ul>
+<li>Make the title a concrete choice, not a topic ("Use PostgreSQL", not "Database")</li>
+<li>Write context as a problem statement + constraints + decision drivers</li>
+<li>Write decision as a specific commitment (what you will do, and what you will not do)</li>
+<li>Write consequences as concrete outcomes (positive and negative), including follow-up work</li>
+</ul>
+<h3 id="status-lifecycle"><a class="header" href="#status-lifecycle">Status lifecycle</a></h3>
+<p>Recommended statuses:</p>
+<ul>
+<li><code>Proposed</code></li>
+<li><code>Accepted</code></li>
+<li><code>Rejected</code></li>
+<li><code>Superseded</code></li>
+<li><code>Deprecated</code></li>
+</ul>
+<h2 id="connecting-adrs-to-policies-and-scenarios"><a class="header" href="#connecting-adrs-to-policies-and-scenarios">Connecting ADRs to policies and scenarios</a></h2>
+<ul>
+<li>If the decision must be enforced, encode it as a <a href="docs/concepts/policy.html">Policy</a> rule.</li>
+<li>If the decision changes behavior, document it as a <a href="docs/concepts/scenario.html">Scenario</a> or <code>flow</code> so reviewers can see the impact on interactions.</li>
+</ul>
+<h3 id="optional-title"><a class="header" href="#optional-title">Optional title</a></h3>
+<p>The title is optional; if omitted, Sruja uses the ADR id as the title.</p>
 <ul>
 <li><strong>ID</strong>: Unique identifier (e.g., <code>ADR001</code>).</li>
 <li><strong>Title</strong>: Short summary of the decision.</li>
 <li><strong>Status</strong>: Current status (e.g., <code>Proposed</code>, <code>Accepted</code>, <code>Deprecated</code>).</li>
 <li><strong>Context</strong>: The problem statement and background.</li>
+<li><strong>Decision</strong>: The choice made.</li>
+<li><strong>Consequences</strong>: The pros, cons, and implications of the decision.</li>
 <li><strong>Decision</strong>: The choice made.</li>
 <li><strong>Consequences</strong>: The pros, cons, and implications of the decision.</li>
 </ul>

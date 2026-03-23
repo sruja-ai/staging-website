@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b82d0999.js";
+            window.path_to_searchindex_js = "searchindex-b82f5381.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -2255,7 +2255,6 @@ Shop = system "Shop" {
   DB = database "Database"
 }
 
-// Scenarios using flat syntax
 CheckoutFlow = scenario "User Checkout" {
   step Customer -&gt; Shop.WebApp "adds items to cart"
   step Shop.WebApp -&gt; Shop.API "submits cart"
@@ -2264,7 +2263,6 @@ CheckoutFlow = scenario "User Checkout" {
   step Shop.WebApp -&gt; Customer "displays success"
 }
 
-// 'story' is an alias for 'scenario'
 LoginStory = story "User Login" {
   step Customer -&gt; Shop.WebApp "enters credentials"
   step Shop.WebApp -&gt; Shop.API "validates user"
@@ -2279,7 +2277,7 @@ view index {
 <ul>
 <li><strong><code>scenario</code></strong>: Models behavioral flows (e.g., Use Cases, User Journeys).</li>
 <li><strong><code>story</code></strong>: An alias for <code>scenario</code> (e.g., User Stories).</li>
-<li><strong><code>flow</code></strong>: Models data movement (e.g., Data Flow Diagrams).</li>
+<li><strong><code>flow</code></strong>: Models data movement (e.g., Data Flow Diagrams, pipelines).</li>
 </ul>
 <p>While the syntax is the same, using the appropriate keyword helps readers understand the <em>nature</em> of the interaction being modeled.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -2292,17 +2290,15 @@ Shop = system "Shop" {
   DB = database "Database"
 }
 
-// Scenario: User behavior
 Checkout = scenario "User Checkout" {
-  Customer -&gt; Shop.WebApp "adds items to cart"
-  Shop.WebApp -&gt; Shop.API "submits cart"
+  step Customer -&gt; Shop.WebApp "adds items to cart"
+  step Shop.WebApp -&gt; Shop.API "submits cart"
 }
 
-// Flow: Data flow
 OrderProcess = flow "Order Processing" {
-  Customer -&gt; Shop "Order Details"
-  Shop -&gt; Shop.API "Processes"
-  Shop.API -&gt; Shop.DB "Save Order"
+OrderProcess = flow "Order Processing" {
+  step Customer -&gt; Shop "order details"
+  step Shop.API -&gt; Shop.DB "persist order"
 }
 </code></pre>
 <p><strong>When to use:</strong></p>
@@ -2310,11 +2306,31 @@ OrderProcess = flow "Order Processing" {
 <li>Use <code>scenario</code> for user journeys, business processes, and behavioral flows</li>
 <li>Use <code>flow</code> for data pipelines, ETL processes, and system-to-system data flows</li>
 </ul>
+<h2 id="step-fields"><a class="header" href="#step-fields">Step fields</a></h2>
+<p>Scenario/story steps support optional tags and ordering:</p>
+<pre><code class="language-sruja">HappyCheckout = scenario "Checkout (happy path)" {
+  step Customer -&gt; Shop.WebApp "add items" [happy_path] order "1"
+  step Shop.WebApp -&gt; Shop.API "submit cart" [happy_path] order "2"
+}
+</code></pre>
+<p>Flow steps focus on the connection and description; tags and ordering are not currently parsed on flow steps.</p>
+<h2 id="alternative-body-form-scenariostory"><a class="header" href="#alternative-body-form-scenariostory">Alternative body form (scenario/story)</a></h2>
+<p>You can also use a block form that keeps metadata and steps visually separated:</p>
+<pre><code class="language-sruja">Checkout = scenario {
+  title "Checkout"
+  description "Happy-path behavior for placing an order."
+  steps [
+    step Customer -&gt; Shop.WebApp "add items"
+    step Shop.WebApp -&gt; Shop.API "submit cart"
+  ]
+}
+</code></pre>
 <h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
 <ul>
 <li>Keep step labels short and action‑oriented</li>
 <li>Use fully qualified names when referring outside the current context</li>
 <li>Use <code>scenario</code> or <code>story</code> for behavior; use <code>flow</code> for data flows; use relations for structure</li>
+<li>Prefer multiple focused scenarios over one mega-scenario (happy path, retry path, failure path)</li>
 </ul>
 <h2 id="policy-enforcement"><a class="header" href="#policy-enforcement">Policy Enforcement</a></h2>
 <p>Policy rules can also be enforced on scenario/flow steps.</p>
@@ -2333,6 +2349,11 @@ BadFlow = scenario "Bad Flow" {
   step Ext -&gt; Db "direct access"
 }
 </code></pre>
+<h2 id="editor-and-ci-integration"><a class="header" href="#editor-and-ci-integration">Editor and CI integration</a></h2>
+<ul>
+<li>The VS Code extension surfaces scenarios/flows in the outline and highlights invalid steps and policy violations.</li>
+<li>The Markdown export renders scenarios and flows as Mermaid sequence diagrams.</li>
+</ul>
 <h2 id="see-also-2"><a class="header" href="#see-also-2">See Also</a></h2>
 <ul>
 <li><a href="docs/concepts/docs/concepts/layering.html">Layering</a></li>
@@ -2341,6 +2362,13 @@ BadFlow = scenario "Bad Flow" {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="architecture-decision-records-adr"><a class="header" href="#architecture-decision-records-adr">Architecture Decision Records (ADR)</a></h1>
 <p>Sruja allows you to capture <strong>Architecture Decision Records (ADRs)</strong> directly within your architecture model. This keeps the "why" close to the "what".</p>
+<h2 id="when-to-write-an-adr"><a class="header" href="#when-to-write-an-adr">When to write an ADR</a></h2>
+<ul>
+<li>A decision is hard to reverse (database choice, major dependency, core integration pattern)</li>
+<li>The team might ask "why did we do this?" in 3–6 months</li>
+<li>There are meaningful trade-offs (security, performance, cost, operability)</li>
+<li>A policy, constraint, or convention depends on the decision</li>
+</ul>
 <h2 id="syntax-11"><a class="header" href="#syntax-11">Syntax</a></h2>
 <h3 id="defining-an-adr"><a class="header" href="#defining-an-adr">Defining an ADR</a></h3>
 <p>You can define an ADR with a full body describing the context, decision, and consequences.</p>
@@ -2354,21 +2382,39 @@ decision "We will use PostgreSQL 15."
 consequences "Good ecosystem support, but requires managing migrations."
 }
 </code></pre>
-<h3 id="linking-adrs"><a class="header" href="#linking-adrs">Linking ADRs</a></h3>
-<p>You can link an ADR to the elements it affects (System, Container, Component) by referencing its ID inside the element's block.</p>
+<p>You can also use the non-assignment form:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
-Backend = system "Backend API" {
-// Link to the ADR (via metadata in future)
+adr ADR001 "Use PostgreSQL" {
+  status "Accepted"
+  context "We need a relational database with strong consistency guarantees."
+  decision "We will use PostgreSQL 15."
+  consequences "Good ecosystem support, but requires managing migrations."
 }
 </code></pre>
-<h3 id="optional-title"><a class="header" href="#optional-title">Optional Title</a></h3>
-<p>The title is optional if you are just referencing an ADR or if you want to define it later.</p>
-<pre><code class="language-sruja">adr = kind "ADR"
-ADR003 = adr "Deferred Decision"
-</code></pre>
-<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<h2 id="writing-strong-adrs"><a class="header" href="#writing-strong-adrs">Writing strong ADRs</a></h2>
+<ul>
+<li>Make the title a concrete choice, not a topic ("Use PostgreSQL", not "Database")</li>
+<li>Write context as a problem statement + constraints + decision drivers</li>
+<li>Write decision as a specific commitment (what you will do, and what you will not do)</li>
+<li>Write consequences as concrete outcomes (positive and negative), including follow-up work</li>
+</ul>
+<h3 id="status-lifecycle"><a class="header" href="#status-lifecycle">Status lifecycle</a></h3>
+<p>Recommended statuses:</p>
+<ul>
+<li><code>Proposed</code></li>
+<li><code>Accepted</code></li>
+<li><code>Rejected</code></li>
+<li><code>Superseded</code></li>
+<li><code>Deprecated</code></li>
+</ul>
+<h2 id="connecting-adrs-to-policies-and-scenarios"><a class="header" href="#connecting-adrs-to-policies-and-scenarios">Connecting ADRs to policies and scenarios</a></h2>
+<ul>
+<li>If the decision must be enforced, encode it as a <a href="docs/concepts/docs/concepts/policy.html">Policy</a> rule.</li>
+<li>If the decision changes behavior, document it as a <a href="docs/concepts/docs/concepts/scenario.html">Scenario</a> or <code>flow</code> so reviewers can see the impact on interactions.</li>
+</ul>
+<h3 id="optional-title"><a class="header" href="#optional-title">Optional title</a></h3>
+<p>The title is optional; if omitted, Sruja uses the ADR id as the title.</p>
 <ul>
 <li><strong>ID</strong>: Unique identifier (e.g., <code>ADR001</code>).</li>
 <li><strong>Title</strong>: Short summary of the decision.</li>
@@ -2376,21 +2422,28 @@ ADR003 = adr "Deferred Decision"
 <li><strong>Context</strong>: The problem statement and background.</li>
 <li><strong>Decision</strong>: The choice made.</li>
 <li><strong>Consequences</strong>: The pros, cons, and implications of the decision.</li>
+<li><strong>Decision</strong>: The choice made.</li>
+<li><strong>Consequences</strong>: The pros, cons, and implications of the decision.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="policy"><a class="header" href="#policy">Policy</a></h1>
 <p>Policies define architectural rules, standards, and constraints that your system must follow. They help enforce best practices, compliance requirements, and organizational standards directly in your architecture model.</p>
 <h2 id="syntax-12"><a class="header" href="#syntax-12">Syntax</a></h2>
-<pre><code class="language-sruja">&lt;!-- partial --&gt;
-PolicyID = policy "Description" {
-  category "category-name"
-  enforcement "required" // "required" | "recommended" | "optional"
-  description "Detailed description"
-  metadata {
-    // Additional metadata
-  }
+<pre><code class="language-sruja">PolicyID = policy "Short policy statement" {
+  category "security"
+  enforcement "required"
+  description "Explain intent, scope, and rationale. Rules below are what get evaluated."
+  rule deny edge from { kind "external_api" } to { kind "database" }
 }
 </code></pre>
+<h2 id="writing-strong-policies"><a class="header" href="#writing-strong-policies">Writing strong policies</a></h2>
+<ul>
+<li>Make the title a testable statement ("DBs must be encrypted at rest")</li>
+<li>Set <code>category</code> so policies can be grouped (security, compliance, performance, data, observability)</li>
+<li>Pick <code>enforcement</code> based on impact (<code>required</code> for must-fix, <code>recommended</code> for should-fix, <code>optional</code> for guidance)</li>
+<li>Encode enforcement using <code>rule ...</code> entries so <code>sruja lint</code> can evaluate them</li>
+<li>Use <code>except ...</code> to record deliberate exceptions instead of relying on tribal knowledge</li>
+</ul>
 <h2 id="simple-policy"><a class="header" href="#simple-policy">Simple Policy</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
@@ -2406,9 +2459,14 @@ view index {
 <li><strong><code>ID</code></strong>: Unique identifier for the policy (e.g., <code>SecurityPolicy</code>, <code>GDPR_Compliance</code>)</li>
 <li><strong><code>Description</code></strong>: Human-readable description of the policy</li>
 <li><strong><code>category</code></strong> (optional): Policy category (e.g., "security", "compliance", "performance")</li>
-<li><strong><code>enforcement</code></strong> (optional): Enforcement level ("required", "recommended", "optional")</li>
+<li><strong><code>enforcement</code></strong> (optional): Enforcement level (<code>required</code> | <code>recommended</code> | <code>optional</code>). Synonyms are accepted: <code>error</code>/<code>warn</code>/<code>info</code>.</li>
 <li><strong><code>description</code></strong> (optional): Detailed description within the policy body</li>
-<li><strong><code>metadata</code></strong> (optional): Additional metadata key-value pairs</li>
+<li><strong>Defaults</strong>: <code>category</code> defaults to <code>general</code>, <code>enforcement</code> defaults to <code>warn</code></li>
+</ul>
+<h2 id="editor-and-ci-integration-1"><a class="header" href="#editor-and-ci-integration-1">Editor and CI integration</a></h2>
+<ul>
+<li>The VS Code extension surfaces policy nodes in the outline and shows lint violations as diagnostics.</li>
+<li>CI and CLI checks (lint/drift/compliance) treat <code>enforcement</code> as severity (<code>required</code> → error, <code>recommended</code> → warning, <code>optional</code> → info).</li>
 </ul>
 <h2 id="example-security-policies"><a class="header" href="#example-security-policies">Example: Security Policies</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -19652,7 +19710,7 @@ view checkout {
 <li>Neutral: Requires comprehensive testing across versions</li>
 </ul>
 <p><strong>Why this ADR is famous:</strong> Solved API evolution elegantly.</p>
-<h2 id="when-to-write-an-adr"><a class="header" href="#when-to-write-an-adr">When to Write an ADR</a></h2>
+<h2 id="when-to-write-an-adr-1"><a class="header" href="#when-to-write-an-adr-1">When to Write an ADR</a></h2>
 <p>Not every decision needs an ADR. Here's the framework I use:</p>
 <h3 id="always-write-an-adr"><a class="header" href="#always-write-an-adr">Always Write an ADR:</a></h3>
 <p><strong>1. Technology Choices</strong></p>

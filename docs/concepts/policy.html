@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b82d0999.js";
+            window.path_to_searchindex_js = "../../searchindex-b82f5381.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -183,16 +183,21 @@
                         <h1 id="policy"><a class="header" href="#policy">Policy</a></h1>
 <p>Policies define architectural rules, standards, and constraints that your system must follow. They help enforce best practices, compliance requirements, and organizational standards directly in your architecture model.</p>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
-<pre><code class="language-sruja">&lt;!-- partial --&gt;
-PolicyID = policy "Description" {
-  category "category-name"
-  enforcement "required" // "required" | "recommended" | "optional"
-  description "Detailed description"
-  metadata {
-    // Additional metadata
-  }
+<pre><code class="language-sruja">PolicyID = policy "Short policy statement" {
+  category "security"
+  enforcement "required"
+  description "Explain intent, scope, and rationale. Rules below are what get evaluated."
+  rule deny edge from { kind "external_api" } to { kind "database" }
 }
 </code></pre>
+<h2 id="writing-strong-policies"><a class="header" href="#writing-strong-policies">Writing strong policies</a></h2>
+<ul>
+<li>Make the title a testable statement ("DBs must be encrypted at rest")</li>
+<li>Set <code>category</code> so policies can be grouped (security, compliance, performance, data, observability)</li>
+<li>Pick <code>enforcement</code> based on impact (<code>required</code> for must-fix, <code>recommended</code> for should-fix, <code>optional</code> for guidance)</li>
+<li>Encode enforcement using <code>rule ...</code> entries so <code>sruja lint</code> can evaluate them</li>
+<li>Use <code>except ...</code> to record deliberate exceptions instead of relying on tribal knowledge</li>
+</ul>
 <h2 id="simple-policy"><a class="header" href="#simple-policy">Simple Policy</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
@@ -208,9 +213,14 @@ view index {
 <li><strong><code>ID</code></strong>: Unique identifier for the policy (e.g., <code>SecurityPolicy</code>, <code>GDPR_Compliance</code>)</li>
 <li><strong><code>Description</code></strong>: Human-readable description of the policy</li>
 <li><strong><code>category</code></strong> (optional): Policy category (e.g., "security", "compliance", "performance")</li>
-<li><strong><code>enforcement</code></strong> (optional): Enforcement level ("required", "recommended", "optional")</li>
+<li><strong><code>enforcement</code></strong> (optional): Enforcement level (<code>required</code> | <code>recommended</code> | <code>optional</code>). Synonyms are accepted: <code>error</code>/<code>warn</code>/<code>info</code>.</li>
 <li><strong><code>description</code></strong> (optional): Detailed description within the policy body</li>
-<li><strong><code>metadata</code></strong> (optional): Additional metadata key-value pairs</li>
+<li><strong>Defaults</strong>: <code>category</code> defaults to <code>general</code>, <code>enforcement</code> defaults to <code>warn</code></li>
+</ul>
+<h2 id="editor-and-ci-integration"><a class="header" href="#editor-and-ci-integration">Editor and CI integration</a></h2>
+<ul>
+<li>The VS Code extension surfaces policy nodes in the outline and shows lint violations as diagnostics.</li>
+<li>CI and CLI checks (lint/drift/compliance) treat <code>enforcement</code> as severity (<code>required</code> → error, <code>recommended</code> → warning, <code>optional</code> → info).</li>
 </ul>
 <h2 id="example-security-policies"><a class="header" href="#example-security-policies">Example: Security Policies</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
