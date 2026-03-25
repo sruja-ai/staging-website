@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b82f5381.js";
+            window.path_to_searchindex_js = "../searchindex-d7aad7d5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -188,7 +188,7 @@
 <li><strong>Parser &amp; engine</strong>: Rust crates for parsing, validation, and export (sruja-language, sruja-engine, sruja-export).</li>
 <li><strong>CLI</strong>: Command-line interface for local development and CI/CD (sruja-cli).</li>
 <li><strong>WASM</strong>: Rust core compiled to WebAssembly for the docs book and VS Code (sruja-wasm).</li>
-<li><strong>LSP</strong>: Language server for VS Code (sruja-lsp).</li>
+<li><strong>VS Code extension</strong>: Editor integration powered by the WASM build (extension/ + sruja-wasm).</li>
 <li><strong>Docs</strong>: This site—built with mdBook from the <code>book/</code> directory.</li>
 </ol>
 <h2 id="architecture-diagram"><a class="header" href="#architecture-diagram">Architecture Diagram</a></h2>
@@ -238,7 +238,7 @@ Sruja = system "Sruja Platform" {
 
 	Language = container "Language Service" {
 		technology "Rust"
-		description "Parser and AST (crates/sruja-language); LSP (crates/sruja-lsp)"
+		description "Parser and AST (crates/sruja-language)"
 	}
 
 	WASM = container "WASM Module" {
@@ -264,8 +264,8 @@ Sruja = system "Sruja Platform" {
 	WASM -&gt; Language "embeds"
 	WASM -&gt; Engine "embeds"
 
-	VSCode -&gt; Language "uses LSP"
-	VSCode -&gt; WASM "uses for LSP and preview"
+	VSCode -&gt; Language "parses/validates via WASM"
+	VSCode -&gt; WASM "uses for preview"
 
 	Book -&gt; WASM "uses for diagram blocks"
 }
