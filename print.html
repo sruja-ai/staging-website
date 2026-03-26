@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d7aad7d5.js";
+            window.path_to_searchindex_js = "searchindex-254ac841.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -29568,6 +29568,10 @@ sruja completion fish
 <tr><th>Command</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>sruja start -r . --prompt</code></td><td>Set up <code>.sruja/</code> and generate an AI-ready baseline prompt</td></tr>
+<tr><td><code>sruja daily -r .</code></td><td>Daily review: refresh evidence and summarize drift/questions</td></tr>
+<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health, truth status, and last evidence refresh</td></tr>
+<tr><td><code>sruja watch -r .</code></td><td>Keep architecture feedback live while coding</td></tr>
 <tr><td><code>sruja lint &lt;file&gt;</code></td><td>Validate <code>.sruja</code> file</td></tr>
 <tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
 <tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
@@ -29578,6 +29582,13 @@ sruja completion fish
 </tbody>
 </table>
 </div>
+<p>Workflow aliases:</p>
+<ul>
+<li><code>start</code> = <code>init</code></li>
+<li><code>daily</code> = <code>review</code></li>
+<li><code>overview</code> = <code>quickstart</code></li>
+<li><code>doctor</code> = <code>status</code></li>
+</ul>
 <p>Run <code>sruja --help</code> for full options.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="language-reference"><a class="header" href="#language-reference">Language reference</a></h1>
