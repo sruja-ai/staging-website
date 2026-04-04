@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-254ac841.js";
+            window.path_to_searchindex_js = "../searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -183,9 +183,10 @@
                         <h1 id="adoption-playbook"><a class="header" href="#adoption-playbook">Adoption Playbook</a></h1>
 <h2 id="week-1-baseline--ci"><a class="header" href="#week-1-baseline--ci">Week 1: Baseline &amp; CI</a></h2>
 <ul>
-<li>Create a minimal <code>architecture.sruja</code> covering core systems.</li>
-<li>Add <code>sruja fmt</code> and <code>sruja lint</code> to CI; fail on violations.</li>
-<li>Export docs: <code>sruja export markdown architecture.sruja</code>.</li>
+<li>Generate a baseline <code>repo.sruja</code>: <code>sruja quickstart -r . --generate-baseline</code></li>
+<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Add <code>sruja lint repo.sruja</code> and <code>sruja drift -r . -a repo.sruja</code> to CI; fail on violations</li>
+<li>Export docs: <code>sruja export markdown repo.sruja</code></li>
 </ul>
 <h2 id="week-2-targets--guardrails"><a class="header" href="#week-2-targets--guardrails">Week 2: Targets &amp; Guardrails</a></h2>
 <ul>
@@ -207,11 +208,15 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Lint DSL
-        run: sruja lint architecture.sruja
+      - uses: actions/checkout@v4
+      - name: Install Sruja CLI
+        run: curl -fsSL https://sruja.ai/install.sh | bash
+      - name: Lint baseline
+        run: sruja lint repo.sruja
+      - name: Drift check (declared vs actual)
+        run: sruja drift -r . -a repo.sruja
       - name: Export Docs
-        run: sruja export markdown architecture.sruja
+        run: sruja export markdown repo.sruja
 </code></pre>
 <h2 id="success-metrics"><a class="header" href="#success-metrics">Success Metrics</a></h2>
 <ul>

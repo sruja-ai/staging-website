@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-254ac841.js";
+            window.path_to_searchindex_js = "../searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -183,6 +183,16 @@
                         <h1 id="sruja-adoption-guide"><a class="header" href="#sruja-adoption-guide">Sruja Adoption Guide</a></h1>
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
 <p>For a short, practical guide (install CLI, add to your project, CI, AI, multi-repo), see <strong><a href="using-sruja-in-your-project.html">Using Sruja in your project</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
+<h2 id="canonical-pilot-path-recommended"><a class="header" href="#canonical-pilot-path-recommended">Canonical pilot path (recommended)</a></h2>
+<p>Use a single, repeatable workflow to evaluate Sruja:</p>
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
+sruja quickstart -r . --generate-baseline
+sruja lint repo.sruja
+sruja sync -r .
+sruja status -r .
+sruja drift -r . -a repo.sruja
+</code></pre>
+<p>This path is designed to minimize ambiguity: one baseline file (<code>repo.sruja</code>), one validation gate (<code>lint</code>), and one drift signal (<code>drift</code>) backed by refreshed evidence (<code>sync</code>).</p>
 <h2 id="is-sruja-right-for-your-organization"><a class="header" href="#is-sruja-right-for-your-organization">Is Sruja Right for Your Organization?</a></h2>
 <h3 id="quick-self-assessment"><a class="header" href="#quick-self-assessment">Quick Self-Assessment</a></h3>
 <p>Answer these questions to determine if Sruja addresses your needs:</p>
@@ -299,18 +309,20 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p><strong>Activities:</strong></p>
 <ol>
 <li>Review Sruja documentation</li>
-<li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code> (or from Git: <code>cargo install sruja-cli --git https://github.com/sruja-ai/sruja</code>; or build from source: <code>git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build</code>)</li>
-<li>Model a simple existing system</li>
-<li>Install VS Code extension for syntax highlighting and diagnostics</li>
+<li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
+<li>Generate a baseline in your target repo: <code>sruja quickstart -r . --generate-baseline</code></li>
+<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Capture the first health signal: <code>sruja status -r .</code> and <code>sruja drift -r . -a repo.sruja</code></li>
+<li>Install VS Code extension for syntax highlighting and diagnostics (optional)</li>
 </ol>
 <p><strong>Deliverable</strong>: Understanding of Sruja capabilities</p>
 <h3 id="phase-2-proof-of-concept-weeks-2-4"><a class="header" href="#phase-2-proof-of-concept-weeks-2-4">Phase 2: Proof of Concept (Weeks 2-4)</a></h3>
 <p><strong>Activities:</strong></p>
 <ol>
-<li>Model 1-2 real systems in Sruja</li>
-<li>Integrate validation into CI/CD</li>
-<li>Document architecture decisions as ADRs</li>
-<li>Measure time savings</li>
+<li>Expand <code>repo.sruja</code> to cover the repo boundary and core containers that matter for reviews</li>
+<li>Integrate validation and drift into CI/CD (<code>sruja lint repo.sruja</code> and <code>sruja drift -r . -a repo.sruja</code>)</li>
+<li>Establish a PR review rule: architecture changes ship with code changes (same diff)</li>
+<li>Measure signal vs noise (how many findings you keep vs ignore)</li>
 </ol>
 <p><strong>Success Criteria:</strong></p>
 <ul>

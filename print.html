@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-254ac841.js";
+            window.path_to_searchindex_js = "searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -382,8 +382,8 @@ sruja export markdown example.sruja
 <p>Install from the <a href="https://marketplace.visualstudio.com/items?itemName=SrujaAI.sruja">VS Code Marketplace</a> or build from source in <code>extension/</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>Context engineering for the AI era.</strong></p>
-<p>Sruja uses AI to analyze your code and generate architecture as code—so it never drifts from reality.</p>
+<p><strong>Architecture truth + drift detection + AI context.</strong></p>
+<p>Sruja keeps architecture as code in sync with your repo—detects drift and provides AI-ready context for your editor and CI.</p>
 <blockquote>
 <p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a> (2–3 hours). You don't write <code>.sruja</code> files manually—your AI does it for you.</p>
 </blockquote>
@@ -701,11 +701,14 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
 </thead>
 <tbody>
 <tr><td><strong>Analyze code</strong></td><td><code>sruja discover --context -r . --format json</code></td></tr>
+<tr><td><strong>Generate baseline</strong></td><td><code>sruja quickstart -r . --generate-baseline</code></td></tr>
 <tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
+<tr><td><strong>Refresh evidence</strong></td><td><code>sruja sync -r .</code></td></tr>
+<tr><td><strong>Repo health</strong></td><td><code>sruja status -r .</code></td></tr>
 <tr><td><strong>Export Markdown</strong></td><td><code>sruja export markdown repo.sruja &gt; doc.md</code></td></tr>
 <tr><td><strong>Export Mermaid</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
 <tr><td><strong>Export JSON</strong></td><td><code>sruja export json repo.sruja &gt; arch.json</code></td></tr>
-<tr><td><strong>Check drift</strong></td><td><code>sruja drift -r . --format json</code></td></tr>
+<tr><td><strong>Check drift</strong></td><td><code>sruja drift -r . -a repo.sruja --format json</code></td></tr>
 </tbody>
 </table>
 </div>
@@ -2847,6 +2850,16 @@ deployment Prod {
 <h1 id="sruja-adoption-guide"><a class="header" href="#sruja-adoption-guide">Sruja Adoption Guide</a></h1>
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
 <p>For a short, practical guide (install CLI, add to your project, CI, AI, multi-repo), see <strong><a href="#using-sruja-in-your-project">Using Sruja in your project</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
+<h2 id="canonical-pilot-path-recommended"><a class="header" href="#canonical-pilot-path-recommended">Canonical pilot path (recommended)</a></h2>
+<p>Use a single, repeatable workflow to evaluate Sruja:</p>
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
+sruja quickstart -r . --generate-baseline
+sruja lint repo.sruja
+sruja sync -r .
+sruja status -r .
+sruja drift -r . -a repo.sruja
+</code></pre>
+<p>This path is designed to minimize ambiguity: one baseline file (<code>repo.sruja</code>), one validation gate (<code>lint</code>), and one drift signal (<code>drift</code>) backed by refreshed evidence (<code>sync</code>).</p>
 <h2 id="is-sruja-right-for-your-organization"><a class="header" href="#is-sruja-right-for-your-organization">Is Sruja Right for Your Organization?</a></h2>
 <h3 id="quick-self-assessment"><a class="header" href="#quick-self-assessment">Quick Self-Assessment</a></h3>
 <p>Answer these questions to determine if Sruja addresses your needs:</p>
@@ -2963,18 +2976,20 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p><strong>Activities:</strong></p>
 <ol>
 <li>Review Sruja documentation</li>
-<li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code> (or from Git: <code>cargo install sruja-cli --git https://github.com/sruja-ai/sruja</code>; or build from source: <code>git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build</code>)</li>
-<li>Model a simple existing system</li>
-<li>Install VS Code extension for syntax highlighting and diagnostics</li>
+<li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
+<li>Generate a baseline in your target repo: <code>sruja quickstart -r . --generate-baseline</code></li>
+<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Capture the first health signal: <code>sruja status -r .</code> and <code>sruja drift -r . -a repo.sruja</code></li>
+<li>Install VS Code extension for syntax highlighting and diagnostics (optional)</li>
 </ol>
 <p><strong>Deliverable</strong>: Understanding of Sruja capabilities</p>
 <h3 id="phase-2-proof-of-concept-weeks-2-4"><a class="header" href="#phase-2-proof-of-concept-weeks-2-4">Phase 2: Proof of Concept (Weeks 2-4)</a></h3>
 <p><strong>Activities:</strong></p>
 <ol>
-<li>Model 1-2 real systems in Sruja</li>
-<li>Integrate validation into CI/CD</li>
-<li>Document architecture decisions as ADRs</li>
-<li>Measure time savings</li>
+<li>Expand <code>repo.sruja</code> to cover the repo boundary and core containers that matter for reviews</li>
+<li>Integrate validation and drift into CI/CD (<code>sruja lint repo.sruja</code> and <code>sruja drift -r . -a repo.sruja</code>)</li>
+<li>Establish a PR review rule: architecture changes ship with code changes (same diff)</li>
+<li>Measure signal vs noise (how many findings you keep vs ignore)</li>
 </ol>
 <p><strong>Success Criteria:</strong></p>
 <ul>
@@ -3143,9 +3158,10 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <h1 id="adoption-playbook"><a class="header" href="#adoption-playbook">Adoption Playbook</a></h1>
 <h2 id="week-1-baseline--ci"><a class="header" href="#week-1-baseline--ci">Week 1: Baseline &amp; CI</a></h2>
 <ul>
-<li>Create a minimal <code>architecture.sruja</code> covering core systems.</li>
-<li>Add <code>sruja fmt</code> and <code>sruja lint</code> to CI; fail on violations.</li>
-<li>Export docs: <code>sruja export markdown architecture.sruja</code>.</li>
+<li>Generate a baseline <code>repo.sruja</code>: <code>sruja quickstart -r . --generate-baseline</code></li>
+<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Add <code>sruja lint repo.sruja</code> and <code>sruja drift -r . -a repo.sruja</code> to CI; fail on violations</li>
+<li>Export docs: <code>sruja export markdown repo.sruja</code></li>
 </ul>
 <h2 id="week-2-targets--guardrails"><a class="header" href="#week-2-targets--guardrails">Week 2: Targets &amp; Guardrails</a></h2>
 <ul>
@@ -3167,11 +3183,15 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Lint DSL
-        run: sruja lint architecture.sruja
+      - uses: actions/checkout@v4
+      - name: Install Sruja CLI
+        run: curl -fsSL https://sruja.ai/install.sh | bash
+      - name: Lint baseline
+        run: sruja lint repo.sruja
+      - name: Drift check (declared vs actual)
+        run: sruja drift -r . -a repo.sruja
       - name: Export Docs
-        run: sruja export markdown architecture.sruja
+        run: sruja export markdown repo.sruja
 </code></pre>
 <h2 id="success-metrics-1"><a class="header" href="#success-metrics-1">Success Metrics</a></h2>
 <ul>
@@ -3212,21 +3232,22 @@ sruja lint --help
 <hr>
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
 <h3 id="step-1-create-or-add-architecture"><a class="header" href="#step-1-create-or-add-architecture">Step 1: Create or add architecture</a></h3>
-<pre><code class="language-bash"># From your repo root
-sruja init my-service
-# Creates: my-service.sruja, .cursorrules, .copilot-instructions.md, .architecture-skill.md
+<pre><code class="language-bash"># From your repo root (recommended pilot path)
+sruja quickstart -r . --generate-baseline
+sruja lint repo.sruja
+sruja sync -r .
 </code></pre>
-<p>Or add a single file, e.g. <code>architecture.sruja</code> or <code>docs/architecture.sruja</code>, and define your systems/containers/relationships (see <a href="#sruja-language-specification">Language specification</a> and the <a href="examples/index.html">Examples Gallery</a>).</p>
+<p>This creates a baseline <code>repo.sruja</code> you can version-control, validates it, and refreshes evidence under <code>.sruja/</code> (context + graph) for drift and review workflows.</p>
 <h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
-<p>The files created by <code>sruja init</code> are enough for most teams:</p>
-<ul>
-<li><strong><code>.cursorrules</code></strong> – Cursor uses this for Sruja DSL rules.</li>
-<li><strong><code>.copilot-instructions.md</code></strong> – GitHub Copilot uses this.</li>
-<li><strong><code>.architecture-skill.md</code></strong> – Short pointer; optional full skill: <code>npx skills add sruja-ai/sruja --skill sruja-architecture</code>.</li>
-</ul>
-<p>Commit these so everyone (and CI) has the same setup. See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo for details.</p>
+<p>Install the skill in your AI editor:</p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
+</code></pre>
+<p>Optional: if you want helper files for Cursor/Copilot prompts, generate them once and commit:</p>
+<pre><code class="language-bash">sruja start -r . --prompt
+</code></pre>
+<p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo for details.</p>
 <h3 id="step-3-validate-in-ci"><a class="header" href="#step-3-validate-in-ci">Step 3: Validate in CI</a></h3>
-<p>In <strong>your</strong> repo you don't have the Sruja monorepo, so install the CLI in CI from Git, then run lint.</p>
+<p>In CI, keep it simple: lint the baseline and check for drift against <code>repo.sruja</code>.</p>
 <p><strong>GitHub Actions example:</strong></p>
 <pre><code class="language-yaml">name: Validate Sruja
 
@@ -3242,22 +3263,18 @@ jobs:
   sruja:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v4
 
       - name: Install Sruja CLI
-        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
+        run: curl -fsSL https://sruja.ai/install.sh | bash
 
-      - name: Lint all .sruja files
-        run: |
-          find . -name '*.sruja' -not -path './target/*' | while read f; do
-            echo "Linting $f"
-            sruja lint "$f"
-          done
+      - name: Lint baseline
+        run: sruja lint repo.sruja
+
+      - name: Drift check (declared vs actual)
+        run: sruja drift -r . -a repo.sruja
 </code></pre>
-<p>Use <code>--locked</code> so the install matches the lockfile in the Sruja repo for reproducible CI.</p>
+<p>If you prefer PR annotations, use the <code>sruja-check</code> action (see the main README).</p>
 <p><strong>Optional – export docs in CI:</strong></p>
 <pre><code class="language-yaml">      - name: Export architecture to Markdown
         run: |
@@ -3281,7 +3298,7 @@ jobs:
 <tbody>
 <tr><td><strong>PR reviews</strong></td><td>CI fails if <code>.sruja</code> is invalid; reviewers see architecture changes in the diff.</td></tr>
 <tr><td><strong>Onboarding</strong></td><td>New devs read <code>.sruja</code> and exported docs instead of hunting for "the" diagram.</td></tr>
-<tr><td><strong>AI-generated code</strong></td><td><code>.cursorrules</code> and Copilot instructions steer AI to valid DSL; <code>sruja lint</code> catches mistakes.</td></tr>
+<tr><td><strong>AI-generated code</strong></td><td>The skill and editor integrations steer AI to valid DSL; <code>sruja lint</code> catches mistakes.</td></tr>
 <tr><td><strong>Compliance / governance</strong></td><td>Policies and constraints in the DSL; lint enforces structure; export for auditors.</td></tr>
 <tr><td><strong>Multi-repo</strong></td><td>Each repo can have its own <code>architecture.sruja</code> (or one per service); same CLI and CI pattern.</td></tr>
 </tbody>
@@ -3290,7 +3307,7 @@ jobs:
 <hr>
 <h2 id="4-using-sruja-across-multiple-repos"><a class="header" href="#4-using-sruja-across-multiple-repos">4. Using Sruja across multiple repos</a></h2>
 <ul>
-<li><strong>Per-repo</strong> – Each repository that owns a service or app can have its own <code>.sruja</code> file(s). Add the same CI job (install CLI from Git + <code>sruja lint</code>) and the same AI files (e.g. copy <code>.cursorrules</code> and <code>.copilot-instructions.md</code> from a template or run <code>sruja init</code> once and commit).</li>
+<li><strong>Per-repo</strong> – Each repository that owns a service or app can have its own <code>.sruja</code> file(s). Add the same CI job and the same AI setup (e.g. copy <code>.cursorrules</code> and <code>.copilot-instructions.md</code> from a template, install the skill, or run <code>sruja start -r . --prompt</code> once and commit).</li>
 <li><strong>Central docs repo</strong> – Some teams keep a single "docs" or "architecture" repo with one or more <code>.sruja</code> files and run Sruja CI there; link to exported Markdown/JSON from other repos. Other repos don't need the CLI unless they also own architecture files.</li>
 <li><strong>Shared rules</strong> – Use the same <a href="https://github.com/sruja-ai/sruja/tree/main/skills/sruja-architecture">sruja-architecture skill</a> (<code>npx skills add sruja-ai/sruja --skill sruja-architecture</code>) across repos so AI and humans share the same patterns and trade-offs.</li>
 </ul>
@@ -29561,28 +29578,42 @@ sruja completion fish
 <h1 id="syntax-error"><a href="#syntax-error" class="header">Syntax Error</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="cli-reference"><a class="header" href="#cli-reference">CLI reference</a></h1>
-<p>Core commands:</p>
+<p>Stable pilot surface:</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Command</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>sruja start -r . --prompt</code></td><td>Set up <code>.sruja/</code> and generate an AI-ready baseline prompt</td></tr>
-<tr><td><code>sruja daily -r .</code></td><td>Daily review: refresh evidence and summarize drift/questions</td></tr>
-<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health, truth status, and last evidence refresh</td></tr>
-<tr><td><code>sruja watch -r .</code></td><td>Keep architecture feedback live while coding</td></tr>
+<tr><td><code>sruja quickstart -r .</code></td><td>First look: structural overview and baseline generation</td></tr>
 <tr><td><code>sruja lint &lt;file&gt;</code></td><td>Validate <code>.sruja</code> file</td></tr>
-<tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
-<tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
-<tr><td><code>sruja sources -a &lt;file&gt;</code></td><td>List architecture index source bindings</td></tr>
-<tr><td><code>sruja export json &lt;file&gt;</code></td><td>Export to JSON</td></tr>
-<tr><td><code>sruja export markdown &lt;file&gt;</code></td><td>Export to Markdown</td></tr>
-<tr><td><code>sruja export mermaid &lt;file&gt;</code></td><td>Export to Mermaid</td></tr>
+<tr><td><code>sruja sync -r .</code></td><td>Refresh evidence and cached graph/context</td></tr>
+<tr><td><code>sruja status -r .</code></td><td>Repo health and truth status</td></tr>
+<tr><td><code>sruja review -r .</code></td><td>Review workflow: refresh evidence, detect drift, summarize</td></tr>
+<tr><td><code>sruja drift -r . -a repo.sruja</code></td><td>Declared vs actual structure</td></tr>
+<tr><td><code>sruja publish -r .</code></td><td>Export repo bundle for federation</td></tr>
+<tr><td><code>sruja compose -i &lt;bundle.json&gt; -o system.index.json</code></td><td>Compose bundles into a system index</td></tr>
 </tbody>
 </table>
 </div>
-<p>Workflow aliases:</p>
+<p>Other commands:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Command</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>sruja export json &lt;file&gt;</code></td><td>Export to JSON</td></tr>
+<tr><td><code>sruja export markdown &lt;file&gt;</code></td><td>Export to Markdown</td></tr>
+<tr><td><code>sruja export mermaid &lt;file&gt;</code></td><td>Export to Mermaid</td></tr>
+<tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
+<tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
+<tr><td><code>sruja watch -r .</code></td><td>Keep feedback live while coding</td></tr>
+<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health and last evidence refresh</td></tr>
+</tbody>
+</table>
+</div>
+<p>Aliases:</p>
 <ul>
 <li><code>start</code> = <code>init</code></li>
 <li><code>daily</code> = <code>review</code></li>

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-254ac841.js";
+            window.path_to_searchindex_js = "../searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -181,28 +181,42 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="cli-reference"><a class="header" href="#cli-reference">CLI reference</a></h1>
-<p>Core commands:</p>
+<p>Stable pilot surface:</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Command</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>sruja start -r . --prompt</code></td><td>Set up <code>.sruja/</code> and generate an AI-ready baseline prompt</td></tr>
-<tr><td><code>sruja daily -r .</code></td><td>Daily review: refresh evidence and summarize drift/questions</td></tr>
-<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health, truth status, and last evidence refresh</td></tr>
-<tr><td><code>sruja watch -r .</code></td><td>Keep architecture feedback live while coding</td></tr>
+<tr><td><code>sruja quickstart -r .</code></td><td>First look: structural overview and baseline generation</td></tr>
 <tr><td><code>sruja lint &lt;file&gt;</code></td><td>Validate <code>.sruja</code> file</td></tr>
-<tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
-<tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
-<tr><td><code>sruja sources -a &lt;file&gt;</code></td><td>List architecture index source bindings</td></tr>
-<tr><td><code>sruja export json &lt;file&gt;</code></td><td>Export to JSON</td></tr>
-<tr><td><code>sruja export markdown &lt;file&gt;</code></td><td>Export to Markdown</td></tr>
-<tr><td><code>sruja export mermaid &lt;file&gt;</code></td><td>Export to Mermaid</td></tr>
+<tr><td><code>sruja sync -r .</code></td><td>Refresh evidence and cached graph/context</td></tr>
+<tr><td><code>sruja status -r .</code></td><td>Repo health and truth status</td></tr>
+<tr><td><code>sruja review -r .</code></td><td>Review workflow: refresh evidence, detect drift, summarize</td></tr>
+<tr><td><code>sruja drift -r . -a repo.sruja</code></td><td>Declared vs actual structure</td></tr>
+<tr><td><code>sruja publish -r .</code></td><td>Export repo bundle for federation</td></tr>
+<tr><td><code>sruja compose -i &lt;bundle.json&gt; -o system.index.json</code></td><td>Compose bundles into a system index</td></tr>
 </tbody>
 </table>
 </div>
-<p>Workflow aliases:</p>
+<p>Other commands:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Command</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>sruja export json &lt;file&gt;</code></td><td>Export to JSON</td></tr>
+<tr><td><code>sruja export markdown &lt;file&gt;</code></td><td>Export to Markdown</td></tr>
+<tr><td><code>sruja export mermaid &lt;file&gt;</code></td><td>Export to Mermaid</td></tr>
+<tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
+<tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
+<tr><td><code>sruja watch -r .</code></td><td>Keep feedback live while coding</td></tr>
+<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health and last evidence refresh</td></tr>
+</tbody>
+</table>
+</div>
+<p>Aliases:</p>
 <ul>
 <li><code>start</code> = <code>init</code></li>
 <li><code>daily</code> = <code>review</code></li>

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-254ac841.js";
+            window.path_to_searchindex_js = "../searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -210,21 +210,22 @@ sruja lint --help
 <hr>
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
 <h3 id="step-1-create-or-add-architecture"><a class="header" href="#step-1-create-or-add-architecture">Step 1: Create or add architecture</a></h3>
-<pre><code class="language-bash"># From your repo root
-sruja init my-service
-# Creates: my-service.sruja, .cursorrules, .copilot-instructions.md, .architecture-skill.md
+<pre><code class="language-bash"># From your repo root (recommended pilot path)
+sruja quickstart -r . --generate-baseline
+sruja lint repo.sruja
+sruja sync -r .
 </code></pre>
-<p>Or add a single file, e.g. <code>architecture.sruja</code> or <code>docs/architecture.sruja</code>, and define your systems/containers/relationships (see <a href="../reference/language-spec.html">Language specification</a> and the <a href="../examples/index.html">Examples Gallery</a>).</p>
+<p>This creates a baseline <code>repo.sruja</code> you can version-control, validates it, and refreshes evidence under <code>.sruja/</code> (context + graph) for drift and review workflows.</p>
 <h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
-<p>The files created by <code>sruja init</code> are enough for most teams:</p>
-<ul>
-<li><strong><code>.cursorrules</code></strong> – Cursor uses this for Sruja DSL rules.</li>
-<li><strong><code>.copilot-instructions.md</code></strong> – GitHub Copilot uses this.</li>
-<li><strong><code>.architecture-skill.md</code></strong> – Short pointer; optional full skill: <code>npx skills add sruja-ai/sruja --skill sruja-architecture</code>.</li>
-</ul>
-<p>Commit these so everyone (and CI) has the same setup. See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo for details.</p>
+<p>Install the skill in your AI editor:</p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
+</code></pre>
+<p>Optional: if you want helper files for Cursor/Copilot prompts, generate them once and commit:</p>
+<pre><code class="language-bash">sruja start -r . --prompt
+</code></pre>
+<p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo for details.</p>
 <h3 id="step-3-validate-in-ci"><a class="header" href="#step-3-validate-in-ci">Step 3: Validate in CI</a></h3>
-<p>In <strong>your</strong> repo you don't have the Sruja monorepo, so install the CLI in CI from Git, then run lint.</p>
+<p>In CI, keep it simple: lint the baseline and check for drift against <code>repo.sruja</code>.</p>
 <p><strong>GitHub Actions example:</strong></p>
 <pre><code class="language-yaml">name: Validate Sruja
 
@@ -240,22 +241,18 @@ jobs:
   sruja:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v4
 
       - name: Install Sruja CLI
-        run: cargo install sruja-cli --git https://github.com/sruja-ai/sruja --locked
+        run: curl -fsSL https://sruja.ai/install.sh | bash
 
-      - name: Lint all .sruja files
-        run: |
-          find . -name '*.sruja' -not -path './target/*' | while read f; do
-            echo "Linting $f"
-            sruja lint "$f"
-          done
+      - name: Lint baseline
+        run: sruja lint repo.sruja
+
+      - name: Drift check (declared vs actual)
+        run: sruja drift -r . -a repo.sruja
 </code></pre>
-<p>Use <code>--locked</code> so the install matches the lockfile in the Sruja repo for reproducible CI.</p>
+<p>If you prefer PR annotations, use the <code>sruja-check</code> action (see the main README).</p>
 <p><strong>Optional – export docs in CI:</strong></p>
 <pre><code class="language-yaml">      - name: Export architecture to Markdown
         run: |
@@ -279,7 +276,7 @@ jobs:
 <tbody>
 <tr><td><strong>PR reviews</strong></td><td>CI fails if <code>.sruja</code> is invalid; reviewers see architecture changes in the diff.</td></tr>
 <tr><td><strong>Onboarding</strong></td><td>New devs read <code>.sruja</code> and exported docs instead of hunting for "the" diagram.</td></tr>
-<tr><td><strong>AI-generated code</strong></td><td><code>.cursorrules</code> and Copilot instructions steer AI to valid DSL; <code>sruja lint</code> catches mistakes.</td></tr>
+<tr><td><strong>AI-generated code</strong></td><td>The skill and editor integrations steer AI to valid DSL; <code>sruja lint</code> catches mistakes.</td></tr>
 <tr><td><strong>Compliance / governance</strong></td><td>Policies and constraints in the DSL; lint enforces structure; export for auditors.</td></tr>
 <tr><td><strong>Multi-repo</strong></td><td>Each repo can have its own <code>architecture.sruja</code> (or one per service); same CLI and CI pattern.</td></tr>
 </tbody>
@@ -288,7 +285,7 @@ jobs:
 <hr>
 <h2 id="4-using-sruja-across-multiple-repos"><a class="header" href="#4-using-sruja-across-multiple-repos">4. Using Sruja across multiple repos</a></h2>
 <ul>
-<li><strong>Per-repo</strong> – Each repository that owns a service or app can have its own <code>.sruja</code> file(s). Add the same CI job (install CLI from Git + <code>sruja lint</code>) and the same AI files (e.g. copy <code>.cursorrules</code> and <code>.copilot-instructions.md</code> from a template or run <code>sruja init</code> once and commit).</li>
+<li><strong>Per-repo</strong> – Each repository that owns a service or app can have its own <code>.sruja</code> file(s). Add the same CI job and the same AI setup (e.g. copy <code>.cursorrules</code> and <code>.copilot-instructions.md</code> from a template, install the skill, or run <code>sruja start -r . --prompt</code> once and commit).</li>
 <li><strong>Central docs repo</strong> – Some teams keep a single "docs" or "architecture" repo with one or more <code>.sruja</code> files and run Sruja CI there; link to exported Markdown/JSON from other repos. Other repos don't need the CLI unless they also own architecture files.</li>
 <li><strong>Shared rules</strong> – Use the same <a href="https://github.com/sruja-ai/sruja/tree/main/skills/sruja-architecture">sruja-architecture skill</a> (<code>npx skills add sruja-ai/sruja --skill sruja-architecture</code>) across repos so AI and humans share the same patterns and trade-offs.</li>
 </ul>

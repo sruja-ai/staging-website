@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-254ac841.js";
+            window.path_to_searchindex_js = "../searchindex-dcac894a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -375,11 +375,14 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
 </thead>
 <tbody>
 <tr><td><strong>Analyze code</strong></td><td><code>sruja discover --context -r . --format json</code></td></tr>
+<tr><td><strong>Generate baseline</strong></td><td><code>sruja quickstart -r . --generate-baseline</code></td></tr>
 <tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
+<tr><td><strong>Refresh evidence</strong></td><td><code>sruja sync -r .</code></td></tr>
+<tr><td><strong>Repo health</strong></td><td><code>sruja status -r .</code></td></tr>
 <tr><td><strong>Export Markdown</strong></td><td><code>sruja export markdown repo.sruja &gt; doc.md</code></td></tr>
 <tr><td><strong>Export Mermaid</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
 <tr><td><strong>Export JSON</strong></td><td><code>sruja export json repo.sruja &gt; arch.json</code></td></tr>
-<tr><td><strong>Check drift</strong></td><td><code>sruja drift -r . --format json</code></td></tr>
+<tr><td><strong>Check drift</strong></td><td><code>sruja drift -r . -a repo.sruja --format json</code></td></tr>
 </tbody>
 </table>
 </div>
