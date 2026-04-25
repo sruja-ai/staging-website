@@ -437,11 +437,10 @@ export function sruja_model_to_dsl(model_json) {
         wasm.__wbindgen_export3(deferred3_0, deferred3_1, 1);
     }
 }
-
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,
-        __wbg___wbindgen_string_get_395e606bd0ee4427: function(arg0, arg1) {
+        __wbg___wbindgen_string_get_7ed5322991caaec5: function(arg0, arg1) {
             const obj = getObject(arg1);
             const ret = typeof(obj) === 'string' ? obj : undefined;
             var ptr1 = isLikeNone(ret) ? 0 : passStringToWasm0(ret, wasm.__wbindgen_export, wasm.__wbindgen_export2);
@@ -449,7 +448,7 @@ function __wbg_get_imports() {
             getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
         },
-        __wbg___wbindgen_throw_6ddd609b62940d55: function(arg0, arg1) {
+        __wbg___wbindgen_throw_6b64449b9b9ed33c: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
         __wbg_error_a6fa202b58aa1cd3: function(arg0, arg1) {
@@ -463,11 +462,11 @@ function __wbg_get_imports() {
                 wasm.__wbindgen_export3(deferred0_0, deferred0_1, 1);
             }
         },
-        __wbg_getTime_1dad7b5386ddd2d9: function(arg0) {
+        __wbg_getTime_da7c55f52b71e8c6: function(arg0) {
             const ret = getObject(arg0).getTime();
             return ret;
         },
-        __wbg_new_0_1dcafdf5e786e876: function() {
+        __wbg_new_0_4d657201ced14de3: function() {
             const ret = new Date();
             return addHeapObject(ret);
         },
@@ -475,7 +474,7 @@ function __wbg_get_imports() {
             const ret = new Error();
             return addHeapObject(ret);
         },
-        __wbg_now_16f0c993d5dd6c27: function() {
+        __wbg_now_a9b7df1cbee90986: function() {
             const ret = Date.now();
             return ret;
         },
@@ -486,7 +485,7 @@ function __wbg_get_imports() {
             getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
             getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
         },
-        __wbg_toISOString_87e7eaab337f7dcc: function(arg0) {
+        __wbg_toISOString_07c00b3614e865a1: function(arg0) {
             const ret = getObject(arg0).toISOString();
             return addHeapObject(ret);
         },
