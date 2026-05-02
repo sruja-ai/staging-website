@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-dcac894a.js";
+            window.path_to_searchindex_js = "searchindex-3735ebce.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-4ef37301.js"></script>
@@ -29586,6 +29586,7 @@ sruja completion fish
 </thead>
 <tbody>
 <tr><td><code>sruja quickstart -r .</code></td><td>First look: structural overview and baseline generation</td></tr>
+<tr><td><code>sruja onboard -r .</code></td><td>Single onboarding brief (deterministic; optional LLM enrichment with <code>--enrich</code>)</td></tr>
 <tr><td><code>sruja lint &lt;file&gt;</code></td><td>Validate <code>.sruja</code> file</td></tr>
 <tr><td><code>sruja sync -r .</code></td><td>Refresh evidence and cached graph/context</td></tr>
 <tr><td><code>sruja status -r .</code></td><td>Repo health and truth status</td></tr>
@@ -29610,9 +29611,13 @@ sruja completion fish
 <tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
 <tr><td><code>sruja watch -r .</code></td><td>Keep feedback live while coding</td></tr>
 <tr><td><code>sruja doctor -r .</code></td><td>Quick repo health and last evidence refresh</td></tr>
+<tr><td><code>sruja check -r .</code></td><td>CI-oriented drift check (default format suited for GitHub Actions annotations)</td></tr>
+<tr><td><code>sruja baseline -r .</code></td><td>Snapshot violations for baseline ignore in CI</td></tr>
+<tr><td><code>sruja ai -r . --task "..."</code></td><td>Paste-ready AI coding brief (optional <code>--enrich</code> / <code>--enrich-cmd</code>)</td></tr>
 </tbody>
 </table>
 </div>
+<p><strong>Repo root:</strong> Prefer <code>-r</code> / <code>--repo</code> for the repository directory. Some commands also accept <code>--path</code> as an alias for backwards compatibility.</p>
 <p>Aliases:</p>
 <ul>
 <li><code>start</code> = <code>init</code></li>
