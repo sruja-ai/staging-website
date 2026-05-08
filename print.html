@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-4f0eef74.js";
+            window.path_to_searchindex_js = "searchindex-68569a95.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-4ef37301.js"></script>
+        <script src="toc-6d229c89.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -24495,6 +24495,37 @@ exclude Pipeline.OutputDB
 <li>Use scenarios to model high-volume flows.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-real-time-systems"><a class="header" href="#module-overview-real-time-systems">Module Overview: Real-Time Systems</a></h1>
+<p><strong>"Design a system that updates users in real time."</strong></p>
+<p>This module covers real-time patterns: event streams, fanout, ordering, backpressure, and operational trade-offs.</p>
+<h2 id="learning-goals-24"><a class="header" href="#learning-goals-24">Learning Goals</a></h2>
+<ul>
+<li>Choose between polling, webhooks, and streaming</li>
+<li>Model event-driven architecture with clear boundaries</li>
+<li>Reason about ordering, retries, and idempotency</li>
+<li>Design for latency, throughput, and cost simultaneously</li>
+</ul>
+<h2 id="interview-preparation-1"><a class="header" href="#interview-preparation-1">Interview Preparation</a></h2>
+<ul>
+<li>✅ Explain push vs pull trade-offs</li>
+<li>✅ Discuss pub/sub, partitions, and consumer groups</li>
+<li>✅ Handle retries, duplicates, and ordering guarantees</li>
+</ul>
+<h2 id="real-world-application-1"><a class="header" href="#real-world-application-1">Real-World Application</a></h2>
+<ul>
+<li>Notifications and activity feeds</li>
+<li>Realtime dashboards and collaboration</li>
+<li>Streaming pipelines and event processing</li>
+</ul>
+<h2 id="estimated-time-1"><a class="header" href="#estimated-time-1">Estimated Time</a></h2>
+<p>45-60 minutes (includes practice)</p>
+<h2 id="checklist-1"><a class="header" href="#checklist-1">Checklist</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"> Can explain polling vs push vs streaming</li>
+<li><input disabled="" type="checkbox"> Can model event streams and consumers</li>
+<li><input disabled="" type="checkbox"> Can design idempotent handlers and retries</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-design-a-chat-application"><a class="header" href="#lesson-1-design-a-chat-application">Lesson 1: Design a Chat Application</a></h1>
 <p><strong>Goal:</strong> Design a real-time chat service like WhatsApp or Slack that supports 1-on-1 and Group messaging.</p>
 <h2 id="requirements-2"><a class="header" href="#requirements-2">Requirements</a></h2>
@@ -24616,6 +24647,37 @@ view index {
 include *
 }
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-data-intensive-systems"><a class="header" href="#module-overview-data-intensive-systems">Module Overview: Data-Intensive Systems</a></h1>
+<p><strong>"Design a system that stores and queries massive datasets."</strong></p>
+<p>This module focuses on data modeling, storage choices, and architecture patterns for systems where data volume, query performance, and correctness dominate the design.</p>
+<h2 id="learning-goals-25"><a class="header" href="#learning-goals-25">Learning Goals</a></h2>
+<ul>
+<li>Choose storage engines based on access patterns</li>
+<li>Apply indexing, partitioning, and caching strategies</li>
+<li>Model pipelines (ingest → process → serve) with clear responsibilities</li>
+<li>Reason about durability, retention, and cost</li>
+</ul>
+<h2 id="interview-preparation-2"><a class="header" href="#interview-preparation-2">Interview Preparation</a></h2>
+<ul>
+<li>✅ Explain OLTP vs OLAP trade-offs</li>
+<li>✅ Discuss partition keys, hotspots, and compaction</li>
+<li>✅ Design pipelines and serving layers</li>
+</ul>
+<h2 id="real-world-application-2"><a class="header" href="#real-world-application-2">Real-World Application</a></h2>
+<ul>
+<li>Analytics and reporting platforms</li>
+<li>Search and recommendation backends</li>
+<li>Event data lakes and warehouses</li>
+</ul>
+<h2 id="estimated-time-2"><a class="header" href="#estimated-time-2">Estimated Time</a></h2>
+<p>45-60 minutes (includes practice)</p>
+<h2 id="checklist-2"><a class="header" href="#checklist-2">Checklist</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"> Can map queries to storage choices</li>
+<li><input disabled="" type="checkbox"> Can design partitions and indexes</li>
+<li><input disabled="" type="checkbox"> Can explain retention and backfills</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-design-a-video-streaming-service"><a class="header" href="#lesson-1-design-a-video-streaming-service">Lesson 1: Design a Video Streaming Service</a></h1>
 <p><strong>Goal:</strong> Design a video sharing platform like YouTube or Netflix where users can upload and watch videos.</p>
@@ -24770,6 +24832,37 @@ description "Focuses on video processing components"
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-consistency--trade-offs"><a class="header" href="#module-overview-consistency--trade-offs">Module Overview: Consistency &amp; Trade-offs</a></h1>
+<p><strong>"How consistent does it need to be?"</strong></p>
+<p>This module covers consistency models (strong, eventual), isolation levels, and practical correctness techniques (idempotency, versioning, transactions, sagas).</p>
+<h2 id="learning-goals-26"><a class="header" href="#learning-goals-26">Learning Goals</a></h2>
+<ul>
+<li>Choose consistency and isolation appropriate for the product</li>
+<li>Identify invariants and design around them</li>
+<li>Apply techniques to manage concurrency and conflicts</li>
+<li>Document trade-offs and assumptions explicitly</li>
+</ul>
+<h2 id="interview-preparation-3"><a class="header" href="#interview-preparation-3">Interview Preparation</a></h2>
+<ul>
+<li>✅ Explain consistency vs availability trade-offs</li>
+<li>✅ Discuss read-your-writes, monotonic reads, and linearizability</li>
+<li>✅ Design for correctness with retries and concurrent writers</li>
+</ul>
+<h2 id="real-world-application-3"><a class="header" href="#real-world-application-3">Real-World Application</a></h2>
+<ul>
+<li>Payments and inventory correctness</li>
+<li>Collaborative edits and conflict resolution</li>
+<li>Distributed transactions and saga workflows</li>
+</ul>
+<h2 id="estimated-time-3"><a class="header" href="#estimated-time-3">Estimated Time</a></h2>
+<p>45-60 minutes (includes practice)</p>
+<h2 id="checklist-3"><a class="header" href="#checklist-3">Checklist</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"> Can name common consistency models and their impact</li>
+<li><input disabled="" type="checkbox"> Can pick isolation levels for key flows</li>
+<li><input disabled="" type="checkbox"> Can design idempotent APIs and retries</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-design-a-distributed-counter"><a class="header" href="#lesson-1-design-a-distributed-counter">Lesson 1: Design a Distributed Counter</a></h1>
 <p><strong>Goal:</strong> Design a system to count events (e.g., YouTube views, Facebook likes) at a massive scale (e.g., 1 million writes/sec).</p>
 <h2 id="the-problem-with-a-single-database"><a class="header" href="#the-problem-with-a-single-database">The Problem with a Single Database</a></h2>
@@ -24877,7 +24970,7 @@ include *
 <li>End-to-end view of building and operating a modern ecommerce platform</li>
 <li>Balances product vision with technical architecture and operational excellence</li>
 </ul>
-<h2 id="learning-goals-24"><a class="header" href="#learning-goals-24">Learning Goals</a></h2>
+<h2 id="learning-goals-27"><a class="header" href="#learning-goals-27">Learning Goals</a></h2>
 <ul>
 <li>Model domain entities, flows, and services for ecommerce</li>
 <li>Design modular architecture and platform capabilities</li>
@@ -25467,6 +25560,21 @@ customer -&gt; ecommerce.api "uses"
 <li>Show how they work together</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-sdlc"><a class="header" href="#module-overview-sdlc">Module Overview: SDLC</a></h1>
+<p>Goals:</p>
+<ul>
+<li>Define delivery workflow (branches, environments, releases)</li>
+<li>Add architecture checks to CI (lint, drift, intent)</li>
+<li>Establish review and change practices (ADRs, proposals)</li>
+</ul>
+<p>Estimated time: 45–75 minutes</p>
+<p>Checklist:</p>
+<ul>
+<li>CI checks for <code>.sruja</code> and code</li>
+<li>Release process documented</li>
+<li>ADR/proposal workflow agreed</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-the-local-loop"><a class="header" href="#lesson-1-the-local-loop">Lesson 1: The Local Loop</a></h1>
 <p>How do you use Sruja while you code?</p>
 <h2 id="1-the-blueprint"><a class="header" href="#1-the-blueprint">1. The Blueprint</a></h2>
@@ -25533,6 +25641,21 @@ customer -&gt; ecommerce.api "uses"
 <h2 id="breaking-the-build"><a class="header" href="#breaking-the-build">Breaking the Build</a></h2>
 <p>If a developer introduces a violation (e.g., "Frontend talks directly to Database"), <code>sruja validate</code> will exit with a non-zero code, failing the build.</p>
 <p>This is <strong>Governance as Code</strong>. You stop architectural drift before it merges.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-ops"><a class="header" href="#module-overview-ops">Module Overview: Ops</a></h1>
+<p>Goals:</p>
+<ul>
+<li>Define SLOs and failure modes</li>
+<li>Add observability signals (logs, metrics, traces)</li>
+<li>Model operational constraints and runbooks</li>
+</ul>
+<p>Estimated time: 60–90 minutes</p>
+<p>Checklist:</p>
+<ul>
+<li>SLOs for key flows</li>
+<li>Observability plan per service</li>
+<li>Incident scenarios captured</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-deployment-strategies"><a class="header" href="#lesson-1-deployment-strategies">Lesson 1: Deployment Strategies</a></h1>
 <h2 id="real-world-problem-black-friday-deployment"><a class="header" href="#real-world-problem-black-friday-deployment">Real-World Problem: Black Friday Deployment</a></h2>
@@ -25983,6 +26106,21 @@ include *
 <li>Map alerts to SLO windows; define runbooks for breaches.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-evolution"><a class="header" href="#module-overview-evolution">Module Overview: Evolution</a></h1>
+<p>Goals:</p>
+<ul>
+<li>Plan migrations (data, APIs, service splits)</li>
+<li>Keep intent and architecture docs up to date</li>
+<li>Track architectural drift and technical debt</li>
+</ul>
+<p>Estimated time: 45–75 minutes</p>
+<p>Checklist:</p>
+<ul>
+<li>Migration plan (phases + rollback)</li>
+<li>Drift checks in CI</li>
+<li>Debt tracked with clear owners</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-the-good-problem"><a class="header" href="#lesson-1-the-good-problem">Lesson 1: The "Good" Problem</a></h1>
 <p>You have too many users. Your single database is melting. It's time to scale.</p>
 <h2 id="the-bottleneck"><a class="header" href="#the-bottleneck">The Bottleneck</a></h2>
@@ -26049,6 +26187,21 @@ policy Migration "No New Stripe Integrations" {
 }
 </code></pre>
 <p>This prevents developers from accidentally adding dependencies to the system you are trying to kill.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="module-overview-governance"><a class="header" href="#module-overview-governance">Module Overview: Governance</a></h1>
+<p>Goals:</p>
+<ul>
+<li>Define architectural policies (layers, dependencies, data access)</li>
+<li>Encode standards as validation rules</li>
+<li>Establish ownership and escalation paths</li>
+</ul>
+<p>Estimated time: 45–75 minutes</p>
+<p>Checklist:</p>
+<ul>
+<li>Policy rules defined and validated</li>
+<li>Ownership boundaries clear</li>
+<li>Exceptions documented with rationale</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-security-by-design"><a class="header" href="#lesson-1-security-by-design">Lesson 1: Security by Design</a></h1>
 <p>Security isn't something you "add on" at the end. It must be baked into the architecture.</p>
@@ -26174,7 +26327,7 @@ deployment Dev {
 <li>Familiarity with basic Sruja syntax</li>
 <li>Understanding of basic system design concepts</li>
 </ul>
-<h2 id="estimated-time-1"><a class="header" href="#estimated-time-1">Estimated Time</a></h2>
+<h2 id="estimated-time-4"><a class="header" href="#estimated-time-4">Estimated Time</a></h2>
 <p>4-5 hours (includes practice exercises)</p>
 <h2 id="interview-success-framework"><a class="header" href="#interview-success-framework">Interview Success Framework</a></h2>
 <p>Each module follows this proven approach:</p>
@@ -26242,9 +26395,9 @@ deployment Dev {
 <li><strong>Discuss Scaling</strong> - Show how it handles load</li>
 <li><strong>Optimize</strong> - Improve based on constraints</li>
 </ol>
-<h2 id="estimated-time-2"><a class="header" href="#estimated-time-2">Estimated Time</a></h2>
+<h2 id="estimated-time-5"><a class="header" href="#estimated-time-5">Estimated Time</a></h2>
 <p>60-75 minutes (includes practice)</p>
-<h2 id="checklist-1"><a class="header" href="#checklist-1">Checklist</a></h2>
+<h2 id="checklist-4"><a class="header" href="#checklist-4">Checklist</a></h2>
 <ul>
 <li><input disabled="" type="checkbox"> Understand how to approach scaling questions</li>
 <li><input disabled="" type="checkbox"> Model scaling strategies with Sruja</li>
@@ -26886,9 +27039,9 @@ include *
 <li><strong>Discuss Communication</strong> - APIs, events, data flow</li>
 <li><strong>Address Challenges</strong> - Consistency, failures, monitoring</li>
 </ol>
-<h2 id="estimated-time-3"><a class="header" href="#estimated-time-3">Estimated Time</a></h2>
+<h2 id="estimated-time-6"><a class="header" href="#estimated-time-6">Estimated Time</a></h2>
 <p>60-75 minutes (includes practice)</p>
-<h2 id="checklist-2"><a class="header" href="#checklist-2">Checklist</a></h2>
+<h2 id="checklist-5"><a class="header" href="#checklist-5">Checklist</a></h2>
 <ul>
 <li><input disabled="" type="checkbox"> Understand microservices decomposition</li>
 <li><input disabled="" type="checkbox"> Model services as separate systems in Sruja</li>
@@ -27301,9 +27454,9 @@ include *
 <li><strong>Discuss Enforcement</strong> - How to ensure compliance</li>
 <li><strong>Address Trade-offs</strong> - Flexibility vs standards</li>
 </ol>
-<h2 id="estimated-time-4"><a class="header" href="#estimated-time-4">Estimated Time</a></h2>
+<h2 id="estimated-time-7"><a class="header" href="#estimated-time-7">Estimated Time</a></h2>
 <p>45-60 minutes</p>
-<h2 id="checklist-3"><a class="header" href="#checklist-3">Checklist</a></h2>
+<h2 id="checklist-6"><a class="header" href="#checklist-6">Checklist</a></h2>
 <ul>
 <li><input disabled="" type="checkbox"> Understand policy syntax and usage</li>
 <li><input disabled="" type="checkbox"> Define security and compliance policies</li>
@@ -27983,7 +28136,7 @@ container AgentSystem {
 <li>Familiarity with CI/CD pipelines</li>
 <li>Basic understanding of Sruja syntax (or complete <a href="courses/advanced-architects/docs/getting-started.html">Getting Started</a> first)</li>
 </ul>
-<h2 id="estimated-time-5"><a class="header" href="#estimated-time-5">Estimated Time</a></h2>
+<h2 id="estimated-time-8"><a class="header" href="#estimated-time-8">Estimated Time</a></h2>
 <p><strong>5 minutes</strong> — Quick, actionable lessons you can apply immediately.</p>
 <h2 id="course-structure-4"><a class="header" href="#course-structure-4">Course Structure</a></h2>
 <h3 id="module-1-policy-as-code-5-minutes"><a class="header" href="#module-1-policy-as-code-5-minutes">Module 1: Policy as Code (5 minutes)</a></h3>
@@ -28004,7 +28157,7 @@ container AgentSystem {
 <li>✅ Scale governance across large teams</li>
 <li>✅ Track compliance across services</li>
 </ul>
-<h2 id="real-world-application-1"><a class="header" href="#real-world-application-1">Real-World Application</a></h2>
+<h2 id="real-world-application-4"><a class="header" href="#real-world-application-4">Real-World Application</a></h2>
 <p>This course uses patterns from:</p>
 <ul>
 <li><strong>Microservices governance</strong> at scale</li>
@@ -28018,7 +28171,7 @@ container AgentSystem {
 <h1 id="module-overview-policy-as-code"><a class="header" href="#module-overview-policy-as-code">Module Overview: Policy as Code</a></h1>
 <p><strong>Turn architectural standards into executable code that runs in CI/CD.</strong></p>
 <p>This module teaches you how to write architectural policies as code, enforce them automatically, and scale governance across large organizations.</p>
-<h2 id="learning-goals-25"><a class="header" href="#learning-goals-25">Learning Goals</a></h2>
+<h2 id="learning-goals-28"><a class="header" href="#learning-goals-28">Learning Goals</a></h2>
 <ul>
 <li>Write constraints and conventions in Sruja</li>
 <li>Enforce layer boundaries and service dependencies</li>
@@ -28048,7 +28201,7 @@ container AgentSystem {
 <li>✅ Compliance tracking across services</li>
 <li>✅ Patterns you can apply to your organization</li>
 </ul>
-<h2 id="estimated-time-6"><a class="header" href="#estimated-time-6">Estimated Time</a></h2>
+<h2 id="estimated-time-9"><a class="header" href="#estimated-time-9">Estimated Time</a></h2>
 <p><strong>5 minutes</strong> — Quick, focused lessons.</p>
 <h2 id="prerequisites-13"><a class="header" href="#prerequisites-13">Prerequisites</a></h2>
 <ul>
@@ -28056,7 +28209,7 @@ container AgentSystem {
 <li>Familiarity with CI/CD (GitHub Actions, GitLab CI, etc.)</li>
 <li>Understanding of architectural governance challenges</li>
 </ul>
-<h2 id="checklist-4"><a class="header" href="#checklist-4">Checklist</a></h2>
+<h2 id="checklist-7"><a class="header" href="#checklist-7">Checklist</a></h2>
 <ul>
 <li><input disabled="" type="checkbox"> Understand how to write constraints</li>
 <li><input disabled="" type="checkbox"> Know how to enforce conventions</li>
