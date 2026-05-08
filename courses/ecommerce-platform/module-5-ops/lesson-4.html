@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -184,14 +184,17 @@
 <h2 id="slos-in-ops"><a class="header" href="#slos-in-ops">SLOs in Ops</a></h2>
 <p>Translate business expectations into measurable targets; build dashboards around them.</p>
 <h2 id="sruja-define-slos"><a class="header" href="#sruja-define-slos">Sruja: Define SLOs</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
-slo {
-availability { target "99.9%" window "30 days" }
-latency { p95 "200ms" window "7 days" }
-errorRate { target "&lt; 0.1%" window "30 days" }
-throughput { target "1000 req/s" window "1 hour" }
+ECommerce = system "E-Commerce" {
+    slo {
+        availability { target "99.9%" window "30 days" }
+        latency { p95 "200ms" window "7 days" }
+        errorRate { target "0.1%" window "30 days" }
+        throughput { target "1000 req/s" window "1 hour" }
+    }
 }
 
 view index {

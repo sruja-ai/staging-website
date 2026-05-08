@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -230,7 +230,8 @@ Support = person "Customer Support"
 <p>I use descriptions when the name alone might be ambiguous. For example, "Admin" could mean a system administrator, a content admin, or a superuser. Adding a description removes that ambiguity.</p>
 <h3 id="real-world-examples"><a class="header" href="#real-world-examples">Real-World Examples</a></h3>
 <p>Here are some people I've modeled in different projects:</p>
-<pre><code class="language-sruja">// Internal users
+<pre><code class="language-sruja">// partial
+// Internal users
 Developer = person "Developer"
 ProductManager = person "Product Manager"
 DataAnalyst = person "Data Analyst"
@@ -271,7 +272,8 @@ EmailService = system "Email Service"
 <p>I love that Sruja lets you add SLOs (Service Level Objectives) directly to systems. This makes your architecture diagrams not just visual—they become living documentation that tells the story of what you've promised to deliver.</p>
 <h3 id="your-systems-vs-external-systems"><a class="header" href="#your-systems-vs-external-systems">Your Systems vs. External Systems</a></h3>
 <p>One distinction I always make:</p>
-<pre><code class="language-sruja">// Systems you own and maintain
+<pre><code class="language-sruja">// partial
+// Systems you own and maintain
 Platform = system "Sruja Platform"
 Dashboard = system "Analytics Dashboard"
 
@@ -294,7 +296,8 @@ GitHub = system "GitHub"
 </ul>
 <h3 id="the-different-container-types"><a class="header" href="#the-different-container-types">The Different Container Types</a></h3>
 <p>Sruja gives you specific types for common containers:</p>
-<pre><code class="language-sruja">// Regular containers
+<pre><code class="language-sruja">// partial
+// Regular containers
 WebApp = container "Web Application"
 API = container "API Service"
 
@@ -309,7 +312,8 @@ RabbitMQ = queue "RabbitMQ"
 <p>I use <code>database</code> for relational databases (PostgreSQL, MySQL) and <code>datastore</code> for non-relational storage (Redis, MongoDB). The distinction matters because the behavior and considerations are different.</p>
 <h3 id="adding-rich-details"><a class="header" href="#adding-rich-details">Adding Rich Details</a></h3>
 <p>When documenting containers for developers, I add a lot of useful information:</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   technology "Node.js"
   description "RESTful API handling all business logic"
   version "3.1.0"
@@ -344,7 +348,8 @@ RabbitMQ = queue "RabbitMQ"
 </ul>
 <h3 id="defining-components"><a class="header" href="#defining-components">Defining Components</a></h3>
 <p>Here's how you model them:</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   AuthService = component "Authentication Service"
   ProductService = component "Product Service"
   CartService = component "Cart Service"
@@ -353,7 +358,8 @@ RabbitMQ = queue "RabbitMQ"
 </code></pre>
 <h3 id="adding-details-to-components"><a class="header" href="#adding-details-to-components">Adding Details to Components</a></h3>
 <p>You can add the same details to components that you add to containers:</p>
-<pre><code class="language-sruja">AuthService = component "Authentication Service" {
+<pre><code class="language-sruja">// partial
+AuthService = component "Authentication Service" {
   technology "Rust"
   description "Handles user login, registration, and JWT validation"
   scale {
@@ -369,7 +375,8 @@ RabbitMQ = queue "RabbitMQ"
 </code></pre>
 <h2 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h2>
 <p>Let me show you a complete example that uses all four element types. This is a typical e-commerce platform:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Level 1: People
 Customer = person "Customer" {
@@ -431,7 +438,8 @@ ECommerce = system "E-Commerce Platform" {
 <h2 id="naming-conventions-that-work"><a class="header" href="#naming-conventions-that-work">Naming Conventions That Work</a></h2>
 <p>After years of modeling systems, I've settled on some naming conventions that keep things consistent and readable.</p>
 <h3 id="element-ids-use-pascalcase"><a class="header" href="#element-ids-use-pascalcase">Element IDs: Use PascalCase</a></h3>
-<pre><code class="language-sruja">// Good
+<pre><code class="language-sruja">// partial
+// Good
 Customer = person "Customer"
 WebApp = container "Web App"
 UserService = component "User Service"
@@ -442,7 +450,8 @@ WEBAPP = container "Web App"      // ALL CAPS feels like shouting
 webapp = container "Web App"      // Lowercase is inconsistent
 </code></pre>
 <h3 id="display-names-be-descriptive"><a class="header" href="#display-names-be-descriptive">Display Names: Be Descriptive</a></h3>
-<pre><code class="language-sruja">// Good
+<pre><code class="language-sruja">// partial
+// Good
 User = person "End User"
 API = container "API Service"
 
@@ -452,7 +461,8 @@ API = container "api"             // Lowercase looks like a typo
 </code></pre>
 <h3 id="consistency-within-a-diagram"><a class="header" href="#consistency-within-a-diagram">Consistency Within a Diagram</a></h3>
 <p>This is the one that trips people up most often. If you name one thing a "Service," call all similar things "Service":</p>
-<pre><code class="language-sruja">// Good: Consistent naming
+<pre><code class="language-sruja">// partial
+// Good: Consistent naming
 UserService = component "User Service"
 OrderService = component "Order Service"
 PaymentService = component "Payment Service"
@@ -465,7 +475,8 @@ Payment = component "Payment Service"  // Inconsistent with "Order"
 <p>I create a style guide for each project that lists the naming conventions we're using. It sounds tedious, but it saves so much time and confusion in the long run.</p>
 <h2 id="using-metadata-effectively"><a class="header" href="#using-metadata-effectively">Using Metadata Effectively</a></h2>
 <p>Metadata is where you add context that makes your diagrams actually useful. Don't add metadata just for the sake of it—add metadata that helps your audience understand what they're looking at.</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   technology "Rust"
   version "2.0.1"
   tags ["backend", "api"]

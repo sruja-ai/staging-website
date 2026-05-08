@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -283,7 +283,8 @@ Order -&gt; Payment "Triggers"
 <p><strong>Rationale</strong>: Arrows are universal. Everyone understands "A -&gt; B" means "A relates to B".</p>
 <h2 id="proposed-syntax-the-universal-model"><a class="header" href="#proposed-syntax-the-universal-model">Proposed Syntax: "The Universal Model"</a></h2>
 <h3 id="level-1-beginner-c4-style"><a class="header" href="#level-1-beginner-c4-style">Level 1: Beginner (C4 Style)</a></h3>
-<pre><code class="language-sruja">// Element kinds
+<pre><code class="language-sruja">// partial
+// Element kinds
 person = kind "Person"
 system = kind "System"
 container = kind "Container"
@@ -306,7 +307,8 @@ user -&gt; shop.webApp "Uses"
 shop.webApp -&gt; shop.db "Reads/Writes"
 </code></pre>
 <h3 id="level-2-intermediate-detailed-architecture"><a class="header" href="#level-2-intermediate-detailed-architecture">Level 2: Intermediate (Detailed Architecture)</a></h3>
-<pre><code class="language-sruja">// Element kinds
+<pre><code class="language-sruja">// partial
+// Element kinds
 system = kind "System"
 container = kind "Container"
 component = kind "Component"
@@ -334,7 +336,8 @@ ShopAPI.WebApp -&gt; ShopAPI.API "Calls"
 ShopAPI.API -&gt; ShopAPI.DB "Reads/Writes"
 </code></pre>
 <h3 id="level-3-advanced-governance--operations"><a class="header" href="#level-3-advanced-governance--operations">Level 3: Advanced (Governance + Operations)</a></h3>
-<pre><code class="language-sruja">// Element kinds
+<pre><code class="language-sruja">// partial
+// Element kinds
 person = kind "Person"
 system = kind "System"
 container = kind "Container"
@@ -592,7 +595,8 @@ ShopAPI -&gt; PaymentGateway "Processes payments"
 <p><strong>Simple Insight</strong>: <code>person</code> and <code>external</code> show the context - who/what the system interacts with.</p>
 <h3 id="progressive-systems-thinking"><a class="header" href="#progressive-systems-thinking">Progressive Systems Thinking</a></h3>
 <p><strong>Beginner</strong>: Just model the parts and connections</p>
-<pre><code class="language-sruja">// Element kinds
+<pre><code class="language-sruja">// partial
+// Element kinds
 system = kind "System"
 container = kind "Container"
 

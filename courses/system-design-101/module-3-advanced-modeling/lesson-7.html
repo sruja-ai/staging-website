@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -294,7 +294,8 @@
 <h2 id="view-lifecycle-management"><a class="header" href="#view-lifecycle-management">View Lifecycle Management</a></h2>
 <p>Views aren't static. They're living documentation that needs maintenance. Here's the lifecycle:</p>
 <h3 id="stage-1-creation"><a class="header" href="#stage-1-creation">Stage 1: Creation</a></h3>
-<pre><code class="language-sruja">view security {
+<pre><code class="language-sruja">// partial
+view security {
   title "Security Architecture"
   description "Shows trust boundaries, data encryption, and external integrations. Use for security reviews and compliance audits."
   
@@ -348,7 +349,8 @@
 <li>Point to replacement view (if any)</li>
 <li>Keep for 30 days, then delete</li>
 </ol>
-<pre><code class="language-sruja">view old-performance {
+<pre><code class="language-sruja">// partial
+view old-performance {
   title "Performance View (DEPRECATED)"
   description "DEPRECATED: Use 'performance-v2' instead. This view doesn't include the new caching layer."
   
@@ -377,7 +379,8 @@
 <h2 id="naming-conventions-that-scale"><a class="header" href="#naming-conventions-that-scale">Naming Conventions That Scale</a></h2>
 <p>Bad names kill view discoverability. Here's what works:</p>
 <h3 id="pattern-1-audience-based-names"><a class="header" href="#pattern-1-audience-based-names">Pattern 1: Audience-Based Names</a></h3>
-<pre><code class="language-sruja">view executive { /* for executives */ }
+<pre><code class="language-sruja">// partial
+view executive { /* for executives */ }
 view product { /* for product managers */ }
 view architect { /* for architects */ }
 view developer { /* for developers */ }
@@ -385,21 +388,24 @@ view operations { /* for ops team */ }
 </code></pre>
 <p><strong>When to use:</strong> Most common pattern, works for 80% of views</p>
 <h3 id="pattern-2-concern-based-names"><a class="header" href="#pattern-2-concern-based-names">Pattern 2: Concern-Based Names</a></h3>
-<pre><code class="language-sruja">view security { /* security focus */ }
+<pre><code class="language-sruja">// partial
+view security { /* security focus */ }
 view performance { /* performance focus */ }
 view dataflow { /* data dependencies */ }
 view deployment { /* deployment architecture */ }
 </code></pre>
 <p><strong>When to use:</strong> When concern is more important than audience</p>
 <h3 id="pattern-3-feature-based-names"><a class="header" href="#pattern-3-feature-based-names">Pattern 3: Feature-Based Names</a></h3>
-<pre><code class="language-sruja">view checkout { /* checkout feature */ }
+<pre><code class="language-sruja">// partial
+view checkout { /* checkout feature */ }
 view search { /* search functionality */ }
 view analytics { /* analytics pipeline */ }
 view notifications { /* notification system */ }
 </code></pre>
 <p><strong>When to use:</strong> Large features spanning multiple services</p>
 <h3 id="pattern-4-layer-based-names"><a class="header" href="#pattern-4-layer-based-names">Pattern 4: Layer-Based Names</a></h3>
-<pre><code class="language-sruja">view context { /* C4 context layer */ }
+<pre><code class="language-sruja">// partial
+view context { /* C4 context layer */ }
 view containers { /* C4 container layer */ }
 view components { /* C4 component layer */ }
 </code></pre>
@@ -429,7 +435,8 @@ view components { /* C4 component layer */ }
 <p>When your architecture grows beyond 10 services, you need organization strategies.</p>
 <h3 id="pattern-1-the-core-5"><a class="header" href="#pattern-1-the-core-5">Pattern 1: The Core 5</a></h3>
 <p>Every system should have these 5 views minimum:</p>
-<pre><code class="language-sruja">view index { /* Complete system */ }
+<pre><code class="language-sruja">// partial
+view index { /* Complete system */ }
 view executive { /* Business context */ }
 view architect { /* Technical architecture */ }
 view developer { /* Implementation details */ }
@@ -438,20 +445,23 @@ view security { /* Security &amp; compliance */ }
 <p>These cover 90% of use cases.</p>
 <h3 id="pattern-2-concern-extensions"><a class="header" href="#pattern-2-concern-extensions">Pattern 2: Concern Extensions</a></h3>
 <p>Add concern-specific views as needed:</p>
-<pre><code class="language-sruja">view performance { /* When performance matters */ }
+<pre><code class="language-sruja">// partial
+view performance { /* When performance matters */ }
 view dataflow { /* When data pipelines exist */ }
 view deployment { /* When deployment is complex */ }
 view integration { /* When many external APIs */ }
 </code></pre>
 <h3 id="pattern-3-feature-slices"><a class="header" href="#pattern-3-feature-slices">Pattern 3: Feature Slices</a></h3>
 <p>For large systems, create feature-specific views:</p>
-<pre><code class="language-sruja">view checkout { /* Checkout feature */ }
+<pre><code class="language-sruja">// partial
+view checkout { /* Checkout feature */ }
 view search { /* Search feature */ }
 view recommendations { /* Recommendations feature */ }
 </code></pre>
 <h3 id="pattern-4-team-domains"><a class="header" href="#pattern-4-team-domains">Pattern 4: Team Domains</a></h3>
 <p>For orgs with domain-driven design:</p>
-<pre><code class="language-sruja">view catalog-domain { /* Catalog team */ }
+<pre><code class="language-sruja">// partial
+view catalog-domain { /* Catalog team */ }
 view order-domain { /* Order team */ }
 view payment-domain { /* Payment team */ }
 view user-domain { /* User team */ }
@@ -658,7 +668,8 @@ view user-domain { /* User team */ }
 </ul>
 <h2 id="practical-example-e-commerce-at-scale"><a class="header" href="#practical-example-e-commerce-at-scale">Practical Example: E-Commerce at Scale</a></h2>
 <p>Let me show you a well-organized view structure for a growing e-commerce platform:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 Admin = person "Administrator"

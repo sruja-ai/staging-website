@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -197,7 +197,8 @@
 </ul>
 <h2 id="boundary-crossings-the-reality"><a class="header" href="#boundary-crossings-the-reality">Boundary Crossings: The Reality</a></h2>
 <p>Every relationship that goes from internal to external (or external to internal) is a boundary crossing. These are the riskiest parts of your system.</p>
-<pre><code class="language-sruja">// Internal → External = Boundary crossing
+<pre><code class="language-sruja">// partial
+// Internal → External = Boundary crossing
 Shop.API -&gt; PaymentGateway "Process payment"
 
 // External → Internal = Boundary crossing
@@ -210,7 +211,8 @@ PaymentGateway -&gt; Shop.API "Payment result"
 <p>After years of building systems, I've found there are really three main integration patterns you'll encounter. Understanding which one you're using helps you plan correctly.</p>
 <h3 id="pattern-1-request-response-synchronous"><a class="header" href="#pattern-1-request-response-synchronous">Pattern 1: Request-Response (Synchronous)</a></h3>
 <p>This is the most common pattern. You send a request, you wait for a response.</p>
-<pre><code class="language-sruja">Shop.API -&gt; PaymentGateway "Process payment"
+<pre><code class="language-sruja">// partial
+Shop.API -&gt; PaymentGateway "Process payment"
 PaymentGateway -&gt; Shop.API "Payment result"
 </code></pre>
 <p><strong>Characteristics:</strong></p>
@@ -235,7 +237,8 @@ PaymentGateway -&gt; Shop.API "Payment result"
 <p>This is the pattern I see most often. It's simple, but it's fragile if you don't handle failures properly.</p>
 <h3 id="pattern-2-event-driven-asynchronous"><a class="header" href="#pattern-2-event-driven-asynchronous">Pattern 2: Event-Driven (Asynchronous)</a></h3>
 <p>You publish an event, and other systems process it whenever they can.</p>
-<pre><code class="language-sruja">Shop.API -&gt; EventQueue "Publish order created"
+<pre><code class="language-sruja">// partial
+Shop.API -&gt; EventQueue "Publish order created"
 EventQueue -&gt; PaymentProcessor "Consume order event"
 EventQueue -&gt; EmailService "Consume order event"
 </code></pre>
@@ -261,7 +264,8 @@ EventQueue -&gt; EmailService "Consume order event"
 <p>I used to think event-driven was overkill for small systems. Then I built a notification system that sent welcome emails, onboarding sequences, and marketing emails. Trying to send all those synchronously was a nightmare. Moving to events made everything so much smoother.</p>
 <h3 id="pattern-3-polling"><a class="header" href="#pattern-3-polling">Pattern 3: Polling</a></h3>
 <p>Your system periodically checks for updates from an external service.</p>
-<pre><code class="language-sruja">Shop.API -&gt; ExternalAPI "Check order status"
+<pre><code class="language-sruja">// partial
+Shop.API -&gt; ExternalAPI "Check order status"
 ExternalAPI -&gt; Shop.API "Return status"
 </code></pre>
 <p><strong>Characteristics:</strong></p>
@@ -288,7 +292,8 @@ ExternalAPI -&gt; Shop.API "Return status"
 <p>Now that you know the patterns, let's talk about what you actually need to think about when crossing boundaries.</p>
 <h3 id="1-error-handling-what-happens-when-it-breaks"><a class="header" href="#1-error-handling-what-happens-when-it-breaks">1. Error Handling: What Happens When It Breaks?</a></h3>
 <p>External services fail. It's not a question of "if," it's "when."</p>
-<pre><code class="language-sruja">// Document expected failure modes
+<pre><code class="language-sruja">// partial
+// Document expected failure modes
 PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
@@ -305,7 +310,8 @@ Shop.API -&gt; BackupPayment "Process payment" [fallback]
 <p>Document this upfront. It saves hours of debugging later.</p>
 <h3 id="2-timeouts-and-latency-how-long-is-too-long"><a class="header" href="#2-timeouts-and-latency-how-long-is-too-long">2. Timeouts and Latency: How Long Is Too Long?</a></h3>
 <p>External services can be slow. You need to configure timeouts that protect your system without being too aggressive.</p>
-<pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
+<pre><code class="language-sruja">// partial
+PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
     timeout "30s"
@@ -327,7 +333,8 @@ Shop.API = container "API Service" {
 <p>Set timeouts. Always. Even if the external service is usually fast.</p>
 <h3 id="3-data-consistency-what-happens-when-things-go-wrong"><a class="header" href="#3-data-consistency-what-happens-when-things-go-wrong">3. Data Consistency: What Happens When Things Go Wrong?</a></h3>
 <p>What if the payment succeeds but saving the order fails? Or the order saves but the payment fails?</p>
-<pre><code class="language-sruja">Shop.API -&gt; PaymentGateway "Process payment"
+<pre><code class="language-sruja">// partial
+Shop.API -&gt; PaymentGateway "Process payment"
 Shop.API -&gt; Shop.Database "Save order"
 
 // If payment succeeds but order save fails:
@@ -346,7 +353,8 @@ Shop.API -&gt; Shop.Database "Save order"
 <p>Plan for consistency issues at boundaries. They will happen.</p>
 <h3 id="4-security-what-protects-your-data"><a class="header" href="#4-security-what-protects-your-data">4. Security: What Protects Your Data?</a></h3>
 <p>Crossing a boundary is where attacks happen. This is where you need to be most careful.</p>
-<pre><code class="language-sruja">// Security at the boundary
+<pre><code class="language-sruja">// partial
+// Security at the boundary
 Shop.API -&gt; PaymentGateway "Process payment" [encrypted, authenticated, tls1.3]
 
 PaymentGateway = system "Payment Gateway" {
@@ -369,7 +377,8 @@ PaymentGateway = system "Payment Gateway" {
 <h2 id="documenting-interface-contracts"><a class="header" href="#documenting-interface-contracts">Documenting Interface Contracts</a></h2>
 <p>One of the most important things you can do for boundary crossings is document the interface contract. This is the agreement between your system and the external one.</p>
 <h3 id="api-contract"><a class="header" href="#api-contract">API Contract</a></h3>
-<pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
+<pre><code class="language-sruja">// partial
+PaymentGateway = system "Payment Gateway" {
   metadata {
     tags ["external"]
     api_endpoint "https://api.payment.com/v1"
@@ -441,7 +450,8 @@ Shop.API = container "API Service" {
 <p>External systems fail. You need fallback strategies. Here are the ones I use most often.</p>
 <h3 id="strategy-1-redundant-providers"><a class="header" href="#strategy-1-redundant-providers">Strategy 1: Redundant Providers</a></h3>
 <p>Have a backup provider you can switch to if the primary fails.</p>
-<pre><code class="language-sruja">// Primary provider
+<pre><code class="language-sruja">// partial
+// Primary provider
 PrimaryPayment = system "Stripe" {
   metadata {
     tags ["external", "primary"]
@@ -468,7 +478,8 @@ Shop.API -&gt; BackupPayment "Process payment" [fallback]
 <p>I've used this strategy for critical paths (payments, messaging, notifications). It adds complexity, but it buys you resilience.</p>
 <h3 id="strategy-2-circuit-breaker"><a class="header" href="#strategy-2-circuit-breaker">Strategy 2: Circuit Breaker</a></h3>
 <p>Stop calling a failing service automatically instead of hammering it with requests.</p>
-<pre><code class="language-sruja">Shop.API = container "API Service" {
+<pre><code class="language-sruja">// partial
+Shop.API = container "API Service" {
   metadata {
     circuit_breaker {
       enabled true
@@ -490,7 +501,8 @@ Shop.API -&gt; BackupPayment "Process payment" [fallback]
 <p>This is one of my favorite patterns. It's saved me from cascading failures more times than I can count.</p>
 <h3 id="strategy-3-degraded-mode"><a class="header" href="#strategy-3-degraded-mode">Strategy 3: Degraded Mode</a></h3>
 <p>Continue operating even if a non-critical external service is down.</p>
-<pre><code class="language-sruja">// Non-critical: If analytics fails, continue
+<pre><code class="language-sruja">// partial
+// Non-critical: If analytics fails, continue
 Shop.API -&gt; AnalyticsService "Track events" [non_critical]
 
 // Queue for later: If email fails, queue it
@@ -506,7 +518,8 @@ Shop.API -&gt; EmailService "Send notifications" [async_queue]
 <p>I used to treat all dependencies as critical. Then I realized: if analytics is down for an hour, does anyone actually care? No. Mark it non-critical and move on.</p>
 <h3 id="strategy-4-cache-external-data"><a class="header" href="#strategy-4-cache-external-data">Strategy 4: Cache External Data</a></h3>
 <p>Cache responses from external APIs so you can serve from cache if the external service is down.</p>
-<pre><code class="language-sruja">// External API call
+<pre><code class="language-sruja">// partial
+// External API call
 Shop.API -&gt; ExchangeRateAPI "Get exchange rates"
 
 // Cache for backup
@@ -526,7 +539,8 @@ Shop.API -&gt; Shop.Cache "Get cached rates" [fallback]
 <p>I've used this for exchange rates, product catalogs, weather data—anything that's expensive to fetch and acceptable to serve slightly stale.</p>
 <h2 id="complete-integration-example"><a class="header" href="#complete-integration-example">Complete Integration Example</a></h2>
 <p>Let me show you a complete example that brings everything together.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // People
 Customer = person "Customer"

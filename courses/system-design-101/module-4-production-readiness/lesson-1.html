@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -210,7 +210,8 @@
 <p>ADRs aren't static documents. They have a lifecycle that matches your decision-making process:</p>
 <h3 id="stage-1-proposed"><a class="header" href="#stage-1-proposed">Stage 1: Proposed</a></h3>
 <p>When someone has an architectural idea that needs discussion:</p>
-<pre><code class="language-sruja">ADR003 = adr "Use GraphQL for API layer" {
+<pre><code class="language-sruja">// partial
+ADR003 = adr "Use GraphQL for API layer" {
   status "Proposed"
   
   context "REST API is becoming complex. Clients need different data shapes. Over-fetching and under-fetching are common complaints."
@@ -264,7 +265,8 @@
 </ul>
 <h3 id="stage-3-active-implementation"><a class="header" href="#stage-3-active-implementation">Stage 3: Active (Implementation)</a></h3>
 <p>During implementation, the ADR guides work:</p>
-<pre><code class="language-sruja">GraphQL API = container "GraphQL API Service" {
+<pre><code class="language-sruja">// partial
+GraphQL API = container "GraphQL API Service" {
   technology "Apollo Server"
   description "Implements ADR003 - GraphQL API layer"
   
@@ -328,7 +330,8 @@
 </ul>
 <h2 id="adr-structure-the-complete-template"><a class="header" href="#adr-structure-the-complete-template">ADR Structure: The Complete Template</a></h2>
 <p>Here's a comprehensive ADR template you can adapt:</p>
-<pre><code class="language-sruja">ADR### = adr "[Short Title]" {
+<pre><code class="language-sruja">// partial
+ADR### = adr "[Short Title]" {
   // REQUIRED: Current status
   status "Proposed" | "Accepted" | "Deprecated" | "Superseded"
   
@@ -642,7 +645,8 @@ pub fn process_payment(payment: Payment) -&gt; Result&lt;PaymentResult&gt; {
 </ul>
 <h3 id="practice-3-include-decision-date"><a class="header" href="#practice-3-include-decision-date">Practice #3: Include Decision Date</a></h3>
 <p>Always record when decisions were made:</p>
-<pre><code class="language-sruja">ADR003 = adr "Use GraphQL" {
+<pre><code class="language-sruja">// partial
+ADR003 = adr "Use GraphQL" {
   metadata {
     created "2024-01-15"
     accepted "2024-02-20"
@@ -653,7 +657,8 @@ pub fn process_payment(payment: Payment) -&gt; Result&lt;PaymentResult&gt; {
 <p><strong>Why:</strong> Context changes over time. Knowing when helps evaluate if the decision is still valid.</p>
 <h3 id="practice-4-document-alternatives"><a class="header" href="#practice-4-document-alternatives">Practice #4: Document Alternatives</a></h3>
 <p>Always show what you considered and rejected:</p>
-<pre><code class="language-sruja">option "Alternative 1" {
+<pre><code class="language-sruja">// partial
+option "Alternative 1" {
   pros "Why it was attractive"
   cons "Why it had issues"
   rejected_because "Specific deal-breaker"
@@ -662,7 +667,8 @@ pub fn process_payment(payment: Payment) -&gt; Result&lt;PaymentResult&gt; {
 <p><strong>Why:</strong> Shows you did due diligence. Prevents re-litigating the decision later.</p>
 <h3 id="practice-5-be-specific-about-consequences"><a class="header" href="#practice-5-be-specific-about-consequences">Practice #5: Be Specific About Consequences</a></h3>
 <p>Don't just say "pros and cons". Be concrete:</p>
-<pre><code class="language-sruja">consequences {
+<pre><code class="language-sruja">// partial
+consequences {
   positive "
     - Reduces API calls by 60% (measured in prototype)
     - Enables client-side caching
@@ -762,7 +768,8 @@ pub fn process_payment(payment: Payment) -&gt; Result&lt;PaymentResult&gt; {
 </ul>
 <h2 id="complete-example-e-commerce-payment-adr"><a class="header" href="#complete-example-e-commerce-payment-adr">Complete Example: E-Commerce Payment ADR</a></h2>
 <p>Let me show you a complete, production-ready ADR:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ADR003 = adr "Use Stripe for payment processing" {
   status "Accepted"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -221,7 +221,8 @@
 </code></pre>
 <p>This isn't just about naming. It enables:</p>
 <p><strong>1. Early Validation</strong></p>
-<pre><code class="language-sruja">// This will fail validation - "datasource" isn't a valid kind
+<pre><code class="language-sruja">// partial
+// This will fail validation - "datasource" isn't a valid kind
 MyDB = datasource "Database"  // ❌ Typo caught immediately
 
 // Correct:
@@ -234,7 +235,8 @@ MyDB = datastore "Database"   // ✅ Validates successfully
 <li>IDE can suggest valid relationships</li>
 </ul>
 <p><strong>3. Self-Documenting Models</strong></p>
-<pre><code class="language-sruja">// Anyone reading this knows these are the valid element types
+<pre><code class="language-sruja">// partial
+// Anyone reading this knows these are the valid element types
 // No guessing, no inconsistencies
 Customer = person "Customer"
 App = system "Application" {
@@ -249,7 +251,8 @@ App = system "Application" {
 <p>We covered this extensively in Lesson 4, so I'll keep this brief.</p>
 <p><strong>The key insight:</strong> Different audiences need different views. Executives need business context. Architects need service boundaries. Developers need implementation details.</p>
 <p><strong>The mistake to avoid:</strong> Creating separate models for each audience. Instead, create multiple <code>view</code> blocks from one model.</p>
-<pre><code class="language-sruja">// Define once...
+<pre><code class="language-sruja">// partial
+// Define once...
 Customer = person "Customer"
 ECommerce = system "E-Commerce Platform" {
   WebApp = container "Web Application"
@@ -297,7 +300,8 @@ view developer {
 <li>Use cases (admin creates user, customer updates profile)</li>
 </ul>
 <h3 id="real-world-example-e-commerce-checkout"><a class="header" href="#real-world-example-e-commerce-checkout">Real-World Example: E-Commerce Checkout</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 
@@ -419,7 +423,8 @@ view index {
 <li>Data synchronization (between systems)</li>
 </ul>
 <h3 id="real-world-example-analytics-pipeline"><a class="header" href="#real-world-example-analytics-pipeline">Real-World Example: Analytics Pipeline</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Analytics = system "Analytics Platform" {
   IngestionService = container "Data Ingestion"
@@ -490,7 +495,8 @@ view index {
 <li>Does data move between systems automatically? → Flow</li>
 </ul>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">// User behavior = SCENARIO
+<pre><code class="language-sruja">// partial
+// User behavior = SCENARIO
 UserCheckout = scenario "User Checks Out" {
   Customer -&gt; WebApp "Clicks checkout"
   WebApp -&gt; API "Processes payment"
@@ -592,7 +598,8 @@ ScalingPolicy = policy "Services must implement health checks" {
 </ul>
 <h3 id="putting-it-all-together"><a class="header" href="#putting-it-all-together">Putting It All Together</a></h3>
 <p>Here's how requirements, ADRs, and architecture integrate:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 

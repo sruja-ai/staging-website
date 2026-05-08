@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -240,7 +240,8 @@ EmailService = system "Email Service"
 <h3 id="step-3-break-down-systems-into-containers"><a class="header" href="#step-3-break-down-systems-into-containers">Step 3: Break Down Systems into Containers</a></h3>
 <p>Now we get to the interesting part. What are the deployable units that make up our e-commerce platform? Think about what you'd actually deploy: web apps, APIs, databases, caches—these are all containers.</p>
 <p>For our e-commerce platform, a sensible breakdown might be:</p>
-<pre><code class="language-sruja">ECommerce = system "E-Commerce Platform" {
+<pre><code class="language-sruja">// partial
+ECommerce = system "E-Commerce Platform" {
   WebApp = container "Web Application" {
     technology "React"
   }
@@ -260,7 +261,8 @@ EmailService = system "Email Service"
 <p>This is where many people go wrong. They immediately start modeling every single class and module. Stop and ask yourself: <em>Does my audience need this level of detail?</em></p>
 <p>If you're talking to developers who need to understand the internal architecture, yes—break containers into components. If you're talking to stakeholders who just want to understand the overall system, skip this level.</p>
 <p>For example, if we were documenting the API's internal structure for our engineering team:</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   ProductService = component "Product Service"
   CartService = component "Cart Service"
   OrderService = component "Order Service"
@@ -272,7 +274,8 @@ EmailService = system "Email Service"
 <p>After building systems for years, you start to recognize patterns that repeat across different domains. Here are three I see constantly:</p>
 <h3 id="pattern-1-the-classic-three-tier-architecture"><a class="header" href="#pattern-1-the-classic-three-tier-architecture">Pattern 1: The Classic Three-Tier Architecture</a></h3>
 <p>This is probably the most common pattern you'll encounter. It's simple, it works, and it's a great starting point for most web applications.</p>
-<pre><code class="language-sruja">App = system "Application" {
+<pre><code class="language-sruja">// partial
+App = system "Application" {
   Frontend = container "Web App" {
     technology "React"
   }
@@ -287,7 +290,8 @@ EmailService = system "Email Service"
 <p>I've used this pattern more times than I can count. It's a solid foundation that scales well and most developers immediately understand.</p>
 <h3 id="pattern-2-microservices"><a class="header" href="#pattern-2-microservices">Pattern 2: Microservices</a></h3>
 <p>When your system grows, you might need to split it into smaller, independently deployable services. That's where this pattern comes in.</p>
-<pre><code class="language-sruja">App = system "Microservice Application" {
+<pre><code class="language-sruja">// partial
+App = system "Microservice Application" {
   APIGateway = container "API Gateway"
   UserService = container "User Service"
   OrderService = container "Order Service"
@@ -297,7 +301,8 @@ EmailService = system "Email Service"
 <p>The trick here is knowing when to use this. Don't start with microservices just because it's trendy. Start simple, then split when you have a real reason (scaling, team size, complexity).</p>
 <h3 id="pattern-3-event-driven-architecture"><a class="header" href="#pattern-3-event-driven-architecture">Pattern 3: Event-Driven Architecture</a></h3>
 <p>When you need systems to react to events in real-time, this pattern shines. It's more complex but incredibly powerful for the right use cases.</p>
-<pre><code class="language-sruja">App = system "Event-Driven System" {
+<pre><code class="language-sruja">// partial
+App = system "Event-Driven System" {
   Producer = container "Event Producer"
   Consumer = container "Event Consumer"
   MessageQueue = queue "Kafka Cluster"
@@ -312,7 +317,8 @@ EmailService = system "Email Service"
 App = system "The App"
 </code></pre>
 <p>This tells you nothing about how the system is structured. Anyone looking at this diagram will be left with more questions than answers.</p>
-<pre><code class="language-sruja">// This is better—it shows structure
+<pre><code class="language-sruja">// partial
+// This is better—it shows structure
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend"
@@ -321,7 +327,8 @@ App = system "The App" {
 </code></pre>
 <h3 id="mistake-2-over-engineering"><a class="header" href="#mistake-2-over-engineering">Mistake 2: Over-Engineering</a></h3>
 <p>On the flip side, I've seen people model every single class and component, creating diagrams that are essentially unreadable:</p>
-<pre><code class="language-sruja">// Don't do this—it's too detailed
+<pre><code class="language-sruja">// partial
+// Don't do this—it's too detailed
 App = system "The App" {
   Frontend = container "Frontend" {
     Header = component "Header"
@@ -331,7 +338,8 @@ App = system "The App" {
 }
 </code></pre>
 <p>Who cares about the header, body, and footer at the architecture level? No one. That's implementation detail, not architecture.</p>
-<pre><code class="language-sruja">// This is the right level of detail
+<pre><code class="language-sruja">// partial
+// This is the right level of detail
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend"
@@ -339,7 +347,8 @@ App = system "The App" {
 </code></pre>
 <h3 id="mistake-3-mixing-levels-inconsistently"><a class="header" href="#mistake-3-mixing-levels-inconsistently">Mistake 3: Mixing Levels Inconsistently</a></h3>
 <p>This one trips up even experienced architects. You might have some parts modeled at the container level and others at the component level, creating confusion:</p>
-<pre><code class="language-sruja">// Don't do this—inconsistent detail
+<pre><code class="language-sruja">// partial
+// Don't do this—inconsistent detail
 App = system "The App" {
   Frontend = container "Frontend"
   UserService = component "User Service"  // Skips container level
@@ -347,7 +356,8 @@ App = system "The App" {
 }
 </code></pre>
 <p>What's the UserService doing here without a parent container? Is it a standalone service? Part of another system? It's confusing.</p>
-<pre><code class="language-sruja">// This is consistent and clear
+<pre><code class="language-sruja">// partial
+// This is consistent and clear
 App = system "The App" {
   Frontend = container "Frontend"
   Backend = container "Backend" {

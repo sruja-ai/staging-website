@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -208,7 +208,8 @@
 <h3 id="component"><a class="header" href="#component">Component</a></h3>
 <p>A structural element within a container that represents a major building block. Components are optional and provide additional detail when needed.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">App = system "App" {
+<pre><code class="language-sruja">// partial
+App = system "App" {
   API = container "API" {
     Auth = component "Authentication"
     Payment = component "Payment Processing"
@@ -225,7 +226,8 @@
 <li>File systems</li>
 </ul>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">App = system "E-commerce" {
+<pre><code class="language-sruja">// partial
+App = system "E-commerce" {
   Web = container "React App"
   API = container "Node.js API"
   DB = database "PostgreSQL"
@@ -235,7 +237,8 @@
 <h3 id="database"><a class="header" href="#database">Database</a></h3>
 <p>A type of container that represents a data store. In Sruja, databases are defined using the <code>database</code> keyword.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">DB = database "PostgreSQL"
+<pre><code class="language-sruja">// partial
+DB = database "PostgreSQL"
 </code></pre>
 <p><strong>Note:</strong> Sruja also supports <code>datastore</code> as an alias, but <code>database</code> is the recommended term.</p>
 <h3 id="dsl-domain-specific-language"><a class="header" href="#dsl-domain-specific-language">DSL (Domain-Specific Language)</a></h3>
@@ -275,7 +278,8 @@ Admin = person "Administrator"
 <h3 id="queue"><a class="header" href="#queue">Queue</a></h3>
 <p>A message queue or event stream used for asynchronous communication between containers.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">EventQueue = queue "Kafka Topic"
+<pre><code class="language-sruja">// partial
+EventQueue = queue "Kafka Topic"
 </code></pre>
 <h2 id="r"><a class="header" href="#r">R</a></h2>
 <h3 id="relation"><a class="header" href="#relation">Relation</a></h3>

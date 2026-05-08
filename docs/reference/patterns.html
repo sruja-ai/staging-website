@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -182,7 +182,8 @@
                     <main>
                         <h1 id="architecture-patterns"><a class="header" href="#architecture-patterns">Architecture Patterns</a></h1>
 <h2 id="requestresponse"><a class="header" href="#requestresponse">Request/Response</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 App = system "App" {
@@ -238,7 +239,8 @@ include *
 }
 </code></pre>
 <h2 id="cqrs"><a class="header" href="#cqrs">CQRS</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 App = system "App" {
@@ -256,7 +258,8 @@ include *
 }
 </code></pre>
 <h2 id="rag-retrieval-augmented-generation"><a class="header" href="#rag-retrieval-augmented-generation">RAG (Retrieval-Augmented Generation)</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 AIQA = system "AI Q&amp;A" {
@@ -272,7 +275,8 @@ AIQA.Generator -&gt; AIQA.Retriever "Fetches contexts"
 </code></pre>
 <p>See <code>book/valid-examples/pattern-rag-pipeline.sruja</code> for a production-ready model.</p>
 <h2 id="agentic-orchestration"><a class="header" href="#agentic-orchestration">Agentic Orchestration</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 AgentSystem = system "Agent System" {

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -263,7 +263,8 @@ Temperature starts falling again
 <p>Now let's translate these concepts into software architecture. Feedback loops are everywhere in the systems we build.</p>
 <h3 id="example-1-auto-scaling-based-on-load"><a class="header" href="#example-1-auto-scaling-based-on-load">Example 1: Auto-Scaling Based on Load</a></h3>
 <p>Modern cloud applications automatically scale up and down based on traffic. This is a feedback loop:</p>
-<pre><code class="language-sruja">// Self-regulating feedback loop
+<pre><code class="language-sruja">// partial
+// Self-regulating feedback loop
 AutoScaling = scenario "Auto-Scaling Based on CPU" {
   // System monitors itself
   MonitoringService -&gt; App.Api "Reports CPU usage: 85%"
@@ -290,7 +291,8 @@ AutoScaling = scenario "Auto-Scaling Based on CPU" {
 <p>The lesson: Feedback loops enable systems to self-regulate—adjusting automatically to maintain desired states.</p>
 <h3 id="example-2-user-experience-improvement"><a class="header" href="#example-2-user-experience-improvement">Example 2: User Experience Improvement</a></h3>
 <p>Many systems improve user experience through feedback loops:</p>
-<pre><code class="language-sruja">// Learning feedback loop
+<pre><code class="language-sruja">// partial
+// Learning feedback loop
 UserExperience = scenario "Feature Usage Feedback" {
   // User tries new feature
   User -&gt; App.WebApp "Uses new feature"
@@ -315,7 +317,8 @@ UserExperience = scenario "Feature Usage Feedback" {
 <p>The lesson: Always build feedback loops into your systems. Don't assume—measure, learn, adapt.</p>
 <h3 id="example-3-cache-hit-rate-optimization"><a class="header" href="#example-3-cache-hit-rate-optimization">Example 3: Cache Hit Rate Optimization</a></h3>
 <p>Systems often optimize themselves through feedback loops:</p>
-<pre><code class="language-sruja">// Resource optimization feedback loop
+<pre><code class="language-sruja">// partial
+// Resource optimization feedback loop
 CacheOptimization = scenario "Cache Learning" {
   // System checks cache performance
   App.Api -&gt; Cache "Request data"
@@ -363,7 +366,8 @@ CacheOptimization = scenario "Cache Learning" {
 <li>Examples: viral growth, network effects, echo chambers</li>
 </ul>
 <p><strong>Virtuous Cycle Example:</strong></p>
-<pre><code class="language-sruja">// Viral growth loop
+<pre><code class="language-sruja">// partial
+// Viral growth loop
 ViralGrowth = scenario "Social Network Effects" {
   UserA -&gt; App.Share "Shares content"
   App.Share -&gt; UserB "Sees content"
@@ -376,7 +380,8 @@ ViralGrowth = scenario "Social Network Effects" {
 </code></pre>
 <p>This is a virtuous cycle—each share brings more users, which leads to more shares. The feedback loop amplifies growth.</p>
 <p><strong>Vicious Cycle Example:</strong></p>
-<pre><code class="language-sruja">// Performance collapse loop
+<pre><code class="language-sruja">// partial
+// Performance collapse loop
 PerformanceCollapse = scenario "Performance Degradation" {
   // System gets slow
   App.Api -&gt; Database "Slow query (5s latency)"
@@ -407,7 +412,8 @@ PerformanceCollapse = scenario "Performance Degradation" {
 <li>Examples: thermostats, load balancing, rate limiting</li>
 </ul>
 <p><strong>Thermostat Example (Balancing):</strong></p>
-<pre><code class="language-sruja">// Thermostat maintains equilibrium
+<pre><code class="language-sruja">// partial
+// Thermostat maintains equilibrium
 Thermostat = scenario "Temperature Regulation" {
   // Temperature drops
   Room -&gt; Thermostat "Temperature: 65°F"
@@ -437,7 +443,8 @@ Thermostat = scenario "Temperature Regulation" {
 </code></pre>
 <p>The thermostat doesn't try to make the room hotter or colder—it tries to maintain a target temperature. If it gets too warm, it stops heating. If it gets too cold, it starts heating again. This negative feedback loop creates stability.</p>
 <p><strong>Load Balancing Example (Balancing):</strong></p>
-<pre><code class="language-sruja">// Load balancer distributes work
+<pre><code class="language-sruja">// partial
+// Load balancer distributes work
 LoadBalancing = scenario "Request Distribution" {
   // Server A is overloaded
   ServerA -&gt; LoadBalancer "High load: 95% CPU"
@@ -470,7 +477,8 @@ LoadBalancing = scenario "Request Distribution" {
 <li>Examples: inventory systems, cache invalidation</li>
 </ul>
 <p><strong>Inventory Example (Delayed):</strong></p>
-<pre><code class="language-sruja">// Inventory management with delayed feedback
+<pre><code class="language-sruja">// partial
+// Inventory management with delayed feedback
 InventoryManagement = scenario "Inventory Replenishment" {
   // Item sells, stock decreases
   OrderService -&gt; Inventory "Decrement stock: 5 units"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -188,7 +188,8 @@
 <p>We decide to extract <code>Inventory</code> into its own microservice with its own database.</p>
 <h3 id="step-1-update-the-architecture"><a class="header" href="#step-1-update-the-architecture">Step 1: Update the Architecture</a></h3>
 <p>We change <code>Inventory</code> from a logical domain inside the monolith to a physical <code>system</code>.</p>
-<pre><code class="language-sruja">// Before
+<pre><code class="language-sruja">// partial
+// Before
 domain Inventory { ... }
 
 // After
@@ -202,7 +203,8 @@ Database = container "Inventory DB"
 </code></pre>
 <h3 id="step-2-update-the-architecture"><a class="header" href="#step-2-update-the-architecture">Step 2: Update the Architecture</a></h3>
 <p>The <code>OrderService</code> can no longer call <code>Inventory</code> functions directly. It must make a gRPC call. Update your OpenAPI specs to reflect the new gRPC interfaces.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 OrderService = system "Order Service" {

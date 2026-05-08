@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -221,7 +221,8 @@
 <p>User journeys turn vague requirements into concrete scenarios:</p>
 <p><strong>Vague requirement:</strong> "Users should be able to check out"</p>
 <p><strong>User journey makes it concrete:</strong></p>
-<pre><code class="language-sruja">CheckoutJourney = scenario "Customer Checkout" {
+<pre><code class="language-sruja">// partial
+CheckoutJourney = scenario "Customer Checkout" {
   Customer -&gt; WebApp "Clicks checkout button"
   WebApp -&gt; API "Validates cart"
   API -&gt; Database "Checks inventory"
@@ -236,7 +237,8 @@
 <p>Now everyone knows exactly what "checkout" means—every step, every system involved, every user action.</p>
 <h3 id="2-test-case-generation"><a class="header" href="#2-test-case-generation">2. Test Case Generation</a></h3>
 <p>User journeys become test cases automatically:</p>
-<pre><code class="language-sruja">HappyPathTest = scenario "Test: Successful Checkout" {
+<pre><code class="language-sruja">// partial
+HappyPathTest = scenario "Test: Successful Checkout" {
   // From the user journey
   Customer -&gt; WebApp "Clicks checkout"
   WebApp -&gt; API "Validates cart"
@@ -255,7 +257,8 @@ ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
 <p>I've worked on teams where we spent weeks writing test cases manually. With user journeys, we just turn scenarios into tests. Huge time saver.</p>
 <h3 id="3-user-experience-visibility"><a class="header" href="#3-user-experience-visibility">3. User Experience Visibility</a></h3>
 <p>User journeys show the complete experience—not just what works, but how it feels:</p>
-<pre><code class="language-sruja">RegistrationJourney = scenario "User Registration" {
+<pre><code class="language-sruja">// partial
+RegistrationJourney = scenario "User Registration" {
   Customer -&gt; WebApp "Opens registration form"
   Customer -&gt; WebApp "Enters name and email"
   Customer -&gt; WebApp "Enters password"
@@ -270,7 +273,8 @@ ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
 <p>See how this shows the full experience? Form entry → submission → success message → welcome email → dashboard. Anyone reading this understands exactly what users experience.</p>
 <h3 id="4-edge-case-discovery"><a class="header" href="#4-edge-case-discovery">4. Edge Case Discovery</a></h3>
 <p>When you model user journeys, you naturally think about edge cases:</p>
-<pre><code class="language-sruja">RegistrationEdgeCases = scenario "Registration Edge Cases" {
+<pre><code class="language-sruja">// partial
+RegistrationEdgeCases = scenario "Registration Edge Cases" {
   // Edge case 1: Duplicate email
   Customer -&gt; WebApp "Registers with existing email"
   WebApp -&gt; API "Submits registration"
@@ -293,7 +297,8 @@ ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
 <p>Sruja gives you two keywords for user journeys, and they're interchangeable:</p>
 <h3 id="using-scenario"><a class="header" href="#using-scenario">Using <code>scenario</code></a></h3>
 <p>Use <code>scenario</code> for behavioral flows—it's the most common and descriptive choice:</p>
-<pre><code class="language-sruja">CheckoutScenario = scenario "Customer Checkout Experience" {
+<pre><code class="language-sruja">// partial
+CheckoutScenario = scenario "Customer Checkout Experience" {
   Customer -&gt; Shop.WebApp "Clicks checkout button"
   Shop.WebApp -&gt; Shop.API "Validates shopping cart"
   Shop.API -&gt; PaymentGateway "Processes payment"
@@ -302,7 +307,8 @@ ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
 </code></pre>
 <h3 id="using-story"><a class="header" href="#using-story">Using <code>story</code></a></h3>
 <p>Use <code>story</code> when you want to emphasize the narrative or story aspect:</p>
-<pre><code class="language-sruja">CheckoutStory = story "As a customer, I want to checkout so I can purchase my items" {
+<pre><code class="language-sruja">// partial
+CheckoutStory = story "As a customer, I want to checkout so I can purchase my items" {
   Customer -&gt; Shop.WebApp "Clicks checkout button"
   Shop.WebApp -&gt; Shop.API "Validates shopping cart"
   Shop.API -&gt; PaymentGateway "Processes payment"
@@ -313,7 +319,8 @@ ErrorPathTest = scenario "Test: Checkout with Invalid Payment" {
 <h2 id="bdd-behavior-driven-development-style"><a class="header" href="#bdd-behavior-driven-development-style">BDD (Behavior-Driven Development) Style</a></h2>
 <p>BDD is about writing requirements as behavior, not specifications. User journeys in Sruja map perfectly to BDD's "Given-When-Then" structure.</p>
 <h3 id="the-given-when-then-pattern"><a class="header" href="#the-given-when-then-pattern">The Given-When-Then Pattern</a></h3>
-<pre><code class="language-sruja">// GIVEN: Customer has items in shopping cart
+<pre><code class="language-sruja">// partial
+// GIVEN: Customer has items in shopping cart
 // WHEN: Customer clicks checkout and completes payment
 // THEN: Order is created and confirmation is shown
 
@@ -350,7 +357,8 @@ CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
 <p>After modeling user journeys for years, I've found patterns that repeat constantly. Let me show you the ones I see most often.</p>
 <h3 id="pattern-1-happy-path"><a class="header" href="#pattern-1-happy-path">Pattern 1: Happy Path</a></h3>
 <p>The ideal scenario where everything works perfectly:</p>
-<pre><code class="language-sruja">HappyRegistration = scenario "User Registration (Happy Path)" {
+<pre><code class="language-sruja">// partial
+HappyRegistration = scenario "User Registration (Happy Path)" {
   Customer -&gt; WebApp "Opens registration form"
   Customer -&gt; WebApp "Enters name, email, password"
   Customer -&gt; WebApp "Clicks 'Create Account'"
@@ -379,7 +387,8 @@ CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
 </ul>
 <h3 id="pattern-2-error-path"><a class="header" href="#pattern-2-error-path">Pattern 2: Error Path</a></h3>
 <p>What happens when things go wrong:</p>
-<pre><code class="language-sruja">ErrorRegistration = scenario "User Registration (Error Path: Duplicate Email)" {
+<pre><code class="language-sruja">// partial
+ErrorRegistration = scenario "User Registration (Error Path: Duplicate Email)" {
   Customer -&gt; WebApp "Opens registration form"
   Customer -&gt; WebApp "Enters existing email: john@example.com"
   Customer -&gt; WebApp "Enters name and password"
@@ -415,7 +424,8 @@ CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
 <p>I once worked on a system where error messages were like "ERR_500_CHECKOUT_FAILED." Users had no idea what went wrong. We rewrote them to be helpful: "Payment failed. Please check your card details or try a different payment method." Support tickets dropped by 70%.</p>
 <h3 id="pattern-3-branching-path"><a class="header" href="#pattern-3-branching-path">Pattern 3: Branching Path</a></h3>
 <p>Different things happen based on conditions:</p>
-<pre><code class="language-sruja">BranchingApproval = scenario "Order Approval (Branching Based on Value)" {
+<pre><code class="language-sruja">// partial
+BranchingApproval = scenario "Order Approval (Branching Based on Value)" {
   Manager -&gt; WebApp "Submits order for approval"
   WebApp -&gt; API "Processes approval request"
   API -&gt; Database "Fetches order details"
@@ -455,7 +465,8 @@ CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
 </ul>
 <h3 id="pattern-4-retry-path"><a class="header" href="#pattern-4-retry-path">Pattern 4: Retry Path</a></h3>
 <p>System tries multiple times before succeeding or failing:</p>
-<pre><code class="language-sruja">RetryPayment = scenario "Payment with Automatic Retry" {
+<pre><code class="language-sruja">// partial
+RetryPayment = scenario "Payment with Automatic Retry" {
   Customer -&gt; WebApp "Clicks 'Place Order'"
   WebApp -&gt; API "Submits order for payment"
   
@@ -494,7 +505,8 @@ CheckoutJourney = scenario "Customer Checkout (BDD Style)" {
 </ul>
 <h2 id="complete-user-journey-example"><a class="header" href="#complete-user-journey-example">Complete User Journey Example</a></h2>
 <p>Let me show you a complete user journey that brings everything together:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Person
 Customer = person "Customer"
@@ -573,7 +585,8 @@ view index {
 <h2 id="testing-with-scenarios"><a class="header" href="#testing-with-scenarios">Testing with Scenarios</a></h2>
 <p>One of the most powerful things about user journeys: they become test cases automatically.</p>
 <h3 id="acceptance-criteria-as-scenarios"><a class="header" href="#acceptance-criteria-as-scenarios">Acceptance Criteria as Scenarios</a></h3>
-<pre><code class="language-sruja">// Acceptance criteria: As a customer, I want to checkout so that I can purchase products
+<pre><code class="language-sruja">// partial
+// Acceptance criteria: As a customer, I want to checkout so that I can purchase products
 
 // AC1: Customer can checkout with valid payment
 HappyCheckout = scenario "AC1: Successful Checkout" {
@@ -606,7 +619,8 @@ EmailConfirmation = scenario "AC3: Confirmation Email Sent" {
 <h2 id="documenting-edge-cases"><a class="header" href="#documenting-edge-cases">Documenting Edge Cases</a></h2>
 <p>Don't just model happy paths. Edge cases are where systems break.</p>
 <h3 id="common-edge-cases-to-model"><a class="header" href="#common-edge-cases-to-model">Common Edge Cases to Model</a></h3>
-<pre><code class="language-sruja">// Edge case 1: Checkout with expired card
+<pre><code class="language-sruja">// partial
+// Edge case 1: Checkout with expired card
 ExpiredCardCheckout = scenario "Checkout with Expired Card" {
   Customer -&gt; Shop.WebApp "Attempts checkout with expired card"
   Shop.WebApp -&gt; Shop.API "Submits order"
@@ -661,14 +675,16 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
 <h3 id="question-1"><a class="header" href="#question-1">Question 1</a></h3>
 <p>You're modeling a user registration flow for a social media app. Which scenario best represents a BDD-style "Given-When-Then" structure?</p>
 <p><strong>A)</strong></p>
-<pre><code class="language-sruja">RegistrationFlow = scenario "User Registration" {
+<pre><code class="language-sruja">// partial
+RegistrationFlow = scenario "User Registration" {
   Customer -&gt; WebApp "Registers"
   WebApp -&gt; API "Saves user"
   API -&gt; Database "Persists"
 }
 </code></pre>
 <p><strong>B)</strong></p>
-<pre><code class="language-sruja">RegistrationFlow = scenario "As a new user, I want to register so I can use the app" {
+<pre><code class="language-sruja">// partial
+RegistrationFlow = scenario "As a new user, I want to register so I can use the app" {
   // GIVEN: User is on registration page
   Customer -&gt; WebApp "Views registration form"
   
@@ -684,13 +700,15 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
 }
 </code></pre>
 <p><strong>C)</strong></p>
-<pre><code class="language-sruja">RegistrationFlow = scenario "Registration Process" {
+<pre><code class="language-sruja">// partial
+RegistrationFlow = scenario "Registration Process" {
   Start -&gt; Database "Create user"
   Database -&gt; Email "Send welcome"
 }
 </code></pre>
 <p><strong>D)</strong></p>
-<pre><code class="language-sruja">RegistrationFlow = story "User Registration Story" {
+<pre><code class="language-sruja">// partial
+RegistrationFlow = story "User Registration Story" {
   WebApp -&gt; API "Register"
   API -&gt; Database "Save"
 }
@@ -731,7 +749,8 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
 <h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
 <p>You're modeling a login flow and want to document an error path. Which scenario best models a meaningful error handling experience?</p>
 <p><strong>A)</strong></p>
-<pre><code class="language-sruja">LoginError = scenario "Login Error" {
+<pre><code class="language-sruja">// partial
+LoginError = scenario "Login Error" {
   User -&gt; WebApp "Login with wrong password"
   WebApp -&gt; API "Authenticate"
   API -&gt; Database "Check password"
@@ -740,7 +759,8 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
   WebApp -&gt; User "Shows error"}
 </code></pre>
 <p><strong>B)</strong></p>
-<pre><code class="language-sruja">LoginError = scenario "Login Error" {
+<pre><code class="language-sruja">// partial
+LoginError = scenario "Login Error" {
   User -&gt; WebApp "Login with wrong password"
   WebApp -&gt; API "Authenticate"
   API -&gt; Database "Check password"
@@ -749,7 +769,8 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
   WebApp -&gt; User "Shows error: 'Authentication failed'"}
 </code></pre>
 <p><strong>C)</strong></p>
-<pre><code class="language-sruja">LoginError = scenario "Login with Incorrect Password" {
+<pre><code class="language-sruja">// partial
+LoginError = scenario "Login with Incorrect Password" {
   User -&gt; WebApp "Enters email: user@example.com and wrong password"
   User -&gt; WebApp "Clicks 'Log In'"
   WebApp -&gt; API "Submits login"
@@ -759,7 +780,8 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
   WebApp -&gt; User "Shows 'Password incorrect. Please try again or reset your password if you've forgotten it.' with link to password reset"}
 </code></pre>
 <p><strong>D)</strong></p>
-<pre><code class="language-sruja">LoginError = scenario "Login Failed" {
+<pre><code class="language-sruja">// partial
+LoginError = scenario "Login Failed" {
   API -&gt; Database "Check"
   Database -&gt; API "No match"
   API -&gt; WebApp "Error"

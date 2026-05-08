@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -247,7 +247,8 @@ Window: 30 days
 <p><strong>What it measures:</strong> Is the service working?</p>
 <p><strong>How to calculate:</strong> <code>(Total time - Downtime) / Total time</code></p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
   availability {
     target "99.9%"  // 8.76 hours downtime/year allowed
     window "30 days"
@@ -261,7 +262,8 @@ Window: 30 days
 <p><strong>What it measures:</strong> How fast does the service respond?</p>
 <p><strong>How to calculate:</strong> Percentiles (p50, p95, p99)</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
   latency {
     p95 "200ms"  // 95% of requests faster than 200ms
     p99 "500ms"  // 99% of requests faster than 500ms
@@ -288,7 +290,8 @@ Window: 30 days
 <p><strong>What it measures:</strong> What percentage of requests fail?</p>
 <p><strong>How to calculate:</strong> <code>Failed requests / Total requests</code></p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
   error_rate {
     target "&lt; 0.1%"  // Fewer than 1 in 1000 requests fail
     window "30 days"
@@ -302,7 +305,8 @@ Window: 30 days
 <p><strong>What it measures:</strong> How many requests can you handle?</p>
 <p><strong>How to calculate:</strong> <code>Requests per second (req/s)</code></p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
   throughput {
     target "1000 req/s"  // Handle 1000 requests per second
     window "1 hour"
@@ -379,7 +383,8 @@ But wait - if you're at 100% capacity, you can't handle:
 Best practice: Run at 50-70% capacity. Have 30-50% headroom.
 </code></pre>
 <h3 id="sruja-modeling-scale-with-slos"><a class="header" href="#sruja-modeling-scale-with-slos">Sruja: Modeling Scale with SLOs</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce Platform" {
   API = container "API Service" {
@@ -705,7 +710,8 @@ Alert 3: Budget &lt; 20% remaining
 </ul>
 <p><strong>Time:</strong> 45-60 minutes</p>
 <h2 id="complete-example-e-commerce-platform"><a class="header" href="#complete-example-e-commerce-platform">Complete Example: E-Commerce Platform</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // ============ SERVICE DEFINITION ============
 

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -198,7 +198,8 @@
 <h3 id="concept"><a class="header" href="#concept">Concept</a></h3>
 <p>You have two identical environments (Blue and Green). One is live, the other is idle. You deploy to the idle one, test it, and then switch traffic.</p>
 <h3 id="real-world-example-e-commerce-platform"><a class="header" href="#real-world-example-e-commerce-platform">Real-World Example: E-Commerce Platform</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 ECommerce = system "E-Commerce Platform" {
@@ -290,7 +291,8 @@ include *
 <h3 id="concept-1"><a class="header" href="#concept-1">Concept</a></h3>
 <p>You roll out the new version to a small percentage of users (e.g., 5%) and monitor for errors. Gradually increase if metrics look good.</p>
 <h3 id="real-world-example-api-service"><a class="header" href="#real-world-example-api-service">Real-World Example: API Service</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 API = system "REST API" {
@@ -331,7 +333,8 @@ include *
 </code></pre>
 <h3 id="gradual-rollout-strategy"><a class="header" href="#gradual-rollout-strategy">Gradual Rollout Strategy</a></h3>
 <p>Document the rollout plan in metadata:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 ECommerce = system "E-Commerce Platform" {
@@ -379,7 +382,8 @@ include *
 <h2 id="rolling-deployment"><a class="header" href="#rolling-deployment">Rolling Deployment</a></h2>
 <h3 id="concept-2"><a class="header" href="#concept-2">Concept</a></h3>
 <p>Gradually replace old instances with new ones, one at a time.</p>
-<pre><code class="language-sruja">deployment Production "Production Environment" {
+<pre><code class="language-sruja">// partial
+deployment Production "Production Environment" {
     node Cluster "Kubernetes Cluster" {
         containerInstance API {
             replicas 20
@@ -401,7 +405,8 @@ include *
 </ul>
 <h2 id="feature-flags-deployment-strategy-alternative"><a class="header" href="#feature-flags-deployment-strategy-alternative">Feature Flags: Deployment Strategy Alternative</a></h2>
 <p>Sometimes you don't need a deployment strategy—use feature flags instead:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Platform = system "Platform" {
@@ -422,7 +427,8 @@ include *
 <p><strong>Use case</strong>: Deploy code with new feature disabled, then gradually enable via feature flags.</p>
 <h2 id="monitoring-during-deployment"><a class="header" href="#monitoring-during-deployment">Monitoring During Deployment</a></h2>
 <p>Model your observability during deployments:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Observability = system "Observability Stack" {

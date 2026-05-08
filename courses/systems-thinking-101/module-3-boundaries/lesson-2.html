@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -196,7 +196,8 @@
 </ul>
 <h2 id="marking-external-systems-the-basics"><a class="header" href="#marking-external-systems-the-basics">Marking External Systems: The Basics</a></h2>
 <p>The simplest way to mark something as external is using metadata tags. Let me show you the pattern I use consistently:</p>
-<pre><code class="language-sruja">// Internal: Your system (no tags = internal by default)
+<pre><code class="language-sruja">// partial
+// Internal: Your system (no tags = internal by default)
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API Service"
@@ -268,7 +269,8 @@ PaymentGateway = system "Payment Gateway" {
 <p>After modeling hundreds of systems, I've noticed patterns that repeat constantly. Let me show you the ones I see most often.</p>
 <h3 id="pattern-1-third-party-services"><a class="header" href="#pattern-1-third-party-services">Pattern 1: Third-Party Services</a></h3>
 <p>This is the most common pattern—integrating with vendors who provide specialized services.</p>
-<pre><code class="language-sruja">// Your system
+<pre><code class="language-sruja">// partial
+// Your system
 Shop = system "Shop"
 
 // Third-party integrations
@@ -313,7 +315,8 @@ Shop.API -&gt; GoogleAnalytics "Track events" [anonymous]
 <p>The key insight: <strong>add metadata that matters for that specific integration</strong>. Don't copy-paste the same structure for every external system.</p>
 <h3 id="pattern-2-partner-integrations"><a class="header" href="#pattern-2-partner-integrations">Pattern 2: Partner Integrations</a></h3>
 <p>Partners are different from vendors—they're external organizations you have contractual relationships with.</p>
-<pre><code class="language-sruja">// Your system
+<pre><code class="language-sruja">// partial
+// Your system
 Shop = system "Shop"
 
 // Partner systems (B2B integrations)
@@ -350,7 +353,8 @@ Shop.API -&gt; InventoryPartner "Check stock"
 <p>I always add contract references for partner systems. When disputes arise about service levels, you want the contract number readily available.</p>
 <h3 id="pattern-3-internal-team-boundaries"><a class="header" href="#pattern-3-internal-team-boundaries">Pattern 3: Internal Team Boundaries</a></h3>
 <p>Sometimes the boundary isn't between your company and outside world—it's between teams within your organization.</p>
-<pre><code class="language-sruja">// Your team's system
+<pre><code class="language-sruja">// partial
+// Your team's system
 Shop = system "Shop" {
   metadata {
     tags ["internal", "shop-team"]
@@ -397,7 +401,8 @@ Shop.API -&gt; AnalyticsPlatform.EventCollector "Send events"
 <h2 id="people-always-external"><a class="header" href="#people-always-external">People: Always External</a></h2>
 <p>Here's a rule I never break: <strong>people are always outside your system boundary</strong>.</p>
 <p>They're not "inside" your system—they're actors who interact with it from the outside.</p>
-<pre><code class="language-sruja">// External actors (always outside boundary)
+<pre><code class="language-sruja">// partial
+// External actors (always outside boundary)
 Customer = person "Customer"
 Administrator = person "Administrator"
 SupportAgent = person "Customer Support"
@@ -429,7 +434,8 @@ SupportAgent -&gt; Shop.WebApp "Monitors health"
 <h2 id="modeling-boundary-crossings"><a class="header" href="#modeling-boundary-crossings">Modeling Boundary Crossings</a></h2>
 <p>Every relationship that goes from internal to external (or vice versa) crosses a boundary. These crossings are integration points that need special attention.</p>
 <h3 id="single-boundary-crossing"><a class="header" href="#single-boundary-crossing">Single Boundary Crossing</a></h3>
-<pre><code class="language-sruja">// Internal system
+<pre><code class="language-sruja">// partial
+// Internal system
 Shop = system "Shop" {
   API = container "API"
 }
@@ -452,7 +458,8 @@ Shop.API -&gt; PaymentGateway "Process payment"
 <li>You need to understand the failure modes</li>
 </ul>
 <h3 id="multiple-boundary-crossings"><a class="header" href="#multiple-boundary-crossings">Multiple Boundary Crossings</a></h3>
-<pre><code class="language-sruja">Customer = person "Customer"
+<pre><code class="language-sruja">// partial
+Customer = person "Customer"
 
 // Internal
 Shop = system "Shop" {
@@ -496,7 +503,8 @@ Shop.API -&gt; AnalyticsService "Track event"         // Internal → External
 <h2 id="team-boundaries-in-practice"><a class="header" href="#team-boundaries-in-practice">Team Boundaries in Practice</a></h2>
 <p>Let me show you a real-world example of how team boundaries work in a larger organization.</p>
 <h3 id="single-team-one-system-simple"><a class="header" href="#single-team-one-system-simple">Single Team, One System (Simple)</a></h3>
-<pre><code class="language-sruja">// One team owns everything
+<pre><code class="language-sruja">// partial
+// One team owns everything
 Shop = system "Shop" {
   metadata {
     tags ["internal", "shop-team"]
@@ -510,7 +518,8 @@ Shop = system "Shop" {
 </code></pre>
 <p>This is the ideal scenario. One team, one system, clear ownership. Everything inside is your team's responsibility.</p>
 <h3 id="multiple-teams-bounded-contexts-realistic"><a class="header" href="#multiple-teams-bounded-contexts-realistic">Multiple Teams, Bounded Contexts (Realistic)</a></h3>
-<pre><code class="language-sruja">// Team A: Shop team
+<pre><code class="language-sruja">// partial
+// Team A: Shop team
 Shop = system "Shop" {
   metadata {
     tags ["internal", "shop-team"]
@@ -573,7 +582,8 @@ Shop.API -&gt; Notifications.Sender "Send notification"
 </ul>
 <p>Perfect for stakeholders who want to see the big picture, including dependencies and risks.</p>
 <h3 id="internal-only-view-shows-just-your-system"><a class="header" href="#internal-only-view-shows-just-your-system">Internal-Only View (Shows Just Your System)</a></h3>
-<pre><code class="language-sruja">view internal_view of Shop {
+<pre><code class="language-sruja">// partial
+view internal_view of Shop {
   title "Internal Architecture"
   include Shop.*
 }
@@ -586,7 +596,8 @@ Shop.API -&gt; Notifications.Sender "Send notification"
 </ul>
 <p>Perfect for developers who are working on the system and don't need to see external dependencies.</p>
 <h3 id="external-only-view-shows-dependencies"><a class="header" href="#external-only-view-shows-dependencies">External-Only View (Shows Dependencies)</a></h3>
-<pre><code class="language-sruja">view external_view of Shop {
+<pre><code class="language-sruja">// partial
+view external_view of Shop {
   title "External Dependencies"
   exclude Shop.*
 }
@@ -667,7 +678,8 @@ Shop.API -&gt; Notifications.Sender "Send notification"
 <hr>
 <h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
 <p>You're reviewing an architecture diagram and notice this structure:</p>
-<pre><code class="language-sruja">Shop = system "Shop"
+<pre><code class="language-sruja">// partial
+Shop = system "Shop"
 PaymentGateway = system "Payment Gateway"
 EmailService = system "Email Service"
 
@@ -684,7 +696,8 @@ Shop.API -&gt; EmailService "Send confirmation"
 <p><strong>Answer: B) Metadata tags marking external systems</strong></p>
 <p>The diagram has three systems, but there's no way to tell which one is yours (internal) and which are external dependencies. They all look identical.</p>
 <p><strong>What the diagram should include:</strong></p>
-<pre><code class="language-sruja">// Your system (internal)
+<pre><code class="language-sruja">// partial
+// Your system (internal)
 Shop = system "Shop" {
   metadata {
     tags ["internal"]

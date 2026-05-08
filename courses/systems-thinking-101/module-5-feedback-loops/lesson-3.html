@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -190,7 +190,8 @@
 <h2 id="cycles-in-sruja"><a class="header" href="#cycles-in-sruja">Cycles in Sruja</a></h2>
 <p>Unlike circular dependencies (bad), feedback loops (good) are valid cycles in Sruja.</p>
 <h3 id="basic-cycle-syntax"><a class="header" href="#basic-cycle-syntax">Basic Cycle Syntax</a></h3>
-<pre><code class="language-sruja">// Valid feedback loop
+<pre><code class="language-sruja">// partial
+// Valid feedback loop
 User -&gt; App.WebApp "Submits form"
 App.WebApp -&gt; App.API "Validates"
 App.API -&gt; App.WebApp "Returns result"
@@ -200,7 +201,8 @@ App.WebApp -&gt; User "Shows feedback"
 </code></pre>
 <h2 id="modeling-feedback-loops"><a class="header" href="#modeling-feedback-loops">Modeling Feedback Loops</a></h2>
 <h3 id="example-1-user-feedback-loop"><a class="header" href="#example-1-user-feedback-loop">Example 1: User Feedback Loop</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 User = person "User"
 
@@ -229,7 +231,8 @@ UserFeedback = scenario "User Form Feedback" {
 }
 </code></pre>
 <h3 id="example-2-system-self-regulation"><a class="header" href="#example-2-system-self-regulation">Example 2: System Self-Regulation</a></h3>
-<pre><code class="language-sruja">AutoScaling = system "Auto-Scaling System" {
+<pre><code class="language-sruja">// partial
+AutoScaling = system "Auto-Scaling System" {
   Monitor = container "Monitoring Service"
   Scaling = container "Scaling Service"
 }
@@ -260,7 +263,8 @@ ScalingLoop = scenario "Auto-Scaling Feedback" {
 }
 </code></pre>
 <h3 id="example-3-inventory-management"><a class="header" href="#example-3-inventory-management">Example 3: Inventory Management</a></h3>
-<pre><code class="language-sruja">Admin = person "Administrator"
+<pre><code class="language-sruja">// partial
+Admin = person "Administrator"
 
 Shop = system "Shop" {
   API = container "API Service"
@@ -287,7 +291,8 @@ InventoryLoop = scenario "Inventory Feedback" {
 }
 </code></pre>
 <h3 id="example-4-learning-system"><a class="header" href="#example-4-learning-system">Example 4: Learning System</a></h3>
-<pre><code class="language-sruja">User = person "User"
+<pre><code class="language-sruja">// partial
+User = person "User"
 
 MLSystem = system "ML Recommendation System" {
   API = container "Recommendation API"
@@ -316,7 +321,8 @@ LearningLoop = scenario "ML Learning Cycle" {
 </code></pre>
 <h2 id="explicit-vs-implicit-cycles"><a class="header" href="#explicit-vs-implicit-cycles">Explicit vs Implicit Cycles</a></h2>
 <h3 id="explicit-cycle-clear-feedback"><a class="header" href="#explicit-cycle-clear-feedback">Explicit Cycle (Clear Feedback)</a></h3>
-<pre><code class="language-sruja">// Shows the complete feedback path
+<pre><code class="language-sruja">// partial
+// Shows the complete feedback path
 User -&gt; App "Submit data"
 App -&gt; User "Show result"
 User -&gt; App "Adjust and resubmit"
@@ -324,7 +330,8 @@ User -&gt; App "Adjust and resubmit"
 // Clearly shows learning/adaptation
 </code></pre>
 <h3 id="implicit-cycle-inferred"><a class="header" href="#implicit-cycle-inferred">Implicit Cycle (Inferred)</a></h3>
-<pre><code class="language-sruja">// Relationships imply the cycle exists
+<pre><code class="language-sruja">// partial
+// Relationships imply the cycle exists
 User -&gt; App "Uses"
 App -&gt; User "Responds"
 
@@ -333,7 +340,8 @@ App -&gt; User "Responds"
 <p><strong>Recommendation</strong>: Use explicit cycles for important feedback mechanisms.</p>
 <h2 id="valid-cycles-vs-circular-dependencies"><a class="header" href="#valid-cycles-vs-circular-dependencies">Valid Cycles vs Circular Dependencies</a></h2>
 <h3 id="circular-dependency-bad"><a class="header" href="#circular-dependency-bad">Circular Dependency (Bad)</a></h3>
-<pre><code class="language-sruja">// Static compile-time dependency
+<pre><code class="language-sruja">// partial
+// Static compile-time dependency
 ModuleA -&gt; ModuleB "Imports"
 ModuleB -&gt; ModuleA "Imports"
 
@@ -343,7 +351,8 @@ ModuleB -&gt; ModuleA "Imports"
 // - No clear purpose
 </code></pre>
 <h3 id="feedback-loop-good"><a class="header" href="#feedback-loop-good">Feedback Loop (Good)</a></h3>
-<pre><code class="language-sruja">// Dynamic runtime feedback
+<pre><code class="language-sruja">// partial
+// Dynamic runtime feedback
 User -&gt; App "Submits data"
 App -&gt; User "Shows result"
 
@@ -354,7 +363,8 @@ App -&gt; User "Shows result"
 </code></pre>
 <h2 id="feedback-loop-patterns"><a class="header" href="#feedback-loop-patterns">Feedback Loop Patterns</a></h2>
 <h3 id="pattern-1-immediate-feedback"><a class="header" href="#pattern-1-immediate-feedback">Pattern 1: Immediate Feedback</a></h3>
-<pre><code class="language-sruja">InstantFeedback = scenario "Form Validation" {
+<pre><code class="language-sruja">// partial
+InstantFeedback = scenario "Form Validation" {
   User -&gt; WebApp "Type in field"
   WebApp -&gt; API "Validate"
   API -&gt; WebApp "Result (instant)"
@@ -362,7 +372,8 @@ App -&gt; User "Shows result"
 }
 </code></pre>
 <h3 id="pattern-2-delayed-feedback"><a class="header" href="#pattern-2-delayed-feedback">Pattern 2: Delayed Feedback</a></h3>
-<pre><code class="language-sruja">DelayedFeedback = scenario "Performance Monitoring" {
+<pre><code class="language-sruja">// partial
+DelayedFeedback = scenario "Performance Monitoring" {
   App -&gt; Monitoring "Log metrics"
 
   // Time passes
@@ -374,7 +385,8 @@ App -&gt; User "Shows result"
 }
 </code></pre>
 <h3 id="pattern-3-aggregated-feedback"><a class="header" href="#pattern-3-aggregated-feedback">Pattern 3: Aggregated Feedback</a></h3>
-<pre><code class="language-sruja">AggregatedFeedback = scenario "A/B Testing" {
+<pre><code class="language-sruja">// partial
+AggregatedFeedback = scenario "A/B Testing" {
   Users -&gt; App "Use feature A"
 
   // Aggregate many interactions
@@ -387,7 +399,8 @@ App -&gt; User "Shows result"
 </code></pre>
 <h2 id="feedback-loop-controls"><a class="header" href="#feedback-loop-controls">Feedback Loop Controls</a></h2>
 <h3 id="prevent-runaway-behavior"><a class="header" href="#prevent-runaway-behavior">Prevent Runaway Behavior</a></h3>
-<pre><code class="language-sruja">AutoScaling = container "Auto-Scaling Service" {
+<pre><code class="language-sruja">// partial
+AutoScaling = container "Auto-Scaling Service" {
   scale {
     min 2
     max 10
@@ -397,7 +410,8 @@ App -&gt; User "Shows result"
 }
 </code></pre>
 <h3 id="circuit-breaker-pattern"><a class="header" href="#circuit-breaker-pattern">Circuit Breaker Pattern</a></h3>
-<pre><code class="language-sruja">CircuitBreaker = scenario "Circuit Breaker Feedback" {
+<pre><code class="language-sruja">// partial
+CircuitBreaker = scenario "Circuit Breaker Feedback" {
   App -&gt; Service "Make request"
 
   // If failures exceed threshold, open circuit
@@ -414,7 +428,8 @@ App -&gt; User "Shows result"
 }
 </code></pre>
 <h3 id="rate-limiting"><a class="header" href="#rate-limiting">Rate Limiting</a></h3>
-<pre><code class="language-sruja">RateLimited = scenario "Rate Limited Requests" {
+<pre><code class="language-sruja">// partial
+RateLimited = scenario "Rate Limited Requests" {
   User -&gt; API "Send request"
 
   // Check rate limit
@@ -436,7 +451,8 @@ App -&gt; User "Shows result"
 </code></pre>
 <h2 id="documenting-feedback-loops"><a class="header" href="#documenting-feedback-loops">Documenting Feedback Loops</a></h2>
 <h3 id="add-metadata"><a class="header" href="#add-metadata">Add Metadata</a></h3>
-<pre><code class="language-sruja">AutoScaling = system "Auto-Scaling" {
+<pre><code class="language-sruja">// partial
+AutoScaling = system "Auto-Scaling" {
   metadata {
     feedback_loop {
       type "negative_balancing"
@@ -449,7 +465,8 @@ App -&gt; User "Shows result"
 }
 </code></pre>
 <h2 id="complete-example-e-commerce-feedback-loops"><a class="header" href="#complete-example-e-commerce-feedback-loops">Complete Example: E-Commerce Feedback Loops</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 Admin = person "Administrator"

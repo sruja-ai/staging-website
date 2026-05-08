@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -186,7 +186,8 @@
 <p>Instead of writing code and then documenting it, we define the API schema first using <strong>OpenAPI</strong>. This allows frontend devs to mock the API while backend devs build it.</p>
 <h2 id="srujas-role-architecture-modeling"><a class="header" href="#srujas-role-architecture-modeling">Sruja's Role: Architecture Modeling</a></h2>
 <p>Sruja models <strong>which services exist and how they connect</strong>. For detailed API schemas (endpoints, request/response structures), use <strong>OpenAPI/Swagger</strong>.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 customer = person "Customer"

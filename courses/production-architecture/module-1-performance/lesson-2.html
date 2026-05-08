@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -208,7 +208,8 @@
 <h2 id="step-2-design-with-slos-in-mind"><a class="header" href="#step-2-design-with-slos-in-mind">Step 2: Design with SLOs in Mind</a></h2>
 <p>This is where SLOs (Service Level Objectives) come in. <strong>Interviewers love when you think about measurable targets.</strong></p>
 <p>Let's model the payment system with explicit SLOs:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 PaymentService = system "Payment Processing" {
@@ -349,7 +350,8 @@ include *
 <h3 id="availability-slo"><a class="header" href="#availability-slo">Availability SLO</a></h3>
 <p><strong>Interviewer asks</strong>: "How do you ensure 99.99% availability?"</p>
 <p><strong>Your answer with SLO</strong>:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 PaymentService = system "Payment Processing" {
@@ -372,7 +374,8 @@ include *
 <h3 id="latency-slo"><a class="header" href="#latency-slo">Latency SLO</a></h3>
 <p><strong>Interviewer asks</strong>: "How fast should payments process?"</p>
 <p><strong>Your answer with SLO</strong>:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 PaymentService = system "Payment Processing" {
@@ -395,7 +398,8 @@ include *
 <h3 id="error-rate-slo"><a class="header" href="#error-rate-slo">Error Rate SLO</a></h3>
 <p><strong>Interviewer asks</strong>: "What error rate is acceptable?"</p>
 <p><strong>Your answer with SLO</strong>:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 PaymentService = system "Payment Processing" {

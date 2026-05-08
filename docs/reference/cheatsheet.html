@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -182,7 +182,8 @@
                     <main>
                         <h1 id="sruja-cheatsheet"><a class="header" href="#sruja-cheatsheet">Sruja Cheatsheet</a></h1>
 <h2 id="elements"><a class="header" href="#elements">Elements</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 User = person "User"
 App = system "App" {
@@ -203,7 +204,8 @@ view index {
 <p>The <code>import { * } from 'sruja.ai/stdlib'</code> line provides all standard kinds. You can also declare kinds manually if needed: <code>person = kind "Person"</code>, <code>system = kind "System"</code>, etc.</p>
 </blockquote>
 <h2 id="component"><a class="header" href="#component">Component</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 App = system "App" {
   Web = container "Web" {
@@ -212,7 +214,8 @@ App = system "App" {
 }
 </code></pre>
 <h2 id="scenario"><a class="header" href="#scenario">Scenario</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 User = person "User"
 

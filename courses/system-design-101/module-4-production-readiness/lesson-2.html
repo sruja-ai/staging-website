@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -191,7 +191,8 @@
 <p>Every system has two architectures that most teams confuse:</p>
 <h3 id="logical-architecture"><a class="header" href="#logical-architecture">Logical Architecture</a></h3>
 <p><strong>What your system does</strong> - the software components and their interactions.</p>
-<pre><code class="language-sruja">// This is LOGICAL architecture
+<pre><code class="language-sruja">// partial
+// This is LOGICAL architecture
 ECommerce = system "E-Commerce Platform" {
   API = container "REST API" {
     technology "Rust"
@@ -219,7 +220,8 @@ ECommerce = system "E-Commerce Platform" {
 <p><strong>Audience:</strong> Architects, developers, product managers</p>
 <h3 id="physical-architecture"><a class="header" href="#physical-architecture">Physical Architecture</a></h3>
 <p><strong>Where your system runs</strong> - the infrastructure and deployment topology.</p>
-<pre><code class="language-sruja">// This is PHYSICAL architecture
+<pre><code class="language-sruja">// partial
+// This is PHYSICAL architecture
 deployment Production "Production Environment" {
   node AWS "AWS Cloud" {
     node USEast1 "US-East-1 Region" {
@@ -353,7 +355,8 @@ deployment Production "Production Environment" {
 <li>Keep Blue warm for instant rollback</li>
 </ol>
 <p><strong>Sruja model:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce" {
   API = container "API Service" {
@@ -412,7 +415,8 @@ view index {
 <li>If bad → automatic rollback</li>
 </ol>
 <p><strong>Sruja model:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce" {
   API = container "API Service" {
@@ -476,7 +480,8 @@ view index {
 <li>Repeat until all updated</li>
 </ol>
 <p><strong>Sruja model:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce" {
   API = container "API Service" {
@@ -563,7 +568,8 @@ view index {
 <p><strong>Real-world example:</strong> Netflix</p>
 <p>Netflix runs active-active across three AWS regions (US-East, US-West, EU). Each region handles traffic. If one fails, others absorb.</p>
 <p><strong>Sruja model:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Netflix = system "Netflix Platform" {
   API = container "Streaming API"
@@ -630,7 +636,8 @@ view index {
 <p><strong>Real-world example:</strong> Etsy</p>
 <p>Etsy deploys 50+ times per day. Their deployment process is so reliable it's boring. That's the goal.</p>
 <h3 id="modeling-your-pipeline"><a class="header" href="#modeling-your-pipeline">Modeling Your Pipeline</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 CICD = system "CI/CD Pipeline" {
   GitHub = container "GitHub" {
@@ -685,7 +692,8 @@ view index {
 <p><strong>Real-world example:</strong> Google</p>
 <p>Google popularized SLOs. Every service has defined reliability targets. If you're within SLO, you can deploy. If not, freeze.</p>
 <h3 id="modeling-slos"><a class="header" href="#modeling-slos">Modeling SLOs</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce Platform" {
   API = container "API Service" {
@@ -764,7 +772,8 @@ view index {
 <li>Example: "Request took 300ms: 150ms in DB, 100ms in API, 50ms in network"</li>
 </ul>
 <h3 id="modeling-observability"><a class="header" href="#modeling-observability">Modeling Observability</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Observability = system "Observability Stack" {
   Metrics = container "Prometheus" {
@@ -908,7 +917,8 @@ view index {
 </ul>
 <h2 id="complete-example-e-commerce-at-scale"><a class="header" href="#complete-example-e-commerce-at-scale">Complete Example: E-Commerce at Scale</a></h2>
 <p>Let me show you a complete deployment architecture for a growing e-commerce platform:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Logical Architecture
 ECommerce = system "E-Commerce Platform" {

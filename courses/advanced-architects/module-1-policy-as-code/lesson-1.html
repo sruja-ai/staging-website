@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -200,7 +200,8 @@
 </ul>
 <h2 id="writing-constraints"><a class="header" href="#writing-constraints">Writing Constraints</a></h2>
 <p>Constraints define <strong>hard rules</strong> that must be followed. Violations block CI/CD.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Constraint: Presentation layer cannot access datastores directly
@@ -262,7 +263,8 @@ include *
 </code></pre>
 <h2 id="writing-conventions"><a class="header" href="#writing-conventions">Writing Conventions</a></h2>
 <p>Conventions define <strong>best practices</strong> and <strong>naming standards</strong>. They're warnings, not blockers.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Convention: Naming standards
@@ -295,7 +297,8 @@ include *
 </code></pre>
 <h2 id="real-world-example-multi-team-governance"><a class="header" href="#real-world-example-multi-team-governance">Real-World Example: Multi-Team Governance</a></h2>
 <p>Here's how a large organization enforces standards across teams:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Global constraint: All services must have SLOs

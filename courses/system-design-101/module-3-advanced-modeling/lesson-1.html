@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -369,7 +369,8 @@
 <h2 id="modeling-microservices-in-sruja"><a class="header" href="#modeling-microservices-in-sruja">Modeling Microservices in Sruja</a></h2>
 <p>Now that you understand the concepts, let's see how to model microservices in Sruja. The key is modeling each service as an independent unit with its own data.</p>
 <h3 id="basic-example-e-commerce-platform"><a class="header" href="#basic-example-e-commerce-platform">Basic Example: E-Commerce Platform</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Customer interacts with the system
 Customer = person "Customer"
@@ -420,7 +421,8 @@ adr ADR001 "Split into microservices" {
 <p>Notice how each system owns its database. This is critical—shared databases defeat the purpose of microservices.</p>
 <h3 id="multiple-views-for-different-audiences"><a class="header" href="#multiple-views-for-different-audiences">Multiple Views for Different Audiences</a></h3>
 <p>One of the most powerful features of Sruja is the ability to create different views for different audiences:</p>
-<pre><code class="language-sruja">// System Overview: Shows the big picture
+<pre><code class="language-sruja">// partial
+// System Overview: Shows the big picture
 view index {
     title "System Overview"
     include *

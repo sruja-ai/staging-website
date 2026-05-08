@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -198,7 +198,8 @@ include *
 </code></pre>
 <h2 id="level-2-container-view"><a class="header" href="#level-2-container-view">Level 2: Container View</a></h2>
 <p>If you are designing the internals, agents are often <strong>Containers</strong> (deployable units).</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 AI_Assistant = system "AI Assistant" {
@@ -209,7 +210,8 @@ VectorDB = database "Memory"
 </code></pre>
 <h2 id="level-3-component-view"><a class="header" href="#level-3-component-view">Level 3: Component View</a></h2>
 <p>If you are designing a single agent's logic, the specific tools and chains are <strong>Components</strong>.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 AI_Assistant = system "AI Assistant" {
@@ -222,7 +224,8 @@ SearchAgent = container "Search Agent" {
 </code></pre>
 <h2 id="using-metadata"><a class="header" href="#using-metadata">Using Metadata</a></h2>
 <p>Use metadata to capture AI-specific details:</p>
-<pre><code class="language-sruja">container GPT4Agent {
+<pre><code class="language-sruja">// partial
+container GPT4Agent {
   metadata {
     model "gpt-4-turbo"
     temperature "0.7"

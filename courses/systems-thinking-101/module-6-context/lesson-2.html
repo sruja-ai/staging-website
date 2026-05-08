@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -294,7 +294,8 @@ DevOpsEngineer = person "DevOps Engineer" {
 <p><strong>Who they are:</strong> Compliance officers, security auditors, legal teams, data privacy officers.</p>
 <p><strong>What they want:</strong> Audit trails, data protection, regulatory compliance.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">ComplianceOfficer = person "Compliance Officer" {
+<pre><code class="language-sruja">// partial
+ComplianceOfficer = person "Compliance Officer" {
   description "Ensures regulatory compliance"
   metadata {
     needs ["Audit logs", "Data retention policies", "Access controls"]
@@ -318,7 +319,8 @@ SecurityAuditor = person "Security Auditor" {
 <p><strong>The conflict:</strong> Support agents needed dense information displays. They handled 50+ tickets per day and couldn't afford extra clicks. What product called "cluttered," support called "efficient."</p>
 <p><strong>The mistake:</strong> We designed for product's vision first. Support hated it.</p>
 <p><strong>The solution:</strong> We modeled both stakeholders explicitly:</p>
-<pre><code class="language-sruja">ProductManager = person "Product Manager" {
+<pre><code class="language-sruja">// partial
+ProductManager = person "Product Manager" {
   metadata {
     vision "Clean, minimal, modern interface"
     priority "User experience, simplicity"
@@ -366,7 +368,8 @@ SupportAgent -&gt; SupportDashboard "Needs dense information"
 </code></pre>
 <p>Use this for primary stakeholders where you need to capture their full context.</p>
 <h3 id="stakeholder-with-relationships"><a class="header" href="#stakeholder-with-relationships">Stakeholder With Relationships</a></h3>
-<pre><code class="language-sruja">Customer = person "Customer"
+<pre><code class="language-sruja">// partial
+Customer = person "Customer"
 Shop = system "Shop"
 
 Customer -&gt; Shop "Purchases products"
@@ -375,7 +378,8 @@ Shop -&gt; Customer "Sends order updates"
 <p>Relationships show how stakeholders interact with the system. Notice the bidirectional flow—customers buy, but the system also reaches out to customers.</p>
 <h3 id="stakeholder-personas-advanced"><a class="header" href="#stakeholder-personas-advanced">Stakeholder Personas (Advanced)</a></h3>
 <p>For critical user types, create detailed personas:</p>
-<pre><code class="language-sruja">Sarah = person "Sarah (Customer Persona)" {
+<pre><code class="language-sruja">// partial
+Sarah = person "Sarah (Customer Persona)" {
   description "Busy professional, 35, shops on mobile during commute"
   metadata {
     demographics {
@@ -400,7 +404,8 @@ Shop -&gt; Customer "Sends order updates"
 <p>Personas bring stakeholders to life. They're especially useful when you need to make design trade-offs and want to ask "What would Sarah prefer?"</p>
 <h2 id="a-complete-example-e-commerce-platform"><a class="header" href="#a-complete-example-e-commerce-platform">A Complete Example: E-Commerce Platform</a></h2>
 <p>Let me show you how all this comes together in a real architecture:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // =========== STAKEHOLDERS ===========
 

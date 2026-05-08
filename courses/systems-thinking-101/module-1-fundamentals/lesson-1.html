@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -227,7 +227,8 @@
 <p><strong>Traditional view:</strong> "Build these components"
 <strong>Systems thinking view:</strong> "How do components interact to create value?"</p>
 <h2 id="sruja-example-e-commerce-platform"><a class="header" href="#sruja-example-e-commerce-platform">Sruja Example: E-Commerce Platform</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "End User"
 Admin = person "Administrator"
@@ -263,7 +264,8 @@ ECommerce.API -&gt; EmailService "Sends confirmation"
 EmailService -&gt; Customer "Order confirmation"
 </code></pre>
 <h3 id="extended-example-what-about-edge-cases"><a class="header" href="#extended-example-what-about-edge-cases">Extended Example: What About Edge Cases?</a></h3>
-<pre><code class="language-sruja">// What happens when things go wrong?
+<pre><code class="language-sruja">// partial
+// What happens when things go wrong?
 
 scenario CacheMiss "Cache Miss Scenario" {
   Customer -&gt; ECommerce.WebApp "Requests product"

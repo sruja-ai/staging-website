@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -221,7 +221,8 @@
 <p>Let me show you why boundaries matter in practice.</p>
 <h3 id="1-clear-ownership-whos-responsible"><a class="header" href="#1-clear-ownership-whos-responsible">1. Clear Ownership: Who's Responsible?</a></h3>
 <p>This is the most common reason I see teams argue. When boundaries are unclear, nobody knows who fixes what.</p>
-<pre><code class="language-sruja">// Inside: Your team owns this
+<pre><code class="language-sruja">// partial
+// Inside: Your team owns this
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API Service"
@@ -234,7 +235,8 @@ PaymentGateway = system "Payment Gateway"
 <p>I once worked on a project where a team spent three days arguing about who owned a broken integration because nobody had bothered to document the boundary. Three days of developer time—wasted.</p>
 <h3 id="2-risk-management-what-could-go-wrong"><a class="header" href="#2-risk-management-what-could-go-wrong">2. Risk Management: What Could Go Wrong?</a></h3>
 <p>Every time you cross a boundary, you're introducing risk. You're depending on something outside your control.</p>
-<pre><code class="language-sruja">// External dependency = external risk
+<pre><code class="language-sruja">// partial
+// External dependency = external risk
 Shop.API -&gt; PaymentGateway "Process payment"
 
 // If PaymentGateway is down, what happens?
@@ -245,7 +247,8 @@ Shop.API -&gt; PaymentGateway "Process payment"
 <p>When I model systems, I always ask: "What happens if this external thing breaks?" If I don't have a good answer, that's a risk I need to document and plan for.</p>
 <h3 id="3-testing-scope-what-do-we-test"><a class="header" href="#3-testing-scope-what-do-we-test">3. Testing Scope: What Do We Test?</a></h3>
 <p>Boundaries tell you what kind of testing you need.</p>
-<pre><code class="language-sruja">// Internal: Unit tests are sufficient
+<pre><code class="language-sruja">// partial
+// Internal: Unit tests are sufficient
 Shop.WebApp -&gt; Shop.API
 
 // External: Integration tests are required
@@ -254,7 +257,8 @@ Shop.API -&gt; PaymentGateway
 <p>You can unit test internal interactions all day. But when you cross a boundary? You need integration tests. You need to handle network failures. You need to test timeout scenarios. Boundaries tell you where testing gets more complex.</p>
 <h3 id="4-security-what-needs-protection"><a class="header" href="#4-security-what-needs-protection">4. Security: What Needs Protection?</a></h3>
 <p>Security controls should be strongest at your boundaries. That's where attacks happen.</p>
-<pre><code class="language-sruja">// Inside boundary: Apply internal controls
+<pre><code class="language-sruja">// partial
+// Inside boundary: Apply internal controls
 Shop.WebApp -&gt; Shop.API
 
 // Crossing boundary: Validate everything
@@ -265,7 +269,8 @@ Shop.API -&gt; PaymentGateway "Process payment" [authenticated, encrypted]
 <p>After years of modeling systems, I've noticed there are really five main types of boundaries you'll run into. Understanding which type you're dealing with helps you make the right decisions.</p>
 <h3 id="1-system-boundary-your-app-vs-the-world"><a class="header" href="#1-system-boundary-your-app-vs-the-world">1. System Boundary: Your App vs. The World</a></h3>
 <p>This is the most common boundary—your main application versus everything else.</p>
-<pre><code class="language-sruja">// Inside: Your system
+<pre><code class="language-sruja">// partial
+// Inside: Your system
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
@@ -279,7 +284,8 @@ EmailService = system "Email Service"
 <p>The system boundary defines your overall scope. Everything inside is yours. Everything outside is not.</p>
 <h3 id="2-team-boundary-what-your-team-owns"><a class="header" href="#2-team-boundary-what-your-team-owns">2. Team Boundary: What Your Team Owns</a></h3>
 <p>In larger organizations, different teams own different systems. These team boundaries matter for communication and coordination.</p>
-<pre><code class="language-sruja">// Your team's system
+<pre><code class="language-sruja">// partial
+// Your team's system
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
@@ -310,7 +316,8 @@ Stripe = system "Stripe" {
 <p>Vendor relationships are fundamentally different from internal relationships. Different SLAs, different support channels, different everything. Mark these boundaries clearly so everyone knows the difference.</p>
 <h3 id="4-deployment-boundary-what-deploys-together"><a class="header" href="#4-deployment-boundary-what-deploys-together">4. Deployment Boundary: What Deploys Together</a></h3>
 <p>Sometimes the same team owns systems, but they deploy independently. That's a deployment boundary.</p>
-<pre><code class="language-sruja">// Same deployment
+<pre><code class="language-sruja">// partial
+// Same deployment
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API"
@@ -327,7 +334,8 @@ Database = system "Database Cluster" {
 <p>Deployment boundaries tell you about failure domains. If the API and database deploy independently, they can fail independently. That's important to understand.</p>
 <h3 id="5-trust-boundary-security-zones"><a class="header" href="#5-trust-boundary-security-zones">5. Trust Boundary: Security Zones</a></h3>
 <p>This is one of the most important boundaries from a security perspective. It defines what's trusted versus untrusted.</p>
-<pre><code class="language-sruja">// Trusted: Internal network, internal users
+<pre><code class="language-sruja">// partial
+// Trusted: Internal network, internal users
 InternalAPI = container "Internal API"
 
 // Untrusted: Public internet, anyone
@@ -337,7 +345,8 @@ PublicAPI = container "Public API"
 <h2 id="real-world-examples"><a class="header" href="#real-world-examples">Real-World Examples</a></h2>
 <p>Let me show you some examples of boundaries in action.</p>
 <h3 id="example-1-a-typical-e-commerce-platform"><a class="header" href="#example-1-a-typical-e-commerce-platform">Example 1: A Typical E-Commerce Platform</a></h3>
-<pre><code class="language-sruja">// ┌──────────── EXTERNAL WORLD ────────────┐
+<pre><code class="language-sruja">// partial
+// ┌──────────── EXTERNAL WORLD ────────────┐
 // │                                        │
 // │   Customer (person)                    │
 // │   Payment Gateway (system)             │
@@ -367,7 +376,8 @@ Shop.API -&gt; Analytics "Track events"
 </code></pre>
 <p>See how clear the boundary is? Everything inside "Your System" is yours. Everything else is external. Anyone looking at this diagram immediately understands the scope and dependencies.</p>
 <h3 id="example-2-microservices-with-internal-boundaries"><a class="header" href="#example-2-microservices-with-internal-boundaries">Example 2: Microservices with Internal Boundaries</a></h3>
-<pre><code class="language-sruja">// Even within an organization, you can have boundaries
+<pre><code class="language-sruja">// partial
+// Even within an organization, you can have boundaries
 
 OrderService = system "Order Service" {
   metadata {
@@ -399,7 +409,8 @@ OrderService -&gt; InventoryService "Reserve items"
 <h2 id="pitfalls-to-avoid-ive-made-these"><a class="header" href="#pitfalls-to-avoid-ive-made-these">Pitfalls to Avoid (I've Made These)</a></h2>
 <p>Let me share some boundary mistakes I've made or seen others make. Hopefully, you can avoid them.</p>
 <h3 id="mistake-1-no-clear-boundary"><a class="header" href="#mistake-1-no-clear-boundary">Mistake 1: No Clear Boundary</a></h3>
-<pre><code class="language-sruja">// Bad: Everything looks the same
+<pre><code class="language-sruja">// partial
+// Bad: Everything looks the same
 Customer = person "Customer"
 Shop = system "Shop"
 PaymentGateway = system "Payment Gateway"
@@ -416,7 +427,8 @@ EmailService = system "Email Service"
 }
 </code></pre>
 <h3 id="mistake-2-everything-marked-external"><a class="header" href="#mistake-2-everything-marked-external">Mistake 2: Everything Marked External</a></h3>
-<pre><code class="language-sruja">// Bad: Everything marked external, no ownership
+<pre><code class="language-sruja">// partial
+// Bad: Everything marked external, no ownership
 Shop = system "Shop" {
   tags ["external"]
 }
@@ -426,7 +438,8 @@ WebApp = container "Web App" {
 </code></pre>
 <p>This is the opposite problem. If everything is external, who owns anything? Who's responsible? The diagram provides no clarity about ownership.</p>
 <p><strong>Fix</strong>: Only mark truly external systems:</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   // No tags = internal
   WebApp = container "Web App"
 }
@@ -438,7 +451,8 @@ PaymentGateway = system "Payment Gateway" {
 }
 </code></pre>
 <h3 id="mistake-3-too-many-fragmented-boundaries"><a class="header" href="#mistake-3-too-many-fragmented-boundaries">Mistake 3: Too Many Fragmented Boundaries</a></h3>
-<pre><code class="language-sruja">// Bad: Overly fragmented, hard to understand
+<pre><code class="language-sruja">// partial
+// Bad: Overly fragmented, hard to understand
 System1 = system "System 1"
 System2 = system "System 2"
 System3 = system "System 3"
@@ -448,7 +462,8 @@ System5 = system "System 5"
 </code></pre>
 <p>I've seen teams create a separate system boundary for every tiny piece of functionality. The diagram becomes a mess of boxes with no clear groupings. Nobody can understand the big picture.</p>
 <p><strong>Fix</strong>: Group related functionality into coherent systems:</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   // Group all shop-related containers
   WebApp = container "Web App"
   API = container "API"
@@ -465,7 +480,8 @@ Analytics = system "Analytics" {
 <p>Sruja gives you the tools to define boundaries clearly. Here's how I use them.</p>
 <h3 id="use-system-for-your-main-boundary"><a class="header" href="#use-system-for-your-main-boundary">Use <code>system</code> for Your Main Boundary</a></h3>
 <p>Your main application is a system. Everything you own goes inside it.</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   // Everything you control goes here
   WebApp = container "Web App"
   API = container "API"
@@ -485,7 +501,8 @@ Analytics = system "Analytics" {
 <p>I always add context to external systems: who owns it, what the SLA is, any relevant compliance requirements. This helps people understand the risk and dependency.</p>
 <h3 id="use-person-for-external-actors"><a class="header" href="#use-person-for-external-actors">Use <code>person</code> for External Actors</a></h3>
 <p>Remember: people are always outside your system boundary.</p>
-<pre><code class="language-sruja">// Users are external to your system
+<pre><code class="language-sruja">// partial
+// Users are external to your system
 Customer = person "Customer"
 Administrator = person "Administrator"
 Support = person "Customer Support"
@@ -563,7 +580,8 @@ Support -&gt; Shop.WebApp "Monitors health"
 <hr>
 <h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
 <p>You're reviewing an architecture diagram and notice this structure:</p>
-<pre><code class="language-sruja">Shop = system "Shop"
+<pre><code class="language-sruja">// partial
+Shop = system "Shop"
 PaymentGateway = system "Payment Gateway"
 EmailService = system "Email Service"
 AnalyticsService = system "Analytics Service"
@@ -583,7 +601,8 @@ Shop.API -&gt; AnalyticsService "Track events"
 <p><strong>Answer: B) External systems aren't marked as external</strong></p>
 <p>The problem is that <strong>all four systems look identical</strong>. There's no way to tell that Shop is the system being built while PaymentGateway, EmailService, and AnalyticsService are external dependencies.</p>
 <p><strong>What should it look like?</strong></p>
-<pre><code class="language-sruja">// Your system (no tags = internal)
+<pre><code class="language-sruja">// partial
+// Your system (no tags = internal)
 Shop = system "Shop" {
   WebApp = container "Web App"
   API = container "API Service"

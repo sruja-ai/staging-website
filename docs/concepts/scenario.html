@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -183,7 +183,8 @@
                         <h1 id="scenario"><a class="header" href="#scenario">Scenario</a></h1>
 <p>Scenarios describe behavioral flows as ordered steps. They focus on interactions rather than data pipelines.</p>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Customer"
@@ -218,7 +219,8 @@ view index {
 <li><strong><code>flow</code></strong>: Models data movement (e.g., Data Flow Diagrams, pipelines).</li>
 </ul>
 <p>While the syntax is the same, using the appropriate keyword helps readers understand the <em>nature</em> of the interaction being modeled.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Customer"
@@ -246,7 +248,8 @@ OrderProcess = flow "Order Processing" {
 </ul>
 <h2 id="step-fields"><a class="header" href="#step-fields">Step fields</a></h2>
 <p>Scenario/story steps support optional tags and ordering:</p>
-<pre><code class="language-sruja">HappyCheckout = scenario "Checkout (happy path)" {
+<pre><code class="language-sruja">// partial
+HappyCheckout = scenario "Checkout (happy path)" {
   step Customer -&gt; Shop.WebApp "add items" [happy_path] order "1"
   step Shop.WebApp -&gt; Shop.API "submit cart" [happy_path] order "2"
 }
@@ -254,7 +257,8 @@ OrderProcess = flow "Order Processing" {
 <p>Flow steps focus on the connection and description; tags and ordering are not currently parsed on flow steps.</p>
 <h2 id="alternative-body-form-scenariostory"><a class="header" href="#alternative-body-form-scenariostory">Alternative body form (scenario/story)</a></h2>
 <p>You can also use a block form that keeps metadata and steps visually separated:</p>
-<pre><code class="language-sruja">Checkout = scenario {
+<pre><code class="language-sruja">// partial
+Checkout = scenario {
   title "Checkout"
   description "Happy-path behavior for placing an order."
   steps [
@@ -273,7 +277,8 @@ OrderProcess = flow "Order Processing" {
 <h2 id="policy-enforcement"><a class="header" href="#policy-enforcement">Policy Enforcement</a></h2>
 <p>Policy rules can also be enforced on scenario/flow steps.</p>
 <p>Today, <code>deny edge</code> policy rules are evaluated against each <code>step from -&gt; to</code> in a scenario/flow, using the same selector semantics as graph edges:</p>
-<pre><code class="language-sruja">NoExternalToDb = policy "No external to db" {
+<pre><code class="language-sruja">// partial
+NoExternalToDb = policy "No external to db" {
   enforcement "required"
   rule deny edge from { kind "container" tag "external" } to { kind "database" }
 }

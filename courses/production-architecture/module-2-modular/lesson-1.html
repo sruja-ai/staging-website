@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -219,7 +219,8 @@
 </ol>
 <h2 id="step-3-model-with-sruja-separate-systems"><a class="header" href="#step-3-model-with-sruja-separate-systems">Step 3: Model with Sruja (Separate Systems)</a></h2>
 <p>Model each microservice as a <strong>separate system</strong> within the architecture. This clearly shows service boundaries.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Online Customer"
@@ -430,7 +431,8 @@ include *
 <h2 id="interview-practice-add-more-services"><a class="header" href="#interview-practice-add-more-services">Interview Practice: Add More Services</a></h2>
 <p><strong>Interviewer might ask</strong>: "What about recommendations and analytics?"</p>
 <p>Add them to your design (extending the main architecture):</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Online Customer"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -251,7 +251,8 @@
 <strong>Keyword:</strong> <code>story</code> (alias for <code>scenario</code>)</p>
 <p>User flows show what the user experiences, not technical details. They answer: "What does the user do, and what do they get?"</p>
 <p><strong>Example: Buying a Ticket</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 User = person "Customer"
 
@@ -298,7 +299,8 @@ view index {
 <strong>Keyword:</strong> <code>scenario</code></p>
 <p>Technical sequences show how containers and components interact. They answer: "What calls what, in what order, with what data?"</p>
 <p><strong>Example: Authentication Flow</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 User = person "End User"
 
@@ -341,7 +343,8 @@ view index {
 <p><strong>When to use technical sequences:</strong> When you're debugging, designing implementation, or helping engineers understand the system.</p>
 <h2 id="adding-metadata-to-scenarios"><a class="header" href="#adding-metadata-to-scenarios">Adding Metadata to Scenarios</a></h2>
 <p>Scenarios become more valuable when you add metadata. Sruja supports properties on each step:</p>
-<pre><code class="language-sruja">PaymentFlow = scenario "Payment Processing" {
+<pre><code class="language-sruja">// partial
+PaymentFlow = scenario "Payment Processing" {
     Customer -&gt; ECommerce.Cart "Initiates checkout" {
         latency "50ms"
     }
@@ -374,7 +377,8 @@ view index {
 <p>After years of writing scenarios, I've found a few patterns that work well.</p>
 <h3 id="pattern-1-happy-path--edge-cases"><a class="header" href="#pattern-1-happy-path--edge-cases">Pattern 1: Happy Path + Edge Cases</a></h3>
 <p>Don't try to model every possible path. Model the happy path and the important edge cases:</p>
-<pre><code class="language-sruja">// Happy path
+<pre><code class="language-sruja">// partial
+// Happy path
 CheckoutSuccess = story "Successful checkout" {
     Customer -&gt; Cart "Initiates checkout"
     Cart -&gt; Payment "Processes payment"
@@ -401,7 +405,8 @@ CheckoutNoInventory = story "Checkout - no inventory" {
 <p>Three scenarios cover 95% of checkout behavior. You don't need 20 scenarios for every edge case.</p>
 <h3 id="pattern-2-user-journey-mapping"><a class="header" href="#pattern-2-user-journey-mapping">Pattern 2: User Journey Mapping</a></h3>
 <p>For complex user journeys, break them into phases:</p>
-<pre><code class="language-sruja">// Phase 1: Discovery
+<pre><code class="language-sruja">// partial
+// Phase 1: Discovery
 OnboardingDiscovery = story "User discovers features" {
     User -&gt; App "Opens app"
     App -&gt; User "Shows feature highlights"
@@ -425,7 +430,8 @@ OnboardingRetention = story "User returns" {
 <p>This helps product teams understand user behavior at each stage.</p>
 <h3 id="pattern-3-failure-scenarios"><a class="header" href="#pattern-3-failure-scenarios">Pattern 3: Failure Scenarios</a></h3>
 <p>Model what happens when things break:</p>
-<pre><code class="language-sruja">// Service failure
+<pre><code class="language-sruja">// partial
+// Service failure
 PaymentServiceDown = scenario "Payment service unavailable" {
     Customer -&gt; Cart "Initiates checkout"
     Cart -&gt; Payment "Processes payment"
@@ -461,7 +467,8 @@ PaymentServiceRecovery = scenario "Payment service recovers" {
 <p><strong>Reality:</strong> Engineers need technical sequences. Product managers need user stories. Different audiences need different levels of detail.</p>
 <h2 id="a-complete-example-e-commerce-checkout"><a class="header" href="#a-complete-example-e-commerce-checkout">A Complete Example: E-Commerce Checkout</a></h2>
 <p>Let me show you a complete example with all the patterns:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 Customer = person "Customer"
 
@@ -550,7 +557,8 @@ view checkout {
 <p>Sruja supports both simple and formal syntax for scenarios.</p>
 <h3 id="simple-syntax"><a class="header" href="#simple-syntax">Simple Syntax</a></h3>
 <p>Quick and lightweight:</p>
-<pre><code class="language-sruja">LoginFailure = scenario "Login Failure" {
+<pre><code class="language-sruja">// partial
+LoginFailure = scenario "Login Failure" {
     User -&gt; AuthSystem.WebApp "Enters wrong password"
     AuthSystem.WebApp -&gt; User "Shows error message"
 }
@@ -558,7 +566,8 @@ view checkout {
 <p><strong>Use when:</strong> Quick sketches, simple flows, internal documentation.</p>
 <h3 id="formal-syntax"><a class="header" href="#formal-syntax">Formal Syntax</a></h3>
 <p>More structure for important scenarios:</p>
-<pre><code class="language-sruja">CheckoutProcess = scenario "Checkout Process" {
+<pre><code class="language-sruja">// partial
+CheckoutProcess = scenario "Checkout Process" {
     description "The complete checkout flow including payment and inventory check"
     
     Customer -&gt; ECommerce.Cart "Initiates checkout"

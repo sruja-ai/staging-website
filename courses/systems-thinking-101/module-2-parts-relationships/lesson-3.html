@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -204,7 +204,8 @@
 <p>But here's the thing I've learned over the years: relationships aren't just technical—they're about telling the story of your system. A well-crafted relationship doesn't just say "connects"—it explains <strong>why</strong> and <strong>how</strong> things connect.</p>
 <h2 id="the-basic-syntax"><a class="header" href="#the-basic-syntax">The Basic Syntax</a></h2>
 <p>Sruja keeps it simple:</p>
-<pre><code class="language-sruja">From -&gt; To "Label"
+<pre><code class="language-sruja">// partial
+From -&gt; To "Label"
 </code></pre>
 <ul>
 <li><code>From</code>: Who initiates the interaction?</li>
@@ -212,7 +213,8 @@
 <li><code>"Label"</code>: What's happening? (This is the most important part!)</li>
 </ul>
 <p>Here are some examples:</p>
-<pre><code class="language-sruja">// Person to System
+<pre><code class="language-sruja">// partial
+// Person to System
 Customer -&gt; Shop "Browses products"
 Administrator -&gt; Shop "Manages inventory"
 
@@ -227,7 +229,8 @@ Shop.API.ProductService -&gt; Shop.API.CartService "Gets product details"
 <h2 id="writing-labels-that-tell-a-story"><a class="header" href="#writing-labels-that-tell-a-story">Writing Labels That Tell a Story</a></h2>
 <p>The difference between a good architecture diagram and a great one often comes down to relationship labels. Let me show you what I mean.</p>
 <h3 id="good-labels-tell-a-story"><a class="header" href="#good-labels-tell-a-story">Good Labels Tell a Story</a></h3>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Browses products"
+<pre><code class="language-sruja">// partial
+Customer -&gt; Shop.WebApp "Browses products"
 Shop.API -&gt; Shop.Database "Queries data"
 Shop.API -&gt; PaymentGateway "Processes payment"
 </code></pre>
@@ -238,7 +241,8 @@ Shop.API -&gt; PaymentGateway "Processes payment"
 <li>The payment gateway is <strong>processing</strong> (transaction handling)</li>
 </ul>
 <h3 id="bad-labels-are-mysterious"><a class="header" href="#bad-labels-are-mysterious">Bad Labels Are Mysterious</a></h3>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Uses"  // Too generic—what do they do?
+<pre><code class="language-sruja">// partial
+Customer -&gt; Shop.WebApp "Uses"  // Too generic—what do they do?
 Shop.API -&gt; Shop.Database "Connects"  // Doesn't describe the interaction
 Shop.API -&gt; PaymentGateway "Integration"  // Technical term, not behavioral
 </code></pre>
@@ -255,7 +259,8 @@ Shop.API -&gt; PaymentGateway "Integration"  // Technical term, not behavioral
 <p>After modeling hundreds of systems, I've noticed patterns that repeat constantly. Recognizing these patterns will make you faster and your diagrams more consistent.</p>
 <h3 id="pattern-1-user-interactions"><a class="header" href="#pattern-1-user-interactions">Pattern 1: User Interactions</a></h3>
 <p>This pattern shows what people actually do with your system:</p>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Logs in"
+<pre><code class="language-sruja">// partial
+Customer -&gt; Shop.WebApp "Logs in"
 Customer -&gt; Shop.WebApp "Views products"
 Customer -&gt; Shop.WebApp "Adds to cart"
 Customer -&gt; Shop.WebApp "Checks out"
@@ -263,7 +268,8 @@ Customer -&gt; Shop.WebApp "Checks out"
 <p>I model each user action as a separate relationship. This makes it clear what functionality the system needs to support.</p>
 <h3 id="pattern-2-service-communication"><a class="header" href="#pattern-2-service-communication">Pattern 2: Service Communication</a></h3>
 <p>This pattern shows how your backend services talk to each other:</p>
-<pre><code class="language-sruja">WebApp -&gt; API "Sends requests"
+<pre><code class="language-sruja">// partial
+WebApp -&gt; API "Sends requests"
 API -&gt; Database "Persists data"
 API -&gt; Cache "Reads cache"
 Cache -&gt; API "Returns cached data"
@@ -271,7 +277,8 @@ Cache -&gt; API "Returns cached data"
 <p>Notice the bidirectional communication? The API writes to the cache, but also reads from it. This shows the caching strategy clearly.</p>
 <h3 id="pattern-3-external-dependencies"><a class="header" href="#pattern-3-external-dependencies">Pattern 3: External Dependencies</a></h3>
 <p>This pattern shows systems you depend on outside your control:</p>
-<pre><code class="language-sruja">API -&gt; PaymentGateway "Process payment"
+<pre><code class="language-sruja">// partial
+API -&gt; PaymentGateway "Process payment"
 API -&gt; EmailService "Send notifications"
 API -&gt; AnalyticsService "Track events"
 </code></pre>
@@ -279,21 +286,25 @@ API -&gt; AnalyticsService "Track events"
 <h2 id="referencing-nested-elements"><a class="header" href="#referencing-nested-elements">Referencing Nested Elements</a></h2>
 <p>One of Sruja's powerful features is dot notation for nested elements. Let me show you how it works.</p>
 <h3 id="direct-child-reference"><a class="header" href="#direct-child-reference">Direct Child Reference</a></h3>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Uses"
+<pre><code class="language-sruja">// partial
+Customer -&gt; Shop.WebApp "Uses"
 </code></pre>
 <p>This is straightforward—you're referencing a direct child.</p>
 <h3 id="nested-component-reference"><a class="header" href="#nested-component-reference">Nested Component Reference</a></h3>
-<pre><code class="language-sruja">Shop.API.ProductService -&gt; Shop.API.CartService "Get product info"
+<pre><code class="language-sruja">// partial
+Shop.API.ProductService -&gt; Shop.API.CartService "Get product info"
 </code></pre>
 <p>Here, both products and carts live inside the API container. The dot notation makes it clear where each component lives.</p>
 <h3 id="cross-system-reference"><a class="header" href="#cross-system-reference">Cross-System Reference</a></h3>
-<pre><code class="language-sruja">Shop.API -&gt; PaymentGateway.ChargeService "Process payment"
+<pre><code class="language-sruja">// partial
+Shop.API -&gt; PaymentGateway.ChargeService "Process payment"
 </code></pre>
 <p>This shows that you're calling a specific service within an external system. This level of detail can be crucial when debugging integration issues.</p>
 <h2 id="using-tags-to-add-meaning"><a class="header" href="#using-tags-to-add-meaning">Using Tags to Add Meaning</a></h2>
 <p>Tags are optional but incredibly useful for adding context to your relationships. Think of them as annotations that help people understand what they're looking at.</p>
 <h3 id="common-tags-i-use"><a class="header" href="#common-tags-i-use">Common Tags I Use</a></h3>
-<pre><code class="language-sruja">// Protocol information
+<pre><code class="language-sruja">// partial
+// Protocol information
 Shop.WebApp -&gt; Shop.API "Sends requests" [http]
 Shop.API -&gt; Shop.Database "Queries data" [sql]
 
@@ -313,7 +324,8 @@ Customer -&gt; Shop.WebApp "Browses" [public]
 <h2 id="handling-multiple-relationships"><a class="header" href="#handling-multiple-relationships">Handling Multiple Relationships</a></h2>
 <p>Elements rarely have just one relationship—they're connected to many things. That's normal and expected.</p>
 <h3 id="a-typical-container-with-multiple-connections"><a class="header" href="#a-typical-container-with-multiple-connections">A Typical Container with Multiple Connections</a></h3>
-<pre><code class="language-sruja">// WebApp connects to several things
+<pre><code class="language-sruja">// partial
+// WebApp connects to several things
 Customer -&gt; Shop.WebApp "Browses"
 Shop.WebApp -&gt; Shop.API "Queries products"
 Shop.WebApp -&gt; Shop.Cache "Reads cache"
@@ -333,16 +345,19 @@ Shop.API -&gt; Shop.EmailService "Send confirmation"
 <h2 id="understanding-relationship-direction"><a class="header" href="#understanding-relationship-direction">Understanding Relationship Direction</a></h2>
 <p>Direction matters. It tells you who initiates the interaction and who responds.</p>
 <h3 id="one-way-relationships"><a class="header" href="#one-way-relationships">One-Way Relationships</a></h3>
-<pre><code class="language-sruja">Customer -&gt; Shop.WebApp "Browses"
+<pre><code class="language-sruja">// partial
+Customer -&gt; Shop.WebApp "Browses"
 </code></pre>
 <p>The customer acts, the web app responds. Simple.</p>
 <h3 id="two-way-relationships-separate-connections"><a class="header" href="#two-way-relationships-separate-connections">Two-Way Relationships (Separate Connections)</a></h3>
-<pre><code class="language-sruja">User -&gt; App.API "Submits data"
+<pre><code class="language-sruja">// partial
+User -&gt; App.API "Submits data"
 App.API -&gt; User "Returns result"
 </code></pre>
 <p>Here, the user sends data, and the API sends data back. They're two separate relationships because each one tells its own story.</p>
 <h3 id="feedback-loops-cycles"><a class="header" href="#feedback-loops-cycles">Feedback Loops (Cycles)</a></h3>
-<pre><code class="language-sruja">User -&gt; App.WebApp "Submits form"
+<pre><code class="language-sruja">// partial
+User -&gt; App.WebApp "Submits form"
 App.WebApp -&gt; App.API "Validates"
 App.API -&gt; App.WebApp "Returns errors"
 App.WebApp -&gt; User "Shows errors"
@@ -351,7 +366,8 @@ App.WebApp -&gt; User "Shows errors"
 <p>This creates a feedback loop: submit → validate → error → show → resubmit. Feedback loops are everywhere in real systems. The thermostat in your house is one. The login flow on a website is another.</p>
 <h2 id="bringing-it-all-together"><a class="header" href="#bringing-it-all-together">Bringing It All Together</a></h2>
 <p>Let me show you a complete example that uses everything we've covered:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // People
 Customer = person "Customer"

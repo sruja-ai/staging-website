@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -225,7 +225,8 @@
 <p><strong>Real-world example:</strong> Netflix</p>
 <p>Netflix has a guardrail: "No service can depend on a single availability zone." Their validation tool checks every service's deployment configuration. If it's single-AZ, the build fails. This guardrail has prevented dozens of potential outages.</p>
 <p><strong>Sruja example:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Define the policy
 policy EncryptionPolicy "All databases must be encrypted" {
@@ -270,7 +271,8 @@ view index {
 <p><strong>Real-world example:</strong> Google</p>
 <p>Google has thousands of services, but they all follow the same API design guidelines. Why? Because they have automated validators that check every API against their standards. Inconsistent APIs fail the build.</p>
 <p><strong>Sruja example:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 policy LoggingStandard "Services must have structured logging" {
   category "operations"
@@ -328,7 +330,8 @@ view index {
 <p><strong>Real-world example:</strong> Amazon</p>
 <p>Amazon learned the hard way that services with too many dependencies become bottlenecks. They codified this lesson: "If a service has more than 20 dependencies, architecture review required." This rule is enforced automatically.</p>
 <p><strong>Sruja example:</strong></p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 policy DependencyLimit "Services should not have too many dependencies" {
   category "architecture"
@@ -399,7 +402,8 @@ view index {
 <h2 id="common-governance-rules"><a class="header" href="#common-governance-rules">Common Governance Rules</a></h2>
 <p>Here are the governance rules I see most often in production systems:</p>
 <h3 id="security-rules"><a class="header" href="#security-rules">Security Rules</a></h3>
-<pre><code class="language-sruja">// Rule 1: All databases encrypted
+<pre><code class="language-sruja">// partial
+// Rule 1: All databases encrypted
 policy EncryptionPolicy "All databases must be encrypted" {
   rule {
     element_type "database"
@@ -435,7 +439,8 @@ policy DataResidencyPolicy "Data must stay in approved regions" {
 }
 </code></pre>
 <h3 id="architecture-rules"><a class="header" href="#architecture-rules">Architecture Rules</a></h3>
-<pre><code class="language-sruja">// Rule 5: No circular dependencies
+<pre><code class="language-sruja">// partial
+// Rule 5: No circular dependencies
 policy NoCircularDeps "Services cannot have circular dependencies" {
   rule {
     check_circular_dependencies true
@@ -471,7 +476,8 @@ policy LayerPolicy "Respect architectural layers" {
 }
 </code></pre>
 <h3 id="operations-rules"><a class="header" href="#operations-rules">Operations Rules</a></h3>
-<pre><code class="language-sruja">// Rule 9: All services must have SLOs
+<pre><code class="language-sruja">// partial
+// Rule 9: All services must have SLOs
 policy SLOPolicy "Services must have SLOs defined" {
   rule {
     element_type "container"
@@ -505,7 +511,8 @@ policy HealthCheckPolicy "Services must implement health checks" {
 }
 </code></pre>
 <h3 id="compliance-rules"><a class="header" href="#compliance-rules">Compliance Rules</a></h3>
-<pre><code class="language-sruja">// Rule 13: PII handling requirements
+<pre><code class="language-sruja">// partial
+// Rule 13: PII handling requirements
 policy PIIHandlingPolicy "PII must be handled correctly" {
   rule {
     element_type "database"
@@ -669,7 +676,8 @@ sruja drift-detect --architecture architecture.sruja --live-infrastructure
 <h3 id="mistake-3-rules-without-context"><a class="header" href="#mistake-3-rules-without-context">Mistake #3: Rules Without Context</a></h3>
 <p><strong>What happens:</strong> Policies exist but no one knows why.</p>
 <p><strong>Example:</strong></p>
-<pre><code class="language-sruja">// BAD: No explanation
+<pre><code class="language-sruja">// partial
+// BAD: No explanation
 policy Rule42 "Services must have tag X" {
   // Why? What's the purpose?
 }
@@ -681,7 +689,8 @@ policy Rule42 "Services must have tag X" {
 <li>When it applies</li>
 <li>How to comply</li>
 </ul>
-<pre><code class="language-sruja">// GOOD: Clear context
+<pre><code class="language-sruja">// partial
+// GOOD: Clear context
 policy EncryptionPolicy "All databases must be encrypted" {
   category "security"
   
@@ -870,7 +879,8 @@ policy EncryptionPolicy "All databases must be encrypted" {
 </ul>
 <p><strong>Time:</strong> 60-90 minutes</p>
 <h2 id="complete-example-production-governance"><a class="header" href="#complete-example-production-governance">Complete Example: Production Governance</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // ============ GOVERNANCE POLICIES ============
 

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -216,7 +216,8 @@
 </ol>
 <h2 id="step-3-design-with-policies"><a class="header" href="#step-3-design-with-policies">Step 3: Design with Policies</a></h2>
 <p>This is where Sruja's <code>policy</code> feature is perfect! Show how you enforce compliance:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // HIPAA Compliance Policy
@@ -372,7 +373,8 @@ include *
 <h2 id="interview-practice-add-more-compliance"><a class="header" href="#interview-practice-add-more-compliance">Interview Practice: Add More Compliance</a></h2>
 <p><strong>Interviewer might ask</strong>: "What about data retention and deletion?"</p>
 <p>Add data retention policy:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 HIPAACompliance = policy "All patient data must be encrypted and access logged" {

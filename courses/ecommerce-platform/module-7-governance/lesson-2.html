@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -184,7 +184,8 @@
 <p>Cloud bills kill startups. Sruja helps you visualize where the money is going.</p>
 <h2 id="modeling-cost"><a class="header" href="#modeling-cost">Modeling Cost</a></h2>
 <p>We can add cost metadata to our deployment nodes.</p>
-<pre><code class="language-sruja">deployment Production {
+<pre><code class="language-sruja">// partial
+deployment Production {
     node DB "RDS Large" {
         metadata {
             cost "$500/month"
@@ -195,7 +196,8 @@
 </code></pre>
 <h2 id="cost-policies"><a class="header" href="#cost-policies">Cost Policies</a></h2>
 <p>Use metadata and CI checks to prevent expensive mistakes in non‑production environments.</p>
-<pre><code class="language-sruja">deployment Dev {
+<pre><code class="language-sruja">// partial
+deployment Dev {
     node App "Small Instance" {
         metadata {
             cost "$20/month"

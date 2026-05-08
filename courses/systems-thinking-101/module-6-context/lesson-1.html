@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -242,7 +242,8 @@
 <p>This is where architecture diagrams become powerful. Sruja gives you specific tools to capture context, not just system internals.</p>
 <h3 id="documenting-stakeholders"><a class="header" href="#documenting-stakeholders">Documenting Stakeholders</a></h3>
 <p>Use <code>person</code> to capture who cares about your system:</p>
-<pre><code class="language-sruja">// The people who matter
+<pre><code class="language-sruja">// partial
+// The people who matter
 Customer = person "Customer"
 Administrator = person "Administrator"
 SupportTeam = person "Support Team"
@@ -278,7 +279,8 @@ AnalyticsService = system "Analytics Service" {
 <p>The metadata captures critical information: Is this dependency critical? What happens if it fails? What's the SLA? This isn't just documentation—it's risk assessment.</p>
 <h3 id="showing-stakeholder-needs"><a class="header" href="#showing-stakeholder-needs">Showing Stakeholder Needs</a></h3>
 <p>Relationships reveal what different stakeholders need:</p>
-<pre><code class="language-sruja">// Different stakeholders, different needs
+<pre><code class="language-sruja">// partial
+// Different stakeholders, different needs
 Customer -&gt; Shop "Wants fast checkout"
 Administrator -&gt; Shop "Wants easy management"
 BusinessOwner -&gt; Shop "Wants high conversion"
@@ -287,7 +289,8 @@ ComplianceOfficer -&gt; Shop "Wants data security"
 <p>These arrows seem simple, but they remind you that you're balancing competing needs. Fast checkout might conflict with security. Easy management might conflict with simplicity. These tensions are real and ignoring them doesn't make them go away.</p>
 <h3 id="documenting-constraints"><a class="header" href="#documenting-constraints">Documenting Constraints</a></h3>
 <p>Use <code>metadata</code> to capture organizational realities:</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   metadata {
     constraints {
       "PCI-DSS compliance required",
@@ -301,7 +304,8 @@ ComplianceOfficer -&gt; Shop "Wants data security"
 <p>These constraints are just as real as technical constraints. A $500/month budget limits your infrastructure choices. A 3-person team limits how complex the system can be. Pretending these don't exist doesn't help anyone.</p>
 <h3 id="defining-success"><a class="header" href="#defining-success">Defining Success</a></h3>
 <p>Use <code>slo</code> and <code>success_criteria</code> to define what "good" looks like:</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   slo {
     availability {
       target "99.9%"
@@ -323,7 +327,8 @@ ComplianceOfficer -&gt; Shop "Wants data security"
 <p>Without explicit success criteria, how do you know if you've succeeded? How do you make trade-offs? How do you prioritize features?</p>
 <h2 id="a-complete-example"><a class="header" href="#a-complete-example">A Complete Example</a></h2>
 <p>Let me show you how this comes together in a real architecture:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // Stakeholder context: Who cares?
 Customer = person "Customer"

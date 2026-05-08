@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -212,7 +212,8 @@
 <p>These loops amplify change, leading to exponential growth or collapse. They're powerful when you want growth, dangerous when you don't have controls.</p>
 <h3 id="pattern-1-virtuous-cycle-growth"><a class="header" href="#pattern-1-virtuous-cycle-growth">Pattern 1: Virtuous Cycle (Growth)</a></h3>
 <p>Output amplifies input, creating runaway growth:</p>
-<pre><code class="language-sruja">// Example: Viral content recommendation
+<pre><code class="language-sruja">// partial
+// Example: Viral content recommendation
 ViralGrowth = scenario "Viral Growth Loop" {
   User -&gt; Platform "Shares content"
   Platform -&gt; UserB "Shows content"
@@ -247,7 +248,8 @@ ViralGrowth = scenario "Viral Growth Loop" {
 I once worked on a social media algorithm that showed viral content more aggressively. Engagement spiked for a few weeks, then crashed because users got sick of seeing the same type of content. The positive feedback loop had run its course. We needed to dampen it—show diverse content even if it meant lower short-term engagement.</p>
 <h3 id="pattern-2-vicious-cycle-collapse"><a class="header" href="#pattern-2-vicious-cycle-collapse">Pattern 2: Vicious Cycle (Collapse)</a></h3>
 <p>Output counteracts input, leading to runaway collapse:</p>
-<pre><code class="language-sruja">// Example: Performance degradation
+<pre><code class="language-sruja">// partial
+// Example: Performance degradation
 PerformanceCollapse = scenario "Performance Vicious Cycle" {
   User -&gt; WebApp "Submits request"
   WebApp -&gt; API "Processes request"
@@ -285,7 +287,8 @@ I've seen systems collapse from vicious feedback loops. One example: An e-commer
 <p>These loops counteract change, maintaining stability and preventing extremes. They're crucial for building resilient systems.</p>
 <h3 id="pattern-1-self-regulating-homeostasis"><a class="header" href="#pattern-1-self-regulating-homeostasis">Pattern 1: Self-Regulating (Homeostasis)</a></h3>
 <p>System maintains a target state by adjusting based on output:</p>
-<pre><code class="language-sruja">// Example: Auto-scaling
+<pre><code class="language-sruja">// partial
+// Example: Auto-scaling
 AutoScaling = scenario "Self-Regulating System" {
   Monitoring -&gt; App "Reports CPU: 90%"
   App -&gt; AutoScaler "Scale up (target: 70%)"
@@ -315,7 +318,8 @@ The thermostat example from Lesson 1 is a perfect self-regulating loop. The heat
 <p>In software, self-regulating loops are everywhere. Auto-scaling systems maintain a target CPU usage. Inventory systems maintain target stock levels. Rate limiters maintain target request rates. They're the unsung heroes of system design.</p>
 <h3 id="pattern-2-error-correcting-resilience"><a class="header" href="#pattern-2-error-correcting-resilience">Pattern 2: Error-Correcting (Resilience)</a></h3>
 <p>System detects errors and automatically corrects:</p>
-<pre><code class="language-sruja">// Example: Retry with backoff
+<pre><code class="language-sruja">// partial
+// Example: Retry with backoff
 RetryWithBackoff = scenario "Error-Correcting Loop" {
   User -&gt; App "Submits order"
   App -&gt; Service "Process payment"
@@ -349,7 +353,8 @@ RetryWithBackoff = scenario "Error-Correcting Loop" {
 I've worked on systems that didn't have proper error handling. A payment gateway would timeout occasionally, and the app would retry immediately three times with no delay between attempts. This would overwhelm the gateway, making failures worse. We added exponential backoff (wait 1s, then 2s, then 4s) and the system became much more reliable. The error-correcting loop turned a flaky dependency into a resilient one.</p>
 <h3 id="pattern-3-stabilizing-control"><a class="header" href="#pattern-3-stabilizing-control">Pattern 3: Stabilizing (Control)</a></h3>
 <p>System actively manages resources to prevent oscillation:</p>
-<pre><code class="language-sruja">// Example: Rate limiting with hysteresis
+<pre><code class="language-sruja">// partial
+// Example: Rate limiting with hysteresis
 RateLimiting = scenario "Stabilizing Control" {
   User -&gt; API "Send request"
   API -&gt; RateLimiter "Check limit"
@@ -391,7 +396,8 @@ I once saw a rate limiting system cause more harm than good. It was configured w
 <p>Feedback that occurs after a delay can cause oscillation or overcorrection:</p>
 <h3 id="pattern-oscillation"><a class="header" href="#pattern-oscillation">Pattern: Oscillation</a></h3>
 <p>System alternates between states due to delayed feedback:</p>
-<pre><code class="language-sruja">// Example: Temperature control with delay
+<pre><code class="language-sruja">// partial
+// Example: Temperature control with delay
 DelayedFeedback = scenario "Oscillating Control" {
   Thermostat -&gt; Heater "Turn on (too cold)"
   Heater -&gt; Room "Heats room"
@@ -444,7 +450,8 @@ I once worked on a caching system that would cache data for 30 minutes. But the 
 <h2 id="designing-feedback-loops"><a class="header" href="#designing-feedback-loops">Designing Feedback Loops</a></h2>
 <h3 id="step-1-identify-the-feedback"><a class="header" href="#step-1-identify-the-feedback">Step 1: Identify the Feedback</a></h3>
 <p>What creates the feedback? Who acts? Who adjusts?</p>
-<pre><code class="language-sruja">// Example: Auto-scaling feedback
+<pre><code class="language-sruja">// partial
+// Example: Auto-scaling feedback
 AutoScalingFeedback = flow "Auto-Scaling Feedback Path" {
   // Who creates feedback?
   App -&gt; Monitoring "Reports CPU usage"
@@ -464,7 +471,8 @@ AutoScalingFeedback = flow "Auto-Scaling Feedback Path" {
 </ul>
 <h3 id="step-2-determine-the-type"><a class="header" href="#step-2-determine-the-type">Step 2: Determine the Type</a></h3>
 <p>Based on the effect, classify the loop:</p>
-<pre><code class="language-sruja">// Classifying feedback loops
+<pre><code class="language-sruja">// partial
+// Classifying feedback loops
 ViralGrowth = scenario "Viral Growth" {
   type "positive"
   subtype "virtuous"
@@ -489,7 +497,8 @@ AutoScaling = scenario "Auto-Scaling" {
 </code></pre>
 <h3 id="step-3-add-controls"><a class="header" href="#step-3-add-controls">Step 3: Add Controls</a></h3>
 <p>Prevent unwanted behavior and add safety limits:</p>
-<pre><code class="language-sruja">// Adding controls to positive feedback loop
+<pre><code class="language-sruja">// partial
+// Adding controls to positive feedback loop
 ControlledGrowth = scenario "Controlled Viral Growth" {
   User -&gt; Platform "Shares content"
   
@@ -512,7 +521,8 @@ ControlledGrowth = scenario "Controlled Viral Growth" {
 </code></pre>
 <h3 id="step-4-monitor-and-observe"><a class="header" href="#step-4-monitor-and-observe">Step 4: Monitor and Observe</a></h3>
 <p>Track the behavior of your feedback loop over time:</p>
-<pre><code class="language-sruja">// Monitoring feedback loop behavior
+<pre><code class="language-sruja">// partial
+// Monitoring feedback loop behavior
 FeedbackMonitoring = scenario "Feedback Loop Monitoring" {
   // Metrics to track
   GrowthRate = metric "User growth rate (new users/day)"
@@ -559,7 +569,8 @@ NoFeedbackSystem = system "Static System" {
 <p><strong>The right approach:</strong> Use feedback loops intentionally. Design them with clear purposes and appropriate controls. Embrace them where they add value. Avoid them where they cause harm.</p>
 <h3 id="mistake-2-confusing-types"><a class="header" href="#mistake-2-confusing-types">Mistake 2: Confusing Types</a></h3>
 <p>I've seen teams misuse positive feedback loops for situations that need negative (balancing) loops:</p>
-<pre><code class="language-sruja">// Bad: Using positive feedback for stability
+<pre><code class="language-sruja">// partial
+// Bad: Using positive feedback for stability
 PositiveForStability = scenario "Misclassified Feedback" {
   // Trying to grow load when you should stabilize
   User -&gt; App "Submit request"
@@ -580,7 +591,8 @@ PositiveForStability = scenario "Misclassified Feedback" {
 <p><strong>The right approach:</strong> Match the feedback loop type to the situation. Need stability? Use negative loops. Need growth? Use positive loops (with controls). Need resilience? Use error-correcting loops.</p>
 <h3 id="mistake-3-ignoring-delayed-feedback"><a class="header" href="#mistake-3-ignoring-delayed-feedback">Mistake 3: Ignoring Delayed Feedback</a></h3>
 <p>I've seen teams ignore delayed feedback because it's "not real-time," only to have it cause major problems:</p>
-<pre><code class="language-sruja">// Bad: Ignoring delayed feedback causes oscillation
+<pre><code class="language-sruja">// partial
+// Bad: Ignoring delayed feedback causes oscillation
 IgnoreDelayed = scenario "Ignoring Delayed Feedback" {
   User -&gt; App "Submits data"
   App -&gt; Service "Process"
@@ -689,7 +701,8 @@ Switching to a negative (stabilizing) feedback loop is appropriate when you have
 A deadband zone (min CPU and max CPU) would prevent oscillation by restricting the system's range. This would stop the oscillation, but at a cost: the system couldn't scale above max CPU even if needed, and would throttle during legitimate spikes. This is a brute-force solution that sacrifices flexibility for stability. It might be appropriate in some cases (preventing DDoS attacks), but it's not the right solution for a general oscillation problem.</p>
 <p><strong>Why option C is correct:</strong>
 Adding hysteresis (memory of past states) to the scaling algorithm would solve the oscillation:</p>
-<pre><code class="language-sruja">// Hysteresis-based auto-scaling
+<pre><code class="language-sruja">// partial
+// Hysteresis-based auto-scaling
 HysteresisScaling = scenario "Auto-Scaling with Hysteresis" {
   // Track past CPU values
   CPUHistory -&gt; History "Store last 5 CPU readings"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -255,7 +255,8 @@ a3b7d1f Split payment service from main API
 </ul>
 <h3 id="leg-2-adrs-why-it-changed"><a class="header" href="#leg-2-adrs-why-it-changed">Leg 2: ADRs (Why It Changed)</a></h3>
 <p>ADRs track <strong>why</strong> changes were made:</p>
-<pre><code class="language-sruja">ADR005 = adr "Add Redis cache layer" {
+<pre><code class="language-sruja">// partial
+ADR005 = adr "Add Redis cache layer" {
   status "accepted"
   accepted_date "2024-03-15"
   
@@ -331,7 +332,8 @@ a3b7d1f Split payment service from main API
 </ul>
 <h3 id="leg-3-slos-what-impact-it-had"><a class="header" href="#leg-3-slos-what-impact-it-had">Leg 3: SLOs (What Impact It Had)</a></h3>
 <p>SLOs track the <strong>impact</strong> of changes:</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   slo {
     latency {
       p95 "200ms"
@@ -448,7 +450,8 @@ git show v2024.01:architecture.sruja | sruja export
 </code></pre>
 <p><strong>R - Record Decisions</strong></p>
 <p>Create ADR for every significant change:</p>
-<pre><code class="language-sruja">ADR### = adr "[Title]" {
+<pre><code class="language-sruja">// partial
+ADR### = adr "[Title]" {
   // Standard ADR format
   context "..."
   decision "..."
@@ -462,7 +465,8 @@ git show v2024.01:architecture.sruja | sruja export
 </code></pre>
 <p><strong>A - Analyze Impact</strong></p>
 <p>Measure SLO changes after architectural changes:</p>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
   latency {
     p95 "200ms"
     history {
@@ -480,7 +484,8 @@ git show v2024.01:architecture.sruja | sruja export
 </code></pre>
 <p><strong>C - Connect the Dots</strong></p>
 <p>Link Git commits → ADRs → SLO changes:</p>
-<pre><code class="language-sruja">// In ADR
+<pre><code class="language-sruja">// partial
+// In ADR
 related_commits ["e4f8c2a"]
 slo_impact ["latency p95: 500ms → 250ms"]
 
@@ -666,7 +671,8 @@ ADR042 = adr "Use PostgreSQL" {
 <li>Helpful for audits</li>
 </ul>
 <h2 id="complete-example-e-commerce-platform-evolution"><a class="header" href="#complete-example-e-commerce-platform-evolution">Complete Example: E-Commerce Platform Evolution</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // ============ ARCHITECTURE DEFINITION ============
 

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-4ef37301.js"></script>
@@ -193,7 +193,8 @@
 <li><strong>Components</strong> must be nested inside a container</li>
 <li><strong>Persons</strong> can be defined at the top level (external actors)</li>
 </ul>
-<pre><code class="language-sruja">// Element kinds (required at top of file)
+<pre><code class="language-sruja">// partial
+// Element kinds (required at top of file)
 person = kind "Person"
 system = kind "System"
 container = kind "Container"
@@ -258,7 +259,8 @@ queue = kind "Queue"
 </ul>
 <h4 id="custom-kinds"><a class="header" href="#custom-kinds">Custom Kinds</a></h4>
 <p>You can define custom element types for your domain:</p>
-<pre><code class="language-sruja">// Custom kinds for microservices
+<pre><code class="language-sruja">// partial
+// Custom kinds for microservices
 microservice = kind "Microservice"
 eventBus = kind "Event Bus"
 gateway = kind "API Gateway"
@@ -266,6 +268,17 @@ gateway = kind "API Gateway"
 // Now use them
 Catalog = microservice "Catalog Service"
 Kafka = eventBus "Kafka Cluster"
+</code></pre>
+<h3 id="schemas"><a class="header" href="#schemas">Schemas</a></h3>
+<p>Schemas allow you to define strict custom metamodels, specifying valid node kinds, edge kinds, and nesting rules for validation.</p>
+<pre><code class="language-sruja">schema "compliance" {
+  node_kinds: ["regulation", "policy", "system"]
+  edge_kinds: ["mandates", "violates"]
+  nesting {
+    regulation -&gt; policy
+    system -&gt; policy
+  }
+}
 </code></pre>
 <h3 id="imports"><a class="header" href="#imports">Imports</a></h3>
 <p>Import kinds and tags from the standard library or other Sruja files.</p>
@@ -312,7 +325,8 @@ import { * } from './shared-kinds.sruja'
 }
 </code></pre>
 <h4 id="containers"><a class="header" href="#containers">Containers</a></h4>
-<pre><code class="language-sruja">MyContainer = container "My Container" {
+<pre><code class="language-sruja">// partial
+MyContainer = container "My Container" {
     technology "Technology stack"
     description "Optional description"
     version "1.0.0"
@@ -331,7 +345,8 @@ import { * } from './shared-kinds.sruja'
 }
 </code></pre>
 <h4 id="components"><a class="header" href="#components">Components</a></h4>
-<pre><code class="language-sruja">MyComponent = component "My Component" {
+<pre><code class="language-sruja">// partial
+MyComponent = component "My Component" {
     technology "Technology"
     description "Optional description"
     scale {
@@ -341,13 +356,15 @@ import { * } from './shared-kinds.sruja'
 }
 </code></pre>
 <h4 id="data-stores"><a class="header" href="#data-stores">Data Stores</a></h4>
-<pre><code class="language-sruja">MyDB = database "My Database" {
+<pre><code class="language-sruja">// partial
+MyDB = database "My Database" {
     technology "PostgreSQL"
     description "Optional description"
 }
 </code></pre>
 <h4 id="queues"><a class="header" href="#queues">Queues</a></h4>
-<pre><code class="language-sruja">MyQueue = queue "My Queue" {
+<pre><code class="language-sruja">// partial
+MyQueue = queue "My Queue" {
     technology "RabbitMQ"
     description "Optional description"
 }
@@ -387,7 +404,8 @@ import { * } from './shared-kinds.sruja'
 </tbody>
 </table>
 </div>
-<pre><code class="language-sruja">Payments = container "Payment Service" {
+<pre><code class="language-sruja">// partial
+Payments = container "Payment Service" {
     technology "Node.js"
     description "Handles payment processing with Stripe integration"
 
@@ -406,7 +424,8 @@ import { * } from './shared-kinds.sruja'
     }
 }
 </code></pre>
-<pre><code class="language-sruja">StripeAPI = system "Stripe Payment API" {
+<pre><code class="language-sruja">// partial
+StripeAPI = system "Stripe Payment API" {
     description "Third-party payment processing"
     canonical_id "ext.stripe"
     owner "team-payments"
@@ -417,7 +436,8 @@ import { * } from './shared-kinds.sruja'
 }
 </code></pre>
 <h3 id="relationships"><a class="header" href="#relationships">Relationships</a></h3>
-<pre><code class="language-sruja">// Basic relationship
+<pre><code class="language-sruja">// partial
+// Basic relationship
 From -&gt; To "Label"
 
 // Nested element references use dot notation
@@ -427,7 +447,8 @@ System.Container -&gt; System.Container.Component "calls"
 From -&gt; To "Label" [tag1, tag2]
 </code></pre>
 <h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
-<pre><code class="language-sruja">R1 = requirement functional "Description"
+<pre><code class="language-sruja">// partial
+R1 = requirement functional "Description"
 R2 = requirement nonfunctional "Description"
 R3 = requirement constraint "Description"
 R4 = requirement performance "Description"
@@ -451,7 +472,8 @@ R6 = requirement functional "Description" {
 </code></pre>
 <h3 id="scenarios-and-flows"><a class="header" href="#scenarios-and-flows">Scenarios and Flows</a></h3>
 <h4 id="scenarios"><a class="header" href="#scenarios">Scenarios</a></h4>
-<pre><code class="language-sruja">MyScenario = scenario "Scenario Title" {
+<pre><code class="language-sruja">// partial
+MyScenario = scenario "Scenario Title" {
     step User -&gt; System.WebApp "Credentials"
     step System.WebApp -&gt; System.DB "Verify"
 }
@@ -467,7 +489,8 @@ CheckoutStory = story "User Checkout Flow" {
 <li>Without <code>step</code>: <code>User -&gt; System.WebApp "action"</code> (inside scenario block)</li>
 </ul>
 <h4 id="flows-dfd-style-data-flows"><a class="header" href="#flows-dfd-style-data-flows">Flows (DFD-style data flows)</a></h4>
-<pre><code class="language-sruja">OrderProcess = flow "Order Processing" {
+<pre><code class="language-sruja">// partial
+OrderProcess = flow "Order Processing" {
     step Customer -&gt; Shop.WebApp "Order Details"
     step Shop.WebApp -&gt; Shop.Database "Save Order"
     step Shop.Database -&gt; Shop.WebApp "Confirmation"
@@ -492,7 +515,8 @@ CheckoutStory = story "User Checkout Flow" {
 }
 </code></pre>
 <h3 id="slo-service-level-objectives"><a class="header" href="#slo-service-level-objectives">SLO (Service Level Objectives)</a></h3>
-<pre><code class="language-sruja">slo {
+<pre><code class="language-sruja">// partial
+slo {
     availability {
         target "99.9%"
         window "30 days"
@@ -526,7 +550,8 @@ CheckoutStory = story "User Checkout Flow" {
 <li>Container level</li>
 </ul>
 <h3 id="scale-block"><a class="header" href="#scale-block">Scale Block</a></h3>
-<pre><code class="language-sruja">scale {
+<pre><code class="language-sruja">// partial
+scale {
     min 3
     max 10
     metric "cpu &gt; 80%"
@@ -547,9 +572,78 @@ CheckoutStory = story "User Checkout Flow" {
     }
 }
 </code></pre>
+<h3 id="api-contracts"><a class="header" href="#api-contracts">API Contracts</a></h3>
+<p>API Contracts allow you to model precise request-response specifications, input/output structures, error conditions, and constraints.</p>
+<pre><code class="language-sruja">// partial
+contract "GetUserContract" {
+  description "Fetch user details by ID"
+  input {
+    userId "string"
+  }
+  output {
+    email "string"
+    isActive "boolean"
+  }
+  error {
+    "404" "User not found"
+    "401" "Unauthorized access"
+  }
+  constraint "Response time must be &lt; 50ms"
+}
+</code></pre>
+<h3 id="state-machines"><a class="header" href="#state-machines">State Machines</a></h3>
+<p>State Machines let you model component lifecycles, states, and transition behaviors based on events, actions, and guards.</p>
+<pre><code class="language-sruja">// partial
+state_machine "OrderLifecycle" {
+  description "Order lifecycle state machine"
+  initial "Created"
+  terminal ["Completed", "Cancelled"]
+
+  "Created" -&gt; "Processing" on "payment_received" {
+    guard "payment.amount &gt; 0"
+    action "send_receipt()"
+    description "Transition order to processing after successful payment"
+  }
+  "Processing" -&gt; "Completed" on "shipment_delivered"
+}
+</code></pre>
+<h3 id="systems-thinking-loops"><a class="header" href="#systems-thinking-loops">Systems Thinking Loops</a></h3>
+<p>Sruja supports causal loop diagrams and feedback loops to model complex system dynamics, reinforcing/balancing feedback loops, polarities, and delays.</p>
+<h4 id="feedback-loops"><a class="header" href="#feedback-loops">Feedback Loops</a></h4>
+<pre><code class="language-sruja">// partial
+UserLoop = feedback "User Growth" {
+  loop_type "reinforcing"
+  loop_id "R1"
+  description "Growth in users leads to more word-of-mouth referrals"
+  
+  UserBase -&gt; Referrals "increases"
+  Referrals -&gt; UserBase "leads to"
+}
+</code></pre>
+<h4 id="causal-loops"><a class="header" href="#causal-loops">Causal Loops</a></h4>
+<pre><code class="language-sruja">// partial
+InventoryLoop = causal_loop "Supply &amp; Demand" {
+  loop_type "balancing"
+  loop_id "B1"
+  
+  variable Demand "Customer Demand"
+  variable Price "Product Price"
+  
+  Demand -&gt; Price {
+    effect "increases"
+    polarity "+"
+  }
+  Price -&gt; Demand {
+    effect "decreases"
+    polarity "-"
+    delay "2 days"
+  }
+}
+</code></pre>
 <h3 id="governance"><a class="header" href="#governance">Governance</a></h3>
 <h4 id="policies"><a class="header" href="#policies">Policies</a></h4>
-<pre><code class="language-sruja">// Two equivalent forms:
+<pre><code class="language-sruja">// partial
+// Two equivalent forms:
 SecurityPolicy = policy "Enforce TLS 1.3" {
     category "security"
     enforcement "required"
@@ -582,9 +676,22 @@ policy NoExtToDb "External APIs must not call databases" {
     "Another convention"
 }
 </code></pre>
+<h3 id="incidents"><a class="header" href="#incidents">Incidents</a></h3>
+<p>Incidents allow you to track production outages, capture post-mortems, and link them directly to affected architecture components.</p>
+<pre><code class="language-sruja">// partial
+incident INC001 "API Gateway Outage" {
+  date "2026-05-01"
+  severity "high"
+  affected [Shop.API]
+  cause "Memory leak under high load"
+  resolution "Restarted cluster and updated memory limits"
+  lesson "Implement auto-scaling based on memory thresholds"
+}
+</code></pre>
 <h3 id="views-optional"><a class="header" href="#views-optional">Views (Optional)</a></h3>
 <p>Views are <strong>optional</strong> — if not specified, standard C4 views are automatically generated.</p>
-<pre><code class="language-sruja">view index {
+<pre><code class="language-sruja">// partial
+view index {
     title "System Context"
     include *
 }
@@ -619,12 +726,14 @@ styles {
 </ul>
 <h2 id="implied-relationships"><a class="header" href="#implied-relationships">Implied Relationships</a></h2>
 <p>Relationships are automatically inferred when child relationships exist:</p>
-<pre><code class="language-sruja">User -&gt; API.WebApp "Uses"
+<pre><code class="language-sruja">// partial
+User -&gt; API.WebApp "Uses"
 // Automatically infers: User -&gt; API
 </code></pre>
 <p>This reduces boilerplate while maintaining clarity.</p>
 <h2 id="complete-example"><a class="header" href="#complete-example">Complete Example</a></h2>
-<pre><code class="language-sruja">// Element Kinds (required)
+<pre><code class="language-sruja">// partial
+// Element Kinds (required)
 person = kind "Person"
 system = kind "System"
 container = kind "Container"

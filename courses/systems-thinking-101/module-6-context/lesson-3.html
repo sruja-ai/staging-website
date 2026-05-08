@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -296,7 +296,8 @@
 <h3 id="technical-constraints-whats-technically-possible-or-required"><a class="header" href="#technical-constraints-whats-technically-possible-or-required">Technical Constraints: What's Technically Possible or Required</a></h3>
 <p>These are the technical realities you can't ignore.</p>
 <p><strong>Examples:</strong> "Must use PostgreSQL for ACID transactions," "Must deploy to AWS," "API response time under 200ms," "Support 10k concurrent users."</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   metadata {
     technical_constraints {
       "PostgreSQL required for transactional integrity",
@@ -319,7 +320,8 @@
 <h3 id="business-constraints-the-organizational-realities"><a class="header" href="#business-constraints-the-organizational-realities">Business Constraints: The Organizational Realities</a></h3>
 <p>These are the business realities: budgets, timelines, team size, strategic goals.</p>
 <p><strong>Examples:</strong> "Launch by Q4," "Budget is $500k/year," "Team of 3 engineers," "Must support international currencies."</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   metadata {
     business_constraints {
       "Launch date: December 1, 2024",
@@ -342,7 +344,8 @@
 <h3 id="compliance-constraints-the-rules-you-must-follow"><a class="header" href="#compliance-constraints-the-rules-you-must-follow">Compliance Constraints: The Rules You Must Follow</a></h3>
 <p>These are regulatory and legal requirements. You don't get to choose them; they choose you.</p>
 <p><strong>Examples:</strong> "PCI-DSS for payments," "GDPR for EU users," "HIPAA for health data," "SOC 2 for enterprise customers."</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   metadata {
     compliance_constraints {
       "PCI-DSS Level 1 (processing &gt; 6M transactions/year)",
@@ -364,7 +367,8 @@
 <h3 id="security-constraints-the-protection-requirements"><a class="header" href="#security-constraints-the-protection-requirements">Security Constraints: The Protection Requirements</a></h3>
 <p>These are security requirements that shape how you build.</p>
 <p><strong>Examples:</strong> "All data encrypted at rest," "All API calls authenticated," "No PII in logs," "Minimum TLS 1.3."</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   metadata {
     security_constraints {
       "All data encrypted at rest (AES-256)",
@@ -383,7 +387,8 @@
 <p>I've learned to define success at two levels: business outcomes and system properties.</p>
 <h3 id="business-outcomes-the-why"><a class="header" href="#business-outcomes-the-why">Business Outcomes (The "Why")</a></h3>
 <p>These are the business reasons the system exists:</p>
-<pre><code class="language-sruja">overview {
+<pre><code class="language-sruja">// partial
+overview {
   summary "E-commerce platform for online retail"
   
   goals [
@@ -404,7 +409,8 @@
 <p>These criteria connect the system to business value. They answer "why are we building this?"</p>
 <h3 id="system-properties-the-how"><a class="header" href="#system-properties-the-how">System Properties (The "How")</a></h3>
 <p>These are measurable system behaviors that support business outcomes. I use SLOs (Service Level Objectives):</p>
-<pre><code class="language-sruja">Shop = system "Shop" {
+<pre><code class="language-sruja">// partial
+Shop = system "Shop" {
   slo {
     availability {
       target "99.9%"
@@ -454,7 +460,8 @@
 <p>Non-goals are liberating. They let you say "that's a good idea, but it's out of scope" without feeling guilty.</p>
 <h2 id="a-complete-context-example"><a class="header" href="#a-complete-context-example">A Complete Context Example</a></h2>
 <p>Let me show you how everything in this module comes together. This is what a complete context model looks like—stakeholders, dependencies, constraints, and success criteria all in one place:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // ============ OVERVIEW ============
 // What are we building and why?
@@ -667,7 +674,8 @@ view index {
 <p>One more thing I've learned: document your decisions, not just your architecture.</p>
 <p>When you choose PostgreSQL over MongoDB, write down why. When you choose Stripe over building payments in-house, write down why. These decisions seem obvious now, but six months from now, you'll forget.</p>
 <p>I use Architecture Decision Records (ADRs):</p>
-<pre><code class="language-sruja">ADR001 = adr "Use PostgreSQL for primary database" {
+<pre><code class="language-sruja">// partial
+ADR001 = adr "Use PostgreSQL for primary database" {
   status "accepted"
   date "2024-06-15"
   

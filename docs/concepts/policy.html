@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -223,7 +223,8 @@ view index {
 <li>CI and CLI checks (lint/drift/compliance) treat <code>enforcement</code> as severity (<code>required</code> → error, <code>recommended</code> → warning, <code>optional</code> → info).</li>
 </ul>
 <h2 id="example-security-policies"><a class="header" href="#example-security-policies">Example: Security Policies</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 TLSEnforcement = policy "All external communications must use TLS 1.3" {
@@ -292,7 +293,8 @@ view index {
 <p>Policies can include <strong>structured rules</strong> that are evaluated by the rule engine (deterministic; no ad-hoc phrase parsing).</p>
 <h3 id="selectors"><a class="header" href="#selectors">Selectors</a></h3>
 <p>Policy rules match elements using <strong>selectors</strong>:</p>
-<pre><code class="language-sruja">{ 
+<pre><code class="language-sruja">// partial
+{ 
   kind "database"
   id "Shop.DB"
   tag "production"

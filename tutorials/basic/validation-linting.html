@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -207,7 +207,8 @@ sruja lint --json architecture.sruja &gt; lint-report.json
 </ol>
 <h2 id="real-world-example-e-commerce-platform"><a class="header" href="#real-world-example-e-commerce-platform">Real-World Example: E-Commerce Platform</a></h2>
 <p>Let's validate a real architecture:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Customer"
@@ -250,7 +251,8 @@ include *
 </code></pre>
 <p><strong>Problem</strong>: You're referencing an element that doesn't exist.</p>
 <p><strong>Fix:</strong></p>
-<pre><code class="language-sruja">// ❌ Wrong
+<pre><code class="language-sruja">// partial
+// ❌ Wrong
 ECommerce.API -&gt; ECommerce.NonExistent "Calls"
 
 // ✅ Correct - element exists
@@ -292,7 +294,8 @@ GraphQLAPI = container "GraphQL API"
 <ol>
 <li><strong>Add a relation</strong> (if the element should be used):</li>
 </ol>
-<pre><code class="language-sruja">// Add relation to use the cache
+<pre><code class="language-sruja">// partial
+// Add relation to use the cache
 ECommerce.API -&gt; ECommerce.Cache "Reads cache"
 </code></pre>
 <ol start="2">
@@ -304,7 +307,8 @@ ECommerce.API -&gt; ECommerce.Cache "Reads cache"
 <ol start="3">
 <li><strong>Document why it's isolated</strong> (if intentional):</li>
 </ol>
-<pre><code class="language-sruja">datastore Cache "Cache" {
+<pre><code class="language-sruja">// partial
+datastore Cache "Cache" {
     description "Future: Will be used for product catalog caching"
     metadata {
         status "planned"
@@ -338,7 +342,8 @@ ECommerce.API -&gt; ECommerce.ProductDB "Reads products"
 <li><strong>Mutual dependencies</strong>: Microservices that call each other</li>
 <li><strong>Bidirectional flows</strong>: API ↔ Database (read/write)</li>
 </ul>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // ✅ Valid - feedback loop
@@ -427,7 +432,8 @@ fi
 </code></pre>
 <h2 id="advanced-custom-validation-rules"><a class="header" href="#advanced-custom-validation-rules">Advanced: Custom Validation Rules</a></h2>
 <p>Use constraints and conventions for custom validation:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Define constraints
@@ -459,7 +465,8 @@ include *
 </code></pre>
 <h2 id="real-world-workflow"><a class="header" href="#real-world-workflow">Real-World Workflow</a></h2>
 <h3 id="step-1-write-architecture"><a class="header" href="#step-1-write-architecture">Step 1: Write Architecture</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 App = system "App" {

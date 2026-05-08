@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -184,7 +184,8 @@
 <p>Autonomous agents can be unpredictable. Architecture-as-Code allows us to define <strong>constraints</strong> to ensure safety.</p>
 <h2 id="defining-requirements"><a class="header" href="#defining-requirements">Defining Requirements</a></h2>
 <p>Use <code>requirement</code> blocks to specify safety properties.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 container Agent
@@ -207,7 +208,8 @@ include *
 </code></pre>
 <h2 id="guardrails"><a class="header" href="#guardrails">Guardrails</a></h2>
 <p>Model your guardrails explicitly as components that intercept messages.</p>
-<pre><code class="language-sruja">container AgentSystem {
+<pre><code class="language-sruja">// partial
+container AgentSystem {
   component UserProxy "Input Guardrail"
   component LLM
   component OutputGuard "Output Validator"

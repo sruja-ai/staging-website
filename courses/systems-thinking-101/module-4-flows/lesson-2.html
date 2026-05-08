@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -214,7 +214,8 @@
 <p>I've built countless data systems over the years, and data flows are always the first thing I create. Here's why.</p>
 <h3 id="1-data-lineage-where-did-this-come-from"><a class="header" href="#1-data-lineage-where-did-this-come-from">1. Data Lineage: Where Did This Come From?</a></h3>
 <p>Data flows tell you the complete history of data—where it started and every transformation it went through.</p>
-<pre><code class="language-sruja">CustomerAnalyticsFlow = flow "Customer Data Lineage" {
+<pre><code class="language-sruja">// partial
+CustomerAnalyticsFlow = flow "Customer Data Lineage" {
   // Source: Where data starts
   Customer -&gt; CRMSystem "Creates customer profile"
   
@@ -240,7 +241,8 @@
 <p>I once worked on a project where nobody knew where analytics data came from. We spent weeks tracking down data lineage every time we found an issue. We added data flows, and suddenly everyone knew the complete path.</p>
 <h3 id="2-process-understanding-what-actually-happens"><a class="header" href="#2-process-understanding-what-actually-happens">2. Process Understanding: What Actually Happens?</a></h3>
 <p>Data flows reveal the processing steps your data goes through—the "how" not just the "what."</p>
-<pre><code class="language-sruja">ETLPipelineFlow = flow "ETL Pipeline Steps" {
+<pre><code class="language-sruja">// partial
+ETLPipelineFlow = flow "ETL Pipeline Steps" {
   // Step 1: Extraction
   SourceDatabase -&gt; IngestionService "Pulls raw transactions"
   
@@ -258,7 +260,8 @@
 <p>When something breaks—a data quality issue, a failed load, a malformed record—you know exactly where to look. Is it in ingestion? In validation? In transformation? The flow tells you.</p>
 <h3 id="3-transformation-documentation-how-does-data-change"><a class="header" href="#3-transformation-documentation-how-does-data-change">3. Transformation Documentation: How Does Data Change?</a></h3>
 <p>Data flows document how data transforms at each step—what shape it takes, what format it's in.</p>
-<pre><code class="language-sruja">TransformationFlow = flow "Data Transformations" {
+<pre><code class="language-sruja">// partial
+TransformationFlow = flow "Data Transformations" {
   RawSource -&gt; ETLService "Raw CSV file"
   
   // Transformation 1: Validation
@@ -285,7 +288,8 @@
 <p>I once inherited a system where nobody documented data transformations. We found mysterious records in the warehouse—dates in the wrong format, currencies mixed up, values that made no sense. We spent months reverse-engineering what transformations were happening. Document it upfront.</p>
 <h3 id="4-bottleneck-identification-where-will-things-slow-down"><a class="header" href="#4-bottleneck-identification-where-will-things-slow-down">4. Bottleneck Identification: Where Will Things Slow Down?</a></h3>
 <p>Data flows make bottlenecks obvious—where processing might slow down, where queues might form, where latency will be worst.</p>
-<pre><code class="language-sruja">AnalyticsFlow = flow "Analytics Pipeline" {
+<pre><code class="language-sruja">// partial
+AnalyticsFlow = flow "Analytics Pipeline" {
   UserActions -&gt; TrackingService "Captures events" [fast]
   TrackingService -&gt; EventStream "Publishes events" [fast]
   EventStream -&gt; BatchProcessor "Consumes and processes" [slow, batch job]
@@ -298,7 +302,8 @@
 <h2 id="creating-data-flows-in-sruja"><a class="header" href="#creating-data-flows-in-sruja">Creating Data Flows in Sruja</a></h2>
 <p>Sruja gives you the <code>flow</code> keyword for creating DFD-style data flows. It's designed specifically for data-oriented flows.</p>
 <h3 id="using-flow-for-data-pipelines"><a class="header" href="#using-flow-for-data-pipelines">Using <code>flow</code> for Data Pipelines</a></h3>
-<pre><code class="language-sruja">OrderDataFlow = flow "Order Data Processing" {
+<pre><code class="language-sruja">// partial
+OrderDataFlow = flow "Order Data Processing" {
   Customer -&gt; WebApp "Order form submission"
   WebApp -&gt; API "Order JSON payload"
   API -&gt; Database "Persist order record"
@@ -310,7 +315,8 @@
 </code></pre>
 <h3 id="using-metadata-for-transformations"><a class="header" href="#using-metadata-for-transformations">Using Metadata for Transformations</a></h3>
 <p>You can add metadata to document what each step does:</p>
-<pre><code class="language-sruja">ETLService = container "ETL Service" {
+<pre><code class="language-sruja">// partial
+ETLService = container "ETL Service" {
   metadata {
     transformations [
       "Validate schema and data types",
@@ -335,7 +341,8 @@
 <p>After building data systems for years, I've noticed patterns that repeat constantly. Let me show you the ones I see most often.</p>
 <h3 id="pattern-1-etl-pipeline"><a class="header" href="#pattern-1-etl-pipeline">Pattern 1: ETL Pipeline</a></h3>
 <p>Extract, Transform, Load—the classic pattern for moving data from operational systems to analytics.</p>
-<pre><code class="language-sruja">ETLPipelineFlow = flow "Classic ETL Pipeline" {
+<pre><code class="language-sruja">// partial
+ETLPipelineFlow = flow "Classic ETL Pipeline" {
   // Extract: Pull from source systems
   TransactionDB -&gt; DataCollector "Extracts daily transactions"
   CustomerDB -&gt; DataCollector "Extracts customer profiles"
@@ -360,7 +367,8 @@
 <p><strong>Use when:</strong> Building traditional data warehouses, moving from transactional systems to analytics.</p>
 <h3 id="pattern-2-event-sourcing"><a class="header" href="#pattern-2-event-sourcing">Pattern 2: Event Sourcing</a></h3>
 <p>Every change to data is captured as an event, and different services project events into read models.</p>
-<pre><code class="language-sruja">EventSourcingFlow = flow "Event Sourcing Pattern" {
+<pre><code class="language-sruja">// partial
+EventSourcingFlow = flow "Event Sourcing Pattern" {
   // Events captured
   OrderAPI -&gt; EventStore "Persist OrderCreated event"
   OrderAPI -&gt; EventStore "Persist OrderPaid event"
@@ -387,7 +395,8 @@
 <p><strong>Use when:</strong> Building systems where audit trails matter, where you need multiple views of same data, where rebuildability is important.</p>
 <h3 id="pattern-3-real-time-analytics-pipeline"><a class="header" href="#pattern-3-real-time-analytics-pipeline">Pattern 3: Real-Time Analytics Pipeline</a></h3>
 <p>Events flow through a real-time processing pipeline for immediate insights.</p>
-<pre><code class="language-sruja">RealTimeAnalyticsFlow = flow "Real-Time Analytics Pipeline" {
+<pre><code class="language-sruja">// partial
+RealTimeAnalyticsFlow = flow "Real-Time Analytics Pipeline" {
   // Events captured
   UserActions -&gt; EventCollector "Captures clickstream events"
   EventCollector -&gt; KafkaStream "Publishes to Kafka"
@@ -412,7 +421,8 @@
 <p><strong>Use when:</strong> Building real-time dashboards, fraud detection, personalized recommendations, live monitoring.</p>
 <h3 id="pattern-4-lambda-architecture"><a class="header" href="#pattern-4-lambda-architecture">Pattern 4: Lambda Architecture</a></h3>
 <p>Batch processing for comprehensive analytics plus real-time for speed.</p>
-<pre><code class="language-sruja">LambdaArchitectureFlow = flow "Lambda Architecture" {
+<pre><code class="language-sruja">// partial
+LambdaArchitectureFlow = flow "Lambda Architecture" {
   // Speed layer: Real-time
   Events -&gt; StreamProcessing "Real-time processing"
   StreamProcessing -&gt; SpeedLayer "Serves fast views"
@@ -438,7 +448,8 @@
 <h2 id="documenting-data-transformations"><a class="header" href="#documenting-data-transformations">Documenting Data Transformations</a></h2>
 <p>One of the most important things you can do in data flows is document transformations clearly.</p>
 <h3 id="using-relationship-labels"><a class="header" href="#using-relationship-labels">Using Relationship Labels</a></h3>
-<pre><code class="language-sruja">TransformFlow = flow "Data Transformations" {
+<pre><code class="language-sruja">// partial
+TransformFlow = flow "Data Transformations" {
   RawSource -&gt; ETLService "Raw CSV data"
   ETLService -&gt; ValidatedData "Validated (removed invalids)"
   ValidatedData -&gt; NormalizedData "Normalized (standardized)"
@@ -448,7 +459,8 @@
 </code></pre>
 <p>Each label describes what transformation happened at that step.</p>
 <h3 id="adding-metadata"><a class="header" href="#adding-metadata">Adding Metadata</a></h3>
-<pre><code class="language-sruja">ETLService = container "ETL Service" {
+<pre><code class="language-sruja">// partial
+ETLService = container "ETL Service" {
   metadata {
     transformations [
       "Remove duplicate records",
@@ -465,7 +477,8 @@
 <p>This metadata provides complete documentation of what transformations happen.</p>
 <h2 id="complete-data-flow-example"><a class="header" href="#complete-data-flow-example">Complete Data Flow Example</a></h2>
 <p>Let me show you a complete example that brings everything together.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 // People
 Customer = person "Customer"
@@ -561,13 +574,15 @@ view index {
 <h3 id="question-2"><a class="header" href="#question-2">Question 2</a></h3>
 <p>You're creating a data flow for an e-commerce platform. Which structure best documents the data transformations that happen in the ETL pipeline?</p>
 <p><strong>A)</strong></p>
-<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+<pre><code class="language-sruja">// partial
+ETLPipeline = flow "ETL Pipeline" {
   TransactionDB -&gt; ETLService "Extract"
   ETLService -&gt; DataWarehouse "Load"
 }
 </code></pre>
 <p><strong>B)</strong></p>
-<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+<pre><code class="language-sruja">// partial
+ETLPipeline = flow "ETL Pipeline" {
   TransactionDB -&gt; ETLService "Extract transactions"
   ETLService -&gt; ValidatedData "Validate and remove errors"
   ValidatedData -&gt; NormalizedData "Normalize formats"
@@ -576,12 +591,14 @@ view index {
 }
 </code></pre>
 <p><strong>C)</strong></p>
-<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+<pre><code class="language-sruja">// partial
+ETLPipeline = flow "ETL Pipeline" {
   TransactionDB -&gt; DataWarehouse "Move data"
 }
 </code></pre>
 <p><strong>D)</strong></p>
-<pre><code class="language-sruja">ETLPipeline = flow "ETL Pipeline" {
+<pre><code class="language-sruja">// partial
+ETLPipeline = flow "ETL Pipeline" {
   TransactionDB -&gt; ETLService "Extract"
   ETLService -&gt; ValidatedData "?"
   ValidatedData -&gt; NormalizedData "?"

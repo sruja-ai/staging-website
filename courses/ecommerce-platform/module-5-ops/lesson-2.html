@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -186,7 +186,8 @@
 <p>Start reading random logs or guessing which database query is slow.</p>
 <h2 id="the-structural-way"><a class="header" href="#the-structural-way">The Structural Way</a></h2>
 <p>Look at your Sruja <strong>User Journey</strong> for "Purchase".</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Customer"
@@ -222,7 +223,8 @@ PaymentGateway -&gt; Customer "Returns confirmation"
 <li><strong>Update</strong>: The frontend polls for status or uses WebSockets.</li>
 </ol>
 <p>Let's update the architecture:</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "Customer"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-4ef37301.js"></script>
@@ -212,7 +212,8 @@ Components (Level 4)
 <h2 id="nesting-containers-in-systems"><a class="header" href="#nesting-containers-in-systems">Nesting Containers in Systems</a></h2>
 <p>Systems contain containers. This is where most of the action happens.</p>
 <h3 id="the-basic-pattern"><a class="header" href="#the-basic-pattern">The Basic Pattern</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 ECommerce = system "E-Commerce Platform" {
   WebApp = container "Web Application" {
@@ -284,7 +285,8 @@ ECommerce = system "E-Commerce Platform" {
 </ul>
 <h3 id="when-to-nest-components"><a class="header" href="#when-to-nest-components">When to Nest Components</a></h3>
 <p>Let me show you an example where components make sense:</p>
-<pre><code class="language-sruja">API = container "API Service" {
+<pre><code class="language-sruja">// partial
+API = container "API Service" {
   technology "Node.js"
   description "RESTful API handling all business logic"
 
@@ -329,7 +331,8 @@ ECommerce = system "E-Commerce Platform" {
 </ul>
 <h3 id="when-to-keep-it-simple"><a class="header" href="#when-to-keep-it-simple">When to Keep It Simple</a></h3>
 <p>Now, here's an example where I would <strong>not</strong> use components:</p>
-<pre><code class="language-sruja">SimpleAPI = container "Simple API" {
+<pre><code class="language-sruja">// partial
+SimpleAPI = container "Simple API" {
   technology "Node.js"
   description "Basic CRUD API for a small application"
 }
@@ -344,7 +347,8 @@ ECommerce = system "E-Commerce Platform" {
 <h2 id="referencing-nested-elements"><a class="header" href="#referencing-nested-elements">Referencing Nested Elements</a></h2>
 <p>Once you have nested elements, you need to know how to reference them. Sruja uses dot notation, which is intuitive once you get the hang of it.</p>
 <h3 id="the-reference-patterns"><a class="header" href="#the-reference-patterns">The Reference Patterns</a></h3>
-<pre><code class="language-sruja">// Level 1 to Level 2 (Person to System)
+<pre><code class="language-sruja">// partial
+// Level 1 to Level 2 (Person to System)
 Customer -&gt; ECommerce "Uses platform"
 
 // Level 2 to Level 3 (System to Container)
@@ -363,7 +367,8 @@ ECommerce.API.AuthService -&gt; ECommerce.API.UserService "Fetches user profile"
 </code></pre>
 <h3 id="cross-system-references"><a class="header" href="#cross-system-references">Cross-System References</a></h3>
 <p>What if you need to reference something inside another system? Dot notation still works:</p>
-<pre><code class="language-sruja">// Reference a service inside an external system
+<pre><code class="language-sruja">// partial
+// Reference a service inside an external system
 ECommerce.API.PaymentService -&gt; Stripe.ChargeService "Process payment"
 
 // Reference a database inside another system
@@ -374,7 +379,8 @@ ECommerce.API -&gt; AnalyticsDB.DataWarehouse "Push analytics data"
 <p>If there's one thing I've learned from years of modeling systems, it's this: <strong>consistency matters more than any individual decision</strong>.</p>
 <h3 id="consistency-in-nesting"><a class="header" href="#consistency-in-nesting">Consistency in Nesting</a></h3>
 <p>Don't mix levels inconsistently:</p>
-<pre><code class="language-sruja">// Bad: Inconsistent nesting
+<pre><code class="language-sruja">// partial
+// Bad: Inconsistent nesting
 App = system "App" {
   Frontend = container "Frontend"
   Backend = container "Backend" {
@@ -397,7 +403,8 @@ App = system "App" {
 <p>In the bad example, why does Backend have components but Frontend doesn't? Is Frontend simpler? Did we forget to break it down? The inconsistency creates confusion. The good example shows a consistent approach.</p>
 <h3 id="consistency-in-naming"><a class="header" href="#consistency-in-naming">Consistency in Naming</a></h3>
 <p>Use consistent naming conventions across your hierarchy:</p>
-<pre><code class="language-sruja">// Good: Consistent suffixes
+<pre><code class="language-sruja">// partial
+// Good: Consistent suffixes
 UserService = component "User Service"
 OrderService = component "Order Service"
 PaymentService = component "Payment Service"
@@ -411,7 +418,8 @@ Payment = component "Payment Service"
 <h2 id="pitfalls-ive-encountered-so-you-dont-have-to"><a class="header" href="#pitfalls-ive-encountered-so-you-dont-have-to">Pitfalls I've Encountered (So You Don't Have To)</a></h2>
 <p>Let me share some mistakes I've made and seen others make. Hopefully, you can avoid them.</p>
 <h3 id="pitfall-1-deep-nesting"><a class="header" href="#pitfall-1-deep-nesting">Pitfall 1: Deep Nesting</a></h3>
-<pre><code class="language-sruja">// Bad: Too deep (5+ levels)
+<pre><code class="language-sruja">// partial
+// Bad: Too deep (5+ levels)
 App = system "App" {
   Frontend = container "Frontend" {
     Layout = component "Layout" {
@@ -427,7 +435,8 @@ App = system "App" {
 <p>This is unreadable. Who can understand a 5-level deep structure? Nobody. The diagram becomes useless because it's too complex.</p>
 <p><strong>Solution:</strong> Keep nesting to 3-4 levels max. If you're going deeper, you're probably in implementation territory, not architecture.</p>
 <h3 id="pitfall-2-orphaned-elements"><a class="header" href="#pitfall-2-orphaned-elements">Pitfall 2: Orphaned Elements</a></h3>
-<pre><code class="language-sruja">// Bad: Component without container
+<pre><code class="language-sruja">// partial
+// Bad: Component without container
 Shop = system "Shop"
 WebApp = container "Web App"
 API = container "API"
@@ -437,7 +446,8 @@ AuthService = component "Auth Service"  // Orphan!
 <p>Where does AuthService belong? Is it in WebApp? In API? Orphaned elements confuse everyone who looks at the diagram.</p>
 <p><strong>Solution:</strong> Every component must belong to a container. Every container must belong to a system. No exceptions.</p>
 <h3 id="pitfall-3-flat-everything"><a class="header" href="#pitfall-3-flat-everything">Pitfall 3: Flat Everything</a></h3>
-<pre><code class="language-sruja">// Bad: Everything at same level
+<pre><code class="language-sruja">// partial
+// Bad: Everything at same level
 Customer = person "Customer"
 WebApp = container "Web App"
 API = container "API"
@@ -463,7 +473,8 @@ AuthService = component "Auth Service"
 </code></pre>
 <p>This view shows a single system and all its containers. Great for developers who need to understand how a specific system is structured.</p>
 <h3 id="level-3-container-view"><a class="header" href="#level-3-container-view">Level 3: Container View</a></h3>
-<pre><code class="language-sruja">view container_view of ECommerce.API {
+<pre><code class="language-sruja">// partial
+view container_view of ECommerce.API {
   title "API Containers"
   include ECommerce.API.*
   exclude ECommerce.API.Database
@@ -471,7 +482,8 @@ AuthService = component "Auth Service"
 </code></pre>
 <p>This view shows the internals of a container. Perfect for teams working on that specific service.</p>
 <h3 id="level-4-component-view"><a class="header" href="#level-4-component-view">Level 4: Component View</a></h3>
-<pre><code class="language-sruja">view component_view of ECommerce.API {
+<pre><code class="language-sruja">// partial
+view component_view of ECommerce.API {
   title "API Components"
   include ECommerce.API.*
 }

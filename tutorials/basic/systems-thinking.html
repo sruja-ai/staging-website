@@ -35,7 +35,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-3735ebce.js";
+            window.path_to_searchindex_js = "../../searchindex-4f0eef74.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-4ef37301.js"></script>
@@ -184,7 +184,8 @@
 <p>Systems thinking helps you understand how components interact as part of a whole. Sruja supports five core systems thinking concepts.</p>
 <h2 id="1-parts-and-relationships"><a class="header" href="#1-parts-and-relationships">1. Parts and Relationships</a></h2>
 <p>Systems thinking starts with understanding <strong>what</strong> the system contains (parts) and <strong>how</strong> they connect (relationships).</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Customer = person "End User"
@@ -215,7 +216,8 @@ include *
 <p><strong>Key insight</strong>: Identify the parts first, then define how they relate.</p>
 <h2 id="2-boundaries"><a class="header" href="#2-boundaries">2. Boundaries</a></h2>
 <p>Boundaries define what's <strong>inside</strong> the system vs. what's <strong>outside</strong> (the environment).</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Inside boundary: System contains these components
@@ -339,7 +341,8 @@ App.WebApp -&gt; User "Shows Feedback"
 
 </code></pre>
 <h3 id="system-feedback-loop"><a class="header" href="#system-feedback-loop">System Feedback Loop</a></h3>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 Admin = person "Administrator"
@@ -362,7 +365,8 @@ include *
 <p><strong>Key insight</strong>: Cycles model natural feedback loops, event-driven patterns, and mutual dependencies. They're valid architectural patterns.</p>
 <h2 id="5-context"><a class="header" href="#5-context">5. Context</a></h2>
 <p>Context defines the <strong>environment</strong> the system operates in - external dependencies, stakeholders, and surrounding systems.</p>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
 
 
 // Internal system
