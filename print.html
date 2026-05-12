@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-277d2346.js";
+            window.path_to_searchindex_js = "searchindex-2adc9949.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-6d229c89.js"></script>
+        <script src="toc-31fff2f4.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -27789,6 +27789,357 @@ include *
 <li>Capture 2–3 constraints and conventions used by your team.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-4---evolutionary-architecture"><a class="header" href="#draft-module-4---evolutionary-architecture">Draft: Module 4 - Evolutionary Architecture</a></h1>
+<p><strong>Outcome-driven design, fitness evaluation, and architectural health.</strong></p>
+<h2 id="overview-9"><a class="header" href="#overview-9">Overview</a></h2>
+<p>This module teaches how to use Sruja for evolutionary architecture—designing systems that can adapt to changing requirements while maintaining architectural integrity.</p>
+<h2 id="lessons-6"><a class="header" href="#lessons-6">Lessons</a></h2>
+<h3 id="lesson-1-fitness-functions--health-metrics"><a class="header" href="#lesson-1-fitness-functions--health-metrics">Lesson 1: <a href="#lesson-1-fitness-functions--health-metrics-1">Fitness Functions &amp; Health Metrics</a></a></h3>
+<p><em>How to define and measure architectural fitness</em></p>
+<ul>
+<li>What are fitness functions</li>
+<li>Defining outcome-driven requirements</li>
+<li>Health metrics dashboard</li>
+<li>Automated fitness evaluation</li>
+</ul>
+<h3 id="lesson-2-architectural-health-scoring"><a class="header" href="#lesson-2-architectural-health-scoring">Lesson 2: <a href="#lesson-2-architectural-health-scoring-1">Architectural Health Scoring</a></a></h3>
+<p><em>Quantifying system health over time</em></p>
+<ul>
+<li>Health score components</li>
+<li>Trend analysis</li>
+<li>Threshold configuration</li>
+<li>Reporting patterns</li>
+</ul>
+<h3 id="lesson-3-continuous-evolution-workflow"><a class="header" href="#lesson-3-continuous-evolution-workflow">Lesson 3: <a href="#lesson-3-continuous-evolution-workflow-1">Continuous Evolution Workflow</a></a></h3>
+<p><em>Integrating evolution into development workflow</em></p>
+<ul>
+<li>Maturation phases (Instrumentation → Context Hints → Infra Discovery)</li>
+<li>Evolution command and reporting</li>
+<li>Drift detection and resolution</li>
+<li>Autonomous optimization loops</li>
+</ul>
+<h2 id="learning-outcomes-1"><a class="header" href="#learning-outcomes-1">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Define fitness functions for architectural outcomes</li>
+<li>✅ Configure and interpret health metrics</li>
+<li>✅ Use Sruja evolution commands</li>
+<li>✅ Implement continuous architectural health monitoring</li>
+</ul>
+<h2 id="prerequisites-12"><a class="header" href="#prerequisites-12">Prerequisites</a></h2>
+<ul>
+<li>Completed Production Architecture Modules 1-3</li>
+<li>Familiarity with Sruja validation and policies</li>
+<li>Understanding of observability concepts</li>
+</ul>
+<h2 id="estimated-time-8"><a class="header" href="#estimated-time-8">Estimated Time</a></h2>
+<p>2-3 hours</p>
+<hr>
+<h2 id="raw-thoughts-from-analysis"><a class="header" href="#raw-thoughts-from-analysis">Raw Thoughts from Analysis</a></h2>
+<h3 id="v0420-features-to-cover"><a class="header" href="#v0420-features-to-cover">v0.42.0 Features to Cover:</a></h3>
+<ul>
+<li><code>sruja evolution</code> - outcome-driven evolutionary architectures</li>
+<li><code>sruja health</code> / health status dashboard</li>
+<li>fitness evaluation</li>
+<li>enterprise graph health metrics</li>
+</ul>
+<h3 id="related-concepts"><a class="header" href="#related-concepts">Related Concepts:</a></h3>
+<ul>
+<li>Outcome-driven architecture</li>
+<li>Architectural fitness functions</li>
+<li>Health metrics aggregation</li>
+<li>Evolutionary vs traditional architecture</li>
+<li>Sruja maturation phases (Instrumentation, Context Hints, Infra Discovery)</li>
+</ul>
+<h3 id="lesson-ideas"><a class="header" href="#lesson-ideas">Lesson Ideas:</a></h3>
+<ol>
+<li>
+<p><strong>Fitness Functions &amp; Health Metrics</strong></p>
+<ul>
+<li>Define fitness function: <code>fitness(cpu_utilization &lt; 80%, availability &gt; 99.9%, latency_p99 &lt; 200ms)</code></li>
+<li>Show how to express these in Sruja</li>
+<li>Demo health scoring dashboard</li>
+<li>Hands-on: Define fitness for a sample system</li>
+</ul>
+</li>
+<li>
+<p><strong>Architectural Health Scoring</strong></p>
+<ul>
+<li>Graph health metrics from v0.42.0</li>
+<li>Community detection (from v0.41.0)</li>
+<li>Threshold configuration</li>
+<li>Health trend visualization</li>
+</ul>
+</li>
+<li>
+<p><strong>Continuous Evolution</strong></p>
+<ul>
+<li>Sruja maturation phases workflow</li>
+<li>Using <code>sruja evolution</code> command</li>
+<li>Drift detection and <code>--fix</code></li>
+<li>Autonomous optimization loop pattern (from agentic memory)</li>
+</ul>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-fitness-functions--health-metrics-1"><a class="header" href="#lesson-1-fitness-functions--health-metrics-1">Lesson 1: Fitness Functions &amp; Health Metrics</a></h1>
+<h2 id="what-are-fitness-functions"><a class="header" href="#what-are-fitness-functions">What Are Fitness Functions?</a></h2>
+<p>A <strong>fitness function</strong> is a quantitative measure of how well a system achieves its architectural outcomes. Just as evolutionary biology uses fitness to measure adaptation, architectural fitness functions measure how well your system meets its non-functional requirements.</p>
+<h2 id="why-fitness-functions"><a class="header" href="#why-fitness-functions">Why Fitness Functions?</a></h2>
+<p>Traditional architecture focuses on <em>design</em>—but what matters is <em>outcomes</em>. Fitness functions shift the conversation from "is the design correct?" to "does the system actually achieve what it set out to achieve?"</p>
+<p><strong>Example fitness functions:</strong></p>
+<ul>
+<li><code>availability &gt; 99.9%</code></li>
+<li><code>latency_p99 &lt; 200ms</code></li>
+<li><code>error_rate &lt; 0.1%</code></li>
+<li><code>cpu_utilization &lt; 80%</code></li>
+</ul>
+<h2 id="defining-fitness-in-sruja"><a class="header" href="#defining-fitness-in-sruja">Defining Fitness in Sruja</a></h2>
+<p>A <strong>fitness</strong> is a top-level declaration that defines an outcome you want to measure:</p>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+fitness LatencyTarget {
+  target "p99_response_time &lt; 200ms"
+  measure "scripts/measure_latency.sh"
+}
+
+fitness AvailabilityTarget {
+  target "uptime &gt; 99.9%"
+  measure "scripts/check_availability.sh"
+}
+
+fitness ThroughputTarget {
+  target "requests_per_second &gt; 10000"
+  measure "scripts/measure_throughput.sh"
+}
+</code></pre>
+<p>Fitness functions can also be defined inside elements:</p>
+<pre><code class="language-sruja">EcommercePlatform = system "E-Commerce Platform" {
+  fitness checkout_success_rate {
+    target "success_rate &gt; 99.5%"
+    measure "scripts/evaluate_checkout.sh"
+  }
+}
+</code></pre>
+<h2 id="health-metrics-dashboard"><a class="header" href="#health-metrics-dashboard">Health Metrics Dashboard</a></h2>
+<p>From v0.42.0, Sruja provides integrated health metrics:</p>
+<pre><code class="language-bash">sruja health -r .
+</code></pre>
+<p>This command displays:</p>
+<ul>
+<li><strong>Graph Health Score</strong>: Composite score based on architectural quality</li>
+<li><strong>Community Detection</strong>: Identifies tightly coupled components</li>
+<li><strong>Trend Analysis</strong>: Health over time</li>
+<li><strong>Threshold Violations</strong>: Areas requiring attention</li>
+</ul>
+<h2 id="hands-on-define-fitness-for-a-sample-system"><a class="header" href="#hands-on-define-fitness-for-a-sample-system">Hands-On: Define Fitness for a Sample System</a></h2>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+fitness response_time {
+  target "p99_response_time &lt; 150ms"
+  measure "scripts/measure_api_latency.sh"
+}
+
+fitness checkout_success_rate {
+  target "success_rate &gt; 99.5%"
+  measure "scripts/evaluate_checkout.sh"
+}
+
+fitness cache_hit_ratio {
+  target "cache_hit_ratio &gt; 90%"
+  measure "scripts/check_redis_stats.sh"
+}
+
+EcommercePlatform = system "E-Commerce Platform" {
+  API = container "REST API" {
+    technology "Node.js"
+    description "Handles all API requests"
+  }
+
+  DB = database "PostgreSQL" {
+    technology "PostgreSQL"
+    description "Primary data store"
+  }
+
+  Cache = container "Redis Cache" {
+    technology "Redis"
+    description "In-memory cache for hot data"
+  }
+
+  PaymentProcessor = container "Payment Processor" {
+    technology "Stripe"
+    description "Handles payment processing"
+  }
+}
+
+User = person "Customer"
+User -&gt; EcommercePlatform.API "Browses products"
+EcommercePlatform.API -&gt; EcommercePlatform.Cache "Cache lookups"
+EcommercePlatform.API -&gt; EcommercePlatform.DB "Persistent storage"
+EcommercePlatform.API -&gt; EcommercePlatform.PaymentProcessor "Process payments"
+</code></pre>
+<h2 id="next-steps-14"><a class="header" href="#next-steps-14">Next Steps</a></h2>
+<p>In Lesson 2, we'll explore how to interpret health scores and configure thresholds.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-architectural-health-scoring-1"><a class="header" href="#lesson-2-architectural-health-scoring-1">Lesson 2: Architectural Health Scoring</a></h1>
+<h2 id="understanding-health-scores"><a class="header" href="#understanding-health-scores">Understanding Health Scores</a></h2>
+<p>Sruja calculates a composite <strong>health score</strong> (0-100) based on multiple architectural dimensions:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Component</th><th>Weight</th><th>What It Measures</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Complexity</strong></td><td>25%</td><td>Cyclomatic complexity, nesting depth</td></tr>
+<tr><td><strong>Coupling</strong></td><td>25%</td><td>Dependencies between components</td></tr>
+<tr><td><strong>Coverage</strong></td><td>20%</td><td>Architecture documentation completeness</td></tr>
+<tr><td><strong>Governance</strong></td><td>15%</td><td>Policy compliance, constraint violations</td></tr>
+<tr><td><strong>Evolution</strong></td><td>15%</td><td>Drift from intended architecture</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="running-health-check"><a class="header" href="#running-health-check">Running Health Check</a></h2>
+<pre><code class="language-bash"># Check overall health
+sruja health -r .
+
+# Check with detailed output
+sruja health -r . --verbose
+
+# Check specific area
+sruja health -r . --focus payments
+</code></pre>
+<h2 id="interpreting-the-dashboard"><a class="header" href="#interpreting-the-dashboard">Interpreting the Dashboard</a></h2>
+<p>The health dashboard shows:</p>
+<ol>
+<li><strong>Overall Score</strong>: Big number (e.g., 87/100)</li>
+<li><strong>Component Breakdown</strong>: How each dimension contributes</li>
+<li><strong>Trend Arrow</strong>: Is health improving or declining?</li>
+<li><strong>Top Issues</strong>: Priority list of problems to fix</li>
+<li><strong>Community Graph</strong>: Visual of tightly coupled components</li>
+</ol>
+<h2 id="community-detection"><a class="header" href="#community-detection">Community Detection</a></h2>
+<p>From v0.41.0, Sruja includes community detection—automatically identifying groups of tightly coupled components:</p>
+<pre><code class="language-bash">sruja health -r . --show-communities
+</code></pre>
+<p>This helps answer:</p>
+<ul>
+<li>Which services should be deployed together?</li>
+<li>Where are the natural boundaries?</li>
+<li>What changed in the coupling pattern?</li>
+</ul>
+<h2 id="configuring-thresholds"><a class="header" href="#configuring-thresholds">Configuring Thresholds</a></h2>
+<pre><code class="language-yaml"># .sruja/config.yaml
+health:
+  thresholds:
+    overall:
+      warning: 70
+      critical: 50
+    complexity:
+      warning: 60
+      critical: 40
+    coupling:
+      warning: 65
+      critical: 45
+</code></pre>
+<h2 id="exercise-analyze-health-of-your-system"><a class="header" href="#exercise-analyze-health-of-your-system">Exercise: Analyze Health of Your System</a></h2>
+<ol>
+<li>Run <code>sruja health -r .</code></li>
+<li>Note your overall score</li>
+<li>Identify the lowest-scoring dimension</li>
+<li>Run <code>sruja drift -r .</code> to see what's causing drift</li>
+<li>Create a plan to improve the lowest area</li>
+</ol>
+<h2 id="next-steps-15"><a class="header" href="#next-steps-15">Next Steps</a></h2>
+<p>Lesson 3 covers integrating health monitoring into your continuous evolution workflow.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-continuous-evolution-workflow-1"><a class="header" href="#lesson-3-continuous-evolution-workflow-1">Lesson 3: Continuous Evolution Workflow</a></h1>
+<h2 id="the-evolution-loop"><a class="header" href="#the-evolution-loop">The Evolution Loop</a></h2>
+<p>From v0.42.0, Sruja provides an <strong>evolutionary workflow</strong> that continuously monitors and improves architecture:</p>
+<pre><code>┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ Instrumentation│ → │ Context Hints│ → │Infra Discovery│
+└─────────────┘    └─────────────┘    └─────────────┘
+        ↓                ↓                  ↓
+   Measure health    Suggest improvements  Auto-optimize
+</code></pre>
+<h2 id="maturation-phases"><a class="header" href="#maturation-phases">Maturation Phases</a></h2>
+<h3 id="phase-1-instrumentation"><a class="header" href="#phase-1-instrumentation">Phase 1: Instrumentation</a></h3>
+<p>Start by measuring what you have:</p>
+<pre><code class="language-bash">sruja discover -r . --context
+</code></pre>
+<p>This builds the initial architecture graph.</p>
+<h3 id="phase-2-context-hints"><a class="header" href="#phase-2-context-hints">Phase 2: Context Hints</a></h3>
+<p>Add human knowledge to guide evolution:</p>
+<pre><code class="language-bash">sruja intent propose -r . --from-diff
+</code></pre>
+<h3 id="phase-3-infrastructure-discovery"><a class="header" href="#phase-3-infrastructure-discovery">Phase 3: Infrastructure Discovery</a></h3>
+<p>Let Sruja find infrastructure patterns:</p>
+<pre><code class="language-bash">sruja scan -r . --infra
+</code></pre>
+<h2 id="the-evolution-command"><a class="header" href="#the-evolution-command">The Evolution Command</a></h2>
+<pre><code class="language-bash"># Run evolution analysis
+sruja evolution -r .
+
+# Show recommended changes
+sruja evolution -r . --propose
+
+# Apply recommended changes
+sruja evolution -r . --fix
+</code></pre>
+<h2 id="drift-detection-and-resolution"><a class="header" href="#drift-detection-and-resolution">Drift Detection and Resolution</a></h2>
+<pre><code class="language-bash"># Detect drift
+sruja drift -r .
+
+# Auto-fix where possible
+sruja drift -r . --fix
+
+# Show blast radius of changes
+sruja impact &lt;component&gt; -r . --depth 3
+</code></pre>
+<h2 id="agentic-memory-v0370"><a class="header" href="#agentic-memory-v0370">Agentic Memory (v0.37.0)</a></h2>
+<p>From v0.37.0, Sruja includes <strong>agentic memory</strong>—autonomous optimization that learns from past decisions:</p>
+<pre><code class="language-bash"># Enable autonomous mode
+sruja agent run -r . --autonomous
+
+# Review agent suggestions
+sruja agent review -r .
+</code></pre>
+<p>The agent:</p>
+<ul>
+<li>Remembers past architectural decisions</li>
+<li>Learns from team preferences</li>
+<li>Proposes optimizations based on patterns</li>
+<li>Evaluates fitness of changes before applying</li>
+</ul>
+<h2 id="integrating-into-cicd"><a class="header" href="#integrating-into-cicd">Integrating into CI/CD</a></h2>
+<pre><code class="language-yaml"># .github/workflows/evolution.yml
+- name: Check Architecture Health
+  run: |
+    sruja health -r . --format json &gt; health.json
+    sruja drift -r . --fail-on-drift
+
+- name: Evolution Check (daily)
+  if: github.event_name == 'schedule'
+  run: sruja evolution -r . --propose
+</code></pre>
+<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
+<p>The continuous evolution workflow:</p>
+<ol>
+<li><strong>Instrument</strong>: Build architecture graph</li>
+<li><strong>Measure</strong>: Run health checks</li>
+<li><strong>Detect</strong>: Find drift with <code>sruja drift</code></li>
+<li><strong>Propose</strong>: Get evolution suggestions</li>
+<li><strong>Apply</strong>: Use <code>sruja evolution --fix</code></li>
+<li><strong>Learn</strong>: Agentic memory improves over time</li>
+</ol>
+<h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
+<p>You've completed the Evolutionary Architecture module. You now understand:</p>
+<ul>
+<li>✅ Fitness functions and how to define them</li>
+<li>✅ Health scoring and community detection</li>
+<li>✅ Continuous evolution workflow with maturation phases</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="agentic-ai-with-sruja"><a class="header" href="#agentic-ai-with-sruja">Agentic AI with Sruja</a></h1>
 <p>Learn to design agent-based AI systems with clear boundaries, interfaces, and governance using Sruja DSL.</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -27801,7 +28152,7 @@ include *
 <li><strong>Identify Core Components</strong>: Recognize Agents, Tools, Memory, and Planning modules.</li>
 <li><strong>Model Basic Agents</strong>: Use Sruja to represent a simple agent with tools.</li>
 </ol>
-<h2 id="lessons-6"><a class="header" href="#lessons-6">Lessons</a></h2>
+<h2 id="lessons-7"><a class="header" href="#lessons-7">Lessons</a></h2>
 <ol>
 <li><a href="courses/agentic-ai/module-1-fundamentals/lesson-1">What is Agentic AI?</a></li>
 <li><a href="courses/agentic-ai/module-1-fundamentals/lesson-2">Core Components</a></li>
@@ -27916,7 +28267,7 @@ include *
 <li><strong>Explore Multi-Agent Systems</strong>: How agents collaborate.</li>
 <li><strong>Model Orchestration</strong>: Supervisor vs. Hierarchical flows.</li>
 </ol>
-<h2 id="lessons-7"><a class="header" href="#lessons-7">Lessons</a></h2>
+<h2 id="lessons-8"><a class="header" href="#lessons-8">Lessons</a></h2>
 <ol>
 <li><a href="courses/agentic-ai/module-2-patterns/lesson-1">The ReAct Pattern</a></li>
 <li><a href="courses/agentic-ai/module-2-patterns/lesson-2">Multi-Agent Orchestration</a></li>
@@ -27999,7 +28350,7 @@ include *
 <li><strong>Metadata</strong>: Using tags to track models, costs, and latency.</li>
 <li><strong>Governance</strong>: Defining policies for AI safety.</li>
 </ol>
-<h2 id="lessons-8"><a class="header" href="#lessons-8">Lessons</a></h2>
+<h2 id="lessons-9"><a class="header" href="#lessons-9">Lessons</a></h2>
 <ol>
 <li><a href="courses/agentic-ai/module-3-modeling/lesson-1">Modeling Strategies</a></li>
 <li><a href="courses/agentic-ai/module-3-modeling/lesson-2">Governance and Safety</a></li>
@@ -28100,6 +28451,450 @@ container AgentSystem {
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-4-ai-editor-integration"><a class="header" href="#draft-module-4-ai-editor-integration">Draft: Module 4: AI Editor Integration</a></h1>
+<p><strong>MCP server setup, AI editor configuration, and context-driven development.</strong></p>
+<h2 id="overview-10"><a class="header" href="#overview-10">Overview</a></h2>
+<p>This module teaches how to integrate Sruja with AI code editors (Cursor, Trae, Copilot, Cline, Windsurf) for context-aware AI assistance.</p>
+<h2 id="lessons-10"><a class="header" href="#lessons-10">Lessons</a></h2>
+<h3 id="lesson-1-mcp-server-setup"><a class="header" href="#lesson-1-mcp-server-setup">Lesson 1: <a href="#lesson-1-mcp-server-setup-1">MCP Server Setup</a></a></h3>
+<p><em>Configure Sruja as an MCP server for AI editors</em></p>
+<ul>
+<li>MCP protocol fundamentals</li>
+<li>Installing and configuring Sruja MCP</li>
+<li>Editor configuration (Cursor, VS Code, etc.)</li>
+<li>Testing the connection</li>
+</ul>
+<h3 id="lesson-2-context-driven-ai-assistance"><a class="header" href="#lesson-2-context-driven-ai-assistance">Lesson 2: <a href="#lesson-2-context-driven-ai-assistance-1">Context-Driven AI Assistance</a></a></h3>
+<p><em>Use architecture context in AI conversations</em></p>
+<ul>
+<li>Sruja context commands</li>
+<li>Focus mode for task-specific context</li>
+<li>Cross-repo context building</li>
+<li>Context score optimization</li>
+</ul>
+<h3 id="lesson-3-ai-pair-programming-patterns"><a class="header" href="#lesson-3-ai-pair-programming-patterns">Lesson 3: <a href="#lesson-3-ai-pair-programming-patterns-1">AI Pair Programming Patterns</a></a></h3>
+<p><em>Effective patterns for AI-assisted architecture work</em></p>
+<ul>
+<li>Asking architecture-aware questions</li>
+<li>Using AI for impact analysis</li>
+<li>AI-assisted code review</li>
+<li>Wrapping AI output with Sruja validation</li>
+</ul>
+<h2 id="learning-outcomes-2"><a class="header" href="#learning-outcomes-2">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Configure Sruja MCP server for AI editors</li>
+<li>✅ Build and optimize architecture context for AI</li>
+<li>✅ Use AI editors with architecture awareness</li>
+<li>✅ Validate AI suggestions against Sruja</li>
+</ul>
+<h2 id="prerequisites-13"><a class="header" href="#prerequisites-13">Prerequisites</a></h2>
+<ul>
+<li>Completed Agentic AI Modules 1-3</li>
+<li>Familiarity with AI code editors (Cursor, Copilot, etc.)</li>
+<li>Understanding of Sruja CLI basics</li>
+</ul>
+<h2 id="estimated-time-9"><a class="header" href="#estimated-time-9">Estimated Time</a></h2>
+<p>1-2 hours</p>
+<hr>
+<h2 id="raw-thoughts-from-analysis-1"><a class="header" href="#raw-thoughts-from-analysis-1">Raw Thoughts from Analysis</a></h2>
+<h3 id="v0230-features-to-cover"><a class="header" href="#v0230-features-to-cover">v0.23.0+ Features to Cover:</a></h3>
+<ul>
+<li><code>sruja mcp</code> command (MCP stdio server)</li>
+<li><code>sruja context</code> command for building context</li>
+<li><code>sruja focus</code> for task-specific briefing</li>
+<li><code>sruja context-score</code> for AI-readiness scoring</li>
+<li>Editor integrations (Cursor, GitHub Copilot, Cline, Windsurf)</li>
+</ul>
+<h3 id="related-concepts-1"><a class="header" href="#related-concepts-1">Related Concepts:</a></h3>
+<ul>
+<li>Model Context Protocol (MCP)</li>
+<li>AI-editor context optimization</li>
+<li>Cross-repo architecture context</li>
+<li>Context-driven development</li>
+<li>AI pair programming</li>
+</ul>
+<h3 id="key-commands"><a class="header" href="#key-commands">Key Commands:</a></h3>
+<ul>
+<li><code>sruja mcp -r .</code></li>
+<li><code>sruja context -r repoA -r repoB</code></li>
+<li><code>sruja focus --file &lt;path&gt;</code></li>
+<li><code>sruja context-score -r .</code></li>
+<li><code>sruja why &lt;component-id&gt;</code></li>
+<li><code>sruja impact &lt;component-id&gt;</code></li>
+</ul>
+<h3 id="editor-setup"><a class="header" href="#editor-setup">Editor Setup:</a></h3>
+<pre><code class="language-json">// Cursor: .cursor/mcp.json
+{
+  "mcpServers": {
+    "sruja": {
+      "command": "sruja",
+      "args": ["mcp", "-r", "."]
+    }
+  }
+}
+</code></pre>
+<h3 id="lesson-ideas-1"><a class="header" href="#lesson-ideas-1">Lesson Ideas:</a></h3>
+<ol>
+<li>
+<p><strong>MCP Server Setup</strong></p>
+<ul>
+<li>What is MCP and why it matters</li>
+<li>Installing/configuring Sruja MCP</li>
+<li>Editor-specific setup (Cursor, Copilot, etc.)</li>
+<li>Testing with <code>sruja mcp -r .</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Context-Driven Assistance</strong></p>
+<ul>
+<li>Building context with <code>sruja context</code></li>
+<li>Using <code>sruja focus</code> for task briefing</li>
+<li>Cross-repo context (<code>sruja context -r repoA -r repoB</code>)</li>
+<li>Optimizing context score</li>
+</ul>
+</li>
+<li>
+<p><strong>AI Pair Programming Patterns</strong></p>
+<ul>
+<li>Asking "what depends on X?" before changing</li>
+<li>Using <code>sruja impact</code> to understand blast radius</li>
+<li>Validating AI suggestions with <code>sruja lint</code></li>
+<li>Using AI to generate Sruja from conversations</li>
+</ul>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-mcp-server-setup-1"><a class="header" href="#lesson-1-mcp-server-setup-1">Lesson 1: MCP Server Setup</a></h1>
+<h2 id="what-is-mcp"><a class="header" href="#what-is-mcp">What Is MCP?</a></h2>
+<p>The <strong>Model Context Protocol (MCP)</strong> is a standardized way for AI tools to connect to external data sources and services. With MCP, AI editors like Cursor, Copilot, and others can query Sruja's architecture graph directly.</p>
+<h2 id="why-mcp-for-sruja"><a class="header" href="#why-mcp-for-sruja">Why MCP for Sruja?</a></h2>
+<p>Without MCP, AI editors don't know your architecture:</p>
+<ul>
+<li>AI suggests changes without understanding dependencies</li>
+<li>AI doesn't know which components are critical</li>
+<li>AI can't tell you the blast radius of a change</li>
+</ul>
+<p>With MCP, AI editors can:</p>
+<ul>
+<li>Query architecture graph in real-time</li>
+<li>Understand component relationships</li>
+<li>Provide architecture-aware suggestions</li>
+<li>Warn about breaking changes</li>
+</ul>
+<h2 id="setting-up-sruja-mcp"><a class="header" href="#setting-up-sruja-mcp">Setting Up Sruja MCP</a></h2>
+<h3 id="1-install-sruja-cli"><a class="header" href="#1-install-sruja-cli">1. Install Sruja CLI</a></h3>
+<pre><code class="language-bash"># From source
+cargo install --path crates/sruja-cli
+
+# Or from release
+curl -fsSL https://sruja.ai/install.sh | bash
+</code></pre>
+<h3 id="2-verify-mcp-is-available"><a class="header" href="#2-verify-mcp-is-available">2. Verify MCP is Available</a></h3>
+<pre><code class="language-bash">sruja mcp --help
+</code></pre>
+<h3 id="3-configure-for-cursor"><a class="header" href="#3-configure-for-cursor">3. Configure for Cursor</a></h3>
+<p>Create or edit <code>~/.cursor/mcp.json</code> (or <code>.cursor/mcp.json</code> in your project):</p>
+<pre><code class="language-json">{
+  "mcpServers": {
+    "sruja": {
+      "command": "sruja",
+      "args": ["mcp", "-r", "."],
+      "env": {}
+    }
+  }
+}
+</code></pre>
+<h3 id="4-configure-for-vs-code-copilot"><a class="header" href="#4-configure-for-vs-code-copilot">4. Configure for VS Code (Copilot)</a></h3>
+<pre><code class="language-json">// .vscode/mcp.json in your project
+{
+  "sruja": {
+    "command": "sruja",
+    "args": ["mcp", "-r", "."]
+  }
+}
+</code></pre>
+<h3 id="5-configure-for-clinewindsurf"><a class="header" href="#5-configure-for-clinewindsurf">5. Configure for Cline/Windsurf</a></h3>
+<pre><code class="language-json">// .clinerules or .windsurf/rules/sruja.md
+{
+  "mcpServers": {
+    "sruja": {
+      "command": "sruja",
+      "args": ["mcp", "-r", "."]
+    }
+  }
+}
+</code></pre>
+<h2 id="testing-the-connection"><a class="header" href="#testing-the-connection">Testing the Connection</a></h2>
+<pre><code class="language-bash"># Start MCP server in test mode
+sruja mcp -r . --test
+
+# Or start and watch logs
+sruja mcp -r . --verbose
+</code></pre>
+<p>In your AI editor, try asking:</p>
+<ul>
+<li>"What components does the API depend on?"</li>
+<li>"Show me the architecture context"</li>
+<li>"What would break if I change the database?"</li>
+</ul>
+<h2 id="mcp-tools-available"><a class="header" href="#mcp-tools-available">MCP Tools Available</a></h2>
+<p>Once connected, the AI editor can use these Sruja tools:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Tool</th><th>Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td><code>sruja_query</code></td><td>Query architecture graph</td></tr>
+<tr><td><code>sruja_why</code></td><td>Explain why a component exists</td></tr>
+<tr><td><code>sruja_impact</code></td><td>Analyze change blast radius</td></tr>
+<tr><td><code>sruja_context</code></td><td>Get architecture context</td></tr>
+<tr><td><code>sruja_lint</code></td><td>Validate DSL</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="next-steps-16"><a class="header" href="#next-steps-16">Next Steps</a></h2>
+<p>Lesson 2 covers building and optimizing context for AI assistance.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-context-driven-ai-assistance-1"><a class="header" href="#lesson-2-context-driven-ai-assistance-1">Lesson 2: Context-Driven AI Assistance</a></h1>
+<h2 id="why-context-matters"><a class="header" href="#why-context-matters">Why Context Matters</a></h2>
+<p>AI editors work best with relevant context. Without architecture context:</p>
+<ul>
+<li>AI makes assumptions about your system</li>
+<li>AI doesn't know your constraints</li>
+<li>AI suggests generic patterns that may not fit</li>
+</ul>
+<p>With architecture context:</p>
+<ul>
+<li>AI understands your system's structure</li>
+<li>AI knows which components are critical</li>
+<li>AI provides relevant suggestions</li>
+</ul>
+<h2 id="building-architecture-context"><a class="header" href="#building-architecture-context">Building Architecture Context</a></h2>
+<h3 id="basic-context"><a class="header" href="#basic-context">Basic Context</a></h3>
+<pre><code class="language-bash"># Build context for current repo
+sruja context -r .
+
+# Output context as JSON
+sruja context -r . --format json
+</code></pre>
+<h3 id="cross-repo-context"><a class="header" href="#cross-repo-context">Cross-Repo Context</a></h3>
+<pre><code class="language-bash"># Build context across multiple repos
+sruja context -r repoA -r repoB -r repoC
+
+# Useful for monorepos or microservices
+</code></pre>
+<h3 id="focus-mode"><a class="header" href="#focus-mode">Focus Mode</a></h3>
+<p>For specific tasks, use focus mode to get a task-scoped briefing:</p>
+<pre><code class="language-bash"># Get context focused on a specific file/component
+sruja focus --file src/api/main.rs
+
+# Get context for a specific component
+sruja focus --component PaymentService
+</code></pre>
+<p>Focus output includes:</p>
+<ul>
+<li><strong>Blast radius</strong>: What depends on this</li>
+<li><strong>Decisions</strong>: Why this was designed this way</li>
+<li><strong>Boundaries</strong>: What this component owns</li>
+<li><strong>AI instructions</strong>: How to work with this component</li>
+</ul>
+<h2 id="context-score"><a class="header" href="#context-score">Context Score</a></h2>
+<p>Measure how "AI-ready" your architecture is:</p>
+<pre><code class="language-bash"># Get AI-readiness score (0-100)
+sruja context-score -r .
+</code></pre>
+<p>The score evaluates 5 dimensions:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Dimension</th><th>What It Measures</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Documentation</strong></td><td>Are components documented?</td></tr>
+<tr><td><strong>Relationships</strong></td><td>Are dependencies explicit?</td></tr>
+<tr><td><strong>Constraints</strong></td><td>Are policies defined?</td></tr>
+<tr><td><strong>Coverage</strong></td><td>How much code is mapped?</td></tr>
+<tr><td><strong>Freshness</strong></td><td>Is context up-to-date?</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="optimizing-context-for-ai"><a class="header" href="#optimizing-context-for-ai">Optimizing Context for AI</a></h2>
+<h3 id="1-add-descriptions"><a class="header" href="#1-add-descriptions">1. Add Descriptions</a></h3>
+<pre><code class="language-sruja">container PaymentService {
+  description "Handles payment processing and fraud detection"
+  // AI now understands what this does
+}
+</code></pre>
+<h3 id="2-link-requirements"><a class="header" href="#2-link-requirements">2. Link Requirements</a></h3>
+<pre><code class="language-sruja">container PaymentService {
+  requirement "Must comply with PCI-DSS"
+  requirement "Must process 1000 TPS"
+}
+</code></pre>
+<h3 id="3-add-intent"><a class="header" href="#3-add-intent">3. Add Intent</a></h3>
+<pre><code class="language-sruja">intent "Payment Goals" {
+  outcome "All payments processed within 5 seconds"
+}
+</code></pre>
+<h3 id="4-document-decisions"><a class="header" href="#4-document-decisions">4. Document Decisions</a></h3>
+<pre><code class="language-sruja">PaymentService = container "Payment Service" {
+  description "Handles payments"
+
+  adr "ADR-0012: Why we use Stripe instead of PayPal"
+  adr "ADR-0015: Why payments are synchronous"
+}
+</code></pre>
+<h2 id="daily-context-sync"><a class="header" href="#daily-context-sync">Daily Context Sync</a></h2>
+<p>For AI editors, run daily sync to keep context fresh:</p>
+<pre><code class="language-bash"># Quick sync
+sruja sync -r .
+
+# Full with drift check
+sruja daily -r .
+</code></pre>
+<p>This updates:</p>
+<ul>
+<li><code>.sruja/context.json</code></li>
+<li><code>.cursorrules</code></li>
+<li><code>.copilot-instructions.md</code></li>
+<li><code>CLAUDE.md</code></li>
+</ul>
+<h2 id="next-steps-17"><a class="header" href="#next-steps-17">Next Steps</a></h2>
+<p>Lesson 3 covers patterns for effective AI pair programming with architecture.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-ai-pair-programming-patterns-1"><a class="header" href="#lesson-3-ai-pair-programming-patterns-1">Lesson 3: AI Pair Programming Patterns</a></h1>
+<h2 id="the-problem-with-unstructured-ai-help"><a class="header" href="#the-problem-with-unstructured-ai-help">The Problem with Unstructured AI Help</a></h2>
+<p>When you ask AI to "add a new feature" without context:</p>
+<ul>
+<li>AI doesn't know your architecture constraints</li>
+<li>AI might suggest changes that break dependencies</li>
+<li>AI doesn't understand your team's conventions</li>
+</ul>
+<h2 id="architecture-aware-ai-interactions"><a class="header" href="#architecture-aware-ai-interactions">Architecture-Aware AI Interactions</a></h2>
+<h3 id="pattern-1-before-changing-x-ask-about-dependencies"><a class="header" href="#pattern-1-before-changing-x-ask-about-dependencies">Pattern 1: Before Changing X, Ask About Dependencies</a></h3>
+<pre><code>You: "What would break if I change UserService?"
+
+AI (with Sruja context): "Changing UserService would affect:
+- LoginComponent (depends on UserService)
+- ProfileUI (calls UserService.getProfile())
+- NotificationService (receives user events)
+
+You should also update:
+- user-auth contract (API boundary)
+- test/UserService.test.ts (affected tests)
+"
+</code></pre>
+<h3 id="pattern-2-use-ai-to-explore-then-validate"><a class="header" href="#pattern-2-use-ai-to-explore-then-validate">Pattern 2: Use AI to Explore, Then Validate</a></h3>
+<pre><code class="language-bash"># AI helps explore
+"What does the checkout flow look like?"
+
+# AI shows understanding
+"Based on your architecture, checkout involves:
+- CartService -&gt; PaymentService -&gt; OrderService
+
+Shall I trace through each step?"
+</code></pre>
+<p>Then validate with Sruja:</p>
+<pre><code class="language-bash"># After AI proposes changes
+sruja lint
+sruja drift -r .
+</code></pre>
+<h3 id="pattern-3-ai-assisted-impact-analysis"><a class="header" href="#pattern-3-ai-assisted-impact-analysis">Pattern 3: AI-Assisted Impact Analysis</a></h3>
+<pre><code class="language-bash"># Before making a big change
+"Use sruja impact to show me blast radius of removing the legacy import service"
+
+# AI calls MCP tool
+# Blast radius analysis shown
+</code></pre>
+<h3 id="pattern-4-ask-for-sruja-dsl-then-validate"><a class="header" href="#pattern-4-ask-for-sruja-dsl-then-validate">Pattern 4: Ask for Sruja DSL, Then Validate</a></h3>
+<pre><code>You: "Generate Sruja DSL for a new notification service"
+
+AI: [generates Sruja code]
+
+You: "Validate this with sruja lint and check it fits our patterns"
+</code></pre>
+<h3 id="pattern-5-ai-as-architecture-reviewer"><a class="header" href="#pattern-5-ai-as-architecture-reviewer">Pattern 5: AI as Architecture Reviewer</a></h3>
+<pre><code>You: "Review this code change for architectural compliance"
+
+AI with context: [checks against policies, finds issues]
+"1. This change violates your 'no-direct-db-access' policy
+2. New dependency creates circular reference with BillingService
+3. Missing required 'tech' field in container definition"
+</code></pre>
+<h2 id="effective-prompts-for-architecture-context"><a class="header" href="#effective-prompts-for-architecture-context">Effective Prompts for Architecture Context</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Instead of...</th><th>Try...</th></tr>
+</thead>
+<tbody>
+<tr><td>"Add auth to this endpoint"</td><td>"Add auth following the OAuth2 pattern in PaymentContract"</td></tr>
+<tr><td>"Refactor this service"</td><td>"Refactor this service keeping the ADR-0012 constraints"</td></tr>
+<tr><td>"Add caching"</td><td>"Add caching to match the fitness function latency &lt; 100ms"</td></tr>
+<tr><td>"Split this component"</td><td>"Split along the boundary suggested by community detection"</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="workflow-ai-assisted-feature-development"><a class="header" href="#workflow-ai-assisted-feature-development">Workflow: AI-Assisted Feature Development</a></h2>
+<ol>
+<li>
+<p><strong>Define the task</strong></p>
+<pre><code>"I need to add a new payment method to checkout"
+</code></pre>
+</li>
+<li>
+<p><strong>AI explores context</strong></p>
+<pre><code>AI: "Let me check your PaymentContract and checkout flow..."
+</code></pre>
+</li>
+<li>
+<p><strong>AI proposes with constraints</strong></p>
+<pre><code>AI: "Based on your architecture, this requires:
+- Adding endpoint to PaymentContract
+- Updating FraudDetection rules
+- New scenario test for the payment flow"
+</code></pre>
+</li>
+<li>
+<p><strong>Human approves</strong></p>
+<pre><code>"Sounds right, implement it"
+</code></pre>
+</li>
+<li>
+<p><strong>AI implements</strong></p>
+</li>
+<li>
+<p><strong>Human validates with Sruja</strong></p>
+<pre><code class="language-bash">sruja lint
+sruja validate --scenarios
+</code></pre>
+</li>
+</ol>
+<h2 id="anti-patterns-to-avoid"><a class="header" href="#anti-patterns-to-avoid">Anti-Patterns to Avoid</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Anti-Pattern</th><th>Why It's Bad</th><th>Better Approach</th></tr>
+</thead>
+<tbody>
+<tr><td>"Just make it work"</td><td>Ignores architecture</td><td>"Make it work AND pass sruja lint"</td></tr>
+<tr><td>"AI doesn't know our patterns"</td><td>Unstructured</td><td>"Follow the patterns in our repo.sruja"</td></tr>
+<tr><td>Trust AI blindly</td><td>AI can hallucinate</td><td>Always validate with Sruja</td></tr>
+<tr><td>Ask without context</td><td>Generic answers</td><td>Build context first with <code>sruja focus</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="module-complete-1"><a class="header" href="#module-complete-1">Module Complete!</a></h2>
+<p>You've completed the AI Editor Integration module. You now understand:</p>
+<ul>
+<li>✅ Setting up Sruja MCP server</li>
+<li>✅ Building architecture context for AI</li>
+<li>✅ Using context-driven AI assistance</li>
+<li>✅ Effective AI pair programming patterns</li>
+</ul>
+<p>This module completes the Agentic AI course with practical AI editor integration skills.</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="quick-start-for-seasoned-software-architects"><a class="header" href="#quick-start-for-seasoned-software-architects">Quick Start for Seasoned Software Architects</a></h1>
 <p><strong>For senior architects who need to enforce standards across large organizations.</strong></p>
 <p>This 5-minute course teaches you how to use Sruja to codify architectural policies, prevent drift, and scale governance across multiple teams—without slowing down development.</p>
@@ -28128,13 +28923,13 @@ container AgentSystem {
 <li>Architects at companies with 50+ engineers</li>
 <li>Anyone implementing architecture governance</li>
 </ul>
-<h2 id="prerequisites-12"><a class="header" href="#prerequisites-12">Prerequisites</a></h2>
+<h2 id="prerequisites-14"><a class="header" href="#prerequisites-14">Prerequisites</a></h2>
 <ul>
 <li>Experience with software architecture at scale</li>
 <li>Familiarity with CI/CD pipelines</li>
 <li>Basic understanding of Sruja syntax (or complete <a href="courses/advanced-architects/docs/getting-started.html">Getting Started</a> first)</li>
 </ul>
-<h2 id="estimated-time-8"><a class="header" href="#estimated-time-8">Estimated Time</a></h2>
+<h2 id="estimated-time-10"><a class="header" href="#estimated-time-10">Estimated Time</a></h2>
 <p><strong>5 minutes</strong> — Quick, actionable lessons you can apply immediately.</p>
 <h2 id="course-structure-4"><a class="header" href="#course-structure-4">Course Structure</a></h2>
 <h3 id="module-1-policy-as-code-5-minutes"><a class="header" href="#module-1-policy-as-code-5-minutes">Module 1: Policy as Code (5 minutes)</a></h3>
@@ -28146,7 +28941,7 @@ container AgentSystem {
 <li>How to prevent common violations</li>
 <li>How to integrate with CI/CD pipelines</li>
 </ul>
-<h2 id="learning-outcomes-1"><a class="header" href="#learning-outcomes-1">Learning Outcomes</a></h2>
+<h2 id="learning-outcomes-3"><a class="header" href="#learning-outcomes-3">Learning Outcomes</a></h2>
 <p>By the end of this course, you'll be able to:</p>
 <ul>
 <li>✅ Write architectural policies as code</li>
@@ -28199,9 +28994,9 @@ container AgentSystem {
 <li>✅ Compliance tracking across services</li>
 <li>✅ Patterns you can apply to your organization</li>
 </ul>
-<h2 id="estimated-time-9"><a class="header" href="#estimated-time-9">Estimated Time</a></h2>
+<h2 id="estimated-time-11"><a class="header" href="#estimated-time-11">Estimated Time</a></h2>
 <p><strong>5 minutes</strong> — Quick, focused lessons.</p>
-<h2 id="prerequisites-13"><a class="header" href="#prerequisites-13">Prerequisites</a></h2>
+<h2 id="prerequisites-15"><a class="header" href="#prerequisites-15">Prerequisites</a></h2>
 <ul>
 <li>Basic Sruja syntax (see <a href="courses/advanced-architects/module-1-policy-as-code/docs/getting-started.html">Getting Started</a>)</li>
 <li>Familiarity with CI/CD (GitHub Actions, GitLab CI, etc.)</li>
@@ -28411,7 +29206,7 @@ jobs:
 <li><strong>Automate enforcement</strong> in CI/CD</li>
 <li><strong>Scale governance</strong> across teams</li>
 </ol>
-<h2 id="next-steps-14"><a class="header" href="#next-steps-14">Next Steps</a></h2>
+<h2 id="next-steps-18"><a class="header" href="#next-steps-18">Next Steps</a></h2>
 <ul>
 <li>Try writing constraints for your organization</li>
 <li>Integrate validation into your CI/CD pipeline</li>
@@ -28564,7 +29359,7 @@ service-repo/
   └── .github/workflows/
       └── architecture.yml        # Validates against shared policies
 </code></pre>
-<h2 id="next-steps-15"><a class="header" href="#next-steps-15">Next Steps</a></h2>
+<h2 id="next-steps-19"><a class="header" href="#next-steps-19">Next Steps</a></h2>
 <ul>
 <li>Set up CI/CD validation for your architecture</li>
 <li>Create shared policy files for your organization</li>
@@ -28572,6 +29367,2340 @@ service-repo/
 <li>Track compliance metrics over time</li>
 </ul>
 <p><strong>You now know how to enforce policies automatically. Governance at scale! 🚀</strong></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-2---behavioral-modeling"><a class="header" href="#draft-module-2---behavioral-modeling">Draft: Module 2 - Behavioral Modeling</a></h1>
+<p><strong>State machines, API contracts, and scenario-based validation.</strong></p>
+<h2 id="overview-11"><a class="header" href="#overview-11">Overview</a></h2>
+<p>This module teaches behavioral modeling with Sruja—capturing how systems behave over time, not just their structure.</p>
+<h2 id="lessons-11"><a class="header" href="#lessons-11">Lessons</a></h2>
+<h3 id="lesson-1-state-machines"><a class="header" href="#lesson-1-state-machines">Lesson 1: <a href="#lesson-1-state-machines-1">State Machines</a></a></h3>
+<p><em>Modeling system states and transitions</em></p>
+<ul>
+<li>What are state machines</li>
+<li>Defining states and transitions</li>
+<li>Guard conditions and actions</li>
+<li>State machine validation</li>
+</ul>
+<h3 id="lesson-2-api-contracts"><a class="header" href="#lesson-2-api-contracts">Lesson 2: <a href="#lesson-2-api-contracts-1">API Contracts</a></a></h3>
+<p><em>Defining and validating service interfaces</em></p>
+<ul>
+<li>Contract syntax</li>
+<li>Request/response schemas</li>
+<li>Error handling patterns</li>
+<li>Contract integrity validation</li>
+</ul>
+<h3 id="lesson-3-scenario-validation"><a class="header" href="#lesson-3-scenario-validation">Lesson 3: <a href="#lesson-3-scenario-validation-1">Scenario Validation</a></a></h3>
+<p><em>Testing architectural behavior with scenarios</em></p>
+<ul>
+<li>Writing scenarios</li>
+<li>Running validation</li>
+<li>Coverage analysis</li>
+<li>Integration testing patterns</li>
+</ul>
+<h2 id="learning-outcomes-4"><a class="header" href="#learning-outcomes-4">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Model stateful systems with state machines</li>
+<li>✅ Define API contracts with schemas</li>
+<li>✅ Write and validate scenarios</li>
+<li>✅ Test architectural behavior in CI/CD</li>
+</ul>
+<h2 id="prerequisites-16"><a class="header" href="#prerequisites-16">Prerequisites</a></h2>
+<ul>
+<li>Completed Advanced Architects Module 1 (Policy as Code)</li>
+<li>Familiarity with Sruja DSL basics</li>
+<li>Understanding of microservices patterns</li>
+</ul>
+<h2 id="estimated-time-12"><a class="header" href="#estimated-time-12">Estimated Time</a></h2>
+<p>2-3 hours</p>
+<hr>
+<h2 id="raw-thoughts-from-analysis-2"><a class="header" href="#raw-thoughts-from-analysis-2">Raw Thoughts from Analysis</a></h2>
+<h3 id="v0340-features-to-cover"><a class="header" href="#v0340-features-to-cover">v0.34.0 Features to Cover:</a></h3>
+<ul>
+<li><code>state_machine</code> syntax in DSL</li>
+<li><code>contract</code> syntax for API contracts</li>
+<li><code>scenario</code> validation</li>
+<li>State machine integrity rules</li>
+<li>Contract integrity validation</li>
+</ul>
+<h3 id="related-concepts-2"><a class="header" href="#related-concepts-2">Related Concepts:</a></h3>
+<ul>
+<li>Behavioral DSL</li>
+<li>State machine validation</li>
+<li>Contract-first design</li>
+<li>API versioning</li>
+<li>Scenario-based testing</li>
+</ul>
+<h3 id="key-dsl-elements"><a class="header" href="#key-dsl-elements">Key DSL Elements:</a></h3>
+<pre><code class="language-sruja">// State Machine
+Order = state_machine "Order Lifecycle" {
+  initial New
+  state New {
+    on submit -&gt; Pending
+    on cancel -&gt; Cancelled
+  }
+  state Pending {
+    on accept -&gt; Processing
+    on reject -&gt; Cancelled
+  }
+  // ...
+}
+
+// API Contract
+PaymentContract = contract "Payment API" {
+  endpoint POST /payments
+  request {
+    amount: integer
+    currency: string
+  }
+  response 200 {
+    transaction_id: string
+  }
+  response 400 {
+    error: string
+  }
+}
+</code></pre>
+<h3 id="lesson-ideas-2"><a class="header" href="#lesson-ideas-2">Lesson Ideas:</a></h3>
+<ol>
+<li>
+<p><strong>State Machines</strong></p>
+<ul>
+<li>Model order lifecycle, user sessions, workflow processes</li>
+<li>Validate no invalid transitions</li>
+<li>Show guard conditions and actions</li>
+<li>Hands-on: Model checkout flow</li>
+</ul>
+</li>
+<li>
+<p><strong>API Contracts</strong></p>
+<ul>
+<li>Define service interfaces contract-first</li>
+<li>Validate request/response schemas</li>
+<li>Error handling and versioning</li>
+<li>Integration with existing services</li>
+</ul>
+</li>
+<li>
+<p><strong>Scenario Validation</strong></p>
+<ul>
+<li>Write happy path and edge case scenarios</li>
+<li>Run <code>sruja validate</code> to check scenarios</li>
+<li>Coverage reporting</li>
+<li>CI/CD integration for behavioral testing</li>
+</ul>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-state-machines-1"><a class="header" href="#lesson-1-state-machines-1">Lesson 1: State Machines</a></h1>
+<h2 id="what-are-state-machines"><a class="header" href="#what-are-state-machines">What Are State Machines?</a></h2>
+<p>A <strong>state machine</strong> models a system's behavior as a series of discrete states and the transitions between them. State machines are perfect for:</p>
+<ul>
+<li>Order processing workflows</li>
+<li>User session management</li>
+<li>Business process orchestration</li>
+<li>Protocol implementations</li>
+</ul>
+<h2 id="why-state-machines-in-architecture"><a class="header" href="#why-state-machines-in-architecture">Why State Machines in Architecture?</a></h2>
+<p>Traditional architecture diagrams show <em>structure</em>—components and their relationships. State machines add <em>behavior</em>—how the system evolves over time.</p>
+<h2 id="defining-state-machines-in-sruja"><a class="header" href="#defining-state-machines-in-sruja">Defining State Machines in Sruja</a></h2>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+OrderLifecycle = state_machine "Order Lifecycle" {
+  initial New
+
+  state New {
+    description "Order created, awaiting payment"
+    on submit -&gt; Pending
+    on cancel -&gt; Cancelled
+  }
+
+  state Pending {
+    description "Payment submitted, processing"
+    on accept -&gt; Processing
+    on reject -&gt; Failed
+    on timeout -&gt; Cancelled
+  }
+
+  state Processing {
+    description "Order being fulfilled"
+    on complete -&gt; Shipped
+    on fail -&gt; Failed
+  }
+
+  state Shipped {
+    description "Order shipped to customer"
+    on deliver -&gt; Delivered
+    on return -&gt; Returned
+  }
+
+  state Delivered {
+    description "Order completed"
+    final
+  }
+
+  state Cancelled {
+    description "Order cancelled"
+    final
+  }
+
+  state Failed {
+    description "Order failed"
+    on retry -&gt; Pending
+  }
+
+  state Returned {
+    description "Order returned"
+    final
+  }
+}
+</code></pre>
+<h2 id="guard-conditions"><a class="header" href="#guard-conditions">Guard Conditions</a></h2>
+<p>Guard conditions restrict when transitions can occur:</p>
+<pre><code class="language-sruja">state Pending {
+  description "Payment submitted"
+
+  on accept [amount &gt; 0] -&gt; Processing
+  on reject [reason != null] -&gt; Failed
+}
+</code></pre>
+<h2 id="actions"><a class="header" href="#actions">Actions</a></h2>
+<p>Actions execute on transitions:</p>
+<pre><code class="language-sruja">state New {
+  on submit [validate()] -&gt; Pending {
+    action send_email("Payment received")
+    action update_inventory()
+  }
+}
+</code></pre>
+<h2 id="state-machine-validation"><a class="header" href="#state-machine-validation">State Machine Validation</a></h2>
+<p>Sruja validates state machines automatically:</p>
+<pre><code class="language-bash">sruja validate order-lifecycle.sruja
+</code></pre>
+<p>Validation checks:</p>
+<ul>
+<li>✅ All states are reachable from initial</li>
+<li>✅ All final states are actually terminal</li>
+<li>✅ No orphan states</li>
+<li>✅ Guard conditions are valid</li>
+<li>✅ Actions reference existing functions</li>
+</ul>
+<h2 id="hands-on-model-a-user-session"><a class="header" href="#hands-on-model-a-user-session">Hands-On: Model a User Session</a></h2>
+<pre><code class="language-sruja">UserSession = state_machine "User Session" {
+  initial Unauthenticated
+
+  state Unauthenticated {
+    description "User not logged in"
+    on login[credentials_valid] -&gt; Authenticated
+    on login[!credentials_valid] -&gt; Failed
+  }
+
+  state Authenticated {
+    description "User logged in"
+    on logout -&gt; Unauthenticated
+    on session_expire -&gt; Expired
+  }
+
+  state Failed {
+    description "Authentication failed"
+    on retry -&gt; Unauthenticated
+  }
+
+  state Expired {
+    description "Session timed out"
+    on reauthenticate -&gt; Authenticated
+    on logout -&gt; Unauthenticated
+  }
+}
+</code></pre>
+<h2 id="next-steps-20"><a class="header" href="#next-steps-20">Next Steps</a></h2>
+<p>Lesson 2 covers API contracts—defining service interfaces with schemas and validation.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-api-contracts-1"><a class="header" href="#lesson-2-api-contracts-1">Lesson 2: API Contracts</a></h1>
+<h2 id="what-are-api-contracts"><a class="header" href="#what-are-api-contracts">What Are API Contracts?</a></h2>
+<p>An <strong>API contract</strong> defines the expected interface between services—what they exchange, in what format, and what errors can occur. Contracts enable:</p>
+<ul>
+<li><strong>Consumer-driven contracts</strong>: API consumers define what they need</li>
+<li><strong>Contract testing</strong>: Automatically verify implementations match</li>
+<li><strong>Documentation</strong>: Self-documenting APIs</li>
+<li><strong>Versioning</strong>: Manage API evolution safely</li>
+</ul>
+<h2 id="why-contracts-in-architecture"><a class="header" href="#why-contracts-in-architecture">Why Contracts in Architecture?</a></h2>
+<p>Contracts are the <em>boundaries</em> between components. Good contracts:</p>
+<ul>
+<li>Make dependencies explicit</li>
+<li>Enable independent evolution</li>
+<li>Prevent breaking changes</li>
+<li>Enable contract testing in CI/CD</li>
+</ul>
+<h2 id="defining-contracts-in-sruja"><a class="header" href="#defining-contracts-in-sruja">Defining Contracts in Sruja</a></h2>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+contract "Payment Contract" {
+  description "Contract for payment processing service"
+
+  input {
+    amount integer "Payment amount in cents"
+    currency string "ISO 4217 currency code"
+    customer_id string "Customer identifier"
+  }
+
+  output {
+    transaction_id string "Unique transaction identifier"
+    status string "Payment status"
+  }
+
+  error {
+    "400" "Invalid request parameters"
+    "402" "Payment declined"
+    "500" "Internal server error"
+  }
+
+  constraint "Response time must be &lt; 50ms"
+}
+</code></pre>
+<h2 id="contract-fields"><a class="header" href="#contract-fields">Contract Fields</a></h2>
+<p>Each field in input/output has a name, type, and description:</p>
+<pre><code class="language-sruja">input {
+  field_name type "Description of the field"
+}
+</code></pre>
+<p>Supported types: <code>string</code>, <code>integer</code>, <code>boolean</code>, <code>array</code>, <code>object</code></p>
+<h2 id="contract-integrity-validation"><a class="header" href="#contract-integrity-validation">Contract Integrity Validation</a></h2>
+<pre><code class="language-bash"># Validate all contracts
+sruja validate --contracts
+
+# Check specific contract
+sruja validate payment.sruja
+</code></pre>
+<p>Validation checks:</p>
+<ul>
+<li>✅ All fields have valid types</li>
+<li>✅ Error codes are properly formatted</li>
+<li>✅ Constraints are well-defined</li>
+<li>✅ Contracts are used by existing elements</li>
+</ul>
+<h2 id="contracts-on-containers"><a class="header" href="#contracts-on-containers">Contracts on Containers</a></h2>
+<p>Apply contracts to containers to define their interfaces:</p>
+<pre><code class="language-sruja">// partial
+PaymentService = container "Payment Service" {
+  technology "Node.js"
+  description "Handles payment processing"
+
+  contract "Process Payment" {
+    input {
+      amount integer "Amount in cents"
+      currency string "Currency code"
+    }
+    output {
+      transaction_id string "Transaction ID"
+      status string "Payment status"
+    }
+    error {
+      "400" "Invalid request"
+      "402" "Payment declined"
+    }
+  }
+}
+
+OrderService = container "Order Service" {
+  technology "Go"
+  description "Manages orders"
+}
+
+// OrderService uses PaymentService's contract
+OrderService -&gt; PaymentService "Processes payment via contract"
+</code></pre>
+<h2 id="using-contracts-for-testing"><a class="header" href="#using-contracts-for-testing">Using Contracts for Testing</a></h2>
+<p>Generate test cases from contracts:</p>
+<pre><code class="language-bash"># Generate mock implementations
+sruja contract mock "Payment Contract" --output ./tests/mocks/
+
+# Generate test cases
+sruja contract test "Payment Contract" --framework jest
+</code></pre>
+<h2 id="module-complete-2"><a class="header" href="#module-complete-2">Module Complete!</a></h2>
+<p>You've completed Behavioral Modeling. You now understand:</p>
+<ul>
+<li>✅ State machines and state transitions</li>
+<li>✅ API contracts with input/output/error definitions</li>
+<li>✅ Scenario writing and validation</li>
+<li>✅ CI/CD integration for behavioral testing</li>
+</ul>
+<p>Next steps: Module 3 covers Intent-Driven Development.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-scenario-validation-1"><a class="header" href="#lesson-3-scenario-validation-1">Lesson 3: Scenario Validation</a></h1>
+<h2 id="what-are-scenarios"><a class="header" href="#what-are-scenarios">What Are Scenarios?</a></h2>
+<p><strong>Scenarios</strong> are executable specifications of architectural behavior. They describe sequences of actions and expected outcomes that can be automatically validated.</p>
+<h2 id="why-scenarios"><a class="header" href="#why-scenarios">Why Scenarios?</a></h2>
+<p>Scenarios bridge the gap between:</p>
+<ul>
+<li><strong>Architecture diagrams</strong>: What we designed</li>
+<li><strong>Behavior tests</strong>: What actually happens</li>
+</ul>
+<p>With scenarios, you can verify:</p>
+<ul>
+<li>Users can actually complete checkout</li>
+<li>Failed payments trigger appropriate handling</li>
+<li>System recovers from component failures</li>
+<li>Compliance requirements are met</li>
+</ul>
+<h2 id="writing-scenarios-in-sruja"><a class="header" href="#writing-scenarios-in-sruja">Writing Scenarios in Sruja</a></h2>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+scenario "Customer completes checkout" {
+  description "Happy path: customer browses, adds to cart, pays"
+
+  actors {
+    Customer = person "Online Customer"
+  }
+
+  system EcommercePlatform
+
+  steps {
+    1. Customer visits homepage
+    2. Customer searches for "wireless headphones"
+    3. System displays product list
+    4. Customer adds item to cart
+    5. Customer proceeds to checkout
+    6. Customer enters shipping address
+    7. Customer selects payment method
+    8. Customer confirms purchase
+    9. System processes payment
+    10. System sends confirmation email
+    11. Customer receives order confirmation
+  }
+
+  expected_outcomes {
+    - "Order created with status 'confirmed'"
+    - "Payment charged to customer"
+    - "Inventory updated"
+    - "Confirmation email sent"
+  }
+}
+
+scenario "Payment fails during checkout" {
+  description "Card declined scenario"
+
+  steps {
+    1. Customer reaches payment step
+    2. Customer enters card details
+    3. Payment gateway declines card
+    4. System displays error message
+    5. Customer prompted to retry or use different method
+  }
+
+  expected_outcomes {
+    - "Order status remains 'pending_payment'"
+    - "No charge to customer"
+    - "Error logged for audit"
+  }
+}
+</code></pre>
+<h2 id="running-scenario-validation"><a class="header" href="#running-scenario-validation">Running Scenario Validation</a></h2>
+<pre><code class="language-bash"># Validate all scenarios
+sruja validate --scenarios
+
+# Run specific scenario
+sruja validate --scenario "Customer completes checkout"
+
+# Generate test report
+sruja validate --scenarios --format json &gt; report.json
+</code></pre>
+<h2 id="coverage-analysis"><a class="header" href="#coverage-analysis">Coverage Analysis</a></h2>
+<pre><code class="language-bash"># Show scenario coverage
+sruja validate --scenarios --coverage
+
+# Shows which components have scenario coverage
+# and which are untested
+</code></pre>
+<h2 id="cicd-integration-1"><a class="header" href="#cicd-integration-1">CI/CD Integration</a></h2>
+<pre><code class="language-yaml"># .github/workflows/scenarios.yml
+- name: Run Scenario Validation
+  run: |
+    sruja validate --scenarios
+    sruja validate --contracts
+</code></pre>
+<h2 id="advanced-scenario-with-state-machine"><a class="header" href="#advanced-scenario-with-state-machine">Advanced: Scenario with State Machine</a></h2>
+<pre><code class="language-sruja">scenario "Order lifecycle end-to-end" {
+  steps {
+    1. submit order (from New state)
+    2. payment approved (transitions to Processing)
+    3. order fulfilled (transitions to Shipped)
+    4. order delivered (transitions to Delivered)
+  }
+
+  validate {
+    state_machine OrderLifecycle
+    final_state Delivered
+  }
+}
+</code></pre>
+<h2 id="module-complete-3"><a class="header" href="#module-complete-3">Module Complete!</a></h2>
+<p>You've completed the Behavioral Modeling module. You now understand:</p>
+<ul>
+<li>✅ State machines and state transitions</li>
+<li>✅ API contracts with request/response schemas</li>
+<li>✅ Scenario writing and validation</li>
+<li>✅ CI/CD integration for behavioral testing</li>
+</ul>
+<p>This module completes the Advanced Architects course with skills to model both structural and behavioral aspects of complex architectures.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-3---intent-driven-development"><a class="header" href="#draft-module-3---intent-driven-development">Draft: Module 3 - Intent-Driven Development</a></h1>
+<p><strong>Writing architectural intent, adversarial critique, and evidence-based validation.</strong></p>
+<h2 id="overview-12"><a class="header" href="#overview-12">Overview</a></h2>
+<p>This module teaches intent-driven development with Sruja—expressing what you <em>want</em> the architecture to achieve, then validating that reality matches intent.</p>
+<h2 id="lessons-12"><a class="header" href="#lessons-12">Lessons</a></h2>
+<h3 id="lesson-1-writing-architectural-intent"><a class="header" href="#lesson-1-writing-architectural-intent">Lesson 1: <a href="#lesson-1-writing-architectural-intent-1">Writing Architectural Intent</a></a></h3>
+<p><em>Expressing desired outcomes as formal intent</em></p>
+<ul>
+<li>Intent syntax and structure</li>
+<li>Outcome-driven requirements</li>
+<li>Linking intent to evidence</li>
+<li>Intent provenance tracking</li>
+</ul>
+<h3 id="lesson-2-critique-engine--adversarial-review"><a class="header" href="#lesson-2-critique-engine--adversarial-review">Lesson 2: <a href="#lesson-2-critique-engine--adversarial-review-1">Critique Engine &amp; Adversarial Review</a></a></h3>
+<p><em>Let AI challenge your architecture decisions</em></p>
+<ul>
+<li>The "Angry Agent" critique engine</li>
+<li>Running adversarial review</li>
+<li>Interpreting critique results</li>
+<li>Responding to critique</li>
+</ul>
+<h3 id="lesson-3-evidence-mapping--compliance"><a class="header" href="#lesson-3-evidence-mapping--compliance">Lesson 3: <a href="#lesson-3-evidence-mapping--compliance-1">Evidence Mapping &amp; Compliance</a></a></h3>
+<p><em>Prove your architecture meets intent</em></p>
+<ul>
+<li>Evidence collection</li>
+<li>Intent validation against code</li>
+<li>Compliance reporting</li>
+<li>Drift detection and resolution</li>
+</ul>
+<h2 id="learning-outcomes-5"><a class="header" href="#learning-outcomes-5">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Write formal architectural intent</li>
+<li>✅ Use critique engine to challenge decisions</li>
+<li>✅ Map evidence from code to intent</li>
+<li>✅ Validate compliance in CI/CD</li>
+</ul>
+<h2 id="prerequisites-17"><a class="header" href="#prerequisites-17">Prerequisites</a></h2>
+<ul>
+<li>Completed Advanced Architects Modules 1-2</li>
+<li>Familiarity with Sruja policies and contracts</li>
+<li>Understanding of CI/CD workflows</li>
+</ul>
+<h2 id="estimated-time-13"><a class="header" href="#estimated-time-13">Estimated Time</a></h2>
+<p>2-3 hours</p>
+<hr>
+<h2 id="raw-thoughts-from-analysis-3"><a class="header" href="#raw-thoughts-from-analysis-3">Raw Thoughts from Analysis</a></h2>
+<h3 id="v0340-v0350-features-to-cover"><a class="header" href="#v0340-v0350-features-to-cover">v0.34.0, v0.35.0 Features to Cover:</a></h3>
+<ul>
+<li><code>intent</code> command and domain</li>
+<li>Phase 4: Adversarial Critique Engine ("Angry Agent")</li>
+<li>Phase 3: Dynamic intent check and evidence mapping</li>
+<li><code>sruja propose</code> command</li>
+<li><code>sruja review</code> command</li>
+</ul>
+<h3 id="related-concepts-3"><a class="header" href="#related-concepts-3">Related Concepts:</a></h3>
+<ul>
+<li>Intent-first development</li>
+<li>Architectural rationale (ADR)</li>
+<li>Critique-driven iteration</li>
+<li>Evidence-based validation</li>
+<li>Compliance and audit trails</li>
+</ul>
+<h3 id="key-commands-1"><a class="header" href="#key-commands-1">Key Commands:</a></h3>
+<ul>
+<li><code>sruja intent propose -r . --from-diff</code></li>
+<li><code>sruja intent check -r .</code></li>
+<li><code>sruja critique -r .</code></li>
+<li><code>sruja review -r .</code></li>
+<li><code>sruja propose -r .</code></li>
+</ul>
+<h3 id="lesson-ideas-3"><a class="header" href="#lesson-ideas-3">Lesson Ideas:</a></h3>
+<ol>
+<li>
+<p><strong>Writing Architectural Intent</strong></p>
+<ul>
+<li>Intent syntax: what you want, not how</li>
+<li>Outcome vs constraint intent</li>
+<li>Linking to ADR/rationale</li>
+<li>Example: "API latency must be &lt; 200ms" vs "We use caching"</li>
+</ul>
+</li>
+<li>
+<p><strong>Critique Engine</strong></p>
+<ul>
+<li>The adversarial agent ("Angry Agent")</li>
+<li>What it challenges: assumptions, trade-offs, risks</li>
+<li>Running <code>sruja critique</code></li>
+<li>Interpreting critique report</li>
+</ul>
+</li>
+<li>
+<p><strong>Evidence Mapping</strong></p>
+<ul>
+<li>Collecting evidence from code</li>
+<li>Mapping to intent requirements</li>
+<li>Validation reporting</li>
+<li>Drift detection</li>
+</ul>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-writing-architectural-intent-1"><a class="header" href="#lesson-1-writing-architectural-intent-1">Lesson 1: Writing Architectural Intent</a></h1>
+<h2 id="what-is-intent"><a class="header" href="#what-is-intent">What Is Intent?</a></h2>
+<p><strong>Intent</strong> is a formal declaration of what you <em>want</em> your architecture to achieve—not how to implement it, but what outcomes matter.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Outcome</strong></td><td>"API latency must be &lt; 200ms p99"</td></tr>
+<tr><td><strong>Constraint</strong></td><td>"All data must be encrypted at rest"</td></tr>
+<tr><td><strong>Convention</strong></td><td>"Services use event-driven communication"</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="why-intent-first"><a class="header" href="#why-intent-first">Why Intent-First?</a></h2>
+<p>Traditional development:</p>
+<ol>
+<li>Design architecture</li>
+<li>Implement code</li>
+<li><em>Hope</em> it matches design</li>
+</ol>
+<p>Intent-first development:</p>
+<ol>
+<li>Write intent (what we want)</li>
+<li>Design architecture to achieve intent</li>
+<li>Validate that code matches intent</li>
+<li><em>Automatically</em> catch drift</li>
+</ol>
+<h2 id="expressing-intent-with-requirements"><a class="header" href="#expressing-intent-with-requirements">Expressing Intent with Requirements</a></h2>
+<p>In Sruja, you express intent using <strong>requirements</strong>:</p>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+R1 = requirement performance "API latency p99 must be less than 200ms"
+R2 = requirement constraint "All data must be encrypted at rest"
+R3 = requirement functional "Users must be able to authenticate via OAuth 2.0"
+</code></pre>
+<h2 id="expressing-intent-with-policies"><a class="header" href="#expressing-intent-with-policies">Expressing Intent with Policies</a></h2>
+<p><strong>Policies</strong> enforce constraints on your architecture:</p>
+<pre><code class="language-sruja">// partial
+policy "Encryption Required" {
+  category "security"
+  enforcement "required"
+  description "All databases must have encryption enabled"
+
+  rule require metadata on { kind "database" } key "encryption" value "enabled"
+}
+
+policy "API Security" {
+  category "security"
+  enforcement "required"
+
+  rule deny edge from { kind "external" } to { kind "database" }
+}
+</code></pre>
+<h2 id="intent-commands-in-sruja"><a class="header" href="#intent-commands-in-sruja">Intent Commands in Sruja</a></h2>
+<p>Sruja provides CLI commands to work with intent:</p>
+<pre><code class="language-bash"># Check intent compliance
+sruja intent check -r .
+
+# Check specific requirement
+sruja intent check -r . --requirement "API latency"
+
+# Generate intent report
+sruja intent check -r . --format json &gt; intent-report.json
+</code></pre>
+<h2 id="linking-intent-to-evidence"><a class="header" href="#linking-intent-to-evidence">Linking Intent to Evidence</a></h2>
+<p>Map requirements to implementation evidence:</p>
+<pre><code class="language-sruja">// partial
+R_Availability = requirement availability "99.9% uptime" {
+  metadata {
+    measured_by "health_checks.sh"
+    current_value "99.95%"
+    last_checked "2024-05-01"
+  }
+}
+
+policy "Availability Policy" {
+  description "System must maintain 99.9% uptime"
+
+  rule require slo on { criticality "critical" }
+}
+</code></pre>
+<h2 id="intent-drift-detection"><a class="header" href="#intent-drift-detection">Intent Drift Detection</a></h2>
+<pre><code class="language-bash"># Detect drift from intent
+sruja drift -r . --intent
+
+# Show what changed
+sruja drift -r . --intent --verbose
+
+# Auto-fix drift where possible
+sruja drift -r . --intent --fix
+</code></pre>
+<h2 id="proposing-intent-changes"><a class="header" href="#proposing-intent-changes">Proposing Intent Changes</a></h2>
+<pre><code class="language-bash"># Propose new intent based on changes
+sruja intent propose -r . --from-diff
+
+# Review proposed changes
+sruja intent propose -r . --review
+</code></pre>
+<h2 id="hands-on-define-intent-for-a-service"><a class="header" href="#hands-on-define-intent-for-a-service">Hands-On: Define Intent for a Service</a></h2>
+<pre><code class="language-sruja">// partial
+import { * } from 'sruja.ai/stdlib'
+
+R1 = requirement performance "API response time p99 &lt; 150ms"
+R2 = requirement availability "System uptime &gt; 99.9%"
+R3 = requirement constraint "All PII must be encrypted"
+R4 = requirement functional "Support OAuth 2.0 authentication"
+
+policy "Performance Policy" {
+  category "performance"
+  enforcement "required"
+
+  rule require metadata on { kind "container" } key "latency_target"
+}
+
+policy "Security Policy" {
+  category "security"
+  enforcement "required"
+
+  rule deny edge from { tag "public" } to { kind "database" } except { kind "container" tag "trusted" }
+}
+</code></pre>
+<h2 id="next-steps-21"><a class="header" href="#next-steps-21">Next Steps</a></h2>
+<p>Lesson 2 covers how to let AI challenge your intent and architecture decisions.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-critique-engine--adversarial-review-1"><a class="header" href="#lesson-2-critique-engine--adversarial-review-1">Lesson 2: Critique Engine &amp; Adversarial Review</a></h1>
+<h2 id="the-problem-we-miss-our-own-blind-spots"><a class="header" href="#the-problem-we-miss-our-own-blind-spots">The Problem: We Miss Our Own Blind Spots</a></h2>
+<p>When we design architecture, we:</p>
+<ul>
+<li>Make assumptions without realizing it</li>
+<li>Miss risks we don't know to look for</li>
+<li>Accept trade-offs without questioning them</li>
+<li>Repeat patterns that worked before but may not fit now</li>
+</ul>
+<h2 id="solution-the-angry-agent-critique-engine"><a class="header" href="#solution-the-angry-agent-critique-engine">Solution: The "Angry Agent" Critique Engine</a></h2>
+<p>From v0.34.0, Sruja includes an adversarial critique agent—sometimes called the "Angry Agent"—that:</p>
+<ul>
+<li>Challenges your assumptions</li>
+<li>Identifies risks you didn't consider</li>
+<li>Questions trade-offs you accepted</li>
+<li>Finds gaps in your reasoning</li>
+</ul>
+<h2 id="running-critique"><a class="header" href="#running-critique">Running Critique</a></h2>
+<pre><code class="language-bash"># Critique current architecture
+sruja critique -r .
+
+# Critique specific intent
+sruja critique -r . --intent "Low Latency"
+
+# Critique proposed changes
+sruja critique -r . --diff
+
+# Verbose output
+sruja critique -r . --verbose
+</code></pre>
+<h2 id="understanding-critique-output"><a class="header" href="#understanding-critique-output">Understanding Critique Output</a></h2>
+<p>The critique engine produces a report with:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Finding</th><th>Severity</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Assumption Challenged</strong></td><td>High</td><td>"You assume X but..."</td></tr>
+<tr><td><strong>Risk Identified</strong></td><td>High</td><td>"If Y happens, Z will break"</td></tr>
+<tr><td><strong>Trade-off Questioned</strong></td><td>Medium</td><td>"You chose A over B, but..."</td></tr>
+<tr><td><strong>Gap Found</strong></td><td>Medium</td><td>"Missing consideration: W"</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="example-critique"><a class="header" href="#example-critique">Example Critique</a></h2>
+<pre><code class="language-json">{
+  "critique": {
+    "target": "Payment Service Architecture",
+    "findings": [
+      {
+        "type": "assumption_challenged",
+        "severity": "high",
+        "title": "Assumption: Payment retries are safe",
+        "body": "You assume idempotent retries won't cause issues. But what if the downstream payment processor is not idempotent? This could result in double-charges.",
+        "evidence": "PaymentProcessor.endpoint does not have idempotency key"
+      },
+      {
+        "type": "risk_identified",
+        "severity": "high",
+        "title": "Risk: Database single point of failure",
+        "body": "Your architecture shows a single database for the payment service. If the DB goes down, no payments can be processed.",
+        "mitigation": "Consider read replicas or multi-region setup"
+      },
+      {
+        "type": "tradeoff_questioned",
+        "severity": "medium",
+        "title": "Trade-off: Synchronous vs Async",
+        "body": "You chose synchronous processing for payments. This gives immediate feedback but limits throughput. Have you considered async for non-critical paths?",
+        "options": ["Hybrid approach", "Event-driven fallback"]
+      }
+    ]
+  }
+}
+</code></pre>
+<h2 id="responding-to-critique"><a class="header" href="#responding-to-critique">Responding to Critique</a></h2>
+<p>For each finding, you can:</p>
+<ul>
+<li><strong>Accept</strong>: Update architecture to address</li>
+<li><strong>Reject</strong>: Provide rationale for keeping current approach</li>
+<li><strong>Defer</strong>: Add to backlog for later consideration</li>
+<li><strong>Clarify</strong>: Update documentation</li>
+</ul>
+<pre><code class="language-bash"># Accept a finding
+sruja critique -r . --accept "database single point of failure"
+
+# Add rationale for rejection
+sruja critique -r . --reject "sync vs async" --rationale "Async not suitable for payment confirmation UX"
+
+# Defer
+sruja critique -r . --defer "tech stack risk" --ticket "ARCH-123"
+</code></pre>
+<h2 id="integrating-into-workflow"><a class="header" href="#integrating-into-workflow">Integrating into Workflow</a></h2>
+<pre><code class="language-bash"># Part of code review
+git pull-request-create --critique
+
+# Pre-commit check
+sruja critique -r . --fail-on-high
+</code></pre>
+<h2 id="next-steps-22"><a class="header" href="#next-steps-22">Next Steps</a></h2>
+<p>Lesson 3 covers mapping evidence from code to intent to prove compliance.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-evidence-mapping--compliance-1"><a class="header" href="#lesson-3-evidence-mapping--compliance-1">Lesson 3: Evidence Mapping &amp; Compliance</a></h1>
+<h2 id="intent-vs-reality"><a class="header" href="#intent-vs-reality">Intent vs Reality</a></h2>
+<p>Writing intent is the <em>easy</em> part. The hard part is proving that reality matches intent.</p>
+<p><strong>Evidence mapping</strong> connects code/artifacts to intent requirements, creating a traceable chain:</p>
+<pre><code>Intent → Requirement → Implementation → Evidence
+</code></pre>
+<h2 id="the-evidence-mapping-workflow"><a class="header" href="#the-evidence-mapping-workflow">The Evidence Mapping Workflow</a></h2>
+<pre><code class="language-bash"># 1. Check intent compliance
+sruja intent check -r .
+
+# 2. Generate evidence report
+sruja intent check -r . --format json &gt; evidence.json
+
+# 3. View gaps
+sruja intent check -r . --show-gaps
+</code></pre>
+<h2 id="evidence-collection"><a class="header" href="#evidence-collection">Evidence Collection</a></h2>
+<p>Evidence can come from multiple sources:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Source</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Code</strong></td><td><code>grep -r "encryption" --include="*.py"</code></td></tr>
+<tr><td><strong>Config</strong></td><td><code>database.encryption = true</code></td></tr>
+<tr><td><strong>Tests</strong></td><td><code>test_payment_latency.py</code></td></tr>
+<tr><td><strong>Metrics</strong></td><td>APM dashboards</td></tr>
+<tr><td><strong>Docs</strong></td><td>Architecture decision records</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="automated-evidence-collection"><a class="header" href="#automated-evidence-collection">Automated Evidence Collection</a></h2>
+<pre><code class="language-bash"># Collect from code
+sruja scan -r . --evidence
+
+# Collect from infrastructure
+sruja scan -r . --infra --evidence
+
+# Collect from tests
+sruja scan -r . --tests --evidence
+</code></pre>
+<h2 id="mapping-evidence-to-intent"><a class="header" href="#mapping-evidence-to-intent">Mapping Evidence to Intent</a></h2>
+<pre><code class="language-sruja">intent "Data Privacy" {
+  description "Customer PII must be protected"
+
+  requirement encryption_at_rest {
+    description "All databases must encrypt data"
+    evidence {
+      source "config/database.yml"
+      assertion "encryption == true"
+    }
+  }
+
+  requirement pii_masking {
+    description "PII must be masked in logs"
+    evidence {
+      source "config/logging.yml"
+      assertion "mask_pii == true"
+      source "tests/pii_masking_test.py"
+      assertion "test_passes"
+    }
+  }
+}
+</code></pre>
+<h2 id="compliance-reporting"><a class="header" href="#compliance-reporting">Compliance Reporting</a></h2>
+<pre><code class="language-bash"># Generate compliance report
+sruja intent check -r . --report
+
+# Show compliance for specific intent
+sruja intent check -r . --intent "Data Privacy" --report
+
+# Export for audit
+sruja intent check -r . --format json --output compliance-audit-2024-05-12.json
+</code></pre>
+<h2 id="drift-detection"><a class="header" href="#drift-detection">Drift Detection</a></h2>
+<pre><code class="language-bash"># Check for drift
+sruja drift -r .
+
+# Drift between intent and code
+sruja drift -r . --intent
+
+# Auto-fix drift
+sruja drift -r . --fix
+</code></pre>
+<h2 id="cicd-integration-2"><a class="header" href="#cicd-integration-2">CI/CD Integration</a></h2>
+<pre><code class="language-yaml"># .github/workflows/compliance.yml
+- name: Intent Compliance Check
+  run: |
+    sruja intent check -r . --fail-on-gaps
+
+- name: Evidence Collection
+  run: |
+    sruja scan -r . --evidence --output evidence.json
+
+- name: Drift Detection
+  run: |
+    sruja drift -r . --fail-on-drift
+</code></pre>
+<h2 id="module-complete-4"><a class="header" href="#module-complete-4">Module Complete!</a></h2>
+<p>You've completed the Intent-Driven Development module. You now understand:</p>
+<ul>
+<li>✅ Writing formal architectural intent</li>
+<li>✅ Using critique engine for adversarial review</li>
+<li>✅ Mapping evidence from code to requirements</li>
+<li>✅ Proving compliance through automated validation</li>
+</ul>
+<p>This module completes the Advanced Architects course with intent-first development skills.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="federated-architecture"><a class="header" href="#federated-architecture">Federated Architecture</a></h1>
+<p><strong>Model multi-repo systems with Sruja federation.</strong></p>
+<h2 id="why-this-course-2"><a class="header" href="#why-this-course-2">Why This Course?</a></h2>
+<p>Modern organizations have dozens or hundreds of microservices spread across multiple repositories. Traditional architecture tools work per-repo, leaving you with fragmented views and no cross-repo visibility.</p>
+<p>Federated architecture with Sruja gives you:</p>
+<ul>
+<li>✅ <strong>Single source of truth</strong> across all repos</li>
+<li>✅ <strong>Cross-repo relationships</strong> visible in one diagram</li>
+<li>✅ <strong>Conflict detection</strong> before they cause problems</li>
+<li>✅ <strong>Consistent governance</strong> across all teams</li>
+<li>✅ <strong>AI-ready context</strong> for any editor</li>
+</ul>
+<h2 id="what-youll-learn-3"><a class="header" href="#what-youll-learn-3">What You'll Learn</a></h2>
+<ul>
+<li><strong>Bundle Publishing</strong>: Export repo architecture as portable bundles</li>
+<li><strong>System Composition</strong>: Compose multiple bundles into a unified graph</li>
+<li><strong>Conflict Resolution</strong>: Handle duplicate services across repos</li>
+<li><strong>Cross-Repo Relationships</strong>: Model dependencies between repositories</li>
+<li><strong>Federated Governance</strong>: Scale policies across all repos</li>
+<li><strong>AI Editor Integration</strong>: Use federated context in AI coding</li>
+</ul>
+<h2 id="who-this-course-is-for-2"><a class="header" href="#who-this-course-is-for-2">Who This Course Is For</a></h2>
+<ul>
+<li>Platform engineers managing multiple repos</li>
+<li>Architects overseeing microservices ecosystems</li>
+<li>DevOps teams needing cross-repo visibility</li>
+<li>Engineering leaders tracking architecture at scale</li>
+</ul>
+<h2 id="prerequisites-18"><a class="header" href="#prerequisites-18">Prerequisites</a></h2>
+<ul>
+<li>Familiarity with Sruja DSL basics</li>
+<li>Understanding of microservices architecture</li>
+<li>Experience with multi-repo/monorepo setups</li>
+<li>Basic command line skills</li>
+</ul>
+<h2 id="estimated-time-14"><a class="header" href="#estimated-time-14">Estimated Time</a></h2>
+<p>3-4 hours</p>
+<h2 id="course-structure-5"><a class="header" href="#course-structure-5">Course Structure</a></h2>
+<h3 id="module-1-federation-fundamentals"><a class="header" href="#module-1-federation-fundamentals">Module 1: Federation Fundamentals</a></h3>
+<p>Understand federation concepts and basic bundle creation.</p>
+<p><strong>Lessons:</strong></p>
+<ul>
+<li><a href="#lesson-1-what-is-federation-1">What is Federation?</a> - Core concepts and architecture</li>
+<li><a href="#lesson-2-publishing-bundles-1">Publishing Bundles</a> - Create and distribute repo bundles</li>
+<li><a href="#lesson-3-basic-composition-1">Basic Composition</a> - Compose bundles into system index</li>
+</ul>
+<h3 id="module-2-cross-repo-relationships"><a class="header" href="#module-2-cross-repo-relationships">Module 2: Cross-Repo Relationships</a></h3>
+<p>Model dependencies between repositories.</p>
+<p><strong>Lessons:</strong></p>
+<ul>
+<li><a href="#lesson-1-canonical-ids-1">Canonical IDs</a> - Unique identification across repos</li>
+<li><a href="#lesson-2-external-references-1">External References</a> - Linking to components in other repos</li>
+<li><a href="#lesson-3-ownership--contracts-1">Ownership &amp; Contracts</a> - Tracking ownership and interfaces</li>
+</ul>
+<h3 id="module-3-conflict-resolution"><a class="header" href="#module-3-conflict-resolution">Module 3: Conflict Resolution</a></h3>
+<p>Handle conflicts in federated architecture.</p>
+<p><strong>Lessons:</strong></p>
+<ul>
+<li><a href="#lesson-1-detecting-conflicts-1">Detecting Conflicts</a> - Finding duplicate services</li>
+<li><a href="#lesson-2-resolution-strategies-1">Resolution Strategies</a> - Approaches to resolving conflicts</li>
+<li><a href="#lesson-3-conflict-prevention-1">Conflict Prevention</a> - Preventing future conflicts</li>
+</ul>
+<h3 id="module-4-federated-governance"><a class="header" href="#module-4-federated-governance">Module 4: Federated Governance</a></h3>
+<p>Scale policies and compliance across all repos.</p>
+<p><strong>Lessons:</strong></p>
+<ul>
+<li><a href="#lesson-1-federated-policies-1">Federated Policies</a> - Define policies that span repos</li>
+<li><a href="#lesson-2-compliance-reporting-1">Compliance Reporting</a> - Generate cross-repo compliance reports</li>
+<li><a href="#lesson-3-governance-automation-1">Governance Automation</a> - Automate governance with CI/CD</li>
+</ul>
+<h2 id="learning-outcomes-6"><a class="header" href="#learning-outcomes-6">Learning Outcomes</a></h2>
+<p>By the end of this course, you'll be able to:</p>
+<ul>
+<li>✅ Publish architecture bundles from any repo</li>
+<li>✅ Compose multiple repos into a unified system index</li>
+<li>✅ Model cross-repo dependencies</li>
+<li>✅ Detect and resolve conflicts</li>
+<li>✅ Implement federated governance</li>
+<li>✅ Use federated context in AI editors</li>
+</ul>
+<h2 id="real-world-application-5"><a class="header" href="#real-world-application-5">Real-World Application</a></h2>
+<p>This course uses patterns from:</p>
+<ul>
+<li><strong>Microservices platforms</strong> with 50+ services</li>
+<li><strong>Multi-team organizations</strong> with shared components</li>
+<li><strong>Acquisition integration</strong> merging architectures</li>
+<li><strong>Monorepo to multi-repo migrations</strong></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-1---federation-fundamentals"><a class="header" href="#draft-module-1---federation-fundamentals">Draft: Module 1 - Federation Fundamentals</a></h1>
+<p><strong>Core concepts, bundle creation, and basic composition.</strong></p>
+<h2 id="overview-13"><a class="header" href="#overview-13">Overview</a></h2>
+<p>This module introduces federated architecture and teaches you to create and compose architecture bundles.</p>
+<h2 id="lessons-13"><a class="header" href="#lessons-13">Lessons</a></h2>
+<h3 id="lesson-1-what-is-federation"><a class="header" href="#lesson-1-what-is-federation">Lesson 1: <a href="#lesson-1-what-is-federation-1">What is Federation?</a></a></h3>
+<p><em>Core concepts and architecture</em></p>
+<ul>
+<li>Why federated architecture?</li>
+<li>Key concepts: bundles, system index, canonical IDs</li>
+<li>Federation architecture diagram</li>
+<li>When to use federation</li>
+</ul>
+<h3 id="lesson-2-publishing-bundles"><a class="header" href="#lesson-2-publishing-bundles">Lesson 2: <a href="#lesson-2-publishing-bundles-1">Publishing Bundles</a></a></h3>
+<p><em>Create and distribute repo bundles</em></p>
+<ul>
+<li>Bundle structure</li>
+<li>Publishing commands</li>
+<li>Bundle contents deep dive</li>
+<li>Versioning and updates</li>
+</ul>
+<h3 id="lesson-3-basic-composition"><a class="header" href="#lesson-3-basic-composition">Lesson 3: <a href="#lesson-3-basic-composition-1">Basic Composition</a></a></h3>
+<p><em>Compose bundles into system index</em></p>
+<ul>
+<li>Compose command</li>
+<li>System index structure</li>
+<li>Basic cross-repo view</li>
+<li>Verification and validation</li>
+</ul>
+<h2 id="learning-outcomes-7"><a class="header" href="#learning-outcomes-7">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand federation concepts</li>
+<li>✅ Publish a repo bundle</li>
+<li>✅ Compose bundles into system index</li>
+<li>✅ View cross-repo architecture</li>
+</ul>
+<h2 id="prerequisites-19"><a class="header" href="#prerequisites-19">Prerequisites</a></h2>
+<ul>
+<li>Basic Sruja DSL knowledge</li>
+<li>Understanding of microservices</li>
+<li>Command line familiarity</li>
+</ul>
+<h2 id="raw-thoughts"><a class="header" href="#raw-thoughts">Raw Thoughts</a></h2>
+<h3 id="v0350-features-to-cover"><a class="header" href="#v0350-features-to-cover">v0.35.0 Features to Cover:</a></h3>
+<ul>
+<li><code>sruja publish</code> command</li>
+<li><code>sruja compose</code> command</li>
+<li>Architecture Index MVP with Federated Registry</li>
+<li>Bundle schema and system index schema</li>
+</ul>
+<h3 id="key-concepts-1"><a class="header" href="#key-concepts-1">Key Concepts:</a></h3>
+<ul>
+<li><code>repo.bundle.json</code> - published architecture artifact</li>
+<li><code>system.index.json</code> - composed multi-repo graph</li>
+<li>Canonical IDs: <code>repo_id::local_id</code></li>
+<li>Conflicts array for duplicates</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-what-is-federation-1"><a class="header" href="#lesson-1-what-is-federation-1">Lesson 1: What is Federation?</a></h1>
+<h2 id="the-problem-fragmented-architecture"><a class="header" href="#the-problem-fragmented-architecture">The Problem: Fragmented Architecture</a></h2>
+<p>When you have 50+ microservices across dozens of repos:</p>
+<ul>
+<li>Each team has their own view</li>
+<li>No one sees the whole picture</li>
+<li>Cross-repo dependencies are invisible</li>
+<li>Governance is inconsistent</li>
+</ul>
+<h2 id="solution-federated-architecture"><a class="header" href="#solution-federated-architecture">Solution: Federated Architecture</a></h2>
+<p>Federation creates a <strong>single source of truth</strong> across all repos:</p>
+<pre><code>┌─────────────┐
+│   Repo A    │──┐
+│ (User Service)│  │
+└─────────────┘  │
+┌─────────────┐  │    ┌─────────────┐
+│   Repo B    │──┼───→│ System Index│
+│(Order Service)│  │    └─────────────┘
+└─────────────┘  │
+┌─────────────┐  │
+│   Repo C    │──┘
+│(Payment Service)│
+└─────────────┘
+</code></pre>
+<h2 id="key-concepts-2"><a class="header" href="#key-concepts-2">Key Concepts</a></h2>
+<h3 id="1-bundle"><a class="header" href="#1-bundle">1. Bundle</a></h3>
+<p>A <strong>bundle</strong> is a portable export of a single repo's architecture:</p>
+<pre><code class="language-bash">sruja publish -r . -o repo.bundle.json
+</code></pre>
+<p>Contains:</p>
+<ul>
+<li><code>repo_id</code>: Unique identifier</li>
+<li><code>baseline_dsl</code>: Full architecture definition</li>
+<li><code>context</code>: Architecture graph</li>
+<li><code>truth_status</code>: reviewed/drifted/unknown</li>
+<li><code>git_commit</code>: Current commit hash</li>
+</ul>
+<h3 id="2-system-index"><a class="header" href="#2-system-index">2. System Index</a></h3>
+<p>The <strong>system index</strong> is a composed view of all repos:</p>
+<pre><code class="language-bash">sruja compose -i ./bundles -o system.index.json
+</code></pre>
+<p>Contains:</p>
+<ul>
+<li><code>nodes</code>: All components with canonical IDs</li>
+<li><code>edges</code>: All relationships</li>
+<li><code>conflicts</code>: Duplicate elements to resolve</li>
+</ul>
+<h3 id="3-canonical-ids"><a class="header" href="#3-canonical-ids">3. Canonical IDs</a></h3>
+<p>Each element gets a <strong>canonical ID</strong> to avoid collisions:</p>
+<pre><code>repo_id::local_id
+</code></pre>
+<p>Example:</p>
+<ul>
+<li><code>user-service::UserAPI</code></li>
+<li><code>order-service::OrderProcessor</code></li>
+<li><code>payment-service::PaymentGateway</code></li>
+</ul>
+<h2 id="why-federation"><a class="header" href="#why-federation">Why Federation?</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Without Federation</th><th>With Federation</th></tr>
+</thead>
+<tbody>
+<tr><td>Fragmented views</td><td>Single source of truth</td></tr>
+<tr><td>Invisible dependencies</td><td>Full dependency graph</td></tr>
+<tr><td>Inconsistent governance</td><td>Unified policies</td></tr>
+<tr><td>Manual tracking</td><td>Automated updates</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="when-to-use-federation"><a class="header" href="#when-to-use-federation">When to Use Federation</a></h2>
+<p>Federation is ideal for:</p>
+<ul>
+<li>✅ Multi-repo microservices (50+ services)</li>
+<li>✅ Organizations with multiple teams</li>
+<li>✅ Acquired companies being integrated</li>
+<li>✅ Monorepo to multi-repo migrations</li>
+<li>✅ Platform teams needing visibility</li>
+</ul>
+<p>It may be overkill for:</p>
+<ul>
+<li>⚠️ Small projects (&lt; 10 repos)</li>
+<li>⚠️ Single-team organizations</li>
+<li>⚠️ Tightly coupled monoliths</li>
+</ul>
+<h2 id="federation-architecture"><a class="header" href="#federation-architecture">Federation Architecture</a></h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                     AI Editor / Skill                       │
+│                                                              │
+│  1. Load system.index.json (or slice)                       │
+│  2. Query cross-repo relationships                          │
+│  3. Understand blast radius of changes                      │
+└─────────────────────────────────────────────────────────────┘
+                              ↑
+                              │
+                    ┌─────────────────┐
+                    │   CI/CD Pipeline │
+                    │                  │
+                    │ sruja publish    │
+                    │ sruja compose    │
+                    │ sruja drift      │
+                    └─────────────────┘
+                              ↑
+                              │
+    ┌───────────────┬─────────┴────────┐
+    ↓               ↓                   ↓
+┌─────────┐    ┌─────────┐        ┌─────────┐
+│  Repo A │    │  Repo B │        │  Repo C │
+│ bundle  │    │ bundle  │        │ bundle  │
+└─────────┘    └─────────┘        └─────────┘
+</code></pre>
+<h2 id="next-steps-23"><a class="header" href="#next-steps-23">Next Steps</a></h2>
+<p>Lesson 2 covers publishing your first bundle.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-publishing-bundles-1"><a class="header" href="#lesson-2-publishing-bundles-1">Lesson 2: Publishing Bundles</a></h1>
+<h2 id="publishing-your-first-bundle"><a class="header" href="#publishing-your-first-bundle">Publishing Your First Bundle</a></h2>
+<pre><code class="language-bash"># Navigate to your repo
+cd /path/to/user-service
+
+# Publish the architecture bundle
+sruja publish -r . -o repo.bundle.json
+</code></pre>
+<p>This creates <code>repo.bundle.json</code> with:</p>
+<ul>
+<li>Architecture DSL snapshot</li>
+<li>Context graph</li>
+<li>Truth status</li>
+<li>Git commit reference</li>
+</ul>
+<h2 id="bundle-structure"><a class="header" href="#bundle-structure">Bundle Structure</a></h2>
+<pre><code class="language-json">{
+  "schema_version": "1",
+  "repo_id": "user-service",
+  "repo_path": "/path/to/user-service",
+  "git_commit": "a1b2c3d",
+  "baseline_path": "repo.sruja",
+  "baseline_dsl": "UserService = system \"User Service\" { ... }",
+  "context": {
+    "components": [...],
+    "edges": [...]
+  },
+  "truth_status": "reviewed",
+  "updated_at": "2024-05-12T10:30:00Z"
+}
+</code></pre>
+<h2 id="publishing-to-a-shared-location"><a class="header" href="#publishing-to-a-shared-location">Publishing to a Shared Location</a></h2>
+<p>For federation, publish to a shared location:</p>
+<pre><code class="language-bash"># Publish to shared bundles directory
+sruja publish -r ./user-service -o ./shared/bundles/user-service.bundle.json
+sruja publish -r ./order-service -o ./shared/bundles/order-service.bundle.json
+sruja publish -r ./payment-service -o ./shared/bundles/payment-service.bundle.json
+</code></pre>
+<h2 id="bundle-versioning"><a class="header" href="#bundle-versioning">Bundle Versioning</a></h2>
+<p>Bundles are tied to git commits:</p>
+<pre><code class="language-bash"># Publish with specific version
+sruja publish -r . -o repo.bundle.json --version 1.0.0
+
+# Publish from specific commit
+git checkout v1.0.0
+sruja publish -r . -o repo.bundle.json
+</code></pre>
+<h2 id="automated-publishing-in-cicd"><a class="header" href="#automated-publishing-in-cicd">Automated Publishing in CI/CD</a></h2>
+<pre><code class="language-yaml"># .github/workflows/publish-bundle.yml
+name: Publish Architecture Bundle
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Sruja
+        run: curl -fsSL https://sruja.ai/install.sh | bash
+
+      - name: Publish Bundle
+        run: |
+          sruja publish -r . -o bundle.json
+
+      - name: Upload Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-bundle
+          path: bundle.json
+</code></pre>
+<h2 id="refreshing-bundles"><a class="header" href="#refreshing-bundles">Refreshing Bundles</a></h2>
+<pre><code class="language-bash"># Re-publish with latest context
+sruja publish -r . -o repo.bundle.json --force
+
+# Or run sruja sync first to update context
+sruja sync -r .
+sruja publish -r . -o repo.bundle.json
+</code></pre>
+<h2 id="bundle-contents-deep-dive"><a class="header" href="#bundle-contents-deep-dive">Bundle Contents Deep Dive</a></h2>
+<h3 id="contextcomponents"><a class="header" href="#contextcomponents">context.components</a></h3>
+<pre><code class="language-json">{
+  "id": "UserAPI",
+  "kind": "container",
+  "label": "User API",
+  "description": "REST API for user management",
+  "technology": "Node.js",
+  "repo_id": "user-service"
+}
+</code></pre>
+<h3 id="contextedges"><a class="header" href="#contextedges">context.edges</a></h3>
+<pre><code class="language-json">{
+  "source": "user-service::UserAPI",
+  "target": "user-service::UserDB",
+  "label": "SQL"
+}
+</code></pre>
+<h2 id="best-practices-1"><a class="header" href="#best-practices-1">Best Practices</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Practice</th><th>Why</th></tr>
+</thead>
+<tbody>
+<tr><td>Publish from main branch</td><td>Ensures consistency</td></tr>
+<tr><td>Automate in CI/CD</td><td>Keeps bundles fresh</td></tr>
+<tr><td>Use semantic repo IDs</td><td>Avoids collisions</td></tr>
+<tr><td>Store in shared location</td><td>Enables composition</td></tr>
+<tr><td>Track truth_status</td><td>Shows drift</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="next-steps-24"><a class="header" href="#next-steps-24">Next Steps</a></h2>
+<p>Lesson 3 covers composing bundles into a system index.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-basic-composition-1"><a class="header" href="#lesson-3-basic-composition-1">Lesson 3: Basic Composition</a></h1>
+<h2 id="composing-bundles"><a class="header" href="#composing-bundles">Composing Bundles</a></h2>
+<p>Once you have bundles published, compose them:</p>
+<pre><code class="language-bash"># Compose from a directory
+sruja compose -i ./bundles -o system.index.json
+
+# Or from individual bundles
+sruja compose -i ./user.bundle.json -i ./order.bundle.json -o system.index.json
+</code></pre>
+<h2 id="system-index-structure"><a class="header" href="#system-index-structure">System Index Structure</a></h2>
+<pre><code class="language-json">{
+  "schema_version": "1",
+  "repos": [
+    {
+      "repo_id": "user-service",
+      "repo_path": "/path/to/user-service",
+      "truth_status": "reviewed",
+      "git_commit": "a1b2c3d"
+    },
+    {
+      "repo_id": "order-service",
+      "repo_path": "/path/to/order-service",
+      "truth_status": "reviewed",
+      "git_commit": "x9y8z7"
+    }
+  ],
+  "nodes": [
+    {
+      "canonical_id": "user-service::UserAPI",
+      "repo_id": "user-service",
+      "local_id": "UserAPI",
+      "kind": "container",
+      "label": "User API"
+    },
+    {
+      "canonical_id": "order-service::OrderProcessor",
+      "repo_id": "order-service",
+      "local_id": "OrderProcessor",
+      "kind": "container",
+      "label": "Order Processor"
+    }
+  ],
+  "edges": [
+    {
+      "source": "order-service::OrderProcessor",
+      "target": "user-service::UserAPI",
+      "label": "REST",
+      "repo_id": "order-service"
+    }
+  ],
+  "conflicts": []
+}
+</code></pre>
+<h2 id="cross-repo-relationships"><a class="header" href="#cross-repo-relationships">Cross-Repo Relationships</a></h2>
+<p>In your Sruja DSL, reference other repos using canonical IDs:</p>
+<pre><code class="language-sruja">// In order-service/repo.sruja
+import { user-service } from "https://bundles.company.com/user-service.bundle.json"
+
+OrderService = system "Order Service" {
+  OrderProcessor = container "Order Processor"
+
+  // Reference user-service component
+  OrderProcessor -&gt; user-service.UserAPI "Calls for customer info"
+}
+</code></pre>
+<h2 id="visualizing-the-system-index"><a class="header" href="#visualizing-the-system-index">Visualizing the System Index</a></h2>
+<pre><code class="language-bash"># Export to Mermaid
+sruja export -i system.index.json --format mermaid
+
+# Export to JSON for custom tooling
+sruja export -i system.index.json --format json
+</code></pre>
+<h2 id="validation-and-health-checks"><a class="header" href="#validation-and-health-checks">Validation and Health Checks</a></h2>
+<pre><code class="language-bash"># Check overall federated health
+sruja health -i system.index.json
+
+# Check for conflicts
+sruja compose -i ./bundles -o system.index.json --check-conflicts
+
+# Show drift across repos
+sruja drift -i system.index.json
+</code></pre>
+<h2 id="using-in-ai-editors"><a class="header" href="#using-in-ai-editors">Using in AI Editors</a></h2>
+<p>Load the system index for cross-repo context:</p>
+<pre><code class="language-bash"># Build AI-ready context from index
+sruja context -i system.index.json -o ai-context.json
+
+# Or use directly with focus
+sruja focus --component order-service::OrderProcessor -i system.index.json
+</code></pre>
+<h2 id="basic-workflow"><a class="header" href="#basic-workflow">Basic Workflow</a></h2>
+<pre><code>1. Team publishes bundle (on every main push)
+   └─→ repo.bundle.json in shared location
+
+2. CI collects all bundles
+   └─→ ./bundles/*.bundle.json
+
+3. Compose on schedule or on-demand
+   └─→ system.index.json
+
+4. Use system index for:
+   └─→ AI editor context
+   └─→ Cross-repo diagrams
+   └─→ Impact analysis
+   └─→ Compliance reporting
+</code></pre>
+<h2 id="module-complete-5"><a class="header" href="#module-complete-5">Module Complete!</a></h2>
+<p>You've completed Federation Fundamentals. You now understand:</p>
+<ul>
+<li>✅ What federation is and when to use it</li>
+<li>✅ How to publish architecture bundles</li>
+<li>✅ How to compose bundles into system index</li>
+<li>✅ Basic cross-repo relationship modeling</li>
+</ul>
+<p>Next, Module 2 covers advanced cross-repo relationships.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-2---cross-repo-relationships"><a class="header" href="#draft-module-2---cross-repo-relationships">Draft: Module 2 - Cross-Repo Relationships</a></h1>
+<p><strong>Canonical IDs, external references, and ownership tracking.</strong></p>
+<h2 id="overview-14"><a class="header" href="#overview-14">Overview</a></h2>
+<p>This module teaches advanced cross-repo relationship modeling.</p>
+<h2 id="lessons-14"><a class="header" href="#lessons-14">Lessons</a></h2>
+<h3 id="lesson-1-canonical-ids"><a class="header" href="#lesson-1-canonical-ids">Lesson 1: <a href="#lesson-1-canonical-ids-1">Canonical IDs</a></a></h3>
+<p><em>Unique identification across repos</em></p>
+<ul>
+<li>ID format: repo_id::local_id</li>
+<li>Avoiding collisions</li>
+<li>Referencing patterns</li>
+</ul>
+<h3 id="lesson-2-external-references"><a class="header" href="#lesson-2-external-references">Lesson 2: <a href="#lesson-2-external-references-1">External References</a></a></h3>
+<p><em>Linking to components in other repos</em></p>
+<ul>
+<li>import syntax for bundles</li>
+<li>External system references</li>
+<li>Validation of external refs</li>
+</ul>
+<h3 id="lesson-3-ownership--contracts"><a class="header" href="#lesson-3-ownership--contracts">Lesson 3: <a href="#lesson-3-ownership--contracts-1">Ownership &amp; Contracts</a></a></h3>
+<p><em>Tracking ownership and interfaces</em></p>
+<ul>
+<li>Owner metadata</li>
+<li>Contract exposure</li>
+<li>SLA tracking</li>
+</ul>
+<h2 id="learning-outcomes-8"><a class="header" href="#learning-outcomes-8">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Use canonical IDs correctly</li>
+<li>✅ Reference external repos</li>
+<li>✅ Track ownership across repos</li>
+<li>✅ Expose and consume contracts</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-canonical-ids-1"><a class="header" href="#lesson-1-canonical-ids-1">Lesson 1: Canonical IDs</a></h1>
+<h2 id="the-problem-id-collisions"><a class="header" href="#the-problem-id-collisions">The Problem: ID Collisions</a></h2>
+<p>In a multi-repo system, multiple teams might use the same IDs:</p>
+<ul>
+<li>Repo A: <code>API</code> container</li>
+<li>Repo B: <code>API</code> container</li>
+<li>Repo C: <code>API</code> container</li>
+</ul>
+<p>How do we distinguish them?</p>
+<h2 id="solution-canonical-ids"><a class="header" href="#solution-canonical-ids">Solution: Canonical IDs</a></h2>
+<p>Every element gets a <strong>canonical ID</strong> with format:</p>
+<pre><code>repo_id::local_id
+</code></pre>
+<p>Examples:</p>
+<ul>
+<li><code>user-service::UserAPI</code></li>
+<li><code>order-service::OrderAPI</code></li>
+<li><code>payment-service::PaymentAPI</code></li>
+</ul>
+<h2 id="how-canonical-ids-work"><a class="header" href="#how-canonical-ids-work">How Canonical IDs Work</a></h2>
+<h3 id="in-reposruja-local"><a class="header" href="#in-reposruja-local">In repo.sruja (local)</a></h3>
+<pre><code class="language-sruja">UserService = system "User Service" {
+  UserAPI = container "User API" {
+    description "REST API for user management"
+  }
+}
+</code></pre>
+<h3 id="in-system-index-composed"><a class="header" href="#in-system-index-composed">In system index (composed)</a></h3>
+<p>The compose process adds canonical IDs:</p>
+<pre><code class="language-json">{
+  "nodes": [
+    {
+      "canonical_id": "user-service::UserAPI",
+      "repo_id": "user-service",
+      "local_id": "UserAPI",
+      "kind": "container",
+      "label": "User API"
+    }
+  ]
+}
+</code></pre>
+<h2 id="referencing-across-repos"><a class="header" href="#referencing-across-repos">Referencing Across Repos</a></h2>
+<h3 id="in-dsl-imports"><a class="header" href="#in-dsl-imports">In DSL imports</a></h3>
+<pre><code class="language-sruja">// In order-service/repo.sruja
+import { user-service } from "../bundles/user-service.bundle.json"
+
+OrderService = system "Order Service" {
+  OrderProcessor = container "Order Processor"
+
+  // Use canonical reference
+  OrderProcessor -&gt; user-service::UserAPI "Validates customer"
+}
+</code></pre>
+<h3 id="in-queries"><a class="header" href="#in-queries">In queries</a></h3>
+<pre><code class="language-bash"># Query specific repo's component
+sruja query --canonical "user-service::UserAPI"
+
+# Query all components of a repo
+sruja query --repo user-service
+</code></pre>
+<h2 id="id-generation-rules"><a class="header" href="#id-generation-rules">ID Generation Rules</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Element Type</th><th>Canonical ID Format</th><th>Example</th></tr>
+</thead>
+<tbody>
+<tr><td>System</td><td><code>repo_id::SystemName</code></td><td><code>user-service::UserService</code></td></tr>
+<tr><td>Container</td><td><code>repo_id::ContainerName</code></td><td><code>user-service::UserAPI</code></td></tr>
+<tr><td>Component</td><td><code>repo_id::ComponentName</code></td><td><code>user-service::AuthComponent</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="best-practices-2"><a class="header" href="#best-practices-2">Best Practices</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Practice</th><th>Why</th></tr>
+</thead>
+<tbody>
+<tr><td>Use descriptive repo IDs</td><td><code>user-service</code> not <code>us</code></td></tr>
+<tr><td>Consistent naming</td><td>Same pattern across teams</td></tr>
+<tr><td>Don't change IDs</td><td>Breaks references</td></tr>
+<tr><td>Document ID meaning</td><td>Helps AI editors</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="next-steps-25"><a class="header" href="#next-steps-25">Next Steps</a></h2>
+<p>Lesson 2 covers external references between repos.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-external-references-1"><a class="header" href="#lesson-2-external-references-1">Lesson 2: External References</a></h1>
+<h2 id="importing-external-bundles"><a class="header" href="#importing-external-bundles">Importing External Bundles</a></h2>
+<p>Reference components from other repos:</p>
+<pre><code class="language-sruja">// In order-service/repo.sruja
+import {
+  user-service,
+  payment-service,
+  notification-service
+} from "./bundles/"
+
+OrderService = system "Order Service" {
+  OrderProcessor = container "Order Processor"
+}
+</code></pre>
+<h2 id="referencing-external-components"><a class="header" href="#referencing-external-components">Referencing External Components</a></h2>
+<pre><code class="language-sruja">// Create relationships to external services
+OrderProcessor -&gt; user-service::UserAPI "Validates customer"
+OrderProcessor -&gt; payment-service::PaymentGateway "Processes payment"
+OrderProcessor -&gt; notification-service::EmailService "Sends confirmation"
+</code></pre>
+<h2 id="external-system-modeling"><a class="header" href="#external-system-modeling">External System Modeling</a></h2>
+<p>For external services you don't control:</p>
+<pre><code class="language-sruja">// Model external systems you depend on
+ExternalSystems = system "External Services" {
+  Stripe = system "Stripe API" {
+    description "Payment processor"
+  }
+
+  SendGrid = system "SendGrid" {
+    description "Email service"
+  }
+}
+
+OrderProcessor -&gt; ExternalSystems.Stripe "Payment processing"
+OrderProcessor -&gt; ExternalSystems.SendGrid "Email delivery"
+</code></pre>
+<h2 id="validation-of-external-references"><a class="header" href="#validation-of-external-references">Validation of External References</a></h2>
+<pre><code class="language-bash"># Validate all external refs resolve
+sruja validate -r . --check-external
+
+# Check specific bundle
+sruja validate --bundle ./bundles/user-service.bundle.json
+</code></pre>
+<p>Validation checks:</p>
+<ul>
+<li>✅ External bundle exists</li>
+<li>✅ Referenced component exists</li>
+<li>✅ Relationship is valid</li>
+</ul>
+<h2 id="versioning-external-references"><a class="header" href="#versioning-external-references">Versioning External References</a></h2>
+<pre><code class="language-sruja">// Pin to specific version
+import { user-service v1.2.0 } from "./bundles/user-service.bundle.json"
+
+// Or use latest
+import { user-service @ latest } from "./bundles/user-service.bundle.json"
+</code></pre>
+<h2 id="broken-reference-detection"><a class="header" href="#broken-reference-detection">Broken Reference Detection</a></h2>
+<pre><code class="language-bash"># Find broken refs
+sruja validate -r . --find-broken-refs
+
+# Output:
+# ERROR: user-service::NonExistent not found in bundle
+# ERROR: payment-service::LegacyAPI has been deprecated
+</code></pre>
+<h2 id="next-steps-26"><a class="header" href="#next-steps-26">Next Steps</a></h2>
+<p>Lesson 3 covers ownership and contracts.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-ownership--contracts-1"><a class="header" href="#lesson-3-ownership--contracts-1">Lesson 3: Ownership &amp; Contracts</a></h1>
+<h2 id="tracking-ownership"><a class="header" href="#tracking-ownership">Tracking Ownership</a></h2>
+<p>Every component should have an owner:</p>
+<pre><code class="language-sruja">UserService = system "User Service" {
+  owner "platform-team"
+
+  UserAPI = container "User API" {
+    owner "platform-team"
+    description "REST API for user management"
+  }
+
+  UserDB = database "User Database" {
+    owner "platform-team"
+    description "PostgreSQL database for users"
+  }
+}
+</code></pre>
+<h2 id="contract-exposure"><a class="header" href="#contract-exposure">Contract Exposure</a></h2>
+<p>Expose interfaces for other teams:</p>
+<pre><code class="language-sruja">// In user-service/repo.sruja
+contract UserServiceContract {
+  version "2.0.0"
+  owner "platform-team"
+
+  endpoint GET /users/{id} {
+    response 200 {
+      body {
+        id: string
+        email: string
+        name: string
+      }
+    }
+  }
+
+  endpoint POST /users {
+    request {
+      email: string
+      name: string
+    }
+    response 201 {
+      body {
+        id: string
+      }
+    }
+  }
+}
+
+UserAPI {
+  // Mark as exposing contract
+  exposes UserServiceContract
+}
+</code></pre>
+<h2 id="consuming-contracts"><a class="header" href="#consuming-contracts">Consuming Contracts</a></h2>
+<pre><code class="language-sruja">// In order-service/repo.sruja
+import { UserServiceContract } from "./bundles/user-service.bundle.json"
+
+OrderProcessor = container "Order Processor" {
+  // Consume via contract
+  requires UserServiceContract
+
+  // Implementation detail
+  dependency user-service::UserAPI
+}
+</code></pre>
+<h2 id="sla-tracking"><a class="header" href="#sla-tracking">SLA Tracking</a></h2>
+<pre><code class="language-sruja">UserAPI {
+  sla {
+    availability "99.9%"
+    latency_p99 "100ms"
+    throughput "5000 req/s"
+  }
+}
+</code></pre>
+<h2 id="owner-groups"><a class="header" href="#owner-groups">Owner Groups</a></h2>
+<pre><code class="language-yaml"># .sruja/owners.yaml
+teams:
+  platform-team:
+    name "Platform Team"
+    email "platform@company.com"
+    slack "#team-platform"
+
+  payments-team:
+    name "Payments Team"
+    email "payments@company.com"
+    slack "#team-payments"
+</code></pre>
+<h2 id="querying-ownership"><a class="header" href="#querying-ownership">Querying Ownership</a></h2>
+<pre><code class="language-bash"># Find all components owned by a team
+sruja query --owner platform-team
+
+# Find components without owners
+sruja query --no-owner
+
+# Show ownership report
+sruja report --ownership
+</code></pre>
+<h2 id="module-complete-6"><a class="header" href="#module-complete-6">Module Complete!</a></h2>
+<p>You've completed Cross-Repo Relationships. You now understand:</p>
+<ul>
+<li>✅ Canonical ID format and usage</li>
+<li>✅ Importing and referencing external bundles</li>
+<li>✅ Tracking ownership across repos</li>
+<li>✅ Exposing and consuming contracts</li>
+</ul>
+<p>Next, Module 3 covers conflict resolution.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-3---conflict-resolution"><a class="header" href="#draft-module-3---conflict-resolution">Draft: Module 3 - Conflict Resolution</a></h1>
+<p><strong>Detecting duplicates, resolution strategies, and prevention.</strong></p>
+<h2 id="overview-15"><a class="header" href="#overview-15">Overview</a></h2>
+<p>This module teaches conflict detection and resolution in federated architecture.</p>
+<h2 id="lessons-15"><a class="header" href="#lessons-15">Lessons</a></h2>
+<h3 id="lesson-1-detecting-conflicts"><a class="header" href="#lesson-1-detecting-conflicts">Lesson 1: <a href="#lesson-1-detecting-conflicts-1">Detecting Conflicts</a></a></h3>
+<p><em>Finding duplicate services</em></p>
+<ul>
+<li>What causes conflicts</li>
+<li>Detection in compose</li>
+<li>Conflict types</li>
+</ul>
+<h3 id="lesson-2-resolution-strategies"><a class="header" href="#lesson-2-resolution-strategies">Lesson 2: <a href="#lesson-2-resolution-strategies-1">Resolution Strategies</a></a></h3>
+<p><em>Approaches to resolving conflicts</em></p>
+<ul>
+<li>Manual resolution</li>
+<li>Aliasing</li>
+<li>Merging</li>
+</ul>
+<h3 id="lesson-3-conflict-prevention"><a class="header" href="#lesson-3-conflict-prevention">Lesson 3: <a href="#lesson-3-conflict-prevention-1">Conflict Prevention</a></a></h3>
+<p><em>Preventing future conflicts</em></p>
+<ul>
+<li>Naming conventions</li>
+<li>Registry usage</li>
+<li>Governance rules</li>
+</ul>
+<h2 id="learning-outcomes-9"><a class="header" href="#learning-outcomes-9">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Detect conflicts in composition</li>
+<li>✅ Apply resolution strategies</li>
+<li>✅ Implement conflict prevention</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-detecting-conflicts-1"><a class="header" href="#lesson-1-detecting-conflicts-1">Lesson 1: Detecting Conflicts</a></h1>
+<h2 id="what-causes-conflicts"><a class="header" href="#what-causes-conflicts">What Causes Conflicts?</a></h2>
+<p>Conflicts occur when:</p>
+<ul>
+<li>Two repos model the same logical element</li>
+<li>Teams use overlapping names</li>
+<li>Services get duplicated during acquisitions</li>
+<li>Monoliths are split inconsistently</li>
+</ul>
+<h2 id="conflict-types"><a class="header" href="#conflict-types">Conflict Types</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Type</th><th>Example</th><th>Impact</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Same ID</strong></td><td><code>UserService::API</code> in two repos</td><td>Cannot compose</td></tr>
+<tr><td><strong>Same Label</strong></td><td>Two containers labeled "API"</td><td>Ambiguous in diagrams</td></tr>
+<tr><td><strong>Same Kind+Label</strong></td><td>Two systems called "Payment"</td><td>Merge confusion</td></tr>
+<tr><td><strong>Circular Import</strong></td><td>A imports B, B imports A</td><td>Composition fails</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="conflict-detection-in-compose"><a class="header" href="#conflict-detection-in-compose">Conflict Detection in Compose</a></h2>
+<pre><code class="language-bash"># Compose and detect conflicts
+sruja compose -i ./bundles -o system.index.json --check-conflicts
+</code></pre>
+<p>The compose command outputs:</p>
+<pre><code class="language-json">{
+  "conflicts": [
+    {
+      "type": "duplicate_kind_label",
+      "kind": "container",
+      "label": "API",
+      "repos": ["user-service", "order-service"],
+      "canonical_ids": [
+        "user-service::API",
+        "order-service::API"
+      ]
+    },
+    {
+      "type": "duplicate_component",
+      "canonical_id": "auth-service::AuthAPI",
+      "also_in": ["legacy-auth::AuthAPI"],
+      "reason": "Same logical service"
+    }
+  ]
+}
+</code></pre>
+<h2 id="when-conflicts-block-composition"><a class="header" href="#when-conflicts-block-composition">When Conflicts Block Composition</a></h2>
+<p>Some conflicts are blocking:</p>
+<ul>
+<li>Same canonical ID</li>
+<li>Circular dependencies</li>
+</ul>
+<p>Others are warnings:</p>
+<ul>
+<li>Same label (can disambiguate with repo prefix)</li>
+<li>Similar components (may need human review)</li>
+</ul>
+<h2 id="running-pre-composition-check"><a class="header" href="#running-pre-composition-check">Running Pre-Composition Check</a></h2>
+<pre><code class="language-bash"># Check before composing
+sruja compose -i ./bundles --dry-run
+
+# Shows what conflicts would occur
+# without actually creating system.index.json
+</code></pre>
+<h2 id="conflict-report"><a class="header" href="#conflict-report">Conflict Report</a></h2>
+<pre><code class="language-bash"># Generate detailed conflict report
+sruja compose -i ./bundles -o system.index.json --conflict-report
+
+# View report
+cat conflicts-2024-05-12.json
+</code></pre>
+<h2 id="next-steps-27"><a class="header" href="#next-steps-27">Next Steps</a></h2>
+<p>Lesson 2 covers resolution strategies.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-resolution-strategies-1"><a class="header" href="#lesson-2-resolution-strategies-1">Lesson 2: Resolution Strategies</a></h1>
+<h2 id="strategy-1-manual-resolution"><a class="header" href="#strategy-1-manual-resolution">Strategy 1: Manual Resolution</a></h2>
+<p>Human decides which element to use:</p>
+<pre><code class="language-bash"># Mark one as canonical
+sruja resolve --canonical "user-service::API" \
+  --alias "order-service::API" \
+  --to "user-service::API"
+</code></pre>
+<p>This updates the system index:</p>
+<pre><code class="language-json">{
+  "resolved": {
+    "order-service::API": "user-service::API"
+  }
+}
+</code></pre>
+<h2 id="strategy-2-aliasing"><a class="header" href="#strategy-2-aliasing">Strategy 2: Aliasing</a></h2>
+<p>Keep both but disambiguate:</p>
+<pre><code class="language-bash"># Add repo prefix to one
+sruja resolve --alias "order-service::API" \
+  --rename "order-service-order-api"
+</code></pre>
+<p>Result in DSL:</p>
+<pre><code class="language-sruja">// Both preserved, now distinct
+user-service::API
+order-service::order-api
+</code></pre>
+<h2 id="strategy-3-merging"><a class="header" href="#strategy-3-merging">Strategy 3: Merging</a></h2>
+<p>Combine two elements:</p>
+<pre><code class="language-bash"># Merge into single canonical
+sruja resolve --merge "user-service::API" \
+  --with "order-service::API" \
+  --canonical "unified::API" \
+  --ownership "shared-team"
+</code></pre>
+<p>This requires:</p>
+<ul>
+<li>Merging DSL definitions</li>
+<li>Updating all references</li>
+<li>Defining new ownership</li>
+</ul>
+<h2 id="strategy-4-deprecation"><a class="header" href="#strategy-4-deprecation">Strategy 4: Deprecation</a></h2>
+<p>Mark one as deprecated:</p>
+<pre><code class="language-bash"># Deprecate duplicate
+sruja resolve --deprecate "legacy-auth::AuthAPI" \
+  --reason "Replaced by auth-service::AuthAPI" \
+  --migrate-to "auth-service::AuthAPI"
+</code></pre>
+<p>Deprecated elements:</p>
+<ul>
+<li>Still visible in history</li>
+<li>Flagged in reports</li>
+<li>Block new usage</li>
+</ul>
+<h2 id="resolution-workflow"><a class="header" href="#resolution-workflow">Resolution Workflow</a></h2>
+<pre><code>1. Detect conflict
+   └─→ sruja compose --check-conflicts
+
+2. Analyze options
+   └─→ Is this same service? → MERGE
+   └─→ Different services with same name? → ALIAS
+   └─→ One is legacy? → DEPRECATE
+   └─→ Unclear? → MANUAL REVIEW
+
+3. Apply resolution
+   └─→ sruja resolve [strategy]
+
+4. Verify composition
+   └─→ sruja compose -i ./bundles -o system.index.json
+
+5. Update affected repos
+   └─→ Update references in DSL
+</code></pre>
+<h2 id="handling-blocked-composition"><a class="header" href="#handling-blocked-composition">Handling Blocked Composition</a></h2>
+<p>If composition fails:</p>
+<pre><code class="language-bash"># Show blocking conflicts
+sruja compose -i ./bundles --show-blockers
+
+# Blockers must be resolved before proceeding
+</code></pre>
+<h2 id="next-steps-28"><a class="header" href="#next-steps-28">Next Steps</a></h2>
+<p>Lesson 3 covers preventing future conflicts.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-conflict-prevention-1"><a class="header" href="#lesson-3-conflict-prevention-1">Lesson 3: Conflict Prevention</a></h1>
+<h2 id="prevention-strategy-1-naming-conventions"><a class="header" href="#prevention-strategy-1-naming-conventions">Prevention Strategy 1: Naming Conventions</a></h2>
+<p>Enforce naming standards:</p>
+<pre><code class="language-yaml"># .sruja/naming-conventions.yaml
+containerNaming:
+  pattern: "{team}-{function}"
+  examples:
+    - "user-api"
+    - "order-processor"
+    - "payment-gateway"
+
+systemNaming:
+  pattern: "{domain}-system"
+  examples:
+    - "user-system"
+    - "order-system"
+</code></pre>
+<h2 id="prevention-strategy-2-architecture-registry"><a class="header" href="#prevention-strategy-2-architecture-registry">Prevention Strategy 2: Architecture Registry</a></h2>
+<p>Central registry of services:</p>
+<pre><code class="language-bash"># Register a new service
+sruja register --service user-service \
+  --domain user \
+  --team platform-team \
+  --contact platform@company.com
+
+# Check if name is taken
+sruja register --check-name "user-service"
+</code></pre>
+<p>Registry provides:</p>
+<ul>
+<li>Unique service IDs</li>
+<li>Domain ownership</li>
+<li>Team contacts</li>
+<li>Architecture approval</li>
+</ul>
+<h2 id="prevention-strategy-3-governance-rules"><a class="header" href="#prevention-strategy-3-governance-rules">Prevention Strategy 3: Governance Rules</a></h2>
+<p>Add policies that prevent conflicts:</p>
+<pre><code class="language-sruja">// In .sruja/policies.sruja
+policy "No Duplicate Services" {
+  description "Prevent modeling same logical service twice"
+
+  rule "no two containers with same responsibility"
+  rule "no two systems with same domain"
+}
+
+policy "Service Registry Required" {
+  description "All services must be registered"
+
+  rule "all deployed services must be in registry"
+  enforcement "required"
+}
+</code></pre>
+<h2 id="pre-composition-validation"><a class="header" href="#pre-composition-validation">Pre-Composition Validation</a></h2>
+<pre><code class="language-bash"># Before publishing, validate locally
+sruja validate -r . --check-conflicts-with-registry
+
+# Check against other published bundles
+sruja validate -r . --check-against-bundles ./shared/bundles/
+</code></pre>
+<h2 id="cicd-integration-3"><a class="header" href="#cicd-integration-3">CI/CD Integration</a></h2>
+<pre><code class="language-yaml"># .github/workflows/prevent-conflicts.yml
+- name: Check for Conflicts
+  run: |
+    # Download latest bundles
+    sruja fetch-bundles -i ./shared/bundles/
+
+    # Validate no conflicts
+    sruja validate -r . --check-conflicts-with-registry
+    sruja validate -r . --check-against-bundles ./bundles/
+</code></pre>
+<h2 id="onboarding-new-services"><a class="header" href="#onboarding-new-services">Onboarding New Services</a></h2>
+<p>When creating a new service:</p>
+<pre><code class="language-bash"># 1. Register first
+sruja register --service new-service \
+  --domain new-domain \
+  --team new-team
+
+# 2. Get approved name
+# new-domain-service
+
+# 3. Create with approved naming
+mkdir new-domain-service
+cd new-domain-service
+sruja init --name new-domain-service
+
+# 4. Publish
+sruja publish -r . -o ../bundles/new-domain-service.bundle.json
+</code></pre>
+<h2 id="module-complete-7"><a class="header" href="#module-complete-7">Module Complete!</a></h2>
+<p>You've completed Conflict Resolution. You now understand:</p>
+<ul>
+<li>✅ Conflict detection in composition</li>
+<li>✅ Resolution strategies (manual, alias, merge, deprecate)</li>
+<li>✅ Conflict prevention with conventions and registry</li>
+</ul>
+<p>Next, Module 4 covers Federated Governance.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="draft-module-4---federated-governance"><a class="header" href="#draft-module-4---federated-governance">Draft: Module 4 - Federated Governance</a></h1>
+<p><strong>Federated policies, compliance reporting, and governance automation.</strong></p>
+<h2 id="overview-16"><a class="header" href="#overview-16">Overview</a></h2>
+<p>This module teaches how to implement governance that scales across all repos.</p>
+<h2 id="lessons-16"><a class="header" href="#lessons-16">Lessons</a></h2>
+<h3 id="lesson-1-federated-policies"><a class="header" href="#lesson-1-federated-policies">Lesson 1: <a href="#lesson-1-federated-policies-1">Federated Policies</a></a></h3>
+<p><em>Define policies that span repos</em></p>
+<ul>
+<li>Policy inheritance</li>
+<li>Policy overrides</li>
+<li>Policy composition</li>
+</ul>
+<h3 id="lesson-2-compliance-reporting"><a class="header" href="#lesson-2-compliance-reporting">Lesson 2: <a href="#lesson-2-compliance-reporting-1">Compliance Reporting</a></a></h3>
+<p><em>Generate cross-repo compliance reports</em></p>
+<ul>
+<li>Compliance dashboard</li>
+<li>Per-team reports</li>
+<li>Drift reporting</li>
+</ul>
+<h3 id="lesson-3-governance-automation"><a class="header" href="#lesson-3-governance-automation">Lesson 3: <a href="#lesson-3-governance-automation-1">Governance Automation</a></a></h3>
+<p><em>Automate governance with CI/CD</em></p>
+<ul>
+<li>Policy enforcement in CI</li>
+<li>Automated remediation</li>
+<li>Governance metrics</li>
+</ul>
+<h2 id="learning-outcomes-10"><a class="header" href="#learning-outcomes-10">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Define federated policies</li>
+<li>✅ Generate compliance reports</li>
+<li>✅ Automate governance in CI/CD</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-1-federated-policies-1"><a class="header" href="#lesson-1-federated-policies-1">Lesson 1: Federated Policies</a></h1>
+<h2 id="the-challenge-org-wide-governance"><a class="header" href="#the-challenge-org-wide-governance">The Challenge: Org-Wide Governance</a></h2>
+<p>You need to enforce:</p>
+<ul>
+<li>All services use HTTPS</li>
+<li>PII must be encrypted</li>
+<li>No direct database access from frontend</li>
+<li>All APIs must have SLAs defined</li>
+</ul>
+<p>But you don't control all repos!</p>
+<h2 id="solution-federated-policies"><a class="header" href="#solution-federated-policies">Solution: Federated Policies</a></h2>
+<p>Define policies once, apply everywhere:</p>
+<pre><code class="language-sruja">// In federation-root/policies/global.sruja
+policy "Global Security" {
+  description "Security policies for all services"
+
+  constraint "All external endpoints must use HTTPS" {
+    applies_to: container
+    where: container.external == true
+  }
+
+  constraint "All databases must have encryption" {
+    applies_to: database
+  }
+
+  constraint "No PII in logs" {
+    applies_to: container
+    rule: "container must have pii_handling policy"
+  }
+}
+
+policy "Global Observability" {
+  description "Observability requirements"
+
+  constraint "All services must expose /health" {
+    applies_to: container
+  }
+
+  constraint "All services must expose /metrics" {
+    applies_to: container
+  }
+}
+</code></pre>
+<h2 id="policy-inheritance"><a class="header" href="#policy-inheritance">Policy Inheritance</a></h2>
+<p>Repos inherit federated policies:</p>
+<pre><code class="language-bash"># In repo, inherit from federation
+sruja policy inherit ../federation/policies/global.sruja
+</code></pre>
+<p>Repos can still add local policies:</p>
+<pre><code class="language-sruja">// In user-service/policies/local.sruja
+policy "User Service Specific" {
+  description "User service specific policies"
+
+  constraint "User emails must be verified" {
+    applies_to: container
+    where: container.type == "user-management"
+  }
+}
+</code></pre>
+<h2 id="policy-composition"><a class="header" href="#policy-composition">Policy Composition</a></h2>
+<p>Combine federated and local:</p>
+<pre><code class="language-bash"># Validate with both
+sruja validate -r . --policies \
+  ../federation/policies/global.sruja \
+  ./policies/local.sruja
+</code></pre>
+<h2 id="policy-overrides"><a class="header" href="#policy-overrides">Policy Overrides</a></h2>
+<p>Repos can override (with approval):</p>
+<pre><code class="language-sruja">// In user-service/policies/override.sruja
+policy "Override: Extended Timeout" {
+  description "Override: Allow 60s timeout for batch jobs"
+  inherits: "Global Observability.timeout"
+
+  overrides: true
+  approved_by: "architecture-board"
+
+  constraint "Batch containers may have 60s timeout" {
+    applies_to: container
+    where: container.type == "batch"
+  }
+}
+</code></pre>
+<h2 id="next-steps-29"><a class="header" href="#next-steps-29">Next Steps</a></h2>
+<p>Lesson 2 covers generating compliance reports.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-2-compliance-reporting-1"><a class="header" href="#lesson-2-compliance-reporting-1">Lesson 2: Compliance Reporting</a></h1>
+<h2 id="building-compliance-reports"><a class="header" href="#building-compliance-reports">Building Compliance Reports</a></h2>
+<pre><code class="language-bash"># Generate report for all repos
+sruja compliance --bundles ./bundles/ \
+  --output compliance-report.json
+
+# Or use system index
+sruja compliance --index system.index.json \
+  --output compliance-report.json
+</code></pre>
+<h2 id="report-structure"><a class="header" href="#report-structure">Report Structure</a></h2>
+<pre><code class="language-json">{
+  "generated_at": "2024-05-12T10:00:00Z",
+  "scope": "all-repos",
+  "summary": {
+    "total_repos": 25,
+    "compliant": 22,
+    "partial": 2,
+    "non_compliant": 1
+  },
+  "by_policy": [
+    {
+      "policy": "Global Security",
+      "compliant": 24,
+      "violations": 1,
+      "repos": ["order-service"]
+    }
+  ],
+  "by_repo": [
+    {
+      "repo_id": "user-service",
+      "status": "compliant",
+      "violations": [],
+      "last_ checked": "2024-05-12"
+    },
+    {
+      "repo_id": "order-service",
+      "status": "non_compliant",
+      "violations": [
+        {
+          "policy": "Global Security",
+          "constraint": "All databases must have encryption",
+          "element": "order-service::OrderDB",
+          "severity": "high"
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+<h2 id="per-team-reports"><a class="header" href="#per-team-reports">Per-Team Reports</a></h2>
+<pre><code class="language-bash"># Report for specific team
+sruja compliance --team platform-team \
+  --output team-compliance.json
+
+# Report by domain
+sruja compliance --domain payments \
+  --output payments-compliance.json
+</code></pre>
+<h2 id="drift-reporting"><a class="header" href="#drift-reporting">Drift Reporting</a></h2>
+<pre><code class="language-bash"># Show drift across repos
+sruja drift --bundles ./bundles/ \
+  --output drift-report.json
+</code></pre>
+<h2 id="dashboard-generation"><a class="header" href="#dashboard-generation">Dashboard Generation</a></h2>
+<pre><code class="language-bash"># Generate HTML dashboard
+sruja compliance --bundles ./bundles/ \
+  --dashboard \
+  --output compliance-dashboard.html
+</code></pre>
+<h2 id="scheduled-reports"><a class="header" href="#scheduled-reports">Scheduled Reports</a></h2>
+<pre><code class="language-yaml"># .github/workflows/compliance-report.yml
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Weekly Monday 8am
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch bundles
+        run: sruja fetch-bundles -i ./bundles/
+
+      - name: Generate report
+        run: sruja compliance --index system.index.json \
+          --output compliance-$(date +%Y-%m-%d).json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-compliance
+          path: compliance-*.json
+
+      - name: Notify
+        if: failure()
+        run: |
+          sruja alert --slack "#architecture" \
+            --message "Compliance report failed"
+</code></pre>
+<h2 id="module-complete-8"><a class="header" href="#module-complete-8">Module Complete!</a></h2>
+<p>You've completed Federated Governance. You now understand:</p>
+<ul>
+<li>✅ Federated policy definition</li>
+<li>✅ Policy inheritance and overrides</li>
+<li>✅ Compliance reporting</li>
+<li>✅ Governance automation</li>
+</ul>
+<p>Course complete!</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-3-governance-automation-1"><a class="header" href="#lesson-3-governance-automation-1">Lesson 3: Governance Automation</a></h1>
+<h2 id="cicd-integration-4"><a class="header" href="#cicd-integration-4">CI/CD Integration</a></h2>
+<p>Automate governance checks in your pipeline:</p>
+<pre><code class="language-yaml"># .github/workflows/governance.yml
+name: Architecture Governance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Sruja
+        run: curl -fsSL https://sruja.ai/install.sh | bash
+
+      - name: Validate Policies
+        run: |
+          sruja validate -r . \
+            --policies ../federation/policies/global.sruja
+
+      - name: Check Compliance
+        run: |
+          sruja compliance -r . \
+            --output compliance.json
+
+      - name: Fail on Critical Violations
+        if: contains(steps.compliance.outputs.level, 'critical')
+        run: |
+          echo "Critical policy violations found"
+          exit 1
+</code></pre>
+<h2 id="automated-remediation"><a class="header" href="#automated-remediation">Automated Remediation</a></h2>
+<pre><code class="language-bash"># Auto-fix where possible
+sruja drift -r . --fix
+
+# For policy violations that can be auto-fixed
+sruja policy -r . --auto-fix
+
+# Review auto-fixes before committing
+sruja policy -r . --auto-fix --dry-run
+</code></pre>
+<h2 id="governance-metrics"><a class="header" href="#governance-metrics">Governance Metrics</a></h2>
+<p>Track governance health over time:</p>
+<pre><code class="language-bash"># Track governance score
+sruja metrics --governance --output metrics.json
+
+# Dashboard
+sruja metrics --governance --dashboard
+</code></pre>
+<h2 id="gatekeeping"><a class="header" href="#gatekeeping">Gatekeeping</a></h2>
+<p>Prevent non-compliant repos from publishing:</p>
+<pre><code class="language-yaml"># .github/workflows/publish-bundle.yml
+jobs:
+  publish:
+    needs: governance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Bundle
+        if: needs.governance.outputs.compliant == 'true'
+        run: sruja publish -r . -o bundle.json
+
+      - name: Block Non-Compliant
+        if: needs.governance.outputs.compliant != 'true'
+        run: |
+          echo "Cannot publish: governance failures"
+          exit 1
+</code></pre>
+<h2 id="policy-distribution"><a class="header" href="#policy-distribution">Policy Distribution</a></h2>
+<pre><code class="language-bash"># Push policies to repos
+sruja policy push --policy global.sruja \
+  --to ./repos/*/
+
+# Pull policy updates
+sruja policy pull --from ../federation/policies/
+</code></pre>
+<h2 id="governance-dashboard"><a class="header" href="#governance-dashboard">Governance Dashboard</a></h2>
+<pre><code class="language-bash"># View all repos governance status
+sruja governance --dashboard --bundles ./bundles/
+
+# Shows:
+# - Repo compliance matrix
+# - Policy violation trends
+# - Team health scores
+# - Action items
+</code></pre>
+<h2 id="course-complete"><a class="header" href="#course-complete">Course Complete!</a></h2>
+<p>You've completed the Federated Architecture course. You now understand:</p>
+<ul>
+<li>✅ Federation fundamentals and bundle publishing</li>
+<li>✅ Cross-repo relationship modeling</li>
+<li>✅ Conflict detection and resolution</li>
+<li>✅ Federated governance and automation</li>
+</ul>
+<h2 id="next-steps-30"><a class="header" href="#next-steps-30">Next Steps</a></h2>
+<ul>
+<li>Apply federation to your organization's repos</li>
+<li>Set up automated governance in CI/CD</li>
+<li>Train teams on federated architecture concepts</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="tutorials-1"><a class="header" href="#tutorials-1">Tutorials</a></h1>
 <p>Step-by-step guides to get things done with Sruja.</p>
@@ -28588,7 +31717,7 @@ service-repo/
 <h2 id="advanced"><a class="header" href="#advanced">Advanced</a></h2>
 <ul>
 <li><a href="#deployment-modeling">Deployment modeling</a></li>
-<li><a href="#cicd-integration-2">CI/CD integration</a></li>
+<li><a href="#cicd-integration-6">CI/CD integration</a></li>
 <li><a href="#agentic-ai-modeling">Agentic AI modeling</a></li>
 <li><a href="#extending-the-cli-rust">Extending the CLI (Rust)</a></li>
 </ul>
@@ -28692,7 +31821,7 @@ App = system "App" {
   }
 }
 </code></pre>
-<h2 id="next-steps-16"><a class="header" href="#next-steps-16">Next Steps</a></h2>
+<h2 id="next-steps-31"><a class="header" href="#next-steps-31">Next Steps</a></h2>
 <ul>
 <li>Learn <a href="tutorials/basic/tutorials/advanced/deployment-modeling.html">Deployment Modeling</a> for infrastructure perspective</li>
 <li>Test yourself: see <a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a> for optional quiz references.</li>
@@ -28895,7 +32024,7 @@ include *
    Simpler: system Web { ... }
 </code></pre>
 <p>This is <strong>informational only</strong> - use the level of detail that matches your modeling goal.</p>
-<h2 id="cicd-integration-1"><a class="header" href="#cicd-integration-1">CI/CD Integration</a></h2>
+<h2 id="cicd-integration-5"><a class="header" href="#cicd-integration-5">CI/CD Integration</a></h2>
 <h3 id="github-actions-example"><a class="header" href="#github-actions-example">GitHub Actions Example</a></h3>
 <p>Add validation to your CI pipeline:</p>
 <pre><code class="language-yaml">name: Validate Architecture
@@ -29378,7 +32507,7 @@ ECommerce -&gt; EmailService "Sends notifications"
 <li><strong>Flow visualization</strong>: See how data and information move</li>
 <li><strong>Valid cycles</strong>: Feedback loops are natural, not errors</li>
 </ul>
-<h2 id="next-steps-17"><a class="header" href="#next-steps-17">Next Steps</a></h2>
+<h2 id="next-steps-32"><a class="header" href="#next-steps-32">Next Steps</a></h2>
 <ul>
 <li>Try the complete example: <code>book/valid-examples/feedback-loops-basic.sruja</code> and <code>book/valid-examples/causal-loops-basic.sruja</code></li>
 <li>Learn <a href="tutorials/basic/tutorials/advanced/deployment-modeling.html">Deployment Modeling</a> for infrastructure perspective</li>
@@ -29585,7 +32714,7 @@ include *
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="cicd-integration-2"><a class="header" href="#cicd-integration-2">CI/CD Integration</a></h1>
+<h1 id="cicd-integration-6"><a class="header" href="#cicd-integration-6">CI/CD Integration</a></h1>
 <p>Integrate Sruja into your CI/CD pipeline to automatically validate architecture, enforce standards, and generate documentation on every commit.</p>
 <h2 id="why-cicd-integration"><a class="header" href="#why-cicd-integration">Why CI/CD Integration?</a></h2>
 <p><strong>For DevOps teams:</strong></p>
@@ -30079,7 +33208,7 @@ AgentSystem.Executor -&gt; RAG.Retriever "Fetch contexts"
 RAG.Retriever -&gt; RAG.VectorDB "Search"
 RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 </code></pre>
-<h2 id="next-steps-18"><a class="header" href="#next-steps-18">Next Steps</a></h2>
+<h2 id="next-steps-33"><a class="header" href="#next-steps-33">Next Steps</a></h2>
 <ul>
 <li>Explore <code>book/valid-examples/pattern-agentic-ai.sruja</code> and <code>book/valid-examples/pattern-rag-pipeline.sruja</code></li>
 <li>Add scenarios to capture common workflows</li>
@@ -30190,7 +33319,7 @@ sruja completion fish
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sruja-language-specification"><a class="header" href="#sruja-language-specification">Sruja Language Specification</a></h1>
 <p>This document provides a complete specification of the Sruja architecture-as-code language for AI code assistants and developers.</p>
-<h2 id="overview-9"><a class="header" href="#overview-9">Overview</a></h2>
+<h2 id="overview-17"><a class="header" href="#overview-17">Overview</a></h2>
 <p>Sruja is a domain-specific language (DSL) for defining software architecture models. It supports C4 model concepts (systems, containers, components), requirements, ADRs, scenarios, flows, policies, SLOs, and more.</p>
 <h2 id="language-grammar"><a class="header" href="#language-grammar">Language Grammar</a></h2>
 <h3 id="file-structure"><a class="header" href="#file-structure">File Structure</a></h3>
