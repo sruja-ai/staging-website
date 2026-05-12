@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-68569a95.js";
+            window.path_to_searchindex_js = "../../../searchindex-277d2346.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-6d229c89.js"></script>
@@ -202,12 +202,10 @@ metadata {
 </code></pre>
 <h2 id="governance-policies"><a class="header" href="#governance-policies">Governance Policies</a></h2>
 <p>We can enforce this with a policy!</p>
-<pre><code class="language-sruja">// EXPECTED_FAILURE: Policy rules not yet implemented - rule keyword is deferred feature
-policy Migration "No New Stripe Integrations" {
-    rule "BanStripe" {
-        // Pseudo-code: Fail if any NEW relation points to Stripe
-        check "relation.to != 'Stripe'"
-    }
+<pre><code class="language-sruja">policy Migration "No New Stripe Integrations" {
+  rule deny edge from { tag "payment-system" } to { tag "stripe" }
+    message "New Stripe integrations are forbidden under the migration policy"
+    suggest "Use Adyen or an internal payment gateway instead"
 }
 </code></pre>
 <p>This prevents developers from accidentally adding dependencies to the system you are trying to kill.</p>
