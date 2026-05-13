@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -274,7 +274,8 @@ sruja validate --scenarios --coverage
     sruja validate --contracts
 </code></pre>
 <h2 id="advanced-scenario-with-state-machine"><a class="header" href="#advanced-scenario-with-state-machine">Advanced: Scenario with State Machine</a></h2>
-<pre><code class="language-sruja">scenario "Order lifecycle end-to-end" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+scenario "Order lifecycle end-to-end" {
   steps {
     1. submit order (from New state)
     2. payment approved (transitions to Processing)

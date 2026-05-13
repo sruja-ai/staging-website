@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-31fff2f4.js"></script>
@@ -27916,7 +27916,8 @@ fitness ThroughputTarget {
 }
 </code></pre>
 <p>Fitness functions can also be defined inside elements:</p>
-<pre><code class="language-sruja">EcommercePlatform = system "E-Commerce Platform" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+EcommercePlatform = system "E-Commerce Platform" {
   fitness checkout_success_rate {
     target "success_rate &gt; 99.5%"
     measure "scripts/evaluate_checkout.sh"
@@ -28816,23 +28817,27 @@ sruja context-score -r .
 </div>
 <h2 id="optimizing-context-for-ai"><a class="header" href="#optimizing-context-for-ai">Optimizing Context for AI</a></h2>
 <h3 id="1-add-descriptions"><a class="header" href="#1-add-descriptions">1. Add Descriptions</a></h3>
-<pre><code class="language-sruja">container PaymentService {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+container PaymentService {
   description "Handles payment processing and fraud detection"
 }
 </code></pre>
 <h3 id="2-link-requirements"><a class="header" href="#2-link-requirements">2. Link Requirements</a></h3>
-<pre><code class="language-sruja">container PaymentService {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+container PaymentService {
   requirement "Must comply with PCI-DSS"
   requirement "Must process 1000 TPS"
 }
 </code></pre>
 <h3 id="3-add-intent"><a class="header" href="#3-add-intent">3. Add Intent</a></h3>
-<pre><code class="language-sruja">intent "Payment Goals" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+intent "Payment Goals" {
   outcome "All payments processed within 5 seconds"
 }
 </code></pre>
 <h3 id="4-document-decisions"><a class="header" href="#4-document-decisions">4. Document Decisions</a></h3>
-<pre><code class="language-sruja">PaymentService = container "Payment Service" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+PaymentService = container "Payment Service" {
   description "Handles payments"
 
   adr "ADR-0012: Why we use Stripe instead of PayPal"
@@ -29654,7 +29659,8 @@ service-repo/
 <li>Scenario-based testing</li>
 </ul>
 <h3 id="key-dsl-elements"><a class="header" href="#key-dsl-elements">Key DSL Elements:</a></h3>
-<pre><code class="language-sruja">// State Machine
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// State Machine
 Order = state_machine "Order Lifecycle" {
   initial New
   state New {
@@ -29780,7 +29786,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 </code></pre>
 <h2 id="guard-conditions"><a class="header" href="#guard-conditions">Guard Conditions</a></h2>
 <p>Guard conditions restrict when transitions can occur:</p>
-<pre><code class="language-sruja">state Pending {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+state Pending {
   description "Payment submitted"
 
   on accept [amount &gt; 0] -&gt; Processing
@@ -29789,7 +29796,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 </code></pre>
 <h2 id="actions"><a class="header" href="#actions">Actions</a></h2>
 <p>Actions execute on transitions:</p>
-<pre><code class="language-sruja">state New {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+state New {
   on submit [validate()] -&gt; Pending {
     action send_email("Payment received")
     action update_inventory()
@@ -29808,7 +29816,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 <li>✅ Guard conditions are valid</li>
 </ul>
 <h2 id="hands-on-model-a-user-session"><a class="header" href="#hands-on-model-a-user-session">Hands-On: Model a User Session</a></h2>
-<pre><code class="language-sruja">UserSession = state_machine "User Session" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserSession = state_machine "User Session" {
   initial Unauthenticated
 
   state Unauthenticated {
@@ -29907,7 +29916,8 @@ contract "Payment Contract" {
 </code></pre>
 <h2 id="contract-fields"><a class="header" href="#contract-fields">Contract Fields</a></h2>
 <p>Each field in input/output has a name, type, and description:</p>
-<pre><code class="language-sruja">input {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+input {
   field_name type "Description of the field"
 }
 </code></pre>
@@ -30069,7 +30079,8 @@ sruja validate --scenarios --coverage
     sruja validate --contracts
 </code></pre>
 <h2 id="advanced-scenario-with-state-machine"><a class="header" href="#advanced-scenario-with-state-machine">Advanced: Scenario with State Machine</a></h2>
-<pre><code class="language-sruja">scenario "Order lifecycle end-to-end" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+scenario "Order lifecycle end-to-end" {
   steps {
     1. submit order (from New state)
     2. payment approved (transitions to Processing)
@@ -30486,7 +30497,8 @@ sruja scan -r . --infra --evidence
 sruja scan -r . --tests --evidence
 </code></pre>
 <h2 id="mapping-evidence-to-intent"><a class="header" href="#mapping-evidence-to-intent">Mapping Evidence to Intent</a></h2>
-<pre><code class="language-sruja">intent "Data Privacy" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+intent "Data Privacy" {
   description "Customer PII must be protected"
 
   requirement encryption_at_rest {
@@ -31085,7 +31097,8 @@ sruja compose -i ./user.bundle.json -i ./order.bundle.json -o system.index.json
 </code></pre>
 <h2 id="cross-repo-relationships"><a class="header" href="#cross-repo-relationships">Cross-Repo Relationships</a></h2>
 <p>In your Sruja DSL, reference other repos using canonical IDs:</p>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import { user-service } from "https://bundles.company.com/user-service.bundle.json"
 
 OrderService = system "Order Service" {
@@ -31253,7 +31266,8 @@ D) <code>sruja aggregate</code></p>
 </ul>
 <h2 id="how-canonical-ids-work"><a class="header" href="#how-canonical-ids-work">How Canonical IDs Work</a></h2>
 <h3 id="in-reposruja-local"><a class="header" href="#in-reposruja-local">In repo.sruja (local)</a></h3>
-<pre><code class="language-sruja">UserService = system "User Service" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserService = system "User Service" {
   UserAPI = container "User API" {
     description "REST API for user management"
   }
@@ -31275,7 +31289,8 @@ D) <code>sruja aggregate</code></p>
 </code></pre>
 <h2 id="referencing-across-repos"><a class="header" href="#referencing-across-repos">Referencing Across Repos</a></h2>
 <h3 id="in-dsl-imports"><a class="header" href="#in-dsl-imports">In DSL imports</a></h3>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import { user-service } from "../bundles/user-service.bundle.json"
 
 OrderService = system "Order Service" {
@@ -31370,7 +31385,8 @@ D) They are part of the Git history</p>
 <h1 id="lesson-2-external-references-1"><a class="header" href="#lesson-2-external-references-1">Lesson 2: External References</a></h1>
 <h2 id="importing-external-bundles"><a class="header" href="#importing-external-bundles">Importing External Bundles</a></h2>
 <p>Reference components from other repos:</p>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import {
   user-service,
   payment-service,
@@ -31382,14 +31398,16 @@ OrderService = system "Order Service" {
 }
 </code></pre>
 <h2 id="referencing-external-components"><a class="header" href="#referencing-external-components">Referencing External Components</a></h2>
-<pre><code class="language-sruja">// Create relationships to external services
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Create relationships to external services
 OrderProcessor -&gt; user-service::UserAPI "Validates customer"
 OrderProcessor -&gt; payment-service::PaymentGateway "Processes payment"
 OrderProcessor -&gt; notification-service::EmailService "Sends confirmation"
 </code></pre>
 <h2 id="external-system-modeling"><a class="header" href="#external-system-modeling">External System Modeling</a></h2>
 <p>For external services you don't control:</p>
-<pre><code class="language-sruja">// Model external systems you depend on
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Model external systems you depend on
 ExternalSystems = system "External Services" {
   Stripe = system "Stripe API" {
     description "Payment processor"
@@ -31484,7 +31502,8 @@ D) Memory leaks</p>
 <h1 id="lesson-3-ownership--contracts-1"><a class="header" href="#lesson-3-ownership--contracts-1">Lesson 3: Ownership &amp; Contracts</a></h1>
 <h2 id="tracking-ownership"><a class="header" href="#tracking-ownership">Tracking Ownership</a></h2>
 <p>Every component should have an owner:</p>
-<pre><code class="language-sruja">UserService = system "User Service" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserService = system "User Service" {
   owner "platform-team"
 
   UserAPI = container "User API" {
@@ -31500,7 +31519,8 @@ D) Memory leaks</p>
 </code></pre>
 <h2 id="contract-exposure"><a class="header" href="#contract-exposure">Contract Exposure</a></h2>
 <p>Expose interfaces for other teams:</p>
-<pre><code class="language-sruja">// In user-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In user-service/repo.sruja
 contract UserServiceContract {
   version "2.0.0"
   owner "platform-team"
@@ -31534,7 +31554,8 @@ UserAPI {
 }
 </code></pre>
 <h2 id="consuming-contracts"><a class="header" href="#consuming-contracts">Consuming Contracts</a></h2>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import { UserServiceContract } from "./bundles/user-service.bundle.json"
 
 OrderProcessor = container "Order Processor" {
@@ -31546,7 +31567,8 @@ OrderProcessor = container "Order Processor" {
 }
 </code></pre>
 <h2 id="sla-tracking"><a class="header" href="#sla-tracking">SLA Tracking</a></h2>
-<pre><code class="language-sruja">UserAPI {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserAPI {
   sla {
     availability "99.9%"
     latency_p99 "100ms"
@@ -31770,7 +31792,8 @@ sruja resolve --alias "order-service::API" \
   --rename "order-service-order-api"
 </code></pre>
 <p>Result in DSL:</p>
-<pre><code class="language-sruja">// Both preserved, now distinct
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Both preserved, now distinct
 user-service::API
 order-service::order-api
 </code></pre>
@@ -31921,7 +31944,8 @@ sruja compliance -r . -a repo.sruja
 </ul>
 <h2 id="prevention-strategy-3-policy-enforcement"><a class="header" href="#prevention-strategy-3-policy-enforcement">Prevention Strategy 3: Policy Enforcement</a></h2>
 <p>Add policies that prevent issues:</p>
-<pre><code class="language-sruja">// In repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In repo.sruja
 policy "Architecture Quality" {
   description "Ensure architecture follows team standards"
 
@@ -32086,7 +32110,8 @@ D) Using a separate policy server</p>
 <p>But you don't control all repos!</p>
 <h2 id="solution-federated-policies"><a class="header" href="#solution-federated-policies">Solution: Federated Policies</a></h2>
 <p>Define policies once, apply everywhere:</p>
-<pre><code class="language-sruja">// In federation-root/policies/global.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In federation-root/policies/global.sruja
 policy "Global Security" {
   description "Security policies for all services"
 
@@ -32123,7 +32148,8 @@ policy "Global Observability" {
 sruja policy inherit ../federation/policies/global.sruja
 </code></pre>
 <p>Repos can still add local policies:</p>
-<pre><code class="language-sruja">// In user-service/policies/local.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In user-service/policies/local.sruja
 policy "User Service Specific" {
   description "User service specific policies"
 
@@ -32142,7 +32168,8 @@ sruja validate -r . --policies \
 </code></pre>
 <h2 id="policy-overrides"><a class="header" href="#policy-overrides">Policy Overrides</a></h2>
 <p>Repos can override (with approval):</p>
-<pre><code class="language-sruja">// In user-service/policies/override.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In user-service/policies/override.sruja
 policy "Override: Extended Timeout" {
   description "Override: Allow 60s timeout for batch jobs"
   inherits: "Global Observability.timeout"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -235,7 +235,8 @@ sruja compose -i ./user.bundle.json -i ./order.bundle.json -o system.index.json
 </code></pre>
 <h2 id="cross-repo-relationships"><a class="header" href="#cross-repo-relationships">Cross-Repo Relationships</a></h2>
 <p>In your Sruja DSL, reference other repos using canonical IDs:</p>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import { user-service } from "https://bundles.company.com/user-service.bundle.json"
 
 OrderService = system "Order Service" {

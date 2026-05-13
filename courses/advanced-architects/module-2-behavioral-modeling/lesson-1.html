@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -246,7 +246,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 </code></pre>
 <h2 id="guard-conditions"><a class="header" href="#guard-conditions">Guard Conditions</a></h2>
 <p>Guard conditions restrict when transitions can occur:</p>
-<pre><code class="language-sruja">state Pending {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+state Pending {
   description "Payment submitted"
 
   on accept [amount &gt; 0] -&gt; Processing
@@ -255,7 +256,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 </code></pre>
 <h2 id="actions"><a class="header" href="#actions">Actions</a></h2>
 <p>Actions execute on transitions:</p>
-<pre><code class="language-sruja">state New {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+state New {
   on submit [validate()] -&gt; Pending {
     action send_email("Payment received")
     action update_inventory()
@@ -274,7 +276,8 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 <li>✅ Guard conditions are valid</li>
 </ul>
 <h2 id="hands-on-model-a-user-session"><a class="header" href="#hands-on-model-a-user-session">Hands-On: Model a User Session</a></h2>
-<pre><code class="language-sruja">UserSession = state_machine "User Session" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserSession = state_machine "User Session" {
   initial Unauthenticated
 
   state Unauthenticated {

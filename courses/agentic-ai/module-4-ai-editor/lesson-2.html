@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -261,23 +261,27 @@ sruja context-score -r .
 </div>
 <h2 id="optimizing-context-for-ai"><a class="header" href="#optimizing-context-for-ai">Optimizing Context for AI</a></h2>
 <h3 id="1-add-descriptions"><a class="header" href="#1-add-descriptions">1. Add Descriptions</a></h3>
-<pre><code class="language-sruja">container PaymentService {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+container PaymentService {
   description "Handles payment processing and fraud detection"
 }
 </code></pre>
 <h3 id="2-link-requirements"><a class="header" href="#2-link-requirements">2. Link Requirements</a></h3>
-<pre><code class="language-sruja">container PaymentService {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+container PaymentService {
   requirement "Must comply with PCI-DSS"
   requirement "Must process 1000 TPS"
 }
 </code></pre>
 <h3 id="3-add-intent"><a class="header" href="#3-add-intent">3. Add Intent</a></h3>
-<pre><code class="language-sruja">intent "Payment Goals" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+intent "Payment Goals" {
   outcome "All payments processed within 5 seconds"
 }
 </code></pre>
 <h3 id="4-document-decisions"><a class="header" href="#4-document-decisions">4. Document Decisions</a></h3>
-<pre><code class="language-sruja">PaymentService = container "Payment Service" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+PaymentService = container "Payment Service" {
   description "Handles payments"
 
   adr "ADR-0012: Why we use Stripe instead of PayPal"

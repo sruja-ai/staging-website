@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -213,7 +213,8 @@ fitness ThroughputTarget {
 }
 </code></pre>
 <p>Fitness functions can also be defined inside elements:</p>
-<pre><code class="language-sruja">EcommercePlatform = system "E-Commerce Platform" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+EcommercePlatform = system "E-Commerce Platform" {
   fitness checkout_success_rate {
     target "success_rate &gt; 99.5%"
     measure "scripts/evaluate_checkout.sh"

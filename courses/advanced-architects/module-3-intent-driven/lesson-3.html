@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -223,7 +223,8 @@ sruja scan -r . --infra --evidence
 sruja scan -r . --tests --evidence
 </code></pre>
 <h2 id="mapping-evidence-to-intent"><a class="header" href="#mapping-evidence-to-intent">Mapping Evidence to Intent</a></h2>
-<pre><code class="language-sruja">intent "Data Privacy" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+intent "Data Privacy" {
   description "Customer PII must be protected"
 
   requirement encryption_at_rest {

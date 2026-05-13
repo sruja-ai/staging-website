@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -192,7 +192,8 @@
 <p>But you don't control all repos!</p>
 <h2 id="solution-federated-policies"><a class="header" href="#solution-federated-policies">Solution: Federated Policies</a></h2>
 <p>Define policies once, apply everywhere:</p>
-<pre><code class="language-sruja">// In federation-root/policies/global.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In federation-root/policies/global.sruja
 policy "Global Security" {
   description "Security policies for all services"
 
@@ -229,7 +230,8 @@ policy "Global Observability" {
 sruja policy inherit ../federation/policies/global.sruja
 </code></pre>
 <p>Repos can still add local policies:</p>
-<pre><code class="language-sruja">// In user-service/policies/local.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In user-service/policies/local.sruja
 policy "User Service Specific" {
   description "User service specific policies"
 
@@ -248,7 +250,8 @@ sruja validate -r . --policies \
 </code></pre>
 <h2 id="policy-overrides"><a class="header" href="#policy-overrides">Policy Overrides</a></h2>
 <p>Repos can override (with approval):</p>
-<pre><code class="language-sruja">// In user-service/policies/override.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In user-service/policies/override.sruja
 policy "Override: Extended Timeout" {
   description "Override: Allow 60s timeout for batch jobs"
   inherits: "Global Observability.timeout"

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -183,7 +183,8 @@
                         <h1 id="lesson-2-external-references"><a class="header" href="#lesson-2-external-references">Lesson 2: External References</a></h1>
 <h2 id="importing-external-bundles"><a class="header" href="#importing-external-bundles">Importing External Bundles</a></h2>
 <p>Reference components from other repos:</p>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import {
   user-service,
   payment-service,
@@ -195,14 +196,16 @@ OrderService = system "Order Service" {
 }
 </code></pre>
 <h2 id="referencing-external-components"><a class="header" href="#referencing-external-components">Referencing External Components</a></h2>
-<pre><code class="language-sruja">// Create relationships to external services
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Create relationships to external services
 OrderProcessor -&gt; user-service::UserAPI "Validates customer"
 OrderProcessor -&gt; payment-service::PaymentGateway "Processes payment"
 OrderProcessor -&gt; notification-service::EmailService "Sends confirmation"
 </code></pre>
 <h2 id="external-system-modeling"><a class="header" href="#external-system-modeling">External System Modeling</a></h2>
 <p>For external services you don't control:</p>
-<pre><code class="language-sruja">// Model external systems you depend on
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// Model external systems you depend on
 ExternalSystems = system "External Services" {
   Stripe = system "Stripe API" {
     description "Payment processor"

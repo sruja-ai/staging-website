@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
+            window.path_to_searchindex_js = "../../../searchindex-d91db48b.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -201,7 +201,8 @@
 </ul>
 <h2 id="how-canonical-ids-work"><a class="header" href="#how-canonical-ids-work">How Canonical IDs Work</a></h2>
 <h3 id="in-reposruja-local"><a class="header" href="#in-reposruja-local">In repo.sruja (local)</a></h3>
-<pre><code class="language-sruja">UserService = system "User Service" {
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+UserService = system "User Service" {
   UserAPI = container "User API" {
     description "REST API for user management"
   }
@@ -223,7 +224,8 @@
 </code></pre>
 <h2 id="referencing-across-repos"><a class="header" href="#referencing-across-repos">Referencing Across Repos</a></h2>
 <h3 id="in-dsl-imports"><a class="header" href="#in-dsl-imports">In DSL imports</a></h3>
-<pre><code class="language-sruja">// In order-service/repo.sruja
+<pre><code class="language-sruja">&lt;!-- partial --&gt;
+// In order-service/repo.sruja
 import { user-service } from "../bundles/user-service.bundle.json"
 
 OrderService = system "Order Service" {
