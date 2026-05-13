@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -234,11 +234,14 @@ OrderService = system "Order Service" {
 }
 </code></pre>
 <h3 id="in-queries"><a class="header" href="#in-queries">In queries</a></h3>
-<pre><code class="language-bash"># Query specific repo's component
-sruja query --canonical "user-service::UserAPI"
+<pre><code class="language-bash"># Query architecture elements using natural language or patterns
+sruja query "UserService" -r .
 
-# Query all components of a repo
-sruja query --repo user-service
+# Query with architecture file
+sruja query "API" -r . -a repo.sruja
+
+# Use why command to understand relationships
+sruja why "why does OrderService depend on UserService?" -r .
 </code></pre>
 <h2 id="id-generation-rules"><a class="header" href="#id-generation-rules">ID Generation Rules</a></h2>
 <div class="table-wrapper">
@@ -267,6 +270,48 @@ sruja query --repo user-service
 </tbody>
 </table>
 </div>
+<h2 id="hands-on-work-with-canonical-ids"><a class="header" href="#hands-on-work-with-canonical-ids">Hands-On: Work with Canonical IDs</a></h2>
+<ol>
+<li>
+<p><strong>Publish a bundle and inspect canonical IDs:</strong></p>
+<pre><code class="language-bash">sruja publish -r . -o repo.bundle.json
+cat repo.bundle.json | jq '.nodes[].canonical_id'
+</code></pre>
+</li>
+<li>
+<p><strong>Query specific elements:</strong></p>
+<pre><code class="language-bash">sruja query "UserAPI" -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Use impact analysis to see downstream dependencies:</strong></p>
+<pre><code class="language-bash">sruja impact UserService -r . --depth 2
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand what canonical IDs are and why they prevent collisions</li>
+<li>✅ Explain the format <code>repo_id::local_id</code> for different element types</li>
+<li>✅ Use canonical IDs when referencing components across repositories</li>
+<li>✅ Apply best practices for naming and maintaining IDs</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-problem-do-canonical-ids-solve-in-federated-architecture"><a class="header" href="#q1-what-problem-do-canonical-ids-solve-in-federated-architecture">Q1: What problem do canonical IDs solve in federated architecture?</a></h3>
+<p>A) They speed up bundle composition
+B) They prevent naming collisions when multiple repos have components with the same local name
+C) They encrypt sensitive architecture data
+D) They automatically resolve conflicts</p>
+<h3 id="q2-what-is-the-format-of-a-canonical-id"><a class="header" href="#q2-what-is-the-format-of-a-canonical-id">Q2: What is the format of a canonical ID?</a></h3>
+<p>A) <code>repo-id.local-id</code> (with a period)
+B) <code>repo_id::local_id</code> (with double colon)
+C) <code>repo-id/local-id</code> (with a slash)
+D) <code>local_id@repo_id</code> (with an at sign)</p>
+<h3 id="q3-why-should-canonical-ids-remain-stable-once-established"><a class="header" href="#q3-why-should-canonical-ids-remain-stable-once-established">Q3: Why should canonical IDs remain stable once established?</a></h3>
+<p>A) They are used for authentication
+B) Changing them breaks existing references and relationships across repos
+C) They are stored in a database
+D) They are part of the Git history</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 2 covers external references between repos.</p>
 

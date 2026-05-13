@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -247,28 +247,28 @@ OrderService = system "Order Service" {
 </code></pre>
 <h2 id="visualizing-the-system-index"><a class="header" href="#visualizing-the-system-index">Visualizing the System Index</a></h2>
 <pre><code class="language-bash"># Export to Mermaid
-sruja export -i system.index.json --format mermaid
+sruja export repo.sruja --format mermaid
 
 # Export to JSON for custom tooling
-sruja export -i system.index.json --format json
+sruja export repo.sruja --format json
 </code></pre>
 <h2 id="validation-and-health-checks"><a class="header" href="#validation-and-health-checks">Validation and Health Checks</a></h2>
-<pre><code class="language-bash"># Check overall federated health
-sruja health -i system.index.json
+<pre><code class="language-bash"># Check overall health
+sruja health -r .
 
-# Check for conflicts
-sruja compose -i ./bundles -o system.index.json --check-conflicts
+# Check for architectural drift
+sruja drift -r . -a repo.sruja
 
-# Show drift across repos
-sruja drift -i system.index.json
+# In CI mode (GitHub Actions format)
+sruja drift --ci -r . -a repo.sruja
 </code></pre>
 <h2 id="using-in-ai-editors"><a class="header" href="#using-in-ai-editors">Using in AI Editors</a></h2>
 <p>Load the system index for cross-repo context:</p>
-<pre><code class="language-bash"># Build AI-ready context from index
-sruja context -i system.index.json -o ai-context.json
+<pre><code class="language-bash"># Build AI-ready context from multiple repos
+sruja ai-context -r repoA -r repoB -r repoC
 
-# Or use directly with focus
-sruja focus --component order-service::OrderProcessor -i system.index.json
+# Or use context-score to measure AI-readiness
+sruja context-score -r .
 </code></pre>
 <h2 id="basic-workflow"><a class="header" href="#basic-workflow">Basic Workflow</a></h2>
 <pre><code>1. Team publishes bundle (on every main push)
@@ -280,11 +280,10 @@ sruja focus --component order-service::OrderProcessor -i system.index.json
 3. Compose on schedule or on-demand
    └─→ system.index.json
 
-4. Use system index for:
-   └─→ AI editor context
-   └─→ Cross-repo diagrams
-   └─→ Impact analysis
-   └─→ Compliance reporting
+4. Use for:
+   └─→ AI editor context (sruja ai-context)
+   └─→ Impact analysis (sruja impact)
+   └─→ Compliance reporting (sruja compliance)
 </code></pre>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
 <p>You've completed Federation Fundamentals. You now understand:</p>
@@ -294,6 +293,59 @@ sruja focus --component order-service::OrderProcessor -i system.index.json
 <li>✅ How to compose bundles into system index</li>
 <li>✅ Basic cross-repo relationship modeling</li>
 </ul>
+<h2 id="hands-on-compose-your-first-system-index"><a class="header" href="#hands-on-compose-your-first-system-index">Hands-On: Compose Your First System Index</a></h2>
+<ol>
+<li>
+<p><strong>Create bundles from multiple repos:</strong></p>
+<pre><code class="language-bash"># Create demo bundles directory
+mkdir -p ./bundles
+
+# Publish from each service
+sruja publish -r ./user-service -o ./bundles/user-service.bundle.json
+sruja publish -r ./order-service -o ./bundles/order-service.bundle.json
+sruja publish -r ./payment-service -o ./bundles/payment-service.bundle.json
+</code></pre>
+</li>
+<li>
+<p><strong>Compose bundles into a system index:</strong></p>
+<pre><code class="language-bash">sruja compose -i ./bundles -o system.index.json
+</code></pre>
+</li>
+<li>
+<p><strong>Explore the composed system index:</strong></p>
+<pre><code class="language-bash">cat system.index.json | jq '{repo_count: (.repos | length), node_count: (.nodes | length), edge_count: (.edges | length)}'
+</code></pre>
+</li>
+<li>
+<p><strong>View canonical IDs in the system:</strong></p>
+<pre><code class="language-bash">cat system.index.json | jq '.nodes[].canonical_id'
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Compose multiple bundles into a unified system index</li>
+<li>✅ Understand the system index structure (repos, nodes, edges, conflicts)</li>
+<li>✅ Use canonical IDs to reference components across repositories</li>
+<li>✅ Export system index to different formats (Mermaid, JSON)</li>
+<li>✅ Apply federation workflow in CI/CD pipelines</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-does-the-conflicts-array-in-a-system-index-contain"><a class="header" href="#q1-what-does-the-conflicts-array-in-a-system-index-contain">Q1: What does the <code>conflicts</code> array in a system index contain?</a></h3>
+<p>A) Git merge conflicts between repos
+B) Duplicate elements across repos that need resolution
+C) Network connectivity errors
+D) Authentication failures</p>
+<h3 id="q2-what-is-a-canonical-id-in-federation"><a class="header" href="#q2-what-is-a-canonical-id-in-federation">Q2: What is a canonical ID in federation?</a></h3>
+<p>A) A Git commit hash
+B) A Docker container identifier
+C) A unique identifier in the format <code>repo_id::local_id</code> that prevents naming collisions
+D) A UUID for each user</p>
+<h3 id="q3-which-command-is-used-to-compose-multiple-bundles-into-a-system-index"><a class="header" href="#q3-which-command-is-used-to-compose-multiple-bundles-into-a-system-index">Q3: Which command is used to compose multiple bundles into a system index?</a></h3>
+<p>A) <code>sruja merge</code>
+B) <code>sruja compose -i &lt;input&gt; -o &lt;output&gt;</code>
+C) <code>sruja index</code>
+D) <code>sruja aggregate</code></p>
 <p>Next, Module 2 covers advanced cross-repo relationships.</p>
 
                     </main>

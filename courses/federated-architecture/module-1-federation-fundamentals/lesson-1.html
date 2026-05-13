@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -238,6 +238,7 @@
 <li><code>payment-service::PaymentGateway</code></li>
 </ul>
 <h2 id="why-federation"><a class="header" href="#why-federation">Why Federation?</a></h2>
+<p>Traditional architecture tools work per-repo, leaving you with fragmented views and no cross-repo visibility. Federation creates a <strong>single source of truth</strong> across all repos:</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -268,7 +269,7 @@
 </ul>
 <h2 id="federation-architecture"><a class="header" href="#federation-architecture">Federation Architecture</a></h2>
 <pre><code>┌─────────────────────────────────────────────────────────────┐
-│                     AI Editor / Skill                       │
+│                     AI Editor / MCP Server                   │
 │                                                              │
 │  1. Load system.index.json (or slice)                       │
 │  2. Query cross-repo relationships                          │
@@ -279,7 +280,7 @@
                     ┌─────────────────┐
                     │   CI/CD Pipeline │
                     │                  │
-                    │ sruja publish    │
+                    │ sruja publish     │
                     │ sruja compose    │
                     │ sruja drift      │
                     └─────────────────┘
@@ -292,6 +293,49 @@
 │ bundle  │    │ bundle  │        │ bundle  │
 └─────────┘    └─────────┘        └─────────┘
 </code></pre>
+<h2 id="hands-on-explore-federation-concepts"><a class="header" href="#hands-on-explore-federation-concepts">Hands-On: Explore Federation Concepts</a></h2>
+<ol>
+<li>
+<p><strong>List available federation commands:</strong></p>
+<pre><code class="language-bash">sruja --help | grep -E "publish|compose|impact"
+</code></pre>
+</li>
+<li>
+<p><strong>Initialize a sample repo for federation:</strong></p>
+<pre><code class="language-bash">mkdir federation-demo &amp;&amp; cd federation-demo
+sruja init --auto
+</code></pre>
+</li>
+<li>
+<p><strong>Publish a bundle from your repo:</strong></p>
+<pre><code class="language-bash">sruja publish -r . -o repo.bundle.json
+cat repo.bundle.json | jq '.repo_id, .git_commit'
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand what federated architecture is and when to use it</li>
+<li>✅ Explain the key concepts: bundles, system index, and canonical IDs</li>
+<li>✅ Describe how federation creates a single source of truth across repos</li>
+<li>✅ Identify use cases where federation provides the most value</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-is-a-bundle-in-the-context-of-sruja-federation"><a class="header" href="#q1-what-is-a-bundle-in-the-context-of-sruja-federation">Q1: What is a bundle in the context of Sruja federation?</a></h3>
+<p>A) A compressed archive of all repository files
+B) A portable export of a single repo's architecture containing DSL, context, and metadata
+C) A backup of the entire repository
+D) A Docker container image</p>
+<h3 id="q2-what-does-a-canonical-id-prevent"><a class="header" href="#q2-what-does-a-canonical-id-prevent">Q2: What does a canonical ID prevent?</a></h3>
+<p>A) unauthorized access
+B) naming collisions across repositories
+C) data loss
+D) code conflicts</p>
+<h3 id="q3-which-command-is-used-to-create-a-system-index-from-multiple-bundles"><a class="header" href="#q3-which-command-is-used-to-create-a-system-index-from-multiple-bundles">Q3: Which command is used to create a system index from multiple bundles?</a></h3>
+<p>A) <code>sruja merge</code>
+B) <code>sruja index</code>
+C) <code>sruja compose</code>
+D) <code>sruja aggregate</code></p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 2 covers publishing your first bundle.</p>
 

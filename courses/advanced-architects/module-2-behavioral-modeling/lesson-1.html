@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -264,15 +264,14 @@ OrderLifecycle = state_machine "Order Lifecycle" {
 </code></pre>
 <h2 id="state-machine-validation"><a class="header" href="#state-machine-validation">State Machine Validation</a></h2>
 <p>Sruja validates state machines automatically:</p>
-<pre><code class="language-bash">sruja validate order-lifecycle.sruja
+<pre><code class="language-bash">sruja lint order-lifecycle.sruja
 </code></pre>
 <p>Validation checks:</p>
 <ul>
-<li>✅ All states are reachable from initial</li>
-<li>✅ All final states are actually terminal</li>
-<li>✅ No orphan states</li>
+<li>✅ DSL syntax is correct</li>
+<li>✅ All states are properly defined</li>
+<li>✅ Transitions reference valid states</li>
 <li>✅ Guard conditions are valid</li>
-<li>✅ Actions reference existing functions</li>
 </ul>
 <h2 id="hands-on-model-a-user-session"><a class="header" href="#hands-on-model-a-user-session">Hands-On: Model a User Session</a></h2>
 <pre><code class="language-sruja">UserSession = state_machine "User Session" {
@@ -302,6 +301,29 @@ OrderLifecycle = state_machine "Order Lifecycle" {
   }
 }
 </code></pre>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand what state machines are and why they matter in architecture</li>
+<li>✅ Define state machines in Sruja DSL with states and transitions</li>
+<li>✅ Use guard conditions to restrict transitions</li>
+<li>✅ Validate state machines using <code>sruja lint</code></li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-does-a-state-machine-model-in-architecture"><a class="header" href="#q1-what-does-a-state-machine-model-in-architecture">Q1: What does a state machine model in architecture?</a></h3>
+<p>A) Static component relationships
+B) How a system behaves over time through states and transitions
+C) Network topology
+D) Database schema</p>
+<h3 id="q2-what-command-validates-sruja-dsl-files"><a class="header" href="#q2-what-command-validates-sruja-dsl-files">Q2: What command validates Sruja DSL files?</a></h3>
+<p>A) <code>sruja validate</code>
+B) <code>sruja lint</code>
+C) <code>sruja check</code>
+D) <code>sruja verify</code></p>
+<h3 id="q3-what-are-guard-conditions-used-for"><a class="header" href="#q3-what-are-guard-conditions-used-for">Q3: What are guard conditions used for?</a></h3>
+<p>A) Encrypting data at rest
+B) Restricting when transitions can occur
+C) Creating new states
+D) Defining component relationships</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 2 covers API contracts—defining service interfaces with schemas and validation.</p>
 

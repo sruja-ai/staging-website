@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -182,76 +182,49 @@
                     <main>
                         <h1 id="lesson-2-compliance-reporting"><a class="header" href="#lesson-2-compliance-reporting">Lesson 2: Compliance Reporting</a></h1>
 <h2 id="building-compliance-reports"><a class="header" href="#building-compliance-reports">Building Compliance Reports</a></h2>
-<pre><code class="language-bash"># Generate report for all repos
-sruja compliance --bundles ./bundles/ \
-  --output compliance-report.json
+<pre><code class="language-bash"># Generate compliance report
+sruja compliance -r . -a repo.sruja
 
-# Or use system index
-sruja compliance --index system.index.json \
-  --output compliance-report.json
+# With JSON output for automation
+sruja compliance -r . -a repo.sruja --format json
 </code></pre>
-<h2 id="report-structure"><a class="header" href="#report-structure">Report Structure</a></h2>
-<pre><code class="language-json">{
-  "generated_at": "2024-05-12T10:00:00Z",
-  "scope": "all-repos",
-  "summary": {
-    "total_repos": 25,
-    "compliant": 22,
-    "partial": 2,
-    "non_compliant": 1
-  },
-  "by_policy": [
-    {
-      "policy": "Global Security",
-      "compliant": 24,
-      "violations": 1,
-      "repos": ["order-service"]
-    }
-  ],
-  "by_repo": [
-    {
-      "repo_id": "user-service",
-      "status": "compliant",
-      "violations": [],
-      "last_ checked": "2024-05-12"
-    },
-    {
-      "repo_id": "order-service",
-      "status": "non_compliant",
-      "violations": [
-        {
-          "policy": "Global Security",
-          "constraint": "All databases must have encryption",
-          "element": "order-service::OrderDB",
-          "severity": "high"
-        }
-      ]
-    }
-  ]
-}
-</code></pre>
-<h2 id="per-team-reports"><a class="header" href="#per-team-reports">Per-Team Reports</a></h2>
-<pre><code class="language-bash"># Report for specific team
-sruja compliance --team platform-team \
-  --output team-compliance.json
+<h2 id="report-output"><a class="header" href="#report-output">Report Output</a></h2>
+<p>When you run <code>sruja compliance</code>, it shows:</p>
+<ul>
+<li><strong>Policy violations</strong> found in your architecture</li>
+<li><strong>Structural drift</strong> between code and architecture</li>
+<li><strong>Intent violations</strong> from ADRs and documented intent</li>
+<li><strong>Overall compliance status</strong> (pass/fail)</li>
+</ul>
+<h2 id="per-repo-compliance"><a class="header" href="#per-repo-compliance">Per-Repo Compliance</a></h2>
+<pre><code class="language-bash"># Check compliance for specific repo
+sruja compliance -r ./user-service -a user-service/repo.sruja
 
-# Report by domain
-sruja compliance --domain payments \
-  --output payments-compliance.json
+# Check with output format
+sruja compliance -r . -a repo.sruja --format json
 </code></pre>
 <h2 id="drift-reporting"><a class="header" href="#drift-reporting">Drift Reporting</a></h2>
-<pre><code class="language-bash"># Show drift across repos
-sruja drift --bundles ./bundles/ \
-  --output drift-report.json
+<pre><code class="language-bash"># Show drift between code and architecture
+sruja drift -r . -a repo.sruja
+
+# In CI mode (GitHub Actions format)
+sruja drift --ci -r . -a repo.sruja
+
+# Show only violations
+sruja drift -r . -a repo.sruja --violations-only
 </code></pre>
-<h2 id="dashboard-generation"><a class="header" href="#dashboard-generation">Dashboard Generation</a></h2>
-<pre><code class="language-bash"># Generate HTML dashboard
-sruja compliance --bundles ./bundles/ \
-  --dashboard \
-  --output compliance-dashboard.html
+<h2 id="health-reporting"><a class="header" href="#health-reporting">Health Reporting</a></h2>
+<pre><code class="language-bash"># Check overall health
+sruja health -r .
+
+# With architecture file
+sruja health -r . -a repo.sruja
+
+# JSON format for dashboards
+sruja health -r . -a repo.sruja --format json
 </code></pre>
 <h2 id="scheduled-reports"><a class="header" href="#scheduled-reports">Scheduled Reports</a></h2>
-<pre><code class="language-yaml"># .github/workflows/compliance-report.yml
+<pre><code class="language-yaml"># .github/workflows/architecture-report.yml
 on:
   schedule:
     - cron: '0 8 * * 1'  # Weekly Monday 8am
@@ -260,25 +233,68 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch bundles
-        run: sruja fetch-bundles -i ./bundles/
+      - uses: actions/checkout@v4
 
-      - name: Generate report
-        run: sruja compliance --index system.index.json \
-          --output compliance-$(date +%Y-%m-%d).json
+      - name: Check Compliance
+        run: sruja compliance -r . -a repo.sruja --format json &gt; compliance.json
 
-      - name: Upload artifact
+      - name: Check Health
+        run: sruja health -r . -a repo.sruja --format json &gt; health.json
+
+      - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
-          name: weekly-compliance
-          path: compliance-*.json
-
-      - name: Notify
-        if: failure()
-        run: |
-          sruja alert --slack "#architecture" \
-            --message "Compliance report failed"
+          name: weekly-architecture-reports
+          path: |
+            compliance.json
+            health.json
 </code></pre>
+<h2 id="hands-on-generate-compliance-reports"><a class="header" href="#hands-on-generate-compliance-reports">Hands-On: Generate Compliance Reports</a></h2>
+<ol>
+<li>
+<p><strong>Run compliance check:</strong></p>
+<pre><code class="language-bash">sruja compliance -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Run health check:</strong></p>
+<pre><code class="language-bash">sruja health -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Check for drift:</strong></p>
+<pre><code class="language-bash">sruja drift -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>View in CI mode:</strong></p>
+<pre><code class="language-bash">sruja drift --ci -r . -a repo.sruja
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Generate compliance reports using <code>sruja compliance</code></li>
+<li>✅ Check health with <code>sruja health</code></li>
+<li>✅ Detect drift using <code>sruja drift</code></li>
+<li>✅ Integrate reports into CI/CD pipelines</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-command-generates-a-compliance-report"><a class="header" href="#q1-what-command-generates-a-compliance-report">Q1: What command generates a compliance report?</a></h3>
+<p>A) <code>sruja report</code>
+B) <code>sruja compliance</code>
+C) <code>sruja audit</code>
+D) <code>sruja check</code></p>
+<h3 id="q2-what-does-sruja-drift---ci-do"><a class="header" href="#q2-what-does-sruja-drift---ci-do">Q2: What does <code>sruja drift --ci</code> do?</a></h3>
+<p>A) Runs in CI mode with GitHub Actions format output
+B) Checks Git CI/CD pipeline status
+C) Creates a new CI/CD workflow
+D) Uploads to continuous integration service</p>
+<h3 id="q3-what-does-sruja-health-show"><a class="header" href="#q3-what-does-sruja-health-show">Q3: What does <code>sruja health</code> show?</a></h3>
+<p>A) Server health metrics
+B) Overall architectural health and graph quality
+C) Network connectivity status
+D) Database health</p>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
 <p>You've completed Federated Governance. You now understand:</p>
 <ul>

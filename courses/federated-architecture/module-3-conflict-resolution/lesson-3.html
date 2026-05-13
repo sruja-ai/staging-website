@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -182,7 +182,7 @@
                     <main>
                         <h1 id="lesson-3-conflict-prevention"><a class="header" href="#lesson-3-conflict-prevention">Lesson 3: Conflict Prevention</a></h1>
 <h2 id="prevention-strategy-1-naming-conventions"><a class="header" href="#prevention-strategy-1-naming-conventions">Prevention Strategy 1: Naming Conventions</a></h2>
-<p>Enforce naming standards:</p>
+<p>Establish and enforce naming standards across teams:</p>
 <pre><code class="language-yaml"># .sruja/naming-conventions.yaml
 containerNaming:
   pattern: "{team}-{function}"
@@ -197,83 +197,143 @@ systemNaming:
     - "user-system"
     - "order-system"
 </code></pre>
-<h2 id="prevention-strategy-2-architecture-registry"><a class="header" href="#prevention-strategy-2-architecture-registry">Prevention Strategy 2: Architecture Registry</a></h2>
-<p>Central registry of services:</p>
-<pre><code class="language-bash"># Register a new service
-sruja register --service user-service \
-  --domain user \
-  --team platform-team \
-  --contact platform@company.com
+<h2 id="prevention-strategy-2-architecture-governance"><a class="header" href="#prevention-strategy-2-architecture-governance">Prevention Strategy 2: Architecture Governance</a></h2>
+<p>Central governance of service definitions:</p>
+<pre><code class="language-bash"># Review architecture before publishing
+sruja lint repo.sruja
 
-# Check if name is taken
-sruja register --check-name "user-service"
+# Check for violations
+sruja drift -r . -a repo.sruja
+
+# Run compliance check
+sruja compliance -r . -a repo.sruja
 </code></pre>
-<p>Registry provides:</p>
+<p>Governance provides:</p>
 <ul>
-<li>Unique service IDs</li>
-<li>Domain ownership</li>
-<li>Team contacts</li>
-<li>Architecture approval</li>
+<li>Centralized policies</li>
+<li>Compliance reporting</li>
+<li>Policy violation detection</li>
+<li>Architecture review workflow</li>
 </ul>
-<h2 id="prevention-strategy-3-governance-rules"><a class="header" href="#prevention-strategy-3-governance-rules">Prevention Strategy 3: Governance Rules</a></h2>
-<p>Add policies that prevent conflicts:</p>
-<pre><code class="language-sruja">// In .sruja/policies.sruja
-policy "No Duplicate Services" {
-  description "Prevent modeling same logical service twice"
+<h2 id="prevention-strategy-3-policy-enforcement"><a class="header" href="#prevention-strategy-3-policy-enforcement">Prevention Strategy 3: Policy Enforcement</a></h2>
+<p>Add policies that prevent issues:</p>
+<pre><code class="language-sruja">// In repo.sruja
+policy "Architecture Quality" {
+  description "Ensure architecture follows team standards"
 
-  rule "no two containers with same responsibility"
-  rule "no two systems with same domain"
-}
+  constraint "All containers need descriptions" {
+    rule "container.description must be non-empty"
+  }
 
-policy "Service Registry Required" {
-  description "All services must be registered"
-
-  rule "all deployed services must be in registry"
-  enforcement "required"
+  constraint "No unnamed relationships" {
+    rule "edge.label must be non-empty"
+  }
 }
 </code></pre>
-<h2 id="pre-composition-validation"><a class="header" href="#pre-composition-validation">Pre-Composition Validation</a></h2>
+<h2 id="pre-publish-validation"><a class="header" href="#pre-publish-validation">Pre-Publish Validation</a></h2>
 <pre><code class="language-bash"># Before publishing, validate locally
-sruja validate -r . --check-conflicts-with-registry
+sruja lint repo.sruja
 
-# Check against other published bundles
-sruja validate -r . --check-against-bundles ./shared/bundles/
+# Check for drift from baseline
+sruja drift -r . -a repo.sruja
+
+# In CI, enforce compliance
+sruja drift --ci -r . -a repo.sruja
 </code></pre>
 <h2 id="cicd-integration"><a class="header" href="#cicd-integration">CI/CD Integration</a></h2>
-<pre><code class="language-yaml"># .github/workflows/prevent-conflicts.yml
-- name: Check for Conflicts
+<pre><code class="language-yaml"># .github/workflows/architecture-check.yml
+- name: Architecture Validation
   run: |
-    # Download latest bundles
-    sruja fetch-bundles -i ./shared/bundles/
+    # Lint DSL syntax
+    sruja lint repo.sruja
 
-    # Validate no conflicts
-    sruja validate -r . --check-conflicts-with-registry
-    sruja validate -r . --check-against-bundles ./bundles/
+    # Check for drift
+    sruja drift --ci -r . -a repo.sruja
+
+    # Publish bundle on main branch
+    if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+      sruja publish -r . -o bundle.json
+    fi
 </code></pre>
 <h2 id="onboarding-new-services"><a class="header" href="#onboarding-new-services">Onboarding New Services</a></h2>
 <p>When creating a new service:</p>
-<pre><code class="language-bash"># 1. Register first
-sruja register --service new-service \
-  --domain new-domain \
-  --team new-team
-
-# 2. Get approved name
-# new-domain-service
-
-# 3. Create with approved naming
+<pre><code class="language-bash"># 1. Initialize with Sruja
 mkdir new-domain-service
 cd new-domain-service
-sruja init --name new-domain-service
+sruja init --auto
+
+# 2. Follow naming conventions
+# Name your system: new-domain-system
+# Name your containers: team-function
+
+# 3. Validate before publishing
+sruja lint repo.sruja
+sruja drift -r . -a repo.sruja
 
 # 4. Publish
 sruja publish -r . -o ../bundles/new-domain-service.bundle.json
 </code></pre>
+<h2 id="hands-on-prevent-conflicts"><a class="header" href="#hands-on-prevent-conflicts">Hands-On: Prevent Conflicts</a></h2>
+<ol>
+<li>
+<p><strong>Establish naming conventions for your team:</strong></p>
+<ul>
+<li>Use pattern like <code>{team}-{function}</code> for containers</li>
+<li>Document conventions in <code>docs/naming-conventions.md</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Add policies to enforce standards:</strong></p>
+<pre><code class="language-sruja">policy "Naming Standards" {
+  constraint "Container names must match pattern" {
+    rule "container.id matches '^[a-z]+-[a-z]+$'"
+  }
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Run validation in CI:</strong></p>
+<pre><code class="language-bash">sruja lint repo.sruja
+sruja drift --ci -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Review before publishing:</strong></p>
+<ul>
+<li>Check existing bundles in shared location</li>
+<li>Ensure your names don't conflict</li>
+</ul>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Establish naming conventions to prevent conflicts</li>
+<li>✅ Use governance and compliance checks</li>
+<li>✅ Define policies to enforce architecture standards</li>
+<li>✅ Integrate validation into CI/CD pipelines</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-is-the-primary-benefit-of-naming-conventions"><a class="header" href="#q1-what-is-the-primary-benefit-of-naming-conventions">Q1: What is the primary benefit of naming conventions?</a></h3>
+<p>A) Faster compilation
+B) Reduced memory usage
+C) Preventing naming collisions and improving clarity
+D) Better network performance</p>
+<h3 id="q2-what-command-should-you-run-before-publishing-a-bundle"><a class="header" href="#q2-what-command-should-you-run-before-publishing-a-bundle">Q2: What command should you run before publishing a bundle?</a></h3>
+<p>A) <code>sruja start</code>
+B) <code>sruja lint</code> and <code>sruja drift</code>
+C) <code>sruja build</code>
+D) <code>sruja compile</code></p>
+<h3 id="q3-how-can-you-enforce-architecture-policies-in-cicd"><a class="header" href="#q3-how-can-you-enforce-architecture-policies-in-cicd">Q3: How can you enforce architecture policies in CI/CD?</a></h3>
+<p>A) Using Git pre-commit hooks only
+B) Running <code>sruja drift --ci</code> in your pipeline
+C) Manual review only
+D) Using a separate policy server</p>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
 <p>You've completed Conflict Resolution. You now understand:</p>
 <ul>
 <li>✅ Conflict detection in composition</li>
 <li>✅ Resolution strategies (manual, alias, merge, deprecate)</li>
-<li>✅ Conflict prevention with conventions and registry</li>
+<li>✅ Conflict prevention with conventions and governance</li>
 </ul>
 <p>Next, Module 4 covers Federated Governance.</p>
 

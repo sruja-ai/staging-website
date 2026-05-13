@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -217,33 +217,80 @@ OrderProcessor -&gt; ExternalSystems.Stripe "Payment processing"
 OrderProcessor -&gt; ExternalSystems.SendGrid "Email delivery"
 </code></pre>
 <h2 id="validation-of-external-references"><a class="header" href="#validation-of-external-references">Validation of External References</a></h2>
-<pre><code class="language-bash"># Validate all external refs resolve
-sruja validate -r . --check-external
+<pre><code class="language-bash"># Validate DSL syntax and constraints
+sruja lint repo.sruja
 
-# Check specific bundle
-sruja validate --bundle ./bundles/user-service.bundle.json
+# Validate with architecture file
+sruja lint repo.sruja --format json
+
+# Run drift check to see what changed
+sruja drift -r . -a repo.sruja
 </code></pre>
 <p>Validation checks:</p>
 <ul>
-<li>✅ External bundle exists</li>
-<li>✅ Referenced component exists</li>
-<li>✅ Relationship is valid</li>
+<li>✅ DSL syntax is correct</li>
+<li>✅ All references resolve</li>
+<li>✅ Relationships are valid</li>
 </ul>
-<h2 id="versioning-external-references"><a class="header" href="#versioning-external-references">Versioning External References</a></h2>
-<pre><code class="language-sruja">// Pin to specific version
-import { user-service v1.2.0 } from "./bundles/user-service.bundle.json"
-
-// Or use latest
-import { user-service @ latest } from "./bundles/user-service.bundle.json"
-</code></pre>
 <h2 id="broken-reference-detection"><a class="header" href="#broken-reference-detection">Broken Reference Detection</a></h2>
-<pre><code class="language-bash"># Find broken refs
-sruja validate -r . --find-broken-refs
+<pre><code class="language-bash"># Find drift and broken refs
+sruja drift -r . -a repo.sruja
 
-# Output:
-# ERROR: user-service::NonExistent not found in bundle
-# ERROR: payment-service::LegacyAPI has been deprecated
+# Use impact analysis to understand dependencies
+sruja impact OrderService -r . --depth 2
 </code></pre>
+<h2 id="hands-on-work-with-external-references"><a class="header" href="#hands-on-work-with-external-references">Hands-On: Work with External References</a></h2>
+<ol>
+<li>
+<p><strong>Create a bundle to reference:</strong></p>
+<pre><code class="language-bash">sruja publish -r ./user-service -o ./bundles/user-service.bundle.json
+</code></pre>
+</li>
+<li>
+<p><strong>Set up cross-repo references in your DSL:</strong></p>
+<pre><code class="language-sruja">import { user-service } from "./bundles/user-service.bundle.json"
+
+OrderService = system "Order Service" {
+  OrderProcessor = container "Order Processor"
+  OrderProcessor -&gt; user-service::UserAPI "Validates customer"
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Validate the references:</strong></p>
+<pre><code class="language-bash">sruja lint repo.sruja
+sruja drift -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Check impact of external dependencies:</strong></p>
+<pre><code class="language-bash">sruja impact OrderProcessor -r . --depth 3
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Import and reference components from external bundles</li>
+<li>✅ Model external systems you depend on but don't control</li>
+<li>✅ Validate external references using <code>sruja lint</code></li>
+<li>✅ Use impact analysis to understand cross-repo dependencies</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-command-is-used-to-validate-sruja-dsl-files"><a class="header" href="#q1-what-command-is-used-to-validate-sruja-dsl-files">Q1: What command is used to validate Sruja DSL files?</a></h3>
+<p>A) <code>sruja validate</code>
+B) <code>sruja lint</code>
+C) <code>sruja check</code>
+D) <code>sruja verify</code></p>
+<h3 id="q2-when-modeling-external-services-you-dont-control-what-should-you-use"><a class="header" href="#q2-when-modeling-external-services-you-dont-control-what-should-you-use">Q2: When modeling external services you don't control, what should you use?</a></h3>
+<p>A) Import statements with no changes
+B) A separate system definition with description
+C) Direct database access
+D) Git submodules</p>
+<h3 id="q3-what-does-sruja-drift-help-detect"><a class="header" href="#q3-what-does-sruja-drift-help-detect">Q3: What does <code>sruja drift</code> help detect?</a></h3>
+<p>A) Git conflicts
+B) Changes between architecture and code
+C) Network issues
+D) Memory leaks</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 3 covers ownership and contracts.</p>
 

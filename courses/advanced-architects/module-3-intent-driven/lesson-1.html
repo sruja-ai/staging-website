@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -241,9 +241,6 @@ policy "API Security" {
 <pre><code class="language-bash"># Check intent compliance
 sruja intent check -r .
 
-# Check specific requirement
-sruja intent check -r . --requirement "API latency"
-
 # Generate intent report
 sruja intent check -r . --format json &gt; intent-report.json
 </code></pre>
@@ -265,21 +262,21 @@ policy "Availability Policy" {
 }
 </code></pre>
 <h2 id="intent-drift-detection"><a class="header" href="#intent-drift-detection">Intent Drift Detection</a></h2>
-<pre><code class="language-bash"># Detect drift from intent
-sruja drift -r . --intent
+<pre><code class="language-bash"># Detect drift between code and architecture
+sruja drift -r . -a repo.sruja
 
-# Show what changed
-sruja drift -r . --intent --verbose
-
-# Auto-fix drift where possible
-sruja drift -r . --intent --fix
+# Check compliance with policies
+sruja compliance -r . -a repo.sruja
 </code></pre>
 <h2 id="proposing-intent-changes"><a class="header" href="#proposing-intent-changes">Proposing Intent Changes</a></h2>
-<pre><code class="language-bash"># Propose new intent based on changes
-sruja intent propose -r . --from-diff
+<pre><code class="language-bash"># Propose new architectural change
+sruja propose create --description "Add caching layer to improve latency"
 
-# Review proposed changes
-sruja intent propose -r . --review
+# View pending proposals
+sruja propose list
+
+# Approve a proposal
+sruja propose approve --id &lt;proposal_id&gt;
 </code></pre>
 <h2 id="hands-on-define-intent-for-a-service"><a class="header" href="#hands-on-define-intent-for-a-service">Hands-On: Define Intent for a Service</a></h2>
 <pre><code class="language-sruja">// partial
@@ -304,6 +301,29 @@ policy "Security Policy" {
   rule deny edge from { tag "public" } to { kind "database" } except { kind "container" tag "trusted" }
 }
 </code></pre>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand what architectural intent is and why it matters</li>
+<li>✅ Express intent using requirements and policies in Sruja DSL</li>
+<li>✅ Use <code>sruja intent check</code> and <code>sruja compliance</code> to validate intent</li>
+<li>✅ Detect drift using <code>sruja drift</code></li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-is-architectural-intent"><a class="header" href="#q1-what-is-architectural-intent">Q1: What is architectural intent?</a></h3>
+<p>A) A detailed implementation plan
+B) A formal declaration of what you want your architecture to achieve
+C) A list of all components
+D) A network diagram</p>
+<h3 id="q2-what-command-checks-intent-compliance"><a class="header" href="#q2-what-command-checks-intent-compliance">Q2: What command checks intent compliance?</a></h3>
+<p>A) <code>sruja lint</code>
+B) <code>sruja intent check</code>
+C) <code>sruja drift</code>
+D) <code>sruja validate</code></p>
+<h3 id="q3-what-does-sruja-drift-help-detect"><a class="header" href="#q3-what-does-sruja-drift-help-detect">Q3: What does <code>sruja drift</code> help detect?</a></h3>
+<p>A) Git conflicts
+B) Changes between code and architecture
+C) Network failures
+D) Database issues</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 2 covers how to let AI challenge your intent and architecture decisions.</p>
 

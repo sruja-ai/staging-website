@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -269,6 +269,55 @@ sruja mcp -r . --verbose
 </tbody>
 </table>
 </div>
+<h2 id="hands-on-set-up-mcp-server"><a class="header" href="#hands-on-set-up-mcp-server">Hands-On: Set Up MCP Server</a></h2>
+<ol>
+<li>
+<p><strong>Install Sruja CLI:</strong></p>
+<pre><code class="language-bash"># Verify installation
+sruja --version
+
+# Or install if needed
+curl -fsSL https://sruja.ai/install.sh | bash
+</code></pre>
+</li>
+<li>
+<p><strong>Test MCP server:</strong></p>
+<pre><code class="language-bash"># Start MCP server
+sruja mcp -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Configure your AI editor:</strong>
+Add the configuration to your editor's MCP settings file as shown above.</p>
+</li>
+<li>
+<p><strong>Verify the connection:</strong>
+Ask your AI editor: "What is the architecture of this project?"</p>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Understand what the Model Context Protocol (MCP) is and why it matters</li>
+<li>✅ Configure Sruja as an MCP server for AI editors</li>
+<li>✅ Connect AI editors (Cursor, VS Code, Cline, Windsurf) to Sruja</li>
+<li>✅ Verify MCP connection is working</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-does-mcp-stand-for-in-the-context-of-ai-editors"><a class="header" href="#q1-what-does-mcp-stand-for-in-the-context-of-ai-editors">Q1: What does MCP stand for in the context of AI editors?</a></h3>
+<p>A) Model Computing Protocol
+B) Model Context Protocol
+C) Machine Code Processing
+D) Managed Code Platform</p>
+<h3 id="q2-why-is-mcp-useful-for-architecture-aware-ai-assistance"><a class="header" href="#q2-why-is-mcp-useful-for-architecture-aware-ai-assistance">Q2: Why is MCP useful for architecture-aware AI assistance?</a></h3>
+<p>A) It speeds up code compilation
+B) It provides architecture context to AI editors so they understand dependencies
+C) It automatically writes code
+D) It deploys applications</p>
+<h3 id="q3-what-command-starts-the-sruja-mcp-server"><a class="header" href="#q3-what-command-starts-the-sruja-mcp-server">Q3: What command starts the Sruja MCP server?</a></h3>
+<p>A) <code>sruja server start</code>
+B) <code>sruja mcp -r .</code>
+C) <code>sruja connect</code>
+D) <code>sruja context</code></p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 2 covers building and optimizing context for AI assistance.</p>
 

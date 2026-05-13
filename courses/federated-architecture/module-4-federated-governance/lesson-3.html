@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -201,76 +201,122 @@ jobs:
       - name: Install Sruja
         run: curl -fsSL https://sruja.ai/install.sh | bash
 
-      - name: Validate Policies
-        run: |
-          sruja validate -r . \
-            --policies ../federation/policies/global.sruja
-
       - name: Check Compliance
-        run: |
-          sruja compliance -r . \
-            --output compliance.json
+        run: sruja compliance -r . -a repo.sruja
 
-      - name: Fail on Critical Violations
-        if: contains(steps.compliance.outputs.level, 'critical')
-        run: |
-          echo "Critical policy violations found"
-          exit 1
+      - name: Check for Drift
+        run: sruja drift --ci -r . -a repo.sruja
 </code></pre>
 <h2 id="automated-remediation"><a class="header" href="#automated-remediation">Automated Remediation</a></h2>
-<pre><code class="language-bash"># Auto-fix where possible
-sruja drift -r . --fix
+<pre><code class="language-bash"># Check drift with fix suggestions
+sruja drift -r . -a repo.sruja
 
-# For policy violations that can be auto-fixed
-sruja policy -r . --auto-fix
-
-# Review auto-fixes before committing
-sruja policy -r . --auto-fix --dry-run
+# For auto-fix capabilities, update the architecture to match code:
+# sruja init --auto  # to regenerate baseline
 </code></pre>
 <h2 id="governance-metrics"><a class="header" href="#governance-metrics">Governance Metrics</a></h2>
 <p>Track governance health over time:</p>
-<pre><code class="language-bash"># Track governance score
-sruja metrics --governance --output metrics.json
+<pre><code class="language-bash"># Check health
+sruja health -r .
 
-# Dashboard
-sruja metrics --governance --dashboard
+# With JSON output for tracking
+sruja health -r . --format json
+
+# Context score for AI-readiness
+sruja context-score -r .
 </code></pre>
 <h2 id="gatekeeping"><a class="header" href="#gatekeeping">Gatekeeping</a></h2>
-<p>Prevent non-compliant repos from publishing:</p>
-<pre><code class="language-yaml"># .github/workflows/publish-bundle.yml
+<p>Prevent drift from accumulating:</p>
+<pre><code class="language-yaml"># .github/workflows/quality-gate.yml
 jobs:
-  publish:
-    needs: governance
+  quality-gate:
     runs-on: ubuntu-latest
     steps:
-      - name: Publish Bundle
-        if: needs.governance.outputs.compliant == 'true'
-        run: sruja publish -r . -o bundle.json
+      - uses: actions/checkout@v4
 
-      - name: Block Non-Compliant
-        if: needs.governance.outputs.compliant != 'true'
+      - name: Architecture Check
         run: |
-          echo "Cannot publish: governance failures"
-          exit 1
+          # Lint the DSL
+          sruja lint repo.sruja
+
+          # Check drift
+          sruja drift --ci -r . -a repo.sruja
 </code></pre>
 <h2 id="policy-distribution"><a class="header" href="#policy-distribution">Policy Distribution</a></h2>
-<pre><code class="language-bash"># Push policies to repos
-sruja policy push --policy global.sruja \
-  --to ./repos/*/
-
-# Pull policy updates
-sruja policy pull --from ../federation/policies/
+<p>Sruja policies are defined in <code>repo.sruja</code> or separate <code>.sruja</code> files. To share policies across repos:</p>
+<ol>
+<li>
+<p><strong>Define policies in a central repo:</strong></p>
+<pre><code class="language-sruja">// In federation-policies repo
+policy "Global Security" {
+  constraint "All external endpoints must use HTTPS" {
+    applies_to: container
+  }
+}
 </code></pre>
+</li>
+<li>
+<p><strong>Reference from individual repos:</strong></p>
+<pre><code class="language-sruja">import { Global Security } from "../federation-policies/policies.sruja"
+</code></pre>
+</li>
+</ol>
 <h2 id="governance-dashboard"><a class="header" href="#governance-dashboard">Governance Dashboard</a></h2>
-<pre><code class="language-bash"># View all repos governance status
-sruja governance --dashboard --bundles ./bundles/
+<pre><code class="language-bash"># View overall health
+sruja health -r .
 
-# Shows:
-# - Repo compliance matrix
-# - Policy violation trends
-# - Team health scores
-# - Action items
+# Generate AI context for review
+sruja ai-context -r .
 </code></pre>
+<h2 id="hands-on-automate-governance"><a class="header" href="#hands-on-automate-governance">Hands-On: Automate Governance</a></h2>
+<ol>
+<li>
+<p><strong>Add to your CI/CD pipeline:</strong></p>
+<pre><code class="language-yaml">- name: Architecture Governance
+  run: |
+    sruja lint repo.sruja
+    sruja drift --ci -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Run health check:</strong></p>
+<pre><code class="language-bash">sruja health -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Generate compliance report:</strong></p>
+<pre><code class="language-bash">sruja compliance -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Check context score:</strong></p>
+<pre><code class="language-bash">sruja context-score -r .
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Integrate governance checks into CI/CD pipelines</li>
+<li>✅ Use <code>sruja drift --ci</code> for automated drift detection</li>
+<li>✅ Track governance health with <code>sruja health</code></li>
+<li>✅ Share policies across repos using imports</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-command-runs-architecture-checks-in-ci-mode"><a class="header" href="#q1-what-command-runs-architecture-checks-in-ci-mode">Q1: What command runs architecture checks in CI mode?</a></h3>
+<p>A) <code>sruja check</code>
+B) <code>sruja drift --ci</code>
+C) <code>sruja validate</code>
+D) <code>sruja test</code></p>
+<h3 id="q2-how-can-you-share-policies-across-multiple-repos"><a class="header" href="#q2-how-can-you-share-policies-across-multiple-repos">Q2: How can you share policies across multiple repos?</a></h3>
+<p>A) Copy-paste the policy code
+B) Use import statements to reference external <code>.sruja</code> files
+C) Store policies in a database
+D) Use environment variables</p>
+<h3 id="q3-what-does-sruja-context-score-measure"><a class="header" href="#q3-what-does-sruja-context-score-measure">Q3: What does <code>sruja context-score</code> measure?</a></h3>
+<p>A) Network latency
+B) Code coverage
+C) AI-readiness of the codebase (0-100 score)
+D) Server uptime</p>
 <h2 id="course-complete"><a class="header" href="#course-complete">Course Complete!</a></h2>
 <p>You've completed the Federated Architecture course. You now understand:</p>
 <ul>
@@ -284,6 +330,7 @@ sruja governance --dashboard --bundles ./bundles/
 <li>Apply federation to your organization's repos</li>
 <li>Set up automated governance in CI/CD</li>
 <li>Train teams on federated architecture concepts</li>
+<li>Use <code>sruja ai-context</code> to provide architecture context to AI editors</li>
 </ul>
 
                     </main>

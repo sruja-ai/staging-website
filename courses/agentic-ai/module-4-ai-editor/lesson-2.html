@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -196,25 +196,28 @@
 </ul>
 <h2 id="building-architecture-context"><a class="header" href="#building-architecture-context">Building Architecture Context</a></h2>
 <h3 id="basic-context"><a class="header" href="#basic-context">Basic Context</a></h3>
-<pre><code class="language-bash"># Build context for current repo
-sruja context -r .
+<pre><code class="language-bash"># Build context for current repo (outputs cursor rules format)
+sruja ai-context -r .
 
-# Output context as JSON
-sruja context -r . --format json
+# Output as JSON
+sruja ai-context -r . --format json
+
+# Output as Markdown
+sruja ai-context -r . --format markdown
 </code></pre>
 <h3 id="cross-repo-context"><a class="header" href="#cross-repo-context">Cross-Repo Context</a></h3>
 <pre><code class="language-bash"># Build context across multiple repos
-sruja context -r repoA -r repoB -r repoC
+sruja ai-context -r repoA -r repoB -r repoC
 
 # Useful for monorepos or microservices
 </code></pre>
 <h3 id="focus-mode"><a class="header" href="#focus-mode">Focus Mode</a></h3>
 <p>For specific tasks, use focus mode to get a task-scoped briefing:</p>
-<pre><code class="language-bash"># Get context focused on a specific file/component
-sruja focus --file src/api/main.rs
+<pre><code class="language-bash"># Get context focused on a specific file
+sruja focus --file src/api/main.rs -r .
 
 # Get context for a specific component
-sruja focus --component PaymentService
+sruja focus --element-id PaymentService -r .
 </code></pre>
 <p>Focus output includes:</p>
 <ul>
@@ -247,7 +250,6 @@ sruja context-score -r .
 <h3 id="1-add-descriptions"><a class="header" href="#1-add-descriptions">1. Add Descriptions</a></h3>
 <pre><code class="language-sruja">container PaymentService {
   description "Handles payment processing and fraud detection"
-  // AI now understands what this does
 }
 </code></pre>
 <h3 id="2-link-requirements"><a class="header" href="#2-link-requirements">2. Link Requirements</a></h3>
@@ -272,10 +274,10 @@ sruja context-score -r .
 <h2 id="daily-context-sync"><a class="header" href="#daily-context-sync">Daily Context Sync</a></h2>
 <p>For AI editors, run daily sync to keep context fresh:</p>
 <pre><code class="language-bash"># Quick sync
-sruja sync -r .
-
-# Full with drift check
 sruja daily -r .
+
+# With health check
+sruja doctor -r .
 </code></pre>
 <p>This updates:</p>
 <ul>
@@ -284,6 +286,52 @@ sruja daily -r .
 <li><code>.copilot-instructions.md</code></li>
 <li><code>CLAUDE.md</code></li>
 </ul>
+<h2 id="hands-on-build-ai-context"><a class="header" href="#hands-on-build-ai-context">Hands-On: Build AI Context</a></h2>
+<ol>
+<li>
+<p><strong>Generate context for your repo:</strong></p>
+<pre><code class="language-bash">sruja ai-context -r . --format markdown
+</code></pre>
+</li>
+<li>
+<p><strong>Check your context score:</strong></p>
+<pre><code class="language-bash">sruja context-score -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Focus on a specific component:</strong></p>
+<pre><code class="language-bash">sruja focus --element-id UserAPI -r .
+</code></pre>
+</li>
+<li>
+<p><strong>Run daily sync:</strong></p>
+<pre><code class="language-bash">sruja daily -r .
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Generate AI-ready context using <code>sruja ai-context</code></li>
+<li>✅ Measure architecture AI-readiness with <code>sruja context-score</code></li>
+<li>✅ Use <code>sruja focus</code> for task-specific context</li>
+<li>✅ Optimize architecture for better AI assistance</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-command-generates-ai-context-for-your-codebase"><a class="header" href="#q1-what-command-generates-ai-context-for-your-codebase">Q1: What command generates AI context for your codebase?</a></h3>
+<p>A) <code>sruja context</code>
+B) <code>sruja ai-context</code>
+C) <code>sruja generate</code>
+D) <code>sruja build</code></p>
+<h3 id="q2-what-does-sruja-context-score-measure"><a class="header" href="#q2-what-does-sruja-context-score-measure">Q2: What does <code>sruja context-score</code> measure?</a></h3>
+<p>A) Network speed
+B) AI-readiness of your architecture (0-100 score across 5 dimensions)
+C) Code test coverage
+D) Server response time</p>
+<h3 id="q3-what-does-sruja-focus-provide"><a class="header" href="#q3-what-does-sruja-focus-provide">Q3: What does <code>sruja focus</code> provide?</a></h3>
+<p>A) Task-specific context including blast radius and design decisions
+B) Global system configuration
+C) Database schema
+D) Network topology</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 3 covers patterns for effective AI pair programming with architecture.</p>
 

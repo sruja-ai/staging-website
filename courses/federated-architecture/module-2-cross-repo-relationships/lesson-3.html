@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -267,15 +267,66 @@ teams:
     slack "#team-payments"
 </code></pre>
 <h2 id="querying-ownership"><a class="header" href="#querying-ownership">Querying Ownership</a></h2>
-<pre><code class="language-bash"># Find all components owned by a team
-sruja query --owner platform-team
+<pre><code class="language-bash"># Check drift and see ownership violations
+sruja drift -r . -a repo.sruja
 
-# Find components without owners
-sruja query --no-owner
-
-# Show ownership report
-sruja report --ownership
+# Use ai-context to see team-specific architecture
+sruja ai-context -r . --format markdown
 </code></pre>
+<h2 id="hands-on-define-ownership"><a class="header" href="#hands-on-define-ownership">Hands-On: Define Ownership</a></h2>
+<ol>
+<li>
+<p><strong>Add ownership metadata to your architecture:</strong></p>
+<pre><code class="language-sruja">UserService = system "User Service" {
+  owner "platform-team"
+
+  UserAPI = container "User API" {
+    owner "platform-team"
+    description "REST API for user management"
+  }
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Validate and check for issues:</strong></p>
+<pre><code class="language-bash">sruja lint repo.sruja
+sruja drift -r . -a repo.sruja
+</code></pre>
+</li>
+<li>
+<p><strong>Check impact of changes:</strong></p>
+<pre><code class="language-bash">sruja impact UserAPI -r . --depth 2
+</code></pre>
+</li>
+<li>
+<p><strong>Generate context for your team:</strong></p>
+<pre><code class="language-bash">sruja ai-context -r . -o team-context.md
+</code></pre>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Track ownership of components across repositories</li>
+<li>✅ Define and expose contracts between services</li>
+<li>✅ Set SLA requirements for components</li>
+<li>✅ Use <code>sruja drift</code> to validate architecture changes</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-metadata-field-should-every-component-have-for-tracking-ownership"><a class="header" href="#q1-what-metadata-field-should-every-component-have-for-tracking-ownership">Q1: What metadata field should every component have for tracking ownership?</a></h3>
+<p>A) <code>version</code>
+B) <code>owner</code>
+C) <code>status</code>
+D) <code>priority</code></p>
+<h3 id="q2-what-does-the-contract-block-in-sruja-represent"><a class="header" href="#q2-what-does-the-contract-block-in-sruja-represent">Q2: What does the <code>contract</code> block in Sruja represent?</a></h3>
+<p>A) A legal agreement
+B) An exposed API interface definition between services
+C) A database schema
+D) A CI/CD pipeline</p>
+<h3 id="q3-which-command-helps-detect-architectural-drift-between-code-and-architecture"><a class="header" href="#q3-which-command-helps-detect-architectural-drift-between-code-and-architecture">Q3: Which command helps detect architectural drift between code and architecture?</a></h3>
+<p>A) <code>sruja lint</code>
+B) <code>sruja drift</code>
+C) <code>sruja validate</code>
+D) <code>sruja check</code></p>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
 <p>You've completed Cross-Repo Relationships. You now understand:</p>
 <ul>

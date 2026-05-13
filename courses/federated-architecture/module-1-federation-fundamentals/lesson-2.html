@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-2adc9949.js";
+            window.path_to_searchindex_js = "../../../searchindex-b201c992.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -295,6 +295,60 @@ sruja publish -r . -o repo.bundle.json
 </tbody>
 </table>
 </div>
+<h2 id="hands-on-publish-your-first-bundle"><a class="header" href="#hands-on-publish-your-first-bundle">Hands-On: Publish Your First Bundle</a></h2>
+<ol>
+<li>
+<p><strong>Initialize or use an existing repo:</strong></p>
+<pre><code class="language-bash">cd /path/to/your-repo
+sruja init --auto  # if not already initialized
+</code></pre>
+</li>
+<li>
+<p><strong>Publish a bundle:</strong></p>
+<pre><code class="language-bash">sruja publish -r . -o repo.bundle.json
+</code></pre>
+</li>
+<li>
+<p><strong>Inspect the bundle contents:</strong></p>
+<pre><code class="language-bash">cat repo.bundle.json | jq '{repo_id, git_commit, truth_status, schema_version}'
+</code></pre>
+</li>
+<li>
+<p><strong>View the components in the bundle:</strong></p>
+<pre><code class="language-bash">cat repo.bundle.json | jq '.context.components[0:2]'
+</code></pre>
+</li>
+<li>
+<p><strong>Set up automated publishing</strong> (optional - for CI/CD):</p>
+<ul>
+<li>Create a GitHub Actions workflow as shown above</li>
+<li>Or add to existing CI pipeline</li>
+</ul>
+</li>
+</ol>
+<h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
+<ul>
+<li>✅ Publish an architecture bundle from any repository</li>
+<li>✅ Understand the bundle JSON structure and contents</li>
+<li>✅ Identify the key fields in a bundle (repo_id, context, truth_status)</li>
+<li>✅ Set up automated bundle publishing in CI/CD</li>
+</ul>
+<h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
+<h3 id="q1-what-does-the-truth_status-field-in-a-bundle-indicate"><a class="header" href="#q1-what-does-the-truth_status-field-in-a-bundle-indicate">Q1: What does the <code>truth_status</code> field in a bundle indicate?</a></h3>
+<p>A) Whether the bundle is encrypted
+B) The version of the bundle schema
+C) Whether the architecture matches the actual code (reviewed/drifted/unknown)
+D) The number of components in the bundle</p>
+<h3 id="q2-why-should-bundles-be-published-from-the-main-branch"><a class="header" href="#q2-why-should-bundles-be-published-from-the-main-branch">Q2: Why should bundles be published from the main branch?</a></h3>
+<p>A) Main branch has faster network access
+B) Main branch ensures consistency and represents the current architecture truth
+C) Bundles cannot be published from other branches
+D) Main branch is required by GitHub</p>
+<h3 id="q3-what-is-the-recommended-way-to-keep-bundles-up-to-date"><a class="header" href="#q3-what-is-the-recommended-way-to-keep-bundles-up-to-date">Q3: What is the recommended way to keep bundles up-to-date?</a></h3>
+<p>A) Manually publish before each meeting
+B) Automate publishing in CI/CD on every push to main
+C) Only publish when a new release is tagged
+D) Use a scheduled cron job to publish daily</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 3 covers composing bundles into a system index.</p>
 
