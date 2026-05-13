@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-861412dd.js";
+            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -239,6 +239,13 @@ AI with context: [checks against policies, finds issues]
 2. New dependency creates circular reference with BillingService
 3. Missing required 'tech' field in container definition"
 </code></pre>
+<h3 id="pattern-6-ask-the-host-to-query-lineage-mcp"><a class="header" href="#pattern-6-ask-the-host-to-query-lineage-mcp">Pattern 6: Ask the host to query lineage (MCP)</a></h3>
+<p>When the Sruja MCP server is connected, the model can pull <strong>in-repo traces</strong> without guessing:</p>
+<ul>
+<li><strong><code>sruja_get_context_events</code></strong> — recent rows from <code>.sruja/context_events.jsonl</code> (after <code>intent check</code>, <code>drift</code>, or a merged proposal).</li>
+<li><strong><code>sruja_get_agent_learnings</code></strong> — <code>AgenticMemory</code> entries tied to an <strong>element id</strong> (same idea as “memory hits” in <code>sruja focus</code> JSON).</li>
+</ul>
+<p>Use these before risky edits: they surface prior guardrails and verification history the same way a human would scan Slack—except here it is structured and local to the repo. Full parameter list: <a href="../../../../../docs/mcp_tools_reference.html#context-engineering-scores-and-briefings">mcp_tools_reference.md</a>.</p>
 <h2 id="effective-prompts-for-architecture-context"><a class="header" href="#effective-prompts-for-architecture-context">Effective Prompts for Architecture Context</a></h2>
 <div class="table-wrapper">
 <table>
@@ -330,12 +337,20 @@ sruja drift -r . -a repo.sruja
 sruja impact ComponentName -r . --depth 3
 </code></pre>
 </li>
+<li>
+<p><strong>Optional — with MCP, ask for lineage before a large change:</strong></p>
+<ul>
+<li><code>sruja_get_agent_learnings</code> for your target <strong>element id</strong></li>
+<li><code>sruja_get_context_events</code> with a small <code>limit</code> to see recent intent/drift/proposal events</li>
+</ul>
+</li>
 </ol>
 <h2 id="learning-outcomes"><a class="header" href="#learning-outcomes">Learning Outcomes</a></h2>
 <ul>
 <li>✅ Apply architecture-aware AI interaction patterns</li>
 <li>✅ Use AI to explore and understand architecture</li>
 <li>✅ Validate AI suggestions with Sruja commands</li>
+<li>✅ Use <strong>MCP lineage tools</strong> (<code>sruja_get_context_events</code>, <code>sruja_get_agent_learnings</code>) when available</li>
 <li>✅ Avoid common anti-patterns in AI-assisted development</li>
 </ul>
 <h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
@@ -354,13 +369,18 @@ D) It's not necessary</p>
 B) <code>sruja context</code>
 C) <code>sruja impact</code>
 D) <code>sruja drift</code></p>
+<h3 id="q4-which-mcp-tools-surface-in-repo-lineage-for-an-ai-session"><a class="header" href="#q4-which-mcp-tools-surface-in-repo-lineage-for-an-ai-session">Q4: Which MCP tools surface in-repo lineage for an AI session?</a></h3>
+<p>A) <code>sruja_get_repomap</code> and <code>sruja_bm25_search</code>
+B) <code>sruja_get_context_events</code> and <code>sruja_get_agent_learnings</code>
+C) <code>sruja_add_element</code> and <code>sruja_commit_evolution</code>
+D) <code>sruja_validate_change</code> only</p>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
 <p>You've completed the AI Editor Integration module. You now understand:</p>
 <ul>
 <li>✅ Setting up Sruja MCP server</li>
 <li>✅ Building architecture context for AI</li>
-<li>✅ Using context-driven AI assistance</li>
-<li>✅ Effective AI pair programming patterns</li>
+<li>✅ Using context-driven AI assistance (including <strong>git-range focus</strong> and <strong>on-disk lineage</strong>)</li>
+<li>✅ Effective AI pair programming patterns (including <strong>MCP lineage queries</strong>)</li>
 </ul>
 <p>This module completes the Agentic AI course with practical AI editor integration skills.</p>
 

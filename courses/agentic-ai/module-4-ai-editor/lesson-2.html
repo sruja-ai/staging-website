@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-861412dd.js";
+            window.path_to_searchindex_js = "../../../searchindex-d0283ee9.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-31fff2f4.js"></script>
@@ -218,7 +218,20 @@ sruja focus --file src/api/main.rs -r .
 
 # Get context for a specific component
 sruja focus --element-id PaymentService -r .
+
+# Optional: compare a git range to the scan graph (temporal context on the briefing)
+sruja focus --element-id MySystem.Api --base-ref main --head-ref HEAD -r .
+
+# Base only: head defaults to HEAD
+sruja focus --file src/api/main.rs --base-ref main -r .
 </code></pre>
+<h3 id="context-lineage-on-disk"><a class="header" href="#context-lineage-on-disk">Context lineage on disk</a></h3>
+<p>Sruja also records <strong>lightweight decision-style traces</strong> for the repo (not a separate graph model—see <a href="../../../../../docs/CONTEXT_ENGINEERING.html#context-graphs-sruja-vs-industry-usage">CONTEXT_ENGINEERING</a>):</p>
+<ul>
+<li><strong><code>.sruja/context_events.jsonl</code></strong> — append-only JSON lines when you run <strong><code>sruja intent check</code></strong>, <strong><code>sruja drift</code></strong> (with architecture compare), or <strong><code>sruja propose approve …</code></strong> (merged proposal). Useful for “what did we last check?” in CI or audits.</li>
+<li><strong><code>.sruja/agent_memory.json</code></strong> — structured learnings from agents (<code>sruja agent record</code> / MCP <code>sruja_record_learning</code>).</li>
+<li><strong><code>.sruja/agent/runs/&lt;run_id&gt;/facts_bundle.json</code></strong> — produced when an <strong>agent apply</strong> run finishes verification (replay bundle).</li>
+</ul>
 <p>Focus output includes:</p>
 <ul>
 <li><strong>Blast radius</strong>: What depends on this</li>
@@ -304,6 +317,11 @@ sruja doctor -r .
 </code></pre>
 </li>
 <li>
+<p><strong>Optional — temporal focus for a PR-style range:</strong></p>
+<pre><code class="language-bash">sruja focus --element-id UserAPI --base-ref main --head-ref HEAD -r .
+</code></pre>
+</li>
+<li>
 <p><strong>Run daily sync:</strong></p>
 <pre><code class="language-bash">sruja daily -r .
 </code></pre>
@@ -313,7 +331,8 @@ sruja doctor -r .
 <ul>
 <li>✅ Generate AI-ready context using <code>sruja ai-context</code></li>
 <li>✅ Measure architecture AI-readiness with <code>sruja context-score</code></li>
-<li>✅ Use <code>sruja focus</code> for task-specific context</li>
+<li>✅ Use <code>sruja focus</code> for task-specific context (including optional <strong>git-range</strong> temporal context)</li>
+<li>✅ Know where <strong>context lineage</strong> artifacts live (<code>context_events.jsonl</code>, agent memory, agent run facts bundles)</li>
 <li>✅ Optimize architecture for better AI assistance</li>
 </ul>
 <h2 id="quiz-test-your-understanding"><a class="header" href="#quiz-test-your-understanding">Quiz: Test Your Understanding</a></h2>
@@ -332,6 +351,11 @@ D) Server response time</p>
 B) Global system configuration
 C) Database schema
 D) Network topology</p>
+<h3 id="q4-what-does-srujacontext_eventsjsonl-capture"><a class="header" href="#q4-what-does-srujacontext_eventsjsonl-capture">Q4: What does <code>.sruja/context_events.jsonl</code> capture?</a></h3>
+<p>A) Raw git packfiles
+B) Append-only summaries of intent checks, drift runs, and merged proposals (with optional policy fingerprint)
+C) Your editor undo history
+D) npm lockfile metadata</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <p>Lesson 3 covers patterns for effective AI pair programming with architecture.</p>
 
