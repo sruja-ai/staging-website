@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-3db7561d.js";
+            window.path_to_searchindex_js = "../searchindex-b8b9cf3d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-31fff2f4.js"></script>
@@ -184,7 +184,11 @@
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
 <p>For a short, practical guide (install CLI, add to your project, CI, AI, multi-repo), see <strong><a href="using-sruja-in-your-project.html">Using Sruja in your project</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
 <h2 id="canonical-pilot-path-recommended"><a class="header" href="#canonical-pilot-path-recommended">Canonical pilot path (recommended)</a></h2>
-<p>Use a single, repeatable workflow to evaluate Sruja:</p>
+<p>Use a single, repeatable workflow to evaluate Sruja. Start with the skill when your editor supports it:</p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
+</code></pre>
+<p>Then ask your AI editor to gather evidence, generate or update <code>repo.sruja</code>, and run <code>sruja lint</code>.</p>
+<p>For deterministic CLI-only evaluation:</p>
 <pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 sruja quickstart -r . --generate-baseline
 sruja lint repo.sruja
@@ -192,7 +196,7 @@ sruja sync -r .
 sruja status -r .
 sruja drift -r . -a repo.sruja
 </code></pre>
-<p>This path is designed to minimize ambiguity: one baseline file (<code>repo.sruja</code>), one validation gate (<code>lint</code>), and one drift signal (<code>drift</code>) backed by refreshed evidence (<code>sync</code>).</p>
+<p>Both paths are designed to minimize ambiguity: one reviewed truth file (<code>repo.sruja</code>), one validation gate (<code>lint</code>), and one drift signal (<code>drift</code>) backed by refreshed evidence (<code>sync</code>).</p>
 <h2 id="is-sruja-right-for-your-organization"><a class="header" href="#is-sruja-right-for-your-organization">Is Sruja Right for Your Organization?</a></h2>
 <h3 id="quick-self-assessment"><a class="header" href="#quick-self-assessment">Quick Self-Assessment</a></h3>
 <p>Answer these questions to determine if Sruja addresses your needs:</p>
@@ -216,7 +220,7 @@ sruja drift -r . -a repo.sruja
 <p><strong>If 2+ are "Yes"</strong> → Sruja's policy-as-code is valuable</p>
 <h4 id="technical-architecture-challenges"><a class="header" href="#technical-architecture-challenges">Technical Architecture Challenges</a></h4>
 <ul>
-<li><input disabled="" type="checkbox"> Do you have microservices that need governance?</li>
+<li><input disabled="" type="checkbox"> Do you have microservices that need explicit guardrails?</li>
 <li><input disabled="" type="checkbox"> Are you experiencing architectural drift (implementation vs. design)?</li>
 <li><input disabled="" type="checkbox"> Do you need to enforce service boundaries and dependencies?</li>
 <li><input disabled="" type="checkbox"> Are circular dependencies causing issues?</li>
@@ -244,7 +248,7 @@ sruja drift -r . -a repo.sruja
 <li>❌ You have &lt; 5 engineers (overhead may outweigh benefits)</li>
 <li>❌ You don't use version control or CI/CD</li>
 <li>❌ You prefer visual-only tools (no code/DSL)</li>
-<li>❌ You have no compliance or governance requirements</li>
+<li>❌ You have no need for shared architecture context, CI checks, or policy guardrails</li>
 </ul>
 <h2 id="decision-framework"><a class="header" href="#decision-framework">Decision Framework</a></h2>
 <h3 id="step-1-define-your-goals"><a class="header" href="#step-1-define-your-goals">Step 1: Define Your Goals</a></h3>
@@ -469,21 +473,21 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <p>While Sruja is open source and free to use, professional consulting services are available for organizations that need:</p>
 <ul>
 <li><strong>Implementation support</strong>: Help rolling out Sruja across teams and systems</li>
-<li><strong>Best practices guidance</strong>: Establish architectural governance patterns and workflows</li>
+<li><strong>Context workflow guidance</strong>: Establish evidence, validation, and review patterns for AI-assisted architecture work</li>
 <li><strong>Custom integrations</strong>: Integrate Sruja with existing CI/CD, infrastructure, and monitoring tools</li>
 <li><strong>Training</strong>: Team training on Sruja DSL, validation patterns, and architectural modeling</li>
 <li><strong>Custom development</strong>: Build custom validators, exporters, or platform integrations</li>
 </ul>
 <p>Contact the team through <a href="https://github.com/sruja-ai/sruja/discussions">GitHub Discussions</a> to discuss your needs.</p>
 <h2 id="future-platform-vision"><a class="header" href="#future-platform-vision">Future Platform Vision</a></h2>
-<p>Sruja is designed to evolve into a comprehensive platform for architectural governance:</p>
+<p>Sruja is designed to evolve as a context engineering platform for AI-assisted architecture work:</p>
 <ul>
-<li><strong>Live System Review</strong>: Compare actual runtime behavior against architectural models to detect drift and violations.</li>
-<li><strong>Gap Analysis</strong>: Automatically identify missing components, undocumented dependencies, and architectural gaps.</li>
-<li><strong>Continuous Validation</strong>: Monitor production systems against architectural policies and constraints in real-time.</li>
-<li><strong>Compliance Monitoring</strong>: Track and report on architectural compliance across services and deployments.</li>
+<li><strong>Live System Review</strong>: Compare actual runtime behavior against reviewed architecture truth to detect drift and violations.</li>
+<li><strong>Gap Analysis</strong>: Identify missing components, undocumented dependencies, and architectural gaps from evidence.</li>
+<li><strong>Continuous Validation</strong>: Keep repo context fresh as code, docs, and deployment artifacts change.</li>
+<li><strong>Review Support</strong>: Help humans and AI agents evaluate whether proposed changes still match intent.</li>
 </ul>
-<p>These capabilities are planned for future releases. The current open source foundation provides the building blocks for this evolution, and community feedback helps shape the roadmap.</p>
+<p>These capabilities are planned for future releases. The current open source foundation provides the evidence, validation, and context layers for this evolution, and community feedback helps shape the roadmap.</p>
 <hr>
 <p><strong>Note</strong>: This guide helps you evaluate whether Sruja is the right fit for your organization and how to adopt it successfully.</p>
 <p><strong>Ready to evaluate Sruja? Start with the Self-Assessment above.</strong></p>
