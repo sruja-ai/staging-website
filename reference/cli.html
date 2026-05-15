@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-8c550c36.js";
+            window.path_to_searchindex_js = "../searchindex-ca6b41a4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-31fff2f4.js"></script>
@@ -285,6 +285,21 @@
 </table>
 </div>
 <p><strong>Repo root:</strong> Prefer <code>-r</code> / <code>--repo</code> for the repository directory. Some commands also accept <code>--path</code> as an alias for backwards compatibility.</p>
+<h2 id="json-output-metric-hints"><a class="header" href="#json-output-metric-hints">JSON output: metric hints</a></h2>
+<p>When <code>-f json</code> (or the command’s JSON mode) is used, some commands add stable <strong><code>metric_type</code></strong> and <strong><code>metric_description</code></strong> fields so parsers and dashboards do not confuse different scores:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Command</th><th><code>metric_type</code></th><th>Role</th></tr>
+</thead>
+<tbody>
+<tr><td><code>sruja status -f json</code></td><td><code>truth_freshness</code></td><td>Baseline / sync / truth status (not structural health alone)</td></tr>
+<tr><td><code>sruja health -f json</code></td><td><code>structural_health</code></td><td>Violations vs declared <code>repo.sruja</code> (0–100)</td></tr>
+<tr><td><code>sruja context-score -f json</code></td><td><code>ai_readiness</code></td><td>AI preparedness (0–100)</td></tr>
+<tr><td><code>sruja learn -f json</code></td><td><em>(see <code>artifact_kind</code>)</em></td><td><code>artifact_kind</code> is <code>learned_hypothesis</code> — not reviewed DSL truth</td></tr>
+</tbody>
+</table>
+</div>
 <h2 id="aliases"><a class="header" href="#aliases">Aliases</a></h2>
 <ul>
 <li><code>start</code> = <code>init</code> (setup only)</li>
