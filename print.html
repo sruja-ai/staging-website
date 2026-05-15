@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d91db48b.js";
+            window.path_to_searchindex_js = "searchindex-8c550c36.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-31fff2f4.js"></script>
@@ -34026,7 +34026,64 @@ sruja completion fish
 <h1 id="syntax-error"><a href="#syntax-error" class="header">Syntax Error</a></h1>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="cli-reference"><a class="header" href="#cli-reference">CLI reference</a></h1>
-<p>Stable pilot surface:</p>
+<h2 id="which-command"><a class="header" href="#which-command">Which command?</a></h2>
+<h3 id="onboarding--setup"><a class="header" href="#onboarding--setup">Onboarding &amp; setup</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>User question</th><th>Command</th><th>Output</th></tr>
+</thead>
+<tbody>
+<tr><td>"What is this repo?"</td><td><code>sruja quickstart -r .</code></td><td>Structural overview, scan findings, optional baseline</td></tr>
+<tr><td>"Give me a complete architecture brief"</td><td><code>sruja onboard -r .</code></td><td>Full repo brief with trust signals</td></tr>
+<tr><td>"I'm about to work on X"</td><td><code>sruja ai -r . --task "..."</code></td><td>Paste-ready AI coding brief</td></tr>
+<tr><td>"Set me up"</td><td><code>sruja init -r .</code></td><td><code>.sruja/</code>, <code>.srujaignore</code>, optional prompt</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="health--status"><a class="header" href="#health--status">Health &amp; status</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>User question</th><th>Command</th><th>Output</th></tr>
+</thead>
+<tbody>
+<tr><td>"Is my <code>repo.sruja</code> current?"</td><td><code>sruja status -r .</code></td><td>Truth freshness + baseline state</td></tr>
+<tr><td>"Is my <code>repo.sruja</code> current?" (alias)</td><td><code>sruja doctor -r .</code></td><td>Same as <code>status</code></td></tr>
+<tr><td>"Are there structural problems?"</td><td><code>sruja health -r .</code></td><td>Architecture health score (0-100) from violations</td></tr>
+<tr><td>"Can AI work effectively here?"</td><td><code>sruja context-score -r .</code></td><td>AI-readiness score (0-100)</td></tr>
+<tr><td>"What should I do today?"</td><td><code>sruja review -r .</code></td><td>Action list from evidence refresh (<code>daily</code> alias)</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="retrieval-ladder"><a class="header" href="#retrieval-ladder">Retrieval ladder</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Step</th><th>Command</th><th>When to use</th></tr>
+</thead>
+<tbody>
+<tr><td>1. Before starting a task</td><td><code>sruja focus -r . --file &lt;path&gt;</code></td><td>Blast radius, decisions, AI instructions</td></tr>
+<tr><td>2. Paste-ready AI brief</td><td><code>sruja ai -r . --task "..."</code></td><td>Share context with AI assistant</td></tr>
+<tr><td>3. Inside AI editor (MCP)</td><td>MCP tools</td><td>Cursor, Copilot, Claude integration</td></tr>
+<tr><td>4. Investigation</td><td><code>sruja why "..."</code> / <code>sruja query "..."</code></td><td>"Why is this like this?"</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="discover-vs-onboarding"><a class="header" href="#discover-vs-onboarding">Discover vs onboarding</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Need</th><th>Command</th></tr>
+</thead>
+<tbody>
+<tr><td>Scanner explain / repomap / question bank for AI or debugging</td><td><code>sruja discover …</code></td></tr>
+<tr><td>First human read of the repo</td><td><code>sruja quickstart -r .</code></td></tr>
+<tr><td>Full architecture brief</td><td><code>sruja onboard -r .</code></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="stable-commands"><a class="header" href="#stable-commands">Stable commands</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -34037,15 +34094,17 @@ sruja completion fish
 <tr><td><code>sruja onboard -r .</code></td><td>Single onboarding brief (deterministic; optional LLM enrichment with <code>--enrich</code>)</td></tr>
 <tr><td><code>sruja lint &lt;file&gt;</code></td><td>Validate <code>.sruja</code> file</td></tr>
 <tr><td><code>sruja sync -r .</code></td><td>Refresh evidence and cached graph/context</td></tr>
-<tr><td><code>sruja status -r .</code></td><td>Repo health and truth status</td></tr>
+<tr><td><code>sruja status -r .</code></td><td>Truth freshness and baseline state</td></tr>
 <tr><td><code>sruja review -r .</code></td><td>Review workflow: refresh evidence, detect drift, summarize</td></tr>
 <tr><td><code>sruja drift -r . -a repo.sruja</code></td><td>Declared vs actual structure</td></tr>
+<tr><td><code>sruja health -r .</code></td><td>Architecture health score from violations</td></tr>
+<tr><td><code>sruja context-score -r .</code></td><td>AI-readiness score (0-100)</td></tr>
 <tr><td><code>sruja publish -r .</code></td><td>Export repo bundle for federation</td></tr>
 <tr><td><code>sruja compose -i &lt;bundle.json&gt; -o system.index.json</code></td><td>Compose bundles into a system index</td></tr>
 </tbody>
 </table>
 </div>
-<p>Other commands:</p>
+<h2 id="other-commands"><a class="header" href="#other-commands">Other commands</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -34058,17 +34117,22 @@ sruja completion fish
 <tr><td><code>sruja fmt &lt;file&gt;</code></td><td>Format DSL</td></tr>
 <tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
 <tr><td><code>sruja watch -r .</code></td><td>Keep feedback live while coding</td></tr>
-<tr><td><code>sruja doctor -r .</code></td><td>Quick repo health and last evidence refresh</td></tr>
-<tr><td><code>sruja check -r .</code></td><td>CI-oriented drift check (default format suited for GitHub Actions annotations)</td></tr>
+<tr><td><code>sruja doctor -r .</code></td><td>Alias for <code>status</code></td></tr>
+<tr><td><code>sruja drift --ci -r .</code></td><td><strong>Preferred</strong> CI drift check (GitHub Actions annotations; replaces deprecated <code>check</code>)</td></tr>
+<tr><td><code>sruja check -r .</code></td><td>Deprecated alias for drift-style CI output — use <code>drift --ci</code></td></tr>
 <tr><td><code>sruja baseline -r .</code></td><td>Snapshot violations for baseline ignore in CI</td></tr>
 <tr><td><code>sruja ai -r . --task "..."</code></td><td>Paste-ready AI coding brief (optional <code>--enrich</code> / <code>--enrich-cmd</code>)</td></tr>
+<tr><td><code>sruja focus -r . --file &lt;path&gt;</code></td><td>Context briefing before starting work</td></tr>
+<tr><td><code>sruja why "..."</code></td><td>Investigate architecture decisions</td></tr>
+<tr><td><code>sruja query "..."</code></td><td>Query registry for elements and relationships</td></tr>
+<tr><td><code>sruja ai-context -r .</code></td><td>Structured context for AI editor integration</td></tr>
 </tbody>
 </table>
 </div>
 <p><strong>Repo root:</strong> Prefer <code>-r</code> / <code>--repo</code> for the repository directory. Some commands also accept <code>--path</code> as an alias for backwards compatibility.</p>
-<p>Aliases:</p>
+<h2 id="aliases"><a class="header" href="#aliases">Aliases</a></h2>
 <ul>
-<li><code>start</code> = <code>init</code></li>
+<li><code>start</code> = <code>init</code> (setup only)</li>
 <li><code>daily</code> = <code>review</code></li>
 <li><code>overview</code> = <code>quickstart</code></li>
 <li><code>doctor</code> = <code>status</code></li>
