@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5d0fd42e.js";
+            window.path_to_searchindex_js = "../searchindex-b7b6a698.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-31fff2f4.js"></script>
@@ -211,11 +211,12 @@ sruja lint --help
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
 <h3 id="step-1-create-or-add-architecture"><a class="header" href="#step-1-create-or-add-architecture">Step 1: Create or add architecture</a></h3>
 <pre><code class="language-bash"># From your repo root (recommended pilot path)
-sruja quickstart -r . --generate-baseline
+sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
+# Author repo.sruja with the sruja-architecture skill, then:
 sruja lint repo.sruja
 sruja sync -r .
 </code></pre>
-<p>This creates a baseline <code>repo.sruja</code> you can version-control, validates it, and refreshes evidence under <code>.sruja/</code> (context + graph) for drift and review workflows.</p>
+<p><code>--generate-baseline</code> writes a workspace map draft—not reviewed architecture. Promote to <code>repo.sruja</code> via the skill, lint, then refresh evidence under <code>.sruja/</code> for drift workflows.</p>
 <h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
 <p>Install the skill in your AI editor:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture

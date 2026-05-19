@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-5d0fd42e.js";
+            window.path_to_searchindex_js = "../searchindex-b7b6a698.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-31fff2f4.js"></script>
@@ -190,7 +190,8 @@
 <p>Then ask your AI editor to gather evidence, generate or update <code>repo.sruja</code>, and run <code>sruja lint</code>.</p>
 <p>For deterministic CLI-only evaluation:</p>
 <pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-sruja quickstart -r . --generate-baseline
+sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
+# Author repo.sruja with the sruja-architecture skill, then:
 sruja lint repo.sruja
 sruja sync -r .
 sruja status -r .
@@ -314,8 +315,8 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <ol>
 <li>Review Sruja documentation</li>
 <li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
-<li>Generate a baseline in your target repo: <code>sruja quickstart -r . --generate-baseline</code></li>
-<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Generate structural evidence: <code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</li>
+<li>Author reviewed <code>repo.sruja</code> (skill), then validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
 <li>Capture the first health signal: <code>sruja status -r .</code> and <code>sruja drift -r . -a repo.sruja</code></li>
 <li>Install VS Code extension for syntax highlighting and diagnostics (optional)</li>
 </ol>

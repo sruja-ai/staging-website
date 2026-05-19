@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5d0fd42e.js";
+            window.path_to_searchindex_js = "searchindex-b7b6a698.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-31fff2f4.js"></script>
@@ -707,7 +707,7 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
 </thead>
 <tbody>
 <tr><td><strong>Analyze code</strong></td><td><code>sruja discover --context -r . --format json</code></td></tr>
-<tr><td><strong>Generate baseline</strong></td><td><code>sruja quickstart -r . --generate-baseline</code></td></tr>
+<tr><td><strong>Structural draft</strong></td><td><code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</td></tr>
 <tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
 <tr><td><strong>Refresh evidence</strong></td><td><code>sruja sync -r .</code></td></tr>
 <tr><td><strong>Repo health</strong></td><td><code>sruja status -r .</code></td></tr>
@@ -2889,7 +2889,8 @@ deployment Prod {
 <p>Then ask your AI editor to gather evidence, generate or update <code>repo.sruja</code>, and run <code>sruja lint</code>.</p>
 <p>For deterministic CLI-only evaluation:</p>
 <pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-sruja quickstart -r . --generate-baseline
+sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
+# Author repo.sruja with the sruja-architecture skill, then:
 sruja lint repo.sruja
 sruja sync -r .
 sruja status -r .
@@ -3013,8 +3014,8 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <ol>
 <li>Review Sruja documentation</li>
 <li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
-<li>Generate a baseline in your target repo: <code>sruja quickstart -r . --generate-baseline</code></li>
-<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Generate structural evidence: <code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</li>
+<li>Author reviewed <code>repo.sruja</code> (skill), then validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
 <li>Capture the first health signal: <code>sruja status -r .</code> and <code>sruja drift -r . -a repo.sruja</code></li>
 <li>Install VS Code extension for syntax highlighting and diagnostics (optional)</li>
 </ol>
@@ -3194,8 +3195,8 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <h1 id="adoption-playbook"><a class="header" href="#adoption-playbook">Adoption Playbook</a></h1>
 <h2 id="week-1-baseline--ci"><a class="header" href="#week-1-baseline--ci">Week 1: Baseline &amp; CI</a></h2>
 <ul>
-<li>Generate a baseline <code>repo.sruja</code>: <code>sruja quickstart -r . --generate-baseline</code></li>
-<li>Validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Structural draft: <code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</li>
+<li>Author reviewed <code>repo.sruja</code> (sruja-architecture skill), then validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
 <li>Add <code>sruja lint repo.sruja</code> and <code>sruja drift -r . -a repo.sruja</code> to CI; fail on violations</li>
 <li>Export docs: <code>sruja export markdown repo.sruja</code></li>
 </ul>
@@ -3269,11 +3270,12 @@ sruja lint --help
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
 <h3 id="step-1-create-or-add-architecture"><a class="header" href="#step-1-create-or-add-architecture">Step 1: Create or add architecture</a></h3>
 <pre><code class="language-bash"># From your repo root (recommended pilot path)
-sruja quickstart -r . --generate-baseline
+sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
+# Author repo.sruja with the sruja-architecture skill, then:
 sruja lint repo.sruja
 sruja sync -r .
 </code></pre>
-<p>This creates a baseline <code>repo.sruja</code> you can version-control, validates it, and refreshes evidence under <code>.sruja/</code> (context + graph) for drift and review workflows.</p>
+<p><code>--generate-baseline</code> writes a workspace map draft—not reviewed architecture. Promote to <code>repo.sruja</code> via the skill, lint, then refresh evidence under <code>.sruja/</code> for drift workflows.</p>
 <h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
 <p>Install the skill in your AI editor:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
@@ -32350,7 +32352,7 @@ jobs:
 sruja drift -r . -a repo.sruja
 
 # For auto-fix capabilities, update the architecture to match code:
-# sruja init --auto  # to regenerate baseline
+# sruja init --auto  # writes repo.sruja.draft; author repo.sruja with skill
 </code></pre>
 <h2 id="governance-metrics"><a class="header" href="#governance-metrics">Governance Metrics</a></h2>
 <p>Track governance health over time:</p>
