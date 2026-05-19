@@ -35,10 +35,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b7b6a698.js";
+            window.path_to_searchindex_js = "../../searchindex-a1b2baf7.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-31fff2f4.js"></script>
+        <script src="../../toc-e0548996.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -234,6 +234,8 @@ AgentSystem.Executor -&gt; RAG.Retriever "Fetch contexts"
 RAG.Retriever -&gt; RAG.VectorDB "Search"
 RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 </code></pre>
+<h2 id="grounded-harness-operational-loop"><a class="header" href="#grounded-harness-operational-loop">Grounded harness (operational loop)</a></h2>
+<p>DSL models describe <strong>what</strong> you build; Sruja’s CLI enforces <strong>whether</strong> architecture matches code. For lint/drift loops, local <code>--enrich-cmd</code> inference, and host-owned continual learning, see <a href="../../../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</p>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <ul>
 <li>Explore <code>book/valid-examples/pattern-agentic-ai.sruja</code> and <code>book/valid-examples/pattern-rag-pipeline.sruja</code></li>

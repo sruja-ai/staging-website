@@ -35,10 +35,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b7b6a698.js";
+            window.path_to_searchindex_js = "../../searchindex-a1b2baf7.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-31fff2f4.js"></script>
+        <script src="../../toc-e0548996.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -182,7 +182,13 @@
                     <main>
                         <h1 id="agentic-ai-with-sruja"><a class="header" href="#agentic-ai-with-sruja">Agentic AI with Sruja</a></h1>
 <p>Learn to design agent-based AI systems with clear boundaries, interfaces, and governance using Sruja DSL.</p>
-<p>For how common multi-agent and MCP narratives map to Sruja’s scope (grounding vs. runtime orchestration), see the repo document <a href="../../../../docs/AGENTIC_ORCHESTRATION_AND_SRUJA.html">Agentic orchestration patterns and Sruja</a>. For the <strong>Context Graph</strong> model, custom <code>schema</code> syntax, and default validation rules, see <a href="../../../../docs/architecture/domain-schema.html">Domain schema and context graphs</a>.</p>
+<p><strong>Learning objectives</strong></p>
+<ul>
+<li>Model orchestration, tools, and memory in <code>.sruja</code> (architecture description—not runtime execution).</li>
+<li>Distinguish <strong>Sruja as a grounded harness</strong> (lint, drift, evidence, MCP) from <strong>the editor/CI host</strong> that runs the LLM loop.</li>
+<li>Operate continual learning in token space: agent memory, bounded <code>agent plan</code> / <code>agent apply</code>, and optional local inference via <code>--enrich-cmd</code>.</li>
+</ul>
+<p>For how common multi-agent and MCP narratives map to Sruja’s scope (grounding vs. runtime orchestration), see <a href="../../../../docs/AGENTIC_ORCHESTRATION_AND_SRUJA.html">Agentic orchestration patterns and Sruja</a>. For harness + host-owned learning, see <a href="../../../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>. For the <strong>Context Graph</strong> model, custom <code>schema</code> syntax, and default validation rules, see <a href="../../../../docs/architecture/domain-schema.html">Domain schema and context graphs</a>.</p>
 
                     </main>
 

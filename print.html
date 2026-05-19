@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b7b6a698.js";
+            window.path_to_searchindex_js = "searchindex-a1b2baf7.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-31fff2f4.js"></script>
+        <script src="toc-e0548996.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -28130,21 +28130,26 @@ sruja drift -r . --fix
 # Show blast radius of changes
 sruja impact &lt;component&gt; -r . --depth 3
 </code></pre>
-<h2 id="agentic-memory-v0370"><a class="header" href="#agentic-memory-v0370">Agentic Memory (v0.37.0)</a></h2>
-<p>From v0.37.0, Sruja includes <strong>agentic memory</strong>—autonomous optimization that learns from past decisions:</p>
-<pre><code class="language-bash"># Enable autonomous mode
-sruja agent run -r . --autonomous
+<h2 id="agentic-memory-and-bounded-agent-loop"><a class="header" href="#agentic-memory-and-bounded-agent-loop">Agentic memory and bounded agent loop</a></h2>
+<p>Sruja records <strong>architecture-bounded learnings</strong> in <code>.sruja/agent_memory.json</code> and supports a <strong>review-before-apply</strong> agent loop. Sruja is a harness—not a full autonomous coding agent; your editor or CI hosts the LLM.</p>
+<pre><code class="language-bash"># Emit a reviewable plan grounded in repo evidence
+sruja agent plan -r . --goal "Reduce drift on API layer" --file src/api/main.rs --print
 
-# Review agent suggestions
-sruja agent review -r .
+# After human or CI review, apply the plan
+sruja agent apply -r . --plan docs/plans/&lt;run-id&gt;.json
+
+# Optional: parallel sandbox trajectories (MaTTS) when worktrees are available
+sruja agent run -r . --goal "..." --file src/api/main.rs --mode apply --trajectories 3
+
+# Inspect and curate learnings
+sruja agent history -r .
+sruja agent curate -r .
 </code></pre>
-<p>The agent:</p>
-<ul>
-<li>Remembers past architectural decisions</li>
-<li>Learns from team preferences</li>
-<li>Proposes optimizations based on patterns</li>
-<li>Evaluates fitness of changes before applying</li>
-</ul>
+<p>Enable automatic learning capture in <code>.sruja/config.toml</code>:</p>
+<pre><code class="language-toml">[agent]
+auto_record_learnings = true
+</code></pre>
+<p>See <a href="../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a> for the full host-vs-harness model.</p>
 <h2 id="integrating-into-cicd"><a class="header" href="#integrating-into-cicd">Integrating into CI/CD</a></h2>
 <pre><code class="language-yaml"># .github/workflows/evolution.yml
 - name: Check Architecture Health
@@ -28176,7 +28181,13 @@ sruja agent review -r .
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="agentic-ai-with-sruja"><a class="header" href="#agentic-ai-with-sruja">Agentic AI with Sruja</a></h1>
 <p>Learn to design agent-based AI systems with clear boundaries, interfaces, and governance using Sruja DSL.</p>
-<p>For how common multi-agent and MCP narratives map to Sruja’s scope (grounding vs. runtime orchestration), see the repo document <a href="../../docs/AGENTIC_ORCHESTRATION_AND_SRUJA.html">Agentic orchestration patterns and Sruja</a>. For the <strong>Context Graph</strong> model, custom <code>schema</code> syntax, and default validation rules, see <a href="../../docs/architecture/domain-schema.html">Domain schema and context graphs</a>.</p>
+<p><strong>Learning objectives</strong></p>
+<ul>
+<li>Model orchestration, tools, and memory in <code>.sruja</code> (architecture description—not runtime execution).</li>
+<li>Distinguish <strong>Sruja as a grounded harness</strong> (lint, drift, evidence, MCP) from <strong>the editor/CI host</strong> that runs the LLM loop.</li>
+<li>Operate continual learning in token space: agent memory, bounded <code>agent plan</code> / <code>agent apply</code>, and optional local inference via <code>--enrich-cmd</code>.</li>
+</ul>
+<p>For how common multi-agent and MCP narratives map to Sruja’s scope (grounding vs. runtime orchestration), see <a href="../../docs/AGENTIC_ORCHESTRATION_AND_SRUJA.html">Agentic orchestration patterns and Sruja</a>. For harness + host-owned learning, see <a href="../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>. For the <strong>Context Graph</strong> model, custom <code>schema</code> syntax, and default validation rules, see <a href="../../docs/architecture/domain-schema.html">Domain schema and context graphs</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="fundamentals-of-agentic-ai"><a class="header" href="#fundamentals-of-agentic-ai">Fundamentals of Agentic AI</a></h1>
 <p>Welcome to the first module of the Agentic AI Architecture course. In this module, we will explore what makes an AI system "agentic" and how to model its components using Sruja.</p>
@@ -28794,7 +28805,7 @@ sruja focus --file src/api/main.rs --base-ref main -r .
 <p>Sruja also records <strong>lightweight decision-style traces</strong> for the repo (not a separate graph model—see <a href="../../docs/CONTEXT_ENGINEERING.html#context-graphs-sruja-vs-industry-usage">CONTEXT_ENGINEERING</a>):</p>
 <ul>
 <li><strong><code>.sruja/context_events.jsonl</code></strong> — append-only JSON lines when you run <strong><code>sruja intent check</code></strong>, <strong><code>sruja drift</code></strong> (with architecture compare), or <strong><code>sruja propose approve …</code></strong> (merged proposal). Useful for “what did we last check?” in CI or audits.</li>
-<li><strong><code>.sruja/agent_memory.json</code></strong> — structured learnings from agents (<code>sruja agent record</code> / MCP <code>sruja_record_learning</code>).</li>
+<li><strong><code>.sruja/agent_memory.json</code></strong> — curated <strong><code>LearningEntry</code></strong> records (<code>context</code>, <code>hypothesis</code>, <code>outcome</code>, <code>guardrail_advice</code>, optional <code>hitl_kind</code>). Written via <code>sruja agent record</code> or MCP <code>sruja_record_learning</code>. See <a href="../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</li>
 <li><strong><code>.sruja/agent/runs/&lt;run_id&gt;/facts_bundle.json</code></strong> — produced when an <strong>agent apply</strong> run finishes verification (replay bundle).</li>
 </ul>
 <p>Focus output includes:</p>
@@ -29131,6 +29142,90 @@ D) <code>sruja_validate_change</code> only</p>
 <li>✅ Effective AI pair programming patterns (including <strong>MCP lineage queries</strong>)</li>
 </ul>
 <p>This module completes the Agentic AI course with practical AI editor integration skills.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="lesson-4-grounded-harness-and-continual-learning-host-owned"><a class="header" href="#lesson-4-grounded-harness-and-continual-learning-host-owned">Lesson 4: Grounded harness and continual learning (host-owned)</a></h1>
+<h2 id="harness-vs-runtime"><a class="header" href="#harness-vs-runtime">Harness vs runtime</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Sruja (harness)</th><th>Editor / CI (host)</th></tr>
+</thead>
+<tbody>
+<tr><td>Validates <code>.sruja</code></td><td><code>sruja lint</code>, <code>sruja fmt</code></td><td>Proposes DSL edits</td></tr>
+<tr><td>Compares model to code</td><td><code>sruja drift</code>, <code>sruja intent check</code></td><td>Interprets violations</td></tr>
+<tr><td>Stores learnings</td><td><code>.sruja/agent_memory.json</code></td><td>Reflects on runs (optional)</td></tr>
+<tr><td>Open-source LLM</td><td><code>--enrich-cmd</code>, <code>config.toml</code></td><td>Runs Ollama, vLLM, etc.</td></tr>
+</tbody>
+</table>
+</div>
+<p>Sruja does <strong>not</strong> ship <code>ContinualLearningAgent</code>, <code>--autonomous</code>, or automatic skill generation. Those are <strong>patterns you implement in the host</strong>, using Sruja JSON as ground truth.</p>
+<p>Full reference: <a href="../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</p>
+<h2 id="checklist-grounded-architectural-task"><a class="header" href="#checklist-grounded-architectural-task">Checklist: grounded architectural task</a></h2>
+<ol>
+<li><strong>Sync evidence</strong> — <code>sruja sync -r .</code></li>
+<li><strong>Brief the task</strong> — <code>sruja focus --file &lt;path&gt; -r .</code> or MCP task context</li>
+<li><strong>Propose</strong> — skill/MCP synthesis or <code>sruja author propose --enrich-cmd '…'</code></li>
+<li><strong>Lint loop</strong> — <code>sruja lint repo.sruja --format json</code> until clean; feed errors back to the model</li>
+<li><strong>Drift gate</strong> — <code>sruja drift -r . -a repo.sruja</code></li>
+<li><strong>Promote</strong> — <code>sruja propose approve &lt;id&gt;</code> or human merge to <code>repo.sruja</code></li>
+<li><strong>Record</strong> — <code>sruja agent record</code> or MCP <code>sruja_record_learning</code> on success/failure</li>
+</ol>
+<h2 id="bounded-agent-loop"><a class="header" href="#bounded-agent-loop">Bounded agent loop</a></h2>
+<pre><code class="language-bash">sruja agent plan -r . --goal "Fix drift on Checkout" --element-id Shop.Checkout --print
+# Review plan JSON, then:
+sruja agent apply -r . --plan docs/plans/&lt;run-id&gt;.json
+</code></pre>
+<p>Optional MaTTS parallel attempts:</p>
+<pre><code class="language-bash">sruja agent run -r . --goal "..." --file src/checkout.rs --mode apply --trajectories 3
+</code></pre>
+<p>Replay bundle after apply: <code>.sruja/agent/runs/&lt;run_id&gt;/facts_bundle.json</code>.</p>
+<h2 id="local-inference-ollama-example"><a class="header" href="#local-inference-ollama-example">Local inference (Ollama example)</a></h2>
+<pre><code class="language-toml"># .sruja/config.toml
+[integrations]
+default_provider = "cmd"
+cmd = "ollama run llama3"
+timeout_ms = 15000
+max_bytes = 20000
+</code></pre>
+<pre><code class="language-bash">sruja inspect onboard -r . -f markdown --enrich-cmd 'ollama run llama3'
+</code></pre>
+<h2 id="memory-and-curation"><a class="header" href="#memory-and-curation">Memory and curation</a></h2>
+<p>Learnings are <strong><code>LearningEntry</code></strong> records—not separate buckets for “facts” vs “preferences”:</p>
+<pre><code class="language-bash">sruja agent record -r . \
+  -c "Checkout boundary" \
+  -H "Split cart from payment container" \
+  -o success \
+  -g "Run drift after any Checkout container change" \
+  --hitl-kind precedent
+
+sruja agent curate -r .
+# After reviewing curate output, merge duplicates into one entry:
+sruja agent merge -r . --ids id1,id2 -c "Merged context" -H "..." -g "Combined guardrail"
+</code></pre>
+<h2 id="mcp-ladder-editors"><a class="header" href="#mcp-ladder-editors">MCP ladder (editors)</a></h2>
+<ol>
+<li><code>sruja_list_architecture_index</code></li>
+<li><code>sruja_get_topology</code></li>
+<li><code>sruja_get_elements</code></li>
+<li><code>sruja_get_task_context</code> (<code>cache_friendly: true</code> when caching)</li>
+</ol>
+<p>Setup: <a href="../docs/mcp_setup.html">mcp_setup.md</a>.</p>
+<h2 id="reflect--learn-host-owned"><a class="header" href="#reflect--learn-host-owned">Reflect / learn (host-owned)</a></h2>
+<p>After <code>agent apply</code>, optionally:</p>
+<ol>
+<li>Read <code>facts_bundle.json</code> and recent <code>agent_memory.json</code> entries.</li>
+<li>Use your editor agent or <code>--enrich-cmd</code> to draft narrative lessons (markdown only).</li>
+<li>Persist with <code>sruja agent record</code> or <code>sruja_record_learning</code>.</li>
+<li>Run <code>sruja agent curate</code> before merging duplicate learnings.</li>
+</ol>
+<p>Cursor users: run the project command <strong>Sruja: Reflect on agent run</strong> (see <code>.cursor/commands/sruja-reflect-on-run.md</code>).</p>
+<h2 id="what-you-learned"><a class="header" href="#what-you-learned">What you learned</a></h2>
+<ul>
+<li>Sruja constrains probabilistic output with deterministic gates.</li>
+<li>Continual learning lives in <strong>artifacts and memory</strong>, not weight updates.</li>
+<li>The host owns Act/Reflect; Sruja owns Record/Learn storage and enforcement.</li>
+</ul>
+<p><strong>Next:</strong> <a href="../docs/AGENTIC_ORCHESTRATION_AND_SRUJA.html">Agentic orchestration patterns and Sruja</a> for industry pattern mapping.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="quick-start-for-seasoned-software-architects"><a class="header" href="#quick-start-for-seasoned-software-architects">Quick Start for Seasoned Software Architects</a></h1>
 <p><strong>For senior architects who need AI-assisted architecture work to stay grounded in evidence and intent.</strong></p>
@@ -33979,6 +34074,8 @@ AgentSystem.Executor -&gt; RAG.Retriever "Fetch contexts"
 RAG.Retriever -&gt; RAG.VectorDB "Search"
 RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 </code></pre>
+<h2 id="grounded-harness-operational-loop"><a class="header" href="#grounded-harness-operational-loop">Grounded harness (operational loop)</a></h2>
+<p>DSL models describe <strong>what</strong> you build; Sruja’s CLI enforces <strong>whether</strong> architecture matches code. For lint/drift loops, local <code>--enrich-cmd</code> inference, and host-owned continual learning, see <a href="../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</p>
 <h2 id="next-steps-33"><a class="header" href="#next-steps-33">Next Steps</a></h2>
 <ul>
 <li>Explore <code>book/valid-examples/pattern-agentic-ai.sruja</code> and <code>book/valid-examples/pattern-rag-pipeline.sruja</code></li>

@@ -35,10 +35,10 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b7b6a698.js";
+            window.path_to_searchindex_js = "../../../searchindex-a1b2baf7.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../../toc-31fff2f4.js"></script>
+        <script src="../../../toc-e0548996.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -229,7 +229,7 @@ sruja focus --file src/api/main.rs --base-ref main -r .
 <p>Sruja also records <strong>lightweight decision-style traces</strong> for the repo (not a separate graph model—see <a href="../../../../../docs/CONTEXT_ENGINEERING.html#context-graphs-sruja-vs-industry-usage">CONTEXT_ENGINEERING</a>):</p>
 <ul>
 <li><strong><code>.sruja/context_events.jsonl</code></strong> — append-only JSON lines when you run <strong><code>sruja intent check</code></strong>, <strong><code>sruja drift</code></strong> (with architecture compare), or <strong><code>sruja propose approve …</code></strong> (merged proposal). Useful for “what did we last check?” in CI or audits.</li>
-<li><strong><code>.sruja/agent_memory.json</code></strong> — structured learnings from agents (<code>sruja agent record</code> / MCP <code>sruja_record_learning</code>).</li>
+<li><strong><code>.sruja/agent_memory.json</code></strong> — curated <strong><code>LearningEntry</code></strong> records (<code>context</code>, <code>hypothesis</code>, <code>outcome</code>, <code>guardrail_advice</code>, optional <code>hitl_kind</code>). Written via <code>sruja agent record</code> or MCP <code>sruja_record_learning</code>. See <a href="../../../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</li>
 <li><strong><code>.sruja/agent/runs/&lt;run_id&gt;/facts_bundle.json</code></strong> — produced when an <strong>agent apply</strong> run finishes verification (replay bundle).</li>
 </ul>
 <p>Focus output includes:</p>
