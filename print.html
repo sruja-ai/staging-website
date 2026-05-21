@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-a1b2baf7.js";
+            window.path_to_searchindex_js = "searchindex-c2de5dab.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2d0ac0cc.js"></script>
@@ -34147,6 +34147,7 @@ sruja completion fish
 </tbody>
 </table>
 </div>
+<p><em>See <a href="#feature-tightening-phase-t">feature tightening</a> for canonical workflow paths</em></p>
 <h3 id="health--status"><a class="header" href="#health--status">Health &amp; status</a></h3>
 <div class="table-wrapper">
 <table>
@@ -34259,6 +34260,22 @@ sruja completion fish
 <li><code>overview</code> = <code>quickstart</code></li>
 <li><code>doctor</code> = <code>status</code></li>
 </ul>
+<h2 id="feature-tightening-phase-t"><a class="header" href="#feature-tightening-phase-t">Feature Tightening (Phase T)</a></h2>
+<p>As part of feature tightening (Phase T), Sruja provides canonical paths for core workflows to reduce toolbox feeling:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Workflow</th><th>Canonical Command</th><th>Deprecated Alternatives</th></tr>
+</thead>
+<tbody>
+<tr><td>Onboarding</td><td><code>sruja onboard</code></td><td><code>discover explain</code></td></tr>
+<tr><td>Health Check</td><td><code>sruja status</code> / <code>doctor</code></td><td><code>health</code></td></tr>
+<tr><td>Retrieval</td><td><code>sruja focus</code> / MCP focus briefing</td><td><code>get_architecture_context</code>, <code>get_hydrated_context</code></td></tr>
+<tr><td>Drift Gate</td><td><code>sruja drift</code>, <code>sruja drift-pr</code></td><td>deprecated <code>check</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>MCP tool profiles (<code>minimal</code>, <code>coding</code>, <code>arch</code>, <code>full</code>) control which tools are available via MCP. The default <code>coding</code> profile provides ~15-18 tools focused on coding workflows.</p>
 <p>Run <code>sruja --help</code> for full options.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="language-reference"><a class="header" href="#language-reference">Language reference</a></h1>
