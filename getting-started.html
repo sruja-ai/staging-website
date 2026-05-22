@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c2de5dab.js";
+            window.path_to_searchindex_js = "searchindex-5e007e91.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2d0ac0cc.js"></script>
@@ -181,54 +181,44 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
-<p><strong>Get architecture from code in 5 minutes.</strong></p>
-<p>You don't write <code>.sruja</code> files. Your AI does it for you. Here's how:</p>
+<p><strong>AI coding harness in about 5 minutes</strong> — structural scan, agent briefings, and verify gates. No <code>repo.sruja</code> required on day one.</p>
 <hr>
-<h2 id="step-1-install-the-ai-skill-1-minute"><a class="header" href="#step-1-install-the-ai-skill-1-minute">Step 1: Install the AI skill (1 minute)</a></h2>
-<p>This teaches your AI editor how to generate Sruja files. The skill will guide you to install the CLI when needed.</p>
+<h2 id="step-1-install-the-cli-1-minute"><a class="header" href="#step-1-install-the-cli-1-minute">Step 1: Install the CLI (1 minute)</a></h2>
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
+sruja start -r .
+sruja drift -r . --structural-only --advisory
+</code></pre>
+<p>You get file-level findings (cycles, layer violations, hub modules) and a <strong>could not infer</strong> section where the scan is uncertain.</p>
+<hr>
+<h2 id="step-2-wire-your-editor-mcp--harness-skill"><a class="header" href="#step-2-wire-your-editor-mcp--harness-skill">Step 2: Wire your editor (MCP + harness skill)</a></h2>
+<p><strong>MCP (Cursor template in the repo):</strong> register <code>sruja mcp</code> with profile <code>coding</code> and <code>SRUJA_MCP_READONLY=1</code>. See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a>.</p>
+<p><strong>Skills:</strong></p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-harness
+</code></pre>
+<p>Optional — reviewed architecture in Git:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
-<p><strong>Supported editors:</strong> Cursor, GitHub Copilot, Claude, Continue.dev</p>
-<hr>
-<h2 id="step-2-generate-your-architecture-file-2-minutes"><a class="header" href="#step-2-generate-your-architecture-file-2-minutes">Step 2: Generate your architecture file (2 minutes)</a></h2>
-<p>Open your AI editor and ask it to generate your architecture:</p>
-<pre><code>Use sruja-architecture skill. Analyze my codebase, generate a repo.sruja file, 
-then run sruja lint and fix any errors until it passes.
+<p><strong>Host loop:</strong></p>
+<pre><code class="language-text">focus / drift  →  your agent edits code  →  verify-task  →  (optional) agent record on failure
 </code></pre>
-<p><strong>What happens:</strong></p>
-<ol>
-<li>The skill runs <code>sruja discover</code> to understand your code structure (installs CLI if needed)</li>
-<li>Asks you 2-3 questions if anything is unclear (e.g., "What's this service for?")</li>
-<li>Generates a <code>repo.sruja</code> file with your architecture</li>
-<li>Runs <code>sruja lint</code> to check for errors</li>
-<li>Fixes any errors automatically</li>
-</ol>
-<p><strong>Result:</strong> You now have a <code>repo.sruja</code> file in your project root!</p>
 <hr>
-<h2 id="step-3-validate-it-optional"><a class="header" href="#step-3-validate-it-optional">Step 3: Validate it (optional)</a></h2>
-<p>The skill already validated your file, but you can check manually:</p>
-<pre><code class="language-bash">sruja lint repo.sruja
+<h2 id="step-3-run-gates-locally"><a class="header" href="#step-3-run-gates-locally">Step 3: Run gates locally</a></h2>
+<pre><code class="language-bash"># Before a task (paste briefing into the agent)
+sruja focus -r . --file path/to/file.rs
+
+# After the agent edits
+sruja verify-task --profile coding -r .
 </code></pre>
-<p>If it says "✅ All checks passed", you're good!</p>
-<p>If you see errors, just ask your AI: "Fix these errors."</p>
+<p>In VS Code/Cursor: <strong>Sruja: Brief this file</strong>, <strong>Sruja: Verify task</strong>, <strong>Sruja: Register MCP Server</strong>.</p>
 <hr>
-<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
-<p>You have architecture in code. Now what?</p>
-<p><strong>Generate diagrams for documentation:</strong></p>
+<h2 id="step-4-optional--reviewed-reposruja"><a class="header" href="#step-4-optional--reviewed-reposruja">Step 4 (optional) — Reviewed <code>repo.sruja</code></a></h2>
+<p>When you want versioned architecture intent in CI, ask your agent:</p>
+<pre><code class="language-text">Use sruja-architecture. Gather evidence, generate or update repo.sruja,
+then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
+</code></pre>
+<p>Diagrams are exports, not the product center:</p>
 <pre><code class="language-bash">sruja export mermaid repo.sruja &gt; architecture.mmd
-sruja export markdown repo.sruja &gt; ARCHITECTURE.md
 </code></pre>
-<p><strong>Keep it in sync:</strong></p>
-<p>When you change your code, run:</p>
-<pre><code class="language-bash">sruja drift -r .
-</code></pre>
-<p>This shows you what changed and if your architecture needs updating.</p>
-<p><strong>Learn more:</strong></p>
-<ul>
-<li><a href="docs/beginner-path.html">Beginner path</a> – 7 steps to go deeper</li>
-<li><a href="../courses/system-design-101/course-overview.html">System Design 101</a> – Learn patterns</li>
-<li><a href="docs/examples.html">Examples</a> – Real-world architectures</li>
-</ul>
 <hr>
 <h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
 <div class="table-wrapper">
@@ -237,71 +227,41 @@ sruja export markdown repo.sruja &gt; ARCHITECTURE.md
 <tr><th>What you want</th><th>Command</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Install skill</strong></td><td><code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code></td></tr>
-<tr><td><strong>Generate with AI</strong></td><td>Ask your AI: "Use sruja-architecture skill to generate my architecture"</td></tr>
-<tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
-<tr><td><strong>Export diagram</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
-<tr><td><strong>Check for drift</strong></td><td><code>sruja drift -r .</code></td></tr>
+<tr><td><strong>First scan</strong></td><td><code>sruja start -r .</code> then <code>sruja drift -r . --structural-only --advisory</code></td></tr>
+<tr><td><strong>Harness skill</strong></td><td><code>npx skills add … --skill sruja-harness</code></td></tr>
+<tr><td><strong>Brief agent</strong></td><td><code>sruja focus -r . --file &lt;path&gt;</code></td></tr>
+<tr><td><strong>After AI edit</strong></td><td><code>sruja verify-task --profile coding -r .</code></td></tr>
+<tr><td><strong>Architecture skill</strong></td><td><code>npx skills add … --skill sruja-architecture</code></td></tr>
+<tr><td><strong>Lint reviewed truth</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
 </tbody>
 </table>
 </div>
 <hr>
 <h2 id="common-questions"><a class="header" href="#common-questions">Common Questions</a></h2>
-<p><strong>"What if the command isn't found?"</strong></p>
-<p>The CLI isn't on your PATH. Try:</p>
-<pre><code class="language-bash"># Add to PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# Or restart your terminal
+<p><strong>"What if <code>sruja</code> isn't found?"</strong></p>
+<pre><code class="language-bash">export PATH="$HOME/.local/bin:$PATH"
+# or: make build &amp;&amp; use target/release/sruja
 </code></pre>
-<p><strong>"My editor doesn't support skills."</strong></p>
-<p>You can still use Sruja manually:</p>
-<ul>
-<li>Run <code>sruja discover</code> to get JSON output</li>
-<li>Create <code>repo.sruja</code> by hand (see <a href="reference/language-spec.html">Language spec</a>)</li>
-<li>Use <code>sruja lint</code> to validate</li>
-</ul>
-<p>But AI makes it much easier—consider using Cursor or installing skills.sh.</p>
+<p><strong>"Do I need MCP?"</strong></p>
+<p>No for CLI-only workflows. MCP is the best experience inside Cursor/Claude Desktop.</p>
+<p><strong>"Is Sruja a coding agent?"</strong></p>
+<p>No. Cursor/Copilot own the LLM loop. Sruja is the <strong>harness</strong> (drift, focus, verify-task).</p>
 <p><strong>"What's the difference between <code>quickstart</code> and <code>discover</code>?"</strong></p>
 <ul>
-<li><strong><code>quickstart</code></strong> – Quick overview, human-readable output (great for first look)</li>
-<li><strong><code>discover</code></strong> – Detailed JSON output (used by AI for generation)</li>
+<li><strong><code>quickstart</code> / <code>start</code></strong> — human-friendly onboarding</li>
+<li><strong><code>discover</code></strong> — detailed JSON for AI generation (architecture skill)</li>
 </ul>
-<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
-<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-</code></pre>
-<p><strong>Option B – from Git (requires Rust):</strong></p>
-<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
-</code></pre>
-<p><strong>Option C – build from source:</strong></p>
-<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja
-make build
-</code></pre>
-<p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
-<h2 id="create-a-sruja-file"><a class="header" href="#create-a-sruja-file">Create a <code>.sruja</code> file</a></h2>
-<p>This is the <strong>minimal style</strong> (explicit kinds, no import). For the full Getting Started guide using stdlib imports, see <a href="docs/getting-started.html">Getting Started</a>. Both styles are valid; use whichever you prefer.</p>
-<pre><code class="language-sruja">// partial
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-
-User = person "User" {}
-App = system "My App" {
-  Web = container "Web Server" { technology "Node.js" }
-}
-User -&gt; App.Web "visits"
-</code></pre>
-<h2 id="validate-and-export"><a class="header" href="#validate-and-export">Validate and export</a></h2>
-<pre><code class="language-bash">sruja lint example.sruja
-sruja export json example.sruja
-sruja export markdown example.sruja
-</code></pre>
-<h2 id="vs-code"><a class="header" href="#vs-code">VS Code</a></h2>
-<p>Install the <strong>Sruja</strong> extension for syntax, diagnostics, and optional diagram preview in the editor.</p>
-<h2 id="repositories-and-the-documentation-site"><a class="header" href="#repositories-and-the-documentation-site">Repositories and the documentation site</a></h2>
-<p>The <a href="https://github.com/sruja-ai/sruja">sruja-ai/sruja</a> repository is the <strong>source</strong> for code, the book, and CI. The <strong>published</strong> documentation site is deployed to separate GitHub Pages repositories (<a href="https://github.com/sruja-ai/staging-website">staging</a>, <a href="https://github.com/sruja-ai/prod-website">production</a>); how they are updated from <code>main</code> is documented in <a href="https://github.com/sruja-ai/sruja/blob/main/docs/RELATED_REPOSITORIES.md">Related repositories</a>. Report site or product issues in the <a href="https://github.com/sruja-ai/sruja/issues">main repo</a>.</p>
 <hr>
-<p><strong>Next:</strong> <a href="docs/beginner-path.html">Beginner path</a> builds on this in 7 steps (2–3 hours). For a longer "first architecture" walkthrough with a view and stdlib import, see <a href="docs/getting-started.html">Getting started (full)</a>.</p>
+<h2 id="vs-code-extension"><a class="header" href="#vs-code-extension">VS Code extension</a></h2>
+<p>Install <strong>Sruja Language Support</strong> for <code>.sruja</code> syntax, validation, harness commands, and MCP registration.</p>
+<hr>
+<h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
+<ul>
+<li><a href="docs/beginner-path.html">Beginner path</a></li>
+<li><a href="https://github.com/sruja-ai/sruja/blob/main/docs/INSTALL_AS_SKILL.md">Install as skill (full)</a></li>
+<li><a href="https://github.com/sruja-ai/sruja/tree/main/docs/examples/host-gates">Host gate examples</a></li>
+<li><a href="docs/getting-started.html">Getting started (full DSL walkthrough)</a></li>
+</ul>
 
                     </main>
 

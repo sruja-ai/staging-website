@@ -35,7 +35,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c2de5dab.js";
+            window.path_to_searchindex_js = "searchindex-5e007e91.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2d0ac0cc.js"></script>
@@ -180,9 +180,9 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="sruja--context-engineering-for-the-ai-era"><a class="header" href="#sruja--context-engineering-for-the-ai-era">Sruja – Context engineering for the AI era.</a></h1>
+                        <h1 id="sruja--ai-coding-harness-for-repo-structure"><a class="header" href="#sruja--ai-coding-harness-for-repo-structure">Sruja — AI coding harness for repo structure</a></h1>
 <img src="sruja-logo.png" alt="Sruja" class="sruja-home-logo" width="160" />
-<p><strong>Context engineering for the AI era.</strong> Use AI to generate and maintain architecture as code, backed by deterministic repo evidence. Validate the result, keep it in sync, and export to Markdown or Mermaid when you need docs or diagrams.</p>
+<p><strong>Stop AI from breaking your repo structure.</strong> Sruja scans code, reports structural drift, and plugs into Cursor and other agents via MCP — <code>focus</code> before edits, <code>verify-task</code> after. Optional <code>repo.sruja</code> is for reviewed CI intent and exports (Mermaid/Markdown), not day one.</p>
 <h2 id="why-sruja"><a class="header" href="#why-sruja">Why Sruja?</a></h2>
 <h3 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h3>
 <p>Most architecture tools make you choose:</p>
@@ -199,11 +199,11 @@
 <tr><th>Feature</th><th>What you get</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>AI skill first</strong></td><td>Generate or update <code>repo.sruja</code> from real repo evidence</td></tr>
-<tr><td><strong>Evidence-backed</strong></td><td>Discovery, sync, drift, and context commands ground the model</td></tr>
-<tr><td><strong>Version-controlled</strong></td><td><code>.sruja</code> files in Git, with proper code review workflows</td></tr>
-<tr><td><strong>Built-in validation</strong></td><td>Catch architecture issues before they reach production</td></tr>
-<tr><td><strong>Multiple exports</strong></td><td>JSON, Markdown, Mermaid – outputs from reviewed truth</td></tr>
+<tr><td><strong>Structural scan</strong></td><td>Cycles, layer violations, god modules — file-level evidence</td></tr>
+<tr><td><strong>Agent harness</strong></td><td>MCP + <code>focus</code> + <code>verify-task</code>; host keeps the LLM loop</td></tr>
+<tr><td><strong>Optional <code>repo.sruja</code></strong></td><td>Reviewed intent in Git when teams want strict CI</td></tr>
+<tr><td><strong>Built-in validation</strong></td><td>Lint, drift, intent — gates after AI edits</td></tr>
+<tr><td><strong>Tier-2 exports</strong></td><td>Markdown, Mermaid — derived views, not the product center</td></tr>
 </tbody>
 </table>
 </div>
@@ -214,13 +214,13 @@
 <li><strong>Platform engineers</strong> building guardrails for distributed teams</li>
 <li><strong>AI agents</strong> that need to reason about system architecture</li>
 </ul>
-<h2 id="how-we-work"><a class="header" href="#how-we-work">How We Work</a></h2>
+<h2 id="how-we-work-tier-1"><a class="header" href="#how-we-work-tier-1">How We Work (Tier 1)</a></h2>
 <ol>
-<li><strong>Install</strong> the sruja-architecture skill in your AI editor</li>
-<li><strong>Gather</strong> deterministic repo evidence through Sruja commands</li>
-<li><strong>Generate</strong> or update <code>repo.sruja</code> with AI</li>
-<li><strong>Validate</strong> with lint, drift, and review workflows</li>
-<li><strong>Reuse</strong> the context in CI, docs, and IDE workflows</li>
+<li><strong>Install CLI</strong> — <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
+<li><strong>Scan</strong> — <code>sruja start -r .</code> then <code>sruja drift -r . --structural-only --advisory</code></li>
+<li><strong>Wire MCP</strong> — profile <code>coding</code>; <code>focus</code> before edits, <code>verify-task</code> after</li>
+<li><strong>Install harness skill</strong> — <code>npx skills add … --skill sruja-harness</code></li>
+<li><strong>Optional</strong> — <code>sruja-architecture</code> skill + <code>repo.sruja</code> for reviewed CI intent</li>
 </ol>
 <p>We're <strong>ultra simple</strong> – minimal surface area, no unnecessary apps or frameworks – and <strong>highly functional</strong> – what we ship works reliably for its scope.</p>
 <h2 id="stack"><a class="header" href="#stack">Stack</a></h2>
@@ -230,9 +230,8 @@
 <li><strong>Docs</strong> – This book (mdBook, Rust-based; no TypeScript/Node)</li>
 </ul>
 <blockquote>
-<p><strong>New here?</strong> Install the <a href="getting-started.html">sruja-architecture skill</a> first (1 minute), then let your AI generate architecture for you. For a single entry point to <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="navigate.html">Navigate</a>. The <strong>left sidebar</strong> lists everything; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
+<p><strong>New here?</strong> <a href="getting-started.html">Quick start</a>: install CLI, run structural drift, wire MCP, install <code>sruja-harness</code>, run <code>verify-task</code> after agent edits. Add <code>sruja-architecture</code> only when you want <code>repo.sruja</code> in Git. For <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="navigate.html">Navigate</a>; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 </blockquote>
-<p>See <a href="getting-started.html">Quick start</a> to install the AI skill and create your first <code>.sruja</code> file. For a single entry point to <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="navigate.html">Navigate</a>. The <strong>left sidebar</strong> lists everything; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 <blockquote>
 <p><strong>Sruja "Show diagram" in code blocks:</strong> Run <code>make wasm</code> from the repo root once, then run <code>make book-serve</code> (or <code>./serve.sh</code> from the book directory) so the WASM files are copied into the book output.</p>
 </blockquote>

@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-c2de5dab.js";
+            window.path_to_searchindex_js = "../searchindex-5e007e91.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-2d0ac0cc.js"></script>
@@ -181,10 +181,10 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>Context engineering for the AI era.</strong></p>
-<p>Sruja helps AI-assisted teams generate and maintain architecture as code from deterministic repo evidence. The result is a reviewable <code>repo.sruja</code> truth file that feeds better context to editors, CI, and coding agents.</p>
+<p><strong>AI coding harness for repo structure.</strong></p>
+<p>Sruja scans your codebase, reports structural problems AI edits tend to introduce, and gives agents bounded context via MCP (<code>focus</code>, drift state, <code>verify-task</code>). Optional <code>repo.sruja</code> is reviewed CI intent — not required on day one.</p>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="../getting-started.html">Quick start</a> (about 5 min), then the <a href="beginner-path.html">Beginner path</a> (2–3 hours). Start with the AI skill; you don't write <code>.sruja</code> files manually.</p>
+<p><strong>New here?</strong> Install the CLI, register MCP, install <code>sruja-harness</code> — <a href="../getting-started.html">Quick start</a> (~5 min). Add <code>sruja-architecture</code> only when you want versioned architecture in Git.</p>
 </blockquote>
 <h2 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h2>
 <p>How does your AI know the real architecture today?</p>
@@ -202,16 +202,16 @@
 </div>
 <p>Sound familiar? You're not alone. Most teams struggle with this.</p>
 <h2 id="the-solution"><a class="header" href="#the-solution">The Solution</a></h2>
-<p><strong>Architecture as code plus evidence.</strong></p>
-<p>With Sruja:</p>
+<p><strong>Deterministic harness plus optional architecture-as-code.</strong></p>
+<p>With Sruja (Tier 1):</p>
 <ul>
-<li>The sruja-architecture skill gathers deterministic repo evidence</li>
-<li>Your AI generates or updates <code>repo.sruja</code></li>
-<li>Lint, drift, and intent checks validate the result</li>
-<li>Editors and agents reuse that context before coding</li>
-<li>Diagrams and docs are exported when needed, not treated as the source</li>
+<li>Structural scan and drift — no <code>.sruja</code> required</li>
+<li><code>focus</code> / MCP briefings before the host agent edits</li>
+<li><code>verify-task</code> after edits (lint, tests, drift when applicable)</li>
+<li>Optional: <code>sruja-architecture</code> skill → reviewed <code>repo.sruja</code> in Git</li>
+<li>Diagrams and docs are Tier-2 exports, not the source of truth</li>
 </ul>
-<p><strong>You don't learn a new language first.</strong> You guide the AI, review the output, and let validation catch mistakes.</p>
+<p>Sruja is <strong>not</strong> a replacement for Cursor or Copilot — it is the guardrail layer beside them.</p>
 <h2 id="how-this-helps"><a class="header" href="#how-this-helps">How This Helps</a></h2>
 <div class="table-wrapper">
 <table>

@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-c2de5dab.js";
+            window.path_to_searchindex_js = "searchindex-5e007e91.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2d0ac0cc.js"></script>
@@ -178,9 +178,9 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="sruja--context-engineering-for-the-ai-era"><a class="header" href="#sruja--context-engineering-for-the-ai-era">Sruja – Context engineering for the AI era.</a></h1>
+                        <h1 id="sruja--ai-coding-harness-for-repo-structure"><a class="header" href="#sruja--ai-coding-harness-for-repo-structure">Sruja — AI coding harness for repo structure</a></h1>
 <img src="sruja-logo.png" alt="Sruja" class="sruja-home-logo" width="160" />
-<p><strong>Context engineering for the AI era.</strong> Use AI to generate and maintain architecture as code, backed by deterministic repo evidence. Validate the result, keep it in sync, and export to Markdown or Mermaid when you need docs or diagrams.</p>
+<p><strong>Stop AI from breaking your repo structure.</strong> Sruja scans code, reports structural drift, and plugs into Cursor and other agents via MCP — <code>focus</code> before edits, <code>verify-task</code> after. Optional <code>repo.sruja</code> is for reviewed CI intent and exports (Mermaid/Markdown), not day one.</p>
 <h2 id="why-sruja"><a class="header" href="#why-sruja">Why Sruja?</a></h2>
 <h3 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h3>
 <p>Most architecture tools make you choose:</p>
@@ -197,11 +197,11 @@
 <tr><th>Feature</th><th>What you get</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>AI skill first</strong></td><td>Generate or update <code>repo.sruja</code> from real repo evidence</td></tr>
-<tr><td><strong>Evidence-backed</strong></td><td>Discovery, sync, drift, and context commands ground the model</td></tr>
-<tr><td><strong>Version-controlled</strong></td><td><code>.sruja</code> files in Git, with proper code review workflows</td></tr>
-<tr><td><strong>Built-in validation</strong></td><td>Catch architecture issues before they reach production</td></tr>
-<tr><td><strong>Multiple exports</strong></td><td>JSON, Markdown, Mermaid – outputs from reviewed truth</td></tr>
+<tr><td><strong>Structural scan</strong></td><td>Cycles, layer violations, god modules — file-level evidence</td></tr>
+<tr><td><strong>Agent harness</strong></td><td>MCP + <code>focus</code> + <code>verify-task</code>; host keeps the LLM loop</td></tr>
+<tr><td><strong>Optional <code>repo.sruja</code></strong></td><td>Reviewed intent in Git when teams want strict CI</td></tr>
+<tr><td><strong>Built-in validation</strong></td><td>Lint, drift, intent — gates after AI edits</td></tr>
+<tr><td><strong>Tier-2 exports</strong></td><td>Markdown, Mermaid — derived views, not the product center</td></tr>
 </tbody>
 </table>
 </div>
@@ -212,13 +212,13 @@
 <li><strong>Platform engineers</strong> building guardrails for distributed teams</li>
 <li><strong>AI agents</strong> that need to reason about system architecture</li>
 </ul>
-<h2 id="how-we-work"><a class="header" href="#how-we-work">How We Work</a></h2>
+<h2 id="how-we-work-tier-1"><a class="header" href="#how-we-work-tier-1">How We Work (Tier 1)</a></h2>
 <ol>
-<li><strong>Install</strong> the sruja-architecture skill in your AI editor</li>
-<li><strong>Gather</strong> deterministic repo evidence through Sruja commands</li>
-<li><strong>Generate</strong> or update <code>repo.sruja</code> with AI</li>
-<li><strong>Validate</strong> with lint, drift, and review workflows</li>
-<li><strong>Reuse</strong> the context in CI, docs, and IDE workflows</li>
+<li><strong>Install CLI</strong> — <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
+<li><strong>Scan</strong> — <code>sruja start -r .</code> then <code>sruja drift -r . --structural-only --advisory</code></li>
+<li><strong>Wire MCP</strong> — profile <code>coding</code>; <code>focus</code> before edits, <code>verify-task</code> after</li>
+<li><strong>Install harness skill</strong> — <code>npx skills add … --skill sruja-harness</code></li>
+<li><strong>Optional</strong> — <code>sruja-architecture</code> skill + <code>repo.sruja</code> for reviewed CI intent</li>
 </ol>
 <p>We're <strong>ultra simple</strong> – minimal surface area, no unnecessary apps or frameworks – and <strong>highly functional</strong> – what we ship works reliably for its scope.</p>
 <h2 id="stack"><a class="header" href="#stack">Stack</a></h2>
@@ -228,9 +228,8 @@
 <li><strong>Docs</strong> – This book (mdBook, Rust-based; no TypeScript/Node)</li>
 </ul>
 <blockquote>
-<p><strong>New here?</strong> Install the <a href="#quick-start">sruja-architecture skill</a> first (1 minute), then let your AI generate architecture for you. For a single entry point to <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="#navigate">Navigate</a>. The <strong>left sidebar</strong> lists everything; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
+<p><strong>New here?</strong> <a href="#quick-start">Quick start</a>: install CLI, run structural drift, wire MCP, install <code>sruja-harness</code>, run <code>verify-task</code> after agent edits. Add <code>sruja-architecture</code> only when you want <code>repo.sruja</code> in Git. For <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="#navigate">Navigate</a>; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 </blockquote>
-<p>See <a href="#quick-start">Quick start</a> to install the AI skill and create your first <code>.sruja</code> file. For a single entry point to <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="#navigate">Navigate</a>. The <strong>left sidebar</strong> lists everything; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 <blockquote>
 <p><strong>Sruja "Show diagram" in code blocks:</strong> Run <code>make wasm</code> from the repo root once, then run <code>make book-serve</code> (or <code>./serve.sh</code> from the book directory) so the WASM files are copied into the book output.</p>
 </blockquote>
@@ -254,54 +253,44 @@
 </div>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
-<p><strong>Get architecture from code in 5 minutes.</strong></p>
-<p>You don't write <code>.sruja</code> files. Your AI does it for you. Here's how:</p>
+<p><strong>AI coding harness in about 5 minutes</strong> — structural scan, agent briefings, and verify gates. No <code>repo.sruja</code> required on day one.</p>
 <hr>
-<h2 id="step-1-install-the-ai-skill-1-minute"><a class="header" href="#step-1-install-the-ai-skill-1-minute">Step 1: Install the AI skill (1 minute)</a></h2>
-<p>This teaches your AI editor how to generate Sruja files. The skill will guide you to install the CLI when needed.</p>
+<h2 id="step-1-install-the-cli-1-minute"><a class="header" href="#step-1-install-the-cli-1-minute">Step 1: Install the CLI (1 minute)</a></h2>
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
+sruja start -r .
+sruja drift -r . --structural-only --advisory
+</code></pre>
+<p>You get file-level findings (cycles, layer violations, hub modules) and a <strong>could not infer</strong> section where the scan is uncertain.</p>
+<hr>
+<h2 id="step-2-wire-your-editor-mcp--harness-skill"><a class="header" href="#step-2-wire-your-editor-mcp--harness-skill">Step 2: Wire your editor (MCP + harness skill)</a></h2>
+<p><strong>MCP (Cursor template in the repo):</strong> register <code>sruja mcp</code> with profile <code>coding</code> and <code>SRUJA_MCP_READONLY=1</code>. See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a>.</p>
+<p><strong>Skills:</strong></p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-harness
+</code></pre>
+<p>Optional — reviewed architecture in Git:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
-<p><strong>Supported editors:</strong> Cursor, GitHub Copilot, Claude, Continue.dev</p>
-<hr>
-<h2 id="step-2-generate-your-architecture-file-2-minutes"><a class="header" href="#step-2-generate-your-architecture-file-2-minutes">Step 2: Generate your architecture file (2 minutes)</a></h2>
-<p>Open your AI editor and ask it to generate your architecture:</p>
-<pre><code>Use sruja-architecture skill. Analyze my codebase, generate a repo.sruja file, 
-then run sruja lint and fix any errors until it passes.
+<p><strong>Host loop:</strong></p>
+<pre><code class="language-text">focus / drift  →  your agent edits code  →  verify-task  →  (optional) agent record on failure
 </code></pre>
-<p><strong>What happens:</strong></p>
-<ol>
-<li>The skill runs <code>sruja discover</code> to understand your code structure (installs CLI if needed)</li>
-<li>Asks you 2-3 questions if anything is unclear (e.g., "What's this service for?")</li>
-<li>Generates a <code>repo.sruja</code> file with your architecture</li>
-<li>Runs <code>sruja lint</code> to check for errors</li>
-<li>Fixes any errors automatically</li>
-</ol>
-<p><strong>Result:</strong> You now have a <code>repo.sruja</code> file in your project root!</p>
 <hr>
-<h2 id="step-3-validate-it-optional"><a class="header" href="#step-3-validate-it-optional">Step 3: Validate it (optional)</a></h2>
-<p>The skill already validated your file, but you can check manually:</p>
-<pre><code class="language-bash">sruja lint repo.sruja
+<h2 id="step-3-run-gates-locally"><a class="header" href="#step-3-run-gates-locally">Step 3: Run gates locally</a></h2>
+<pre><code class="language-bash"># Before a task (paste briefing into the agent)
+sruja focus -r . --file path/to/file.rs
+
+# After the agent edits
+sruja verify-task --profile coding -r .
 </code></pre>
-<p>If it says "✅ All checks passed", you're good!</p>
-<p>If you see errors, just ask your AI: "Fix these errors."</p>
+<p>In VS Code/Cursor: <strong>Sruja: Brief this file</strong>, <strong>Sruja: Verify task</strong>, <strong>Sruja: Register MCP Server</strong>.</p>
 <hr>
-<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
-<p>You have architecture in code. Now what?</p>
-<p><strong>Generate diagrams for documentation:</strong></p>
+<h2 id="step-4-optional--reviewed-reposruja"><a class="header" href="#step-4-optional--reviewed-reposruja">Step 4 (optional) — Reviewed <code>repo.sruja</code></a></h2>
+<p>When you want versioned architecture intent in CI, ask your agent:</p>
+<pre><code class="language-text">Use sruja-architecture. Gather evidence, generate or update repo.sruja,
+then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
+</code></pre>
+<p>Diagrams are exports, not the product center:</p>
 <pre><code class="language-bash">sruja export mermaid repo.sruja &gt; architecture.mmd
-sruja export markdown repo.sruja &gt; ARCHITECTURE.md
 </code></pre>
-<p><strong>Keep it in sync:</strong></p>
-<p>When you change your code, run:</p>
-<pre><code class="language-bash">sruja drift -r .
-</code></pre>
-<p>This shows you what changed and if your architecture needs updating.</p>
-<p><strong>Learn more:</strong></p>
-<ul>
-<li><a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a> – 7 steps to go deeper</li>
-<li><a href="../courses/system-design-101/course-overview.html">System Design 101</a> – Learn patterns</li>
-<li><a href="#examples--patterns">Examples</a> – Real-world architectures</li>
-</ul>
 <hr>
 <h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
 <div class="table-wrapper">
@@ -310,73 +299,43 @@ sruja export markdown repo.sruja &gt; ARCHITECTURE.md
 <tr><th>What you want</th><th>Command</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Install skill</strong></td><td><code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code></td></tr>
-<tr><td><strong>Generate with AI</strong></td><td>Ask your AI: "Use sruja-architecture skill to generate my architecture"</td></tr>
-<tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
-<tr><td><strong>Export diagram</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
-<tr><td><strong>Check for drift</strong></td><td><code>sruja drift -r .</code></td></tr>
+<tr><td><strong>First scan</strong></td><td><code>sruja start -r .</code> then <code>sruja drift -r . --structural-only --advisory</code></td></tr>
+<tr><td><strong>Harness skill</strong></td><td><code>npx skills add … --skill sruja-harness</code></td></tr>
+<tr><td><strong>Brief agent</strong></td><td><code>sruja focus -r . --file &lt;path&gt;</code></td></tr>
+<tr><td><strong>After AI edit</strong></td><td><code>sruja verify-task --profile coding -r .</code></td></tr>
+<tr><td><strong>Architecture skill</strong></td><td><code>npx skills add … --skill sruja-architecture</code></td></tr>
+<tr><td><strong>Lint reviewed truth</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
 </tbody>
 </table>
 </div>
 <hr>
 <h2 id="common-questions"><a class="header" href="#common-questions">Common Questions</a></h2>
-<p><strong>"What if the command isn't found?"</strong></p>
-<p>The CLI isn't on your PATH. Try:</p>
-<pre><code class="language-bash"># Add to PATH
-export PATH="$HOME/.local/bin:$PATH"
-
-# Or restart your terminal
+<p><strong>"What if <code>sruja</code> isn't found?"</strong></p>
+<pre><code class="language-bash">export PATH="$HOME/.local/bin:$PATH"
+# or: make build &amp;&amp; use target/release/sruja
 </code></pre>
-<p><strong>"My editor doesn't support skills."</strong></p>
-<p>You can still use Sruja manually:</p>
-<ul>
-<li>Run <code>sruja discover</code> to get JSON output</li>
-<li>Create <code>repo.sruja</code> by hand (see <a href="#sruja-language-specification">Language spec</a>)</li>
-<li>Use <code>sruja lint</code> to validate</li>
-</ul>
-<p>But AI makes it much easier—consider using Cursor or installing skills.sh.</p>
+<p><strong>"Do I need MCP?"</strong></p>
+<p>No for CLI-only workflows. MCP is the best experience inside Cursor/Claude Desktop.</p>
+<p><strong>"Is Sruja a coding agent?"</strong></p>
+<p>No. Cursor/Copilot own the LLM loop. Sruja is the <strong>harness</strong> (drift, focus, verify-task).</p>
 <p><strong>"What's the difference between <code>quickstart</code> and <code>discover</code>?"</strong></p>
 <ul>
-<li><strong><code>quickstart</code></strong> – Quick overview, human-readable output (great for first look)</li>
-<li><strong><code>discover</code></strong> – Detailed JSON output (used by AI for generation)</li>
+<li><strong><code>quickstart</code> / <code>start</code></strong> — human-friendly onboarding</li>
+<li><strong><code>discover</code></strong> — detailed JSON for AI generation (architecture skill)</li>
 </ul>
-<p><strong>Option A – install script (downloads from <a href="https://github.com/sruja-ai/sruja/releases">GitHub Releases</a>):</strong></p>
-<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-</code></pre>
-<p><strong>Option B – from Git (requires Rust):</strong></p>
-<pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
-</code></pre>
-<p><strong>Option C – build from source:</strong></p>
-<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja
-make build
-</code></pre>
-<p>Ensure the <code>sruja</code> binary is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default).</p>
-<h2 id="create-a-sruja-file"><a class="header" href="#create-a-sruja-file">Create a <code>.sruja</code> file</a></h2>
-<p>This is the <strong>minimal style</strong> (explicit kinds, no import). For the full Getting Started guide using stdlib imports, see <a href="#getting-started">Getting Started</a>. Both styles are valid; use whichever you prefer.</p>
-<pre><code class="language-sruja">// partial
-person = kind "Person"
-system = kind "System"
-container = kind "Container"
-
-User = person "User" {}
-App = system "My App" {
-  Web = container "Web Server" { technology "Node.js" }
-}
-User -&gt; App.Web "visits"
-</code></pre>
-<h2 id="validate-and-export"><a class="header" href="#validate-and-export">Validate and export</a></h2>
-<pre><code class="language-bash">sruja lint example.sruja
-sruja export json example.sruja
-sruja export markdown example.sruja
-</code></pre>
-<h2 id="vs-code"><a class="header" href="#vs-code">VS Code</a></h2>
-<p>Install the <strong>Sruja</strong> extension for syntax, diagnostics, and optional diagram preview in the editor.</p>
-<h2 id="repositories-and-the-documentation-site"><a class="header" href="#repositories-and-the-documentation-site">Repositories and the documentation site</a></h2>
-<p>The <a href="https://github.com/sruja-ai/sruja">sruja-ai/sruja</a> repository is the <strong>source</strong> for code, the book, and CI. The <strong>published</strong> documentation site is deployed to separate GitHub Pages repositories (<a href="https://github.com/sruja-ai/staging-website">staging</a>, <a href="https://github.com/sruja-ai/prod-website">production</a>); how they are updated from <code>main</code> is documented in <a href="https://github.com/sruja-ai/sruja/blob/main/docs/RELATED_REPOSITORIES.md">Related repositories</a>. Report site or product issues in the <a href="https://github.com/sruja-ai/sruja/issues">main repo</a>.</p>
 <hr>
-<p><strong>Next:</strong> <a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a> builds on this in 7 steps (2–3 hours). For a longer "first architecture" walkthrough with a view and stdlib import, see <a href="#getting-started">Getting started (full)</a>.</p>
+<h2 id="vs-code-extension"><a class="header" href="#vs-code-extension">VS Code extension</a></h2>
+<p>Install <strong>Sruja Language Support</strong> for <code>.sruja</code> syntax, validation, harness commands, and MCP registration.</p>
+<hr>
+<h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
+<ul>
+<li><a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a></li>
+<li><a href="https://github.com/sruja-ai/sruja/blob/main/docs/INSTALL_AS_SKILL.md">Install as skill (full)</a></li>
+<li><a href="https://github.com/sruja-ai/sruja/tree/main/docs/examples/host-gates">Host gate examples</a></li>
+<li><a href="#getting-started">Getting started (full DSL walkthrough)</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="vs-code-extension"><a class="header" href="#vs-code-extension">VS Code extension</a></h1>
+<h1 id="vs-code-extension-1"><a class="header" href="#vs-code-extension-1">VS Code extension</a></h1>
 <p>The Sruja VS Code extension provides:</p>
 <ul>
 <li><strong>Syntax highlighting</strong> for <code>.sruja</code> files</li>
@@ -386,10 +345,10 @@ sruja export markdown example.sruja
 <p>Install from the <a href="https://marketplace.visualstudio.com/items?itemName=SrujaAI.sruja">VS Code Marketplace</a> or build from source in <code>extension/</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>Context engineering for the AI era.</strong></p>
-<p>Sruja helps AI-assisted teams generate and maintain architecture as code from deterministic repo evidence. The result is a reviewable <code>repo.sruja</code> truth file that feeds better context to editors, CI, and coding agents.</p>
+<p><strong>AI coding harness for repo structure.</strong></p>
+<p>Sruja scans your codebase, reports structural problems AI edits tend to introduce, and gives agents bounded context via MCP (<code>focus</code>, drift state, <code>verify-task</code>). Optional <code>repo.sruja</code> is reviewed CI intent — not required on day one.</p>
 <blockquote>
-<p><strong>New here?</strong> Do <a href="#quick-start">Quick start</a> (about 5 min), then the <a href="#beginner-path-use-ai-skills-for-architecture">Beginner path</a> (2–3 hours). Start with the AI skill; you don't write <code>.sruja</code> files manually.</p>
+<p><strong>New here?</strong> Install the CLI, register MCP, install <code>sruja-harness</code> — <a href="#quick-start">Quick start</a> (~5 min). Add <code>sruja-architecture</code> only when you want versioned architecture in Git.</p>
 </blockquote>
 <h2 id="the-problem-1"><a class="header" href="#the-problem-1">The Problem</a></h2>
 <p>How does your AI know the real architecture today?</p>
@@ -407,16 +366,16 @@ sruja export markdown example.sruja
 </div>
 <p>Sound familiar? You're not alone. Most teams struggle with this.</p>
 <h2 id="the-solution"><a class="header" href="#the-solution">The Solution</a></h2>
-<p><strong>Architecture as code plus evidence.</strong></p>
-<p>With Sruja:</p>
+<p><strong>Deterministic harness plus optional architecture-as-code.</strong></p>
+<p>With Sruja (Tier 1):</p>
 <ul>
-<li>The sruja-architecture skill gathers deterministic repo evidence</li>
-<li>Your AI generates or updates <code>repo.sruja</code></li>
-<li>Lint, drift, and intent checks validate the result</li>
-<li>Editors and agents reuse that context before coding</li>
-<li>Diagrams and docs are exported when needed, not treated as the source</li>
+<li>Structural scan and drift — no <code>.sruja</code> required</li>
+<li><code>focus</code> / MCP briefings before the host agent edits</li>
+<li><code>verify-task</code> after edits (lint, tests, drift when applicable)</li>
+<li>Optional: <code>sruja-architecture</code> skill → reviewed <code>repo.sruja</code> in Git</li>
+<li>Diagrams and docs are Tier-2 exports, not the source of truth</li>
 </ul>
-<p><strong>You don't learn a new language first.</strong> You guide the AI, review the output, and let validation catch mistakes.</p>
+<p>Sruja is <strong>not</strong> a replacement for Cursor or Copilot — it is the guardrail layer beside them.</p>
 <h2 id="how-this-helps"><a class="header" href="#how-this-helps">How This Helps</a></h2>
 <div class="table-wrapper">
 <table>
@@ -509,7 +468,7 @@ view index {
 <li><strong>New to Sruja?</strong> Start with <a href="docs/docs/getting-started.html">Getting Started</a></li>
 <li><strong>Use AI:</strong> Install the skill in your editor and let AI generate architecture from your codebase</li>
 <li><strong>Need examples?</strong> Check out <a href="docs/docs/examples.html">Real-World Examples</a></li>
-<li><strong>Ready to build?</strong> Use the <a href="#vs-code-extension">VS Code extension</a> for diagram preview</li>
+<li><strong>Ready to build?</strong> Use the <a href="#vs-code-extension-1">VS Code extension</a> for diagram preview</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
@@ -1352,7 +1311,7 @@ with Kafka, producers, and consumers. Explain trade-offs.
 <p>❌ <strong>Don't:</strong> Model for completeness</p>
 <p>✅ <strong>Do:</strong> Model what evidence supports—minimal is better</p>
 <hr>
-<h2 id="whats-next-1"><a class="header" href="#whats-next-1">What's Next?</a></h2>
+<h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
 <p><strong>Go deeper:</strong></p>
 <ul>
 <li><a href="#module-1-fundamentals-1">System Design 101 – Module 1</a> – Learn architecture concepts</li>
@@ -2877,7 +2836,7 @@ deployment Prod {
 }
 </code></pre>
 <h2 id="try-it"><a class="header" href="#try-it">Try it</a></h2>
-<p>Use the <a href="#vs-code-extension">VS Code extension</a> to paste these snippets into a <code>.sruja</code> file and see the diagram preview.</p>
+<p>Use the <a href="#vs-code-extension-1">VS Code extension</a> to paste these snippets into a <code>.sruja</code> file and see the diagram preview.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="sruja-adoption-guide"><a class="header" href="#sruja-adoption-guide">Sruja Adoption Guide</a></h1>
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
@@ -3264,7 +3223,7 @@ jobs:
 <pre><code class="language-bash">sruja --help
 sruja lint --help
 </code></pre>
-<h3 id="vs-code-extension-1"><a class="header" href="#vs-code-extension-1">VS Code extension</a></h3>
+<h3 id="vs-code-extension-2"><a class="header" href="#vs-code-extension-2">VS Code extension</a></h3>
 <p>Install <strong>Sruja Language Support</strong> from the <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a> (or <a href="https://open-vsx.org/">Open VSX</a>). You get syntax highlighting, LSP diagnostics, and optional diagram preview for <code>.sruja</code> files.</p>
 <hr>
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
@@ -4369,7 +4328,7 @@ scenario Checkout "Checkout Flow" {
 </ul>
 <h2 id="time-investment"><a class="header" href="#time-investment">Time Investment</a></h2>
 <p>Approximately 20-25 minutes to complete all lessons (8 lessons × 2-3 minutes each, including quizzes).</p>
-<h2 id="whats-next-2"><a class="header" href="#whats-next-2">What's Next</a></h2>
+<h2 id="whats-next-1"><a class="header" href="#whats-next-1">What's Next</a></h2>
 <p>After completing this module, you'll dive into specific concepts starting with <a href="#module-2-parts-and-relationships">Module 2: Parts and Relationships</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-1-introduction-to-systems-thinking"><a class="header" href="#lesson-1-introduction-to-systems-thinking">Lesson 1: Introduction to Systems Thinking</a></h1>
@@ -4683,7 +4642,7 @@ Monolith -&gt; DB "Heavy queries"
 <h3 id="answers--discussion"><a class="header" href="#answers--discussion">Answers &amp; Discussion</a></h3>
 <p><strong>1. B. Patterns level</strong> – Optimizing individual queries is working at the Events level (fixing incidents). But since "similar performance issues keep appearing," that's a pattern signal. You need to identify what creates this recurring pattern before you can solve it effectively.</p>
 <p><strong>2. D. Mental Models</strong> – The belief "Ship fast, fix bugs later" is a mental model—a worldview that influences decisions. It leads to Structures (tightly coupled components) that create Patterns (cascading failures) that manifest as Events (bugs). Changing the architecture without changing this belief will likely create similar problems in new forms.</p>
-<h2 id="whats-next-3"><a class="header" href="#whats-next-3">What's Next</a></h2>
+<h2 id="whats-next-2"><a class="header" href="#whats-next-2">What's Next</a></h2>
 <p>Now that you understand the iceberg model and can see systems at different levels, let's apply this to real software systems. In the next lesson, we'll explore <strong>Systems in Software Architecture</strong>—how every application is actually a system of systems, with multiple layers and dependencies.</p>
 <p>This will help you see the bigger picture when designing your own applications.</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -4824,7 +4783,7 @@ PaymentGateway -&gt; EmailService "Send receipt"
 <h3 id="answers--discussion-1"><a class="header" href="#answers--discussion-1">Answers &amp; Discussion</a></h3>
 <p><strong>1. B. You'll build systems with boundaries that mirror your team structure</strong> – Conway's Law states that systems mirror the communication structures of the organizations that build them. If your teams are organized by technical role (backend, frontend, database), your architecture will likely have similar boundaries, creating unnecessary coupling and communication challenges.</p>
 <p><strong>2. B. The gateway might fail or have rate limits, which could break your entire order flow</strong> – When you depend on external systems, those dependencies become single points of failure. You need to consider what happens if the gateway is down, has rate limits, or has performance issues. Do you have fallbacks? Retry logic? Degraded service modes? Ignoring these layers leads to fragile systems.</p>
-<h2 id="whats-next-4"><a class="header" href="#whats-next-4">What's Next</a></h2>
+<h2 id="whats-next-3"><a class="header" href="#whats-next-3">What's Next</a></h2>
 <p>Now that you understand every application is a system of systems with multiple layers, let's dive into the specific components that make up these systems. In the next lesson, we'll explore <strong>Parts &amp; Relationships</strong>—how to identify components and model their interactions.</p>
 <p>This is where systems thinking gets practical: You'll learn to model real systems in Sruja with precision and clarity.</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -4853,7 +4812,7 @@ PaymentGateway -&gt; EmailService "Send receipt"
 </ul>
 <h2 id="time-investment-1"><a class="header" href="#time-investment-1">Time Investment</a></h2>
 <p>Approximately 1.5-2 hours to complete all lessons and exercises.</p>
-<h2 id="whats-next-5"><a class="header" href="#whats-next-5">What's Next</a></h2>
+<h2 id="whats-next-4"><a class="header" href="#whats-next-4">What's Next</a></h2>
 <p>After completing this module, you'll learn about <a href="#module-3-boundaries">Module 3: Boundaries</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="finding-the-building-blocks-identifying-parts"><a class="header" href="#finding-the-building-blocks-identifying-parts">Finding the Building Blocks: Identifying Parts</a></h1>
@@ -5084,7 +5043,7 @@ App = system "The App" {
 <p>Don't add components just because you can. Match the level of detail to your audience's needs. A stakeholder doesn't need to see your component architecture—a developer probably does.</p>
 </details>
 <hr>
-<h2 id="whats-next-6"><a class="header" href="#whats-next-6">What's Next?</a></h2>
+<h2 id="whats-next-5"><a class="header" href="#whats-next-5">What's Next?</a></h2>
 <p>Now that you know how to identify parts, you're probably wondering: "How do I actually define these parts in Sruja? What's the syntax?"</p>
 <p>In the next lesson, you'll learn exactly that. We'll cover the four core element types (person, system, container, component), how to use them, and what details to include. You'll have a complete toolkit for modeling any software system.</p>
 <p>See you there!</p>
@@ -5452,7 +5411,7 @@ API = container "API Service" {
 <p>The golden rule: match the level of detail to your audience's needs. Don't show components to business stakeholders. Do show components to developers who need to understand how the system is built.</p>
 </details>
 <hr>
-<h2 id="whats-next-7"><a class="header" href="#whats-next-7">What's Next?</a></h2>
+<h2 id="whats-next-6"><a class="header" href="#whats-next-6">What's Next?</a></h2>
 <p>Now you know how to define all the parts of your system. But parts alone don't tell the whole story. Systems are defined by how their parts interact and connect.</p>
 <p>In the next lesson, you'll learn about relationships—how to model the connections between your elements. You'll learn to write clear, meaningful labels that describe exactly how parts communicate with each other.</p>
 <p>See you there!</p>
@@ -5743,7 +5702,7 @@ view index {
 <p>The golden rule: <strong>only add tags when they help your audience understand something important about the relationship</strong>.</p>
 </details>
 <hr>
-<h2 id="whats-next-8"><a class="header" href="#whats-next-8">What's Next?</a></h2>
+<h2 id="whats-next-7"><a class="header" href="#whats-next-7">What's Next?</a></h2>
 <p>Now you know how to define parts and connect them with relationships. You can create diagrams that tell stories about how systems work.</p>
 <p>But there's one more thing: <strong>how do you organize all these parts</strong>? That's what the next lesson is about. You'll learn about hierarchy and nesting—how to structure your systems in a way that's clear, consistent, and scalable.</p>
 <p>See you there!</p>
@@ -6118,7 +6077,7 @@ view component_view of ECommerce.API {
 <p>The key insight: <strong>use full dot notation when referencing nested elements</strong>. Make it clear where every element lives in the hierarchy.</p>
 </details>
 <hr>
-<h2 id="whats-next-9"><a class="header" href="#whats-next-9">What's Next?</a></h2>
+<h2 id="whats-next-8"><a class="header" href="#whats-next-8">What's Next?</a></h2>
 <p>Congratulations! You've completed Module 2: Parts and Relationships. You now have a complete toolkit for:</p>
 <ul>
 <li>Identifying the key parts of any system</li>
@@ -6182,7 +6141,7 @@ view component_view of ECommerce.API {
 </ul>
 <h2 id="time-investment-2"><a class="header" href="#time-investment-2">Time Investment</a></h2>
 <p>Approximately 1-1.5 hours to complete all lessons and exercises.</p>
-<h2 id="whats-next-10"><a class="header" href="#whats-next-10">What's Next</a></h2>
+<h2 id="whats-next-9"><a class="header" href="#whats-next-9">What's Next</a></h2>
 <p>After completing this module, you'll learn about <a href="#module-4-flows">Module 4: Flows</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="drawing-the-line-understanding-boundaries"><a class="header" href="#drawing-the-line-understanding-boundaries">Drawing the Line: Understanding Boundaries</a></h1>
@@ -6650,7 +6609,7 @@ AnalyticsService = system "Analytics Service" {
 <p><strong>Key insight:</strong> Always use metadata tags to mark external systems. This makes boundaries immediately visible to anyone reading your diagram. It prevents confusion about ownership and responsibility.</p>
 </details>
 <hr>
-<h2 id="whats-next-11"><a class="header" href="#whats-next-11">What's Next?</a></h2>
+<h2 id="whats-next-10"><a class="header" href="#whats-next-10">What's Next?</a></h2>
 <p>Now you understand what boundaries are and why they matter. You know how to identify different types of boundaries and mark them clearly in your diagrams.</p>
 <p>But there's a question we haven't answered: <strong>how do you actually mark components as internal or external in Sruja?</strong> How do you use metadata effectively to document ownership and dependencies?</p>
 <p>In the next lesson, you'll learn exactly that. We'll cover how to annotate boundary elements, model team and organizational boundaries, and create diagrams that make it instantly clear what's inside versus what's outside.</p>
@@ -7218,7 +7177,7 @@ Shop.API -&gt; EmailService "Send confirmation"
 <p><strong>Key insight:</strong> Always use metadata tags to mark external systems. This is the single most important thing you can do to make boundaries clear in your diagrams. Without it, your diagrams tell an incomplete story.</p>
 </details>
 <hr>
-<h2 id="whats-next-12"><a class="header" href="#whats-next-12">What's Next?</a></h2>
+<h2 id="whats-next-11"><a class="header" href="#whats-next-11">What's Next?</a></h2>
 <p>Now you know how to mark internal and external components clearly. You can annotate external systems with ownership, SLAs, and support information. You can model team boundaries and create different views for different audiences.</p>
 <p>But we've only talked about <strong>defining</strong> boundaries. We haven't talked about what happens when you <strong>cross</strong> them.</p>
 <p>In the next lesson, you'll learn about crossing boundaries—how to model integrations, plan for failures, document interface contracts, and design fallback strategies. You'll discover why every boundary crossing is both an opportunity and a risk.</p>
@@ -7772,7 +7731,7 @@ view index {
 <p><strong>Key insight:</strong> SLAs give you information to make decisions. 99.9% tells you to plan for ~43 minutes of monthly downtime. Don't ignore it—plan for it.</p>
 </details>
 <hr>
-<h2 id="whats-next-13"><a class="header" href="#whats-next-13">What's Next?</a></h2>
+<h2 id="whats-next-12"><a class="header" href="#whats-next-12">What's Next?</a></h2>
 <p>Congratulations! You've completed Module 3: Boundaries. You now understand:</p>
 <ul>
 <li><strong>What boundaries are</strong> and why they matter for ownership, risk, and clarity</li>
@@ -7832,7 +7791,7 @@ view index {
 </ul>
 <h2 id="time-investment-3"><a class="header" href="#time-investment-3">Time Investment</a></h2>
 <p>Approximately 1.5-2 hours to complete all lessons and exercises.</p>
-<h2 id="whats-next-14"><a class="header" href="#whats-next-14">What's Next</a></h2>
+<h2 id="whats-next-13"><a class="header" href="#whats-next-13">What's Next</a></h2>
 <p>After completing this module, you'll learn about <a href="#module-5-feedback-loops">Module 5: Feedback Loops</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="seeing-movement-understanding-flows"><a class="header" href="#seeing-movement-understanding-flows">Seeing Movement: Understanding Flows</a></h1>
@@ -8403,7 +8362,7 @@ OrderFlow = scenario "Order Processing with Errors" {
 <p><strong>Key insight:</strong> Data flows are all about lineage and transformation. If you're modeling where data comes from, how it changes shape, and where it ends up, use a data flow. Think of it like tracing the path data takes through a pipeline.</p>
 </details>
 <hr>
-<h2 id="whats-next-15"><a class="header" href="#whats-next-15">What's Next?</a></h2>
+<h2 id="whats-next-14"><a class="header" href="#whats-next-14">What's Next?</a></h2>
 <p>Now you understand what flows are and why they matter. You know the different types of flows (data, user journey, control, event) and when to use each one.</p>
 <p>But we've only talked about <strong>what</strong> flows are. We haven't talked about <strong>how</strong> to create specific types of flows in practice.</p>
 <p>In the next lesson, you'll learn about <strong>Data Flow Diagrams</strong>—how to model DFD-style data flows that show lineage, transformations, and analytics pipelines. You'll discover how to document where data comes from, how it changes, and where it ultimately ends up.</p>
@@ -8854,7 +8813,7 @@ ETLPipeline = flow "ETL Pipeline" {
 <p><strong>Key insight:</strong> Document transformations clearly using descriptive relationship labels. Don't just show that data moves—show <strong>how</strong> it transforms. Label each step with what actually happens: "validate," "normalize," "enrich," "aggregate," "calculate." This makes your data flows informative and useful, not just correct.</p>
 </details>
 <hr>
-<h2 id="whats-next-16"><a class="header" href="#whats-next-16">What's Next?</a></h2>
+<h2 id="whats-next-15"><a class="header" href="#whats-next-15">What's Next?</a></h2>
 <p>Now you understand how to create data flow diagrams. You can model data lineage, document transformations, and design ETL and analytics pipelines.</p>
 <p>But data flows are just one type of flow. There's another crucial type—<strong>user journeys</strong> (or behavioral flows)—which show how users interact with your system from their perspective.</p>
 <p>In the next lesson, you'll learn about user journeys. You'll discover how to model BDD-style scenarios, document happy paths and error paths, and capture the complete user experience from start to finish.</p>
@@ -9521,7 +9480,7 @@ LoginError = scenario "Login Failed" {
 <p>A well-designed error path turns a frustrating experience into a helpful one. I once saw error messages drop support tickets by 70% just by making them more helpful and actionable.</p>
 </details>
 <hr>
-<h2 id="whats-next-17"><a class="header" href="#whats-next-17">What's Next?</a></h2>
+<h2 id="whats-next-16"><a class="header" href="#whats-next-16">What's Next?</a></h2>
 <p>Congratulations! You've completed Module 4: Flows. You now understand:</p>
 <ul>
 <li>What flows are and how they differ from static relationships</li>
@@ -9580,7 +9539,7 @@ LoginError = scenario "Login Failed" {
 </ul>
 <h2 id="time-investment-4"><a class="header" href="#time-investment-4">Time Investment</a></h2>
 <p>Approximately 1-1.5 hours to complete all lessons and exercises.</p>
-<h2 id="whats-next-18"><a class="header" href="#whats-next-18">What's Next</a></h2>
+<h2 id="whats-next-17"><a class="header" href="#whats-next-17">What's Next</a></h2>
 <p>After completing this module, you'll learn about <a href="#module-6-context">Module 6: Context</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="the-loop-that-changes-everything-understanding-feedback-loops"><a class="header" href="#the-loop-that-changes-everything-understanding-feedback-loops">The Loop That Changes Everything: Understanding Feedback Loops</a></h1>
@@ -10073,7 +10032,7 @@ System adjusts future actions based on feedback
 <p><strong>Key insight:</strong> Feedback loops can create vicious cycles (runaway growth) if not properly controlled. The solution isn't always to limit the bounds (min/max instances)—sometimes you need to add a delay or a hysteresis to give the system time to stabilize. Cooldown periods, rate limiting, and circuit breakers are common controls for managing feedback loops.</p>
 </details>
 <hr>
-<h2 id="whats-next-19"><a class="header" href="#whats-next-19">What's Next?</a></h2>
+<h2 id="whats-next-18"><a class="header" href="#whats-next-18">What's Next?</a></h2>
 <p>Now you understand what feedback loops are and why they matter. You know they're natural, not errors, and you can identify them in systems. You've seen examples from thermostats to social media algorithms to auto-scaling systems.</p>
 <p>But we've only talked about <strong>what</strong> feedback loops are and <strong>why</strong> they matter. We haven't talked about <strong>how</strong> to classify different types of feedback loops or how to model them explicitly in your architectures.</p>
 <p>In the next lesson, you'll learn about <strong>types of feedback loops</strong>—positive (reinforcing), negative (balancing), and delayed (oscillating). You'll discover when to use each type, how to identify virtuous vs. vicious cycles, and what controls prevent runaway behavior.</p>
@@ -10636,7 +10595,7 @@ HysteresisScaling = scenario "Auto-Scaling with Hysteresis" {
 <p><strong>Key insight:</strong> Delayed feedback often causes oscillation because systems overcorrect to changes that were already addressed. Hysteresis (adding memory) smooths out the response by considering the system's history, preventing the overcorrection that drives oscillation. It's like a thermostat that remembers the room has been warming up for the last 10 minutes and doesn't turn off the heater just because the temperature momentarily hits the target.</p>
 </details>
 <hr>
-<h2 id="whats-next-20"><a class="header" href="#whats-next-20">What's Next?</a></h2>
+<h2 id="whats-next-19"><a class="header" href="#whats-next-19">What's Next?</a></h2>
 <p>Now you understand the different types of feedback loops—positive (reinforcing) and negative (balancing)—and when to use each. You've seen how positive loops can create virtuous growth or vicious collapse. You've seen how negative loops maintain stability through self-regulation, error-correction, and control.</p>
 <p>In the next lesson, you'll learn to <strong>model cycles explicitly</strong> in Sruja. You'll discover how to create valid feedback loops, distinguish them from circular dependencies (which are bad), and use cycles to represent self-regulating systems, learning mechanisms, and adaptive behaviors.</p>
 <p>See you there!</p>
@@ -11272,7 +11231,7 @@ view index {
 <p><strong>Define success criteria.</strong> Without explicit goals, you can't make trade-offs or know when you're done.</p>
 <p><strong>Balance detail.</strong> Enough context to understand the environment, not so much that the system gets lost.</p>
 <p>Context-aware architecture isn't about adding more documentation—it's about seeing the full picture before you start building. The time you spend understanding context pays back tenfold in avoided rework and better decisions.</p>
-<h2 id="whats-next-21"><a class="header" href="#whats-next-21">What's Next</a></h2>
+<h2 id="whats-next-20"><a class="header" href="#whats-next-20">What's Next</a></h2>
 <p>Now that you understand context as a concept, <a href="#the-hidden-stakeholder-problem-why-everyone-matters-even-people-youve-never-met">Lesson 2</a> dives deep into stakeholders—the people who use, build, and depend on your system. You'll learn how to identify different stakeholder types and model their needs in Sruja.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
@@ -11646,7 +11605,7 @@ MarketingAnalyst = person "Marketing Analyst" {
 <p><strong>Document priorities.</strong> When you can't satisfy everyone, know who matters most.</p>
 <p><strong>Use personas for critical stakeholders.</strong> Detailed personas help you make design decisions when stakeholders aren't available to ask.</p>
 <p>Stakeholder modeling isn't about pleasing everyone—it's about understanding the full picture so you can make informed trade-offs. The time you spend identifying stakeholders pays back in avoided crises and smoother launches.</p>
-<h2 id="whats-next-22"><a class="header" href="#whats-next-22">What's Next</a></h2>
+<h2 id="whats-next-21"><a class="header" href="#whats-next-21">What's Next</a></h2>
 <p>Now that you understand who your stakeholders are, <a href="#the-3-am-page-what-dependencies-really-cost">Lesson 3</a> covers the other half of context: external dependencies, constraints, and success criteria. You'll learn how to document what your system depends on and what "success" actually means.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="the-3-am-page-what-dependencies-really-cost"><a class="header" href="#the-3-am-page-what-dependencies-really-cost">The 3 AM Page: What Dependencies Really Cost</a></h1>
@@ -12186,7 +12145,7 @@ ADR002 = adr "Use Stripe for payments" {
 <p><strong>Document decisions.</strong> ADRs capture why you made choices. They're invaluable when revisiting decisions or onboarding new team members.</p>
 <p><strong>Context prevents 3 AM pages.</strong> The dependency you didn't document, the constraint you ignored, the success criteria you never defined—these are the things that break in production at the worst possible time.</p>
 <p>Modeling context isn't bureaucracy. It's survival.</p>
-<h2 id="whats-next-23"><a class="header" href="#whats-next-23">What's Next</a></h2>
+<h2 id="whats-next-22"><a class="header" href="#whats-next-22">What's Next</a></h2>
 <p>Congratulations! You've completed <strong>Module 6: Context</strong> and the entire <strong>Systems Thinking 101</strong> course!</p>
 <h2 id="-course-complete"><a class="header" href="#-course-complete">🎉 Course Complete!</a></h2>
 <p>You did it. You've made it through all six modules of Systems Thinking 101. That's no small achievement—this material fundamentally changes how you see software systems.</p>
@@ -16966,7 +16925,7 @@ Starting with microservices "because we'll need them." Result: Wasted time and c
 <p><strong>Multiple views serve multiple audiences.</strong> Developers need technical details. Product managers need user flows. Executives need system overview. Sruja's views let you show the right level to each audience.</p>
 <p><strong>The goal is independence, not service count.</strong> More services ≠ better architecture. The question is: Can this service deploy, scale, and fail independently?</p>
 <p>Microservices aren't wrong. But using them without understanding the trade-offs is.</p>
-<h2 id="whats-next-24"><a class="header" href="#whats-next-24">What's Next</a></h2>
+<h2 id="whats-next-23"><a class="header" href="#whats-next-23">What's Next</a></h2>
 <p>Now that you understand microservices architecture, <a href="#the-chain-reaction-when-synchronous-dependencies-kill-systems">Lesson 2</a> covers the API Gateway pattern—the traffic controller that manages communication between your services and the outside world. You'll learn when you need one, when you don't, and how to avoid creating a new bottleneck.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
@@ -17285,7 +17244,7 @@ view data {
 <p><strong>Start synchronous, evolve to async.</strong> Most successful companies (Netflix, LinkedIn, Uber) started with synchronous calls and migrated to events when they felt the pain. Don't over-engineer from day one.</p>
 <p><strong>Model events explicitly in Sruja.</strong> Use <code>queue</code> for topics, <code>scenario</code> for flows, and <code>views</code> to show different perspectives. Make the async boundaries clear.</p>
 <p>Event-driven architecture isn't a silver bullet. It's a powerful tool for specific problems. Use it when the trade-offs make sense.</p>
-<h2 id="whats-next-25"><a class="header" href="#whats-next-25">What's Next</a></h2>
+<h2 id="whats-next-24"><a class="header" href="#whats-next-24">What's Next</a></h2>
 <p>Now that you understand event-driven architecture, <a href="#the-happy-path-lie-why-scenarios-reveal-what-diagrams-hide">Lesson 3</a> covers Advanced Scenarios—how to model complex user journeys and technical sequences that span multiple services. You'll learn when scenarios help clarify behavior and when they're just extra documentation.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="the-happy-path-lie-why-scenarios-reveal-what-diagrams-hide"><a class="header" href="#the-happy-path-lie-why-scenarios-reveal-what-diagrams-hide">The Happy Path Lie: Why Scenarios Reveal What Diagrams Hide</a></h1>
@@ -17695,7 +17654,7 @@ CheckoutProcess = scenario "Checkout Process" {
 <p><strong>Keep scenarios updated or delete them:</strong> Outdated scenarios are misleading. If you can't maintain them, don't write them.</p>
 <p><strong>Use views to show different perspectives:</strong> A checkout flow looks different to a product manager vs. an engineer. Use Sruja's views to show the right level of detail to each audience.</p>
 <p>Scenarios aren't busywork—they're how you communicate behavior that diagrams can't capture. Use them when they add value, skip them when they don't.</p>
-<h2 id="whats-next-26"><a class="header" href="#whats-next-26">What's Next</a></h2>
+<h2 id="whats-next-25"><a class="header" href="#whats-next-25">What's Next</a></h2>
 <p>Now that you understand scenarios, <a href="#lesson-4-architectural-perspectives">Lesson 4</a> covers a different dimension: modeling requirements and constraints. You'll learn how to capture non-functional requirements (performance, scalability, compliance) in Sruja and link them to the components they affect.</p>
 <p>This completes the core modeling concepts. The remaining lessons cover specific patterns and production concerns.</p>
 <div style="break-before: page; page-break-before: always;"></div>
