@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-5e007e91.js";
+            window.path_to_searchindex_js = "searchindex-06654360.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-2d0ac0cc.js"></script>
@@ -231,7 +231,7 @@
 <p><strong>New here?</strong> <a href="#quick-start">Quick start</a>: install CLI, run structural drift, wire MCP, install <code>sruja-harness</code>, run <code>verify-task</code> after agent edits. Add <code>sruja-architecture</code> only when you want <code>repo.sruja</code> in Git. For <strong>docs</strong>, <strong>tutorials</strong>, and <strong>courses</strong>, use <a href="#navigate">Navigate</a>; press <strong><code>/</code></strong> or <strong><code>S</code></strong> to search.</p>
 </blockquote>
 <blockquote>
-<p><strong>Sruja "Show diagram" in code blocks:</strong> Run <code>make wasm</code> from the repo root once, then run <code>make book-serve</code> (or <code>./serve.sh</code> from the book directory) so the WASM files are copied into the book output.</p>
+<p><strong>Sruja "Show diagram" in code blocks:</strong> Run <code>just wasm</code> (or <code>make wasm</code>) from the repo root once, then run <code>just book-serve</code> (or <code>make book-serve</code>, or <code>./serve.sh</code> from the book directory) so the WASM files are copied into the book output.</p>
 </blockquote>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="navigate"><a class="header" href="#navigate">Navigate</a></h1>
@@ -312,7 +312,7 @@ then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
 <h2 id="common-questions"><a class="header" href="#common-questions">Common Questions</a></h2>
 <p><strong>"What if <code>sruja</code> isn't found?"</strong></p>
 <pre><code class="language-bash">export PATH="$HOME/.local/bin:$PATH"
-# or: make build &amp;&amp; use target/release/sruja
+# or: just build (or make build) &amp;&amp; use target/release/sruja
 </code></pre>
 <p><strong>"Do I need MCP?"</strong></p>
 <p>No for CLI-only workflows. MCP is the best experience inside Cursor/Claude Desktop.</p>
@@ -3216,7 +3216,7 @@ jobs:
 <pre><code class="language-bash">cargo install sruja-cli --git https://github.com/sruja-ai/sruja
 </code></pre>
 <p><strong>Option C – build from source:</strong></p>
-<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; just build  # or: make build
 </code></pre>
 <p>Ensure the install directory is on your <code>PATH</code> (install script uses <code>~/.local/bin</code> by default; Option B uses <code>~/.cargo/bin</code>; Option C uses <code>target/release</code>).</p>
 <p><strong>Check:</strong></p>
@@ -25046,7 +25046,7 @@ cd shopify-lite
 <pre><code class="language-bash"># From Git (requires Rust)
 cargo install sruja-cli --git https://github.com/sruja-ai/sruja
 
-# Or build from source: git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+# Or build from source: git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; just build  # or: make build
 
 # Verify installation
 sruja --version
@@ -32560,7 +32560,7 @@ sruja --version
 sruja --version
 </code></pre>
 <p><strong>Option C – build from source:</strong></p>
-<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; make build
+<pre><code class="language-bash">git clone https://github.com/sruja-ai/sruja.git &amp;&amp; cd sruja &amp;&amp; just build  # or: make build
 # Add target/release to PATH or copy target/release/sruja to a directory on PATH
 sruja --version
 </code></pre>
