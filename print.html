@@ -36,10 +36,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-06654360.js";
+            window.path_to_searchindex_js = "searchindex-101ea6d2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-2d0ac0cc.js"></script>
+        <script src="toc-449dcb4c.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -34917,6 +34917,31 @@ view container_view of Shop {
 <li><a href="examples/index.html">Examples</a> – Example architectures in this book</li>
 <li><a href="https://github.com/sruja-ai/sruja/tree/main/examples">Sruja repo examples</a> – More examples in the repository</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="e2e-diagram-smoke-ci"><a class="header" href="#e2e-diagram-smoke-ci">E2E diagram smoke (CI)</a></h1>
+<p>Minimal Sruja block used by deploy E2E to verify WASM + Mermaid in the built book.
+Not linked from the public nav; referenced only by Playwright.</p>
+<pre><code class="language-sruja">Shop = system "Shop" {
+  description "Example system for CI diagram smoke"
+
+  Web = container "Web" {
+    technology "React"
+    description "Storefront"
+  }
+
+  API = container "API" {
+    technology "Rust"
+    description "Backend API"
+  }
+}
+
+Buyer = person "Buyer" {
+  description "Customer"
+}
+
+Buyer -&gt; Shop.Web "browses"
+Shop.Web -&gt; Shop.API "calls"
+</code></pre>
 
                     </main>
 
