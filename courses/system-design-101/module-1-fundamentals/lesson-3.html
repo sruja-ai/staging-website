@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -212,11 +212,10 @@
 <h3 id="failover"><a class="header" href="#failover">Failover</a></h3>
 <p>The process of switching to a redundant system upon failure. This can be manual or automatic.</p>
 <hr>
-<h2 id="-sruja-perspective-modeling-redundancy"><a class="header" href="#-sruja-perspective-modeling-redundancy">🛠️ Sruja Perspective: Modeling Redundancy</a></h2>
+<h2 id="sruja-perspective-modeling-redundancy"><a class="header" href="#sruja-perspective-modeling-redundancy">Sruja Perspective: Modeling Redundancy</a></h2>
 <p>You can explicitly model redundant components in Sruja to visualize your high-availability strategy.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Payments = system "Payment System" {
     PaymentService = container "Payment Service" {
@@ -261,7 +260,6 @@ Ready to apply what you've learned? Take the interactive quiz for this lesson!
 **Explanation:**
 Availability measures how often a system is up and accessible. It's about uptime percentage (e.g., 99.9%).
 
-
 &lt;/details&gt;
 
 ---
@@ -279,7 +277,6 @@ Availability measures how often a system is up and accessible. It's about uptime
 
 **Explanation:**
 Reliability measures how often a system functions correctly without errors. A system can be available (up) but unreliable (returning 500 errors).
-
 
 &lt;/details&gt;
 
@@ -612,7 +609,6 @@ Reliability measures how often a system functions correctly without errors. A sy
 **Explanation:**
 Failover is the process of automatically or manually switching to a redundant system upon failure. This is critical for high availability systems.
 Failover can be automatic (system detects failure and switches) or manual (operator triggers switch).
-
 
 &lt;/details&gt;
 

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -329,7 +329,7 @@ GraphQL API = container "GraphQL API Service" {
 <li>Both remain in history</li>
 </ul>
 <h2 id="adr-structure-the-complete-template"><a class="header" href="#adr-structure-the-complete-template">ADR Structure: The Complete Template</a></h2>
-<p>Here's a comprehensive ADR template you can adapt:</p>
+<p>Here's a full ADR template you can adapt:</p>
 <pre><code class="language-sruja">// partial
 ADR### = adr "[Short Title]" {
   // REQUIRED: Current status
@@ -438,12 +438,12 @@ ADR### = adr "[Short Title]" {
 <ul>
 <li>Positive: No breaking changes for existing users</li>
 <li>Negative: Multiple API versions to maintain</li>
-<li>Neutral: Requires comprehensive testing across versions</li>
+<li>Neutral: Requires full testing across versions</li>
 </ul>
 <p><strong>Why this ADR is famous:</strong> Solved API evolution elegantly.</p>
 <h2 id="when-to-write-an-adr"><a class="header" href="#when-to-write-an-adr">When to Write an ADR</a></h2>
 <p>Not every decision needs an ADR. Here's the framework I use:</p>
-<h3 id="always-write-an-adr"><a class="header" href="#always-write-an-adr">Always Write an ADR:</a></h3>
+<h3 id="always-write-an-adr"><a class="header" href="#always-write-an-adr">Always Write an ADR</a></h3>
 <p><strong>1. Technology Choices</strong></p>
 <ul>
 <li>Choosing a database (PostgreSQL vs. MongoDB vs. CockroachDB)</li>
@@ -479,7 +479,7 @@ ADR### = adr "[Short Title]" {
 <li>Communication protocols</li>
 </ul>
 <p><strong>Why:</strong> This affects how architecture evolves.</p>
-<h3 id="sometimes-write-an-adr"><a class="header" href="#sometimes-write-an-adr">Sometimes Write an ADR:</a></h3>
+<h3 id="sometimes-write-an-adr"><a class="header" href="#sometimes-write-an-adr">Sometimes Write an ADR</a></h3>
 <p><strong>6. API Design Decisions</strong></p>
 <ul>
 <li>REST vs. GraphQL vs. gRPC</li>
@@ -504,7 +504,7 @@ ADR### = adr "[Short Title]" {
 </ul>
 <p><strong>Write when:</strong> Complex deployment requirements
 <strong>Skip when:</strong> Simple deployment</p>
-<h3 id="rarely-write-an-adr"><a class="header" href="#rarely-write-an-adr">Rarely Write an ADR:</a></h3>
+<h3 id="rarely-write-an-adr"><a class="header" href="#rarely-write-an-adr">Rarely Write an ADR</a></h3>
 <p><strong>9. Implementation Details</strong></p>
 <ul>
 <li>Variable naming conventions</li>

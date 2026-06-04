@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -215,8 +215,6 @@ CheckoutFlow = scenario "Customer Checkout" {
 </code></pre>
 <p>The static relationship just tells you "customer uses the web app." The flow tells you the complete sequence—what the customer does, what the web app does, what the API does, in what order, and what happens at each step.</p>
 <h3 id="why-this-matters"><a class="header" href="#why-this-matters">Why This Matters</a></h3>
-<p>I once worked on a system where we had perfect static diagrams showing all the components. But nobody understood the actual order processing flow. When we debugged issues, we'd spend hours tracing through code because the diagrams didn't show sequence.</p>
-<p>We added flows, and suddenly everything became clear. Developers could see the complete path from customer action to database storage. Product managers could see exactly what users experienced. Everyone had the same mental model of how things moved through the system.</p>
 <h2 id="why-flows-matter-the-real-benefits"><a class="header" href="#why-flows-matter-the-real-benefits">Why Flows Matter: The Real Benefits</a></h2>
 <p>After years of modeling systems, I've found flows reveal things static relationships never can. Let me show you what flows actually surface.</p>
 <h3 id="1-data-lineage-where-does-data-come-from"><a class="header" href="#1-data-lineage-where-does-data-come-from">1. Data Lineage: Where Does Data Come From?</a></h3>
@@ -752,7 +750,6 @@ OrderFlow = scenario "Order Processing with Errors" {
 <p>Now you understand what flows are and why they matter. You know the different types of flows (data, user journey, control, event) and when to use each one.</p>
 <p>But we've only talked about <strong>what</strong> flows are. We haven't talked about <strong>how</strong> to create specific types of flows in practice.</p>
 <p>In the next lesson, you'll learn about <strong>Data Flow Diagrams</strong>—how to model DFD-style data flows that show lineage, transformations, and analytics pipelines. You'll discover how to document where data comes from, how it changes, and where it ultimately ends up.</p>
-<p>See you there!</p>
 
                     </main>
 

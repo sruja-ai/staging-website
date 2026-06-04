@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-449dcb4c.js"></script>
@@ -914,7 +914,7 @@ view index {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="examples--patterns"><a class="header" href="#examples--patterns">Examples &amp; Patterns</a></h1>
 <p>Theory is good, but code is better. Below are <strong>production-grade</strong> Sruja models that you can copy, paste, and adapt.</p>
-<p>Every example here follows our <a href="docs/docs/style-guide.html">"FAANG-level" quality standards</a>:</p>
+<p>Every example here follows our <a href="docs/docs/style-guide.html">quality standards</a>:</p>
 <ol>
 <li><strong>Clear Requirements</strong>: Functional &amp; Non-functional.</li>
 <li><strong>Proper Hierarchies</strong>: Context -&gt; Container -&gt; Component.</li>
@@ -3319,16 +3319,16 @@ jobs:
 </ul>
 <p>Sruja is open source. To report issues or suggest improvements, use <a href="https://github.com/sruja-ai/sruja/issues">GitHub Issues</a> or <a href="https://github.com/sruja-ai/sruja/discussions">Discussions</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
-<h1 id="sruja-design-philosophy-the-unified-intuitive-dsl"><a class="header" href="#sruja-design-philosophy-the-unified-intuitive-dsl">Sruja Design Philosophy: The Unified Intuitive DSL</a></h1>
+<h1 id="design-philosophy"><a href="#design-philosophy" class="header">Design philosophy</a></h1>
 <h2 id="objective"><a class="header" href="#objective">Objective</a></h2>
-<p>Create a modeling language that empowers <strong>all developers</strong> - from students to enterprise architects - to design systems with confidence, while naturally guiding them toward simplicity and preventing over-engineering.</p>
+<p>Create a modeling language that helps <strong>all developers</strong> — from students to enterprise architects — design systems with confidence, while guiding them toward simplicity and preventing over-engineering.</p>
 <p><strong>Core Principles</strong>:</p>
 <ol>
 <li><strong>Start simple, stay simple</strong>: A 1st-year CS student should be productive in 10 minutes, and advanced developers should be guided away from unnecessary complexity.</li>
 <li><strong>Empower, don't restrict</strong>: The language should enable all developers, not limit them, but guide them toward good design.</li>
 <li><strong>Approachability first</strong>: Complex concepts should be available but not encouraged unless truly needed.</li>
 <li><strong>Prevent over-engineering</strong>: The language itself should make simple designs easier than complex ones.</li>
-<li><strong>Systems thinking made simple</strong>: Enable holistic system understanding through intuitive syntax, without requiring complex theory.</li>
+<li><strong>Systems thinking made simple</strong>: Enable full system understanding through intuitive syntax, without requiring complex theory.</li>
 </ol>
 <h2 id="methodology-analysis"><a class="header" href="#methodology-analysis">Methodology Analysis</a></h2>
 <div class="table-wrapper">
@@ -3420,7 +3420,6 @@ ShopAPI.WebApp -&gt; ShopAPI.Database "Reads/Writes"
 Order -&gt; Payment "Triggers"
 </code></pre>
 <p><strong>Rationale</strong>: Arrows are universal. Everyone understands "A -&gt; B" means "A relates to B".</p>
-<h2 id="proposed-syntax-the-universal-model"><a class="header" href="#proposed-syntax-the-universal-model">Proposed Syntax: "The Universal Model"</a></h2>
 <h3 id="level-1-beginner-c4-style"><a class="header" href="#level-1-beginner-c4-style">Level 1: Beginner (C4 Style)</a></h3>
 <pre><code class="language-sruja">// partial
 // Element kinds
@@ -3515,7 +3514,6 @@ SecurityPolicy = policy "Encrypt all data" category "security" enforcement "requ
 Customer -&gt; Shop.API "Uses"
 Shop.API -&gt; Shop.DB "Reads/Writes"
 </code></pre>
-<h2 id="key-design-decisions"><a class="header" href="#key-design-decisions">Key Design Decisions</a></h2>
 <h3 id="1-progressive-disclosure"><a class="header" href="#1-progressive-disclosure">1. Progressive Disclosure</a></h3>
 <ul>
 <li><strong>Beginner</strong>: Start with <code>system</code>, <code>container</code>, <code>component</code> (C4)</li>
@@ -3541,7 +3539,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li>In a <code>component</code>: Internal data structure</li>
 </ul>
 <p><strong>Rationale</strong>: One keyword, multiple interpretations based on context. Reduces vocabulary size.</p>
-<h2 id="preventing-over-engineering-simplicity-by-design"><a class="header" href="#preventing-over-engineering-simplicity-by-design">Preventing Over-Engineering: Simplicity by Design</a></h2>
 <h3 id="how-sruja-guides-toward-simplicity"><a class="header" href="#how-sruja-guides-toward-simplicity">How Sruja Guides Toward Simplicity</a></h3>
 <p><strong>1. Start Simple</strong></p>
 <ul>
@@ -3573,7 +3570,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li><code>module</code> = "How is this organized?" (Logical grouping)</li>
 <li>Keep it focused on what you're actually modeling</li>
 </ul>
-<h2 id="missing-concepts--future-considerations"><a class="header" href="#missing-concepts--future-considerations">Missing Concepts &amp; Future Considerations</a></h2>
 <h3 id="currently-missing-but-important"><a class="header" href="#currently-missing-but-important">Currently Missing (but important):</a></h3>
 <ol>
 <li><strong>Constraints/Validation</strong>: How to express "email must be valid", "age &gt; 0"?</li>
@@ -3593,7 +3589,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li>Consider relationship syntax: <code>User -&gt; Order[1:*]</code></li>
 <li>✅ <code>flow</code> and <code>scenario</code>/<code>story</code> already implemented for flow thinking (DFD and BDD-style)</li>
 </ul>
-<h2 id="migration-path"><a class="header" href="#migration-path">Migration Path</a></h2>
 <h3 id="from-c4-to-sruja"><a class="header" href="#from-c4-to-sruja">From C4 to Sruja:</a></h3>
 <pre><code class="language-sruja">&lt;!-- partial --&gt;
 // C4: System Context
@@ -3640,7 +3635,7 @@ datastore Database {
 }
 </code></pre>
 <h2 id="systems-thinking-simple-and-intuitive"><a class="header" href="#systems-thinking-simple-and-intuitive">Systems Thinking: Simple and Intuitive</a></h2>
-<p><strong>Goal</strong>: Empower developers to think about systems holistically - understanding how parts interact, boundaries, and emergent behavior - without requiring complex theory.</p>
+<p><strong>Goal</strong>: Help developers think about systems as a whole — understanding how parts interact, boundaries, and emergent behavior — without requiring complex theory.</p>
 <h3 id="core-systems-thinking-concepts-simplified"><a class="header" href="#core-systems-thinking-concepts-simplified">Core Systems Thinking Concepts (Simplified)</a></h3>
 <p>Systems thinking is about understanding:</p>
 <ol>
@@ -4288,7 +4283,7 @@ scenario Checkout "Checkout Flow" {
 <p>Each module contains hands-on examples with Sruja syntax. You'll write <code>.sruja</code> files, validate them with <code>sruja lint</code>, and export to Mermaid diagrams with <code>sruja export mermaid</code>.</p>
 <h2 id="why-systems-thinking"><a class="header" href="#why-systems-thinking">Why Systems Thinking?</a></h2>
 <ul>
-<li><strong>Holistic understanding</strong>: See the whole system, not just parts</li>
+<li><strong>full understanding</strong>: See the whole system, not just parts</li>
 <li><strong>Natural patterns</strong>: Model real-world interactions and feedback</li>
 <li><strong>Clear boundaries</strong>: Understand what's in scope vs. context</li>
 <li><strong>Flow visualization</strong>: See how data and information move</li>
@@ -4335,7 +4330,7 @@ scenario Checkout "Checkout Flow" {
 <h2 id="learning-goal"><a class="header" href="#learning-goal">Learning Goal</a></h2>
 <p>Understand the basic concept of systems thinking and its importance in architecture.</p>
 <h2 id="what-is-systems-thinking"><a class="header" href="#what-is-systems-thinking">What is Systems Thinking?</a></h2>
-<p>Systems thinking is a <strong>holistic approach</strong> to understanding how components interact as part of a whole. Instead of looking at parts in isolation, it focuses on <strong>relationships</strong>, <strong>patterns</strong>, and <strong>emergent behaviors</strong> that arise when components work together.</p>
+<p>Systems thinking is a <strong>full approach</strong> to understanding how components interact as part of a whole. Instead of looking at parts in isolation, it focuses on <strong>relationships</strong>, <strong>patterns</strong>, and <strong>emergent behaviors</strong> that arise when components work together.</p>
 <p>Traditional architecture often takes a reductionist approach: break systems into parts, understand each part, then put them together. But this misses the magic—the interactions that emerge only when parts work together.</p>
 <h3 id="a-simple-example-coffee-shop"><a class="header" href="#a-simple-example-coffee-shop">A Simple Example: Coffee Shop</a></h3>
 <p>Think of a coffee shop:</p>
@@ -4457,7 +4452,7 @@ Reality: It applies to all systems, even small APIs. A small system's design aff
 <p><strong>Question 1:</strong> What is systems thinking?</p>
 <ul>
 <li><input disabled="" type="checkbox"> a) A way to optimize code performance</li>
-<li><input disabled="" type="checkbox"> b) A holistic approach to understanding how components interact as part of a whole</li>
+<li><input disabled="" type="checkbox"> b) A full approach to understanding how components interact as part of a whole</li>
 <li><input disabled="" type="checkbox"> c) A method for breaking down systems into smaller parts</li>
 <li><input disabled="" type="checkbox"> d) A database design technique</li>
 </ul>
@@ -5046,7 +5041,6 @@ App = system "The App" {
 <h2 id="whats-next-5"><a class="header" href="#whats-next-5">What's Next?</a></h2>
 <p>Now that you know how to identify parts, you're probably wondering: "How do I actually define these parts in Sruja? What's the syntax?"</p>
 <p>In the next lesson, you'll learn exactly that. We'll cover the four core element types (person, system, container, component), how to use them, and what details to include. You'll have a complete toolkit for modeling any software system.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="your-toolkit-srujas-element-types"><a class="header" href="#your-toolkit-srujas-element-types">Your Toolkit: Sruja's Element Types</a></h1>
 <p>Now that you know how to identify parts, let's talk about how to actually define them in Sruja. Think of element types as your vocabulary—the building blocks you'll use to describe any software architecture.</p>
@@ -5414,7 +5408,6 @@ API = container "API Service" {
 <h2 id="whats-next-6"><a class="header" href="#whats-next-6">What's Next?</a></h2>
 <p>Now you know how to define all the parts of your system. But parts alone don't tell the whole story. Systems are defined by how their parts interact and connect.</p>
 <p>In the next lesson, you'll learn about relationships—how to model the connections between your elements. You'll learn to write clear, meaningful labels that describe exactly how parts communicate with each other.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
 <h1 id="connecting-the-dots-defining-relationships"><a class="header" href="#connecting-the-dots-defining-relationships">Connecting the Dots: Defining Relationships</a></h1>
@@ -5705,7 +5698,6 @@ view index {
 <h2 id="whats-next-7"><a class="header" href="#whats-next-7">What's Next?</a></h2>
 <p>Now you know how to define parts and connect them with relationships. You can create diagrams that tell stories about how systems work.</p>
 <p>But there's one more thing: <strong>how do you organize all these parts</strong>? That's what the next lesson is about. You'll learn about hierarchy and nesting—how to structure your systems in a way that's clear, consistent, and scalable.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="bringing-order-to-chaos-hierarchy-and-nesting"><a class="header" href="#bringing-order-to-chaos-hierarchy-and-nesting">Bringing Order to Chaos: Hierarchy and Nesting</a></h1>
 <p>Imagine walking into a house where everything is dumped in one giant room—furniture, kitchen appliances, clothes, tools, books. You could find what you're looking for eventually, but it would be frustrating and inefficient. That's what an unorganized architecture feels like.</p>
@@ -6087,7 +6079,6 @@ view component_view of ECommerce.API {
 </ul>
 <p>You can now create diagrams that tell stories about how systems work—stories that are clear, consistent, and useful for your audience.</p>
 <p>In the next module, you'll learn about <strong>boundaries</strong>—how to define where one system ends and another begins. This is crucial for understanding dependencies, managing complexity, and designing systems that are decoupled and maintainable.</p>
-<p>See you there!</p>
 <hr>
 <h2 id="module-2-complete"><a class="header" href="#module-2-complete">Module 2 Complete!</a></h2>
 <p>You've now mastered the fundamentals of modeling systems. Here's what you've learned:</p>
@@ -6196,7 +6187,6 @@ Shop = system "Shop" {
 PaymentGateway = system "Payment Gateway"
 </code></pre>
 <p>When something breaks with payments, who fixes it? If the boundary is clear, everyone knows: <strong>your team</strong> fixes anything inside Shop, <strong>the payment vendor</strong> fixes anything in PaymentGateway. No confusion, no finger-pointing.</p>
-<p>I once worked on a project where a team spent three days arguing about who owned a broken integration because nobody had bothered to document the boundary. Three days of developer time—wasted.</p>
 <h3 id="2-risk-management-what-could-go-wrong"><a class="header" href="#2-risk-management-what-could-go-wrong">2. Risk Management: What Could Go Wrong?</a></h3>
 <p>Every time you cross a boundary, you're introducing risk. You're depending on something outside your control.</p>
 <pre><code class="language-sruja">// partial
@@ -6613,7 +6603,6 @@ AnalyticsService = system "Analytics Service" {
 <p>Now you understand what boundaries are and why they matter. You know how to identify different types of boundaries and mark them clearly in your diagrams.</p>
 <p>But there's a question we haven't answered: <strong>how do you actually mark components as internal or external in Sruja?</strong> How do you use metadata effectively to document ownership and dependencies?</p>
 <p>In the next lesson, you'll learn exactly that. We'll cover how to annotate boundary elements, model team and organizational boundaries, and create diagrams that make it instantly clear what's inside versus what's outside.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
 <h1 id="inside-and-outside-internal-vs-external"><a class="header" href="#inside-and-outside-internal-vs-external">Inside and Outside: Internal vs External</a></h1>
@@ -6699,7 +6688,6 @@ PaymentGateway = system "Payment Gateway" {
 <li>What security controls are in place</li>
 <li>Whether you can use it for sensitive data</li>
 </ul>
-<p>I once worked on a healthcare project where someone chose an email provider without checking HIPAA compliance. We had to rebuild the integration later. Lesson learned: <strong>document compliance requirements upfront</strong>.</p>
 <h2 id="common-boundary-patterns"><a class="header" href="#common-boundary-patterns">Common Boundary Patterns</a></h2>
 <p>After modeling hundreds of systems, I've noticed patterns that repeat constantly. Let me show you the ones I see most often.</p>
 <h3 id="pattern-1-third-party-services"><a class="header" href="#pattern-1-third-party-services">Pattern 1: Third-Party Services</a></h3>
@@ -7181,7 +7169,6 @@ Shop.API -&gt; EmailService "Send confirmation"
 <p>Now you know how to mark internal and external components clearly. You can annotate external systems with ownership, SLAs, and support information. You can model team boundaries and create different views for different audiences.</p>
 <p>But we've only talked about <strong>defining</strong> boundaries. We haven't talked about what happens when you <strong>cross</strong> them.</p>
 <p>In the next lesson, you'll learn about crossing boundaries—how to model integrations, plan for failures, document interface contracts, and design fallback strategies. You'll discover why every boundary crossing is both an opportunity and a risk.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
 <h1 id="crossing-the-line-integrations-at-boundaries"><a class="header" href="#crossing-the-line-integrations-at-boundaries">Crossing the Line: Integrations at Boundaries</a></h1>
@@ -7332,8 +7319,6 @@ Shop.API = container "API Service" {
   }
 }
 </code></pre>
-<p>I once worked on a system that had no timeout configured. An external service got slow, and our threads hung indefinitely. The entire system ground to a halt.</p>
-<p>Set timeouts. Always. Even if the external service is usually fast.</p>
 <h3 id="3-data-consistency-what-happens-when-things-go-wrong"><a class="header" href="#3-data-consistency-what-happens-when-things-go-wrong">3. Data Consistency: What Happens When Things Go Wrong?</a></h3>
 <p>What if the payment succeeds but saving the order fails? Or the order saves but the payment fails?</p>
 <pre><code class="language-sruja">// partial
@@ -7352,8 +7337,6 @@ Shop.API -&gt; Shop.Database "Save order"
 <li><strong>Eventual consistency</strong> — Accept that things might be inconsistent briefly, then reconcile</li>
 <li><strong>Two-phase commits</strong> — Complex, but guarantees consistency</li>
 </ul>
-<p>I once worked on a system where we charged customers but lost their orders. We spent weeks manually reconciling payments and orders. Awful experience.</p>
-<p>Plan for consistency issues at boundaries. They will happen.</p>
 <h3 id="4-security-what-protects-your-data"><a class="header" href="#4-security-what-protects-your-data">4. Security: What Protects Your Data?</a></h3>
 <p>Crossing a boundary is where attacks happen. This is where you need to be most careful.</p>
 <pre><code class="language-sruja">// partial
@@ -7429,7 +7412,6 @@ Shop.API = container "API Service" {
 <li>Currency formats</li>
 <li>Number formats (decimal precision, rounding)</li>
 </ul>
-<p>I once dealt with a system where dates were sometimes in US format (MM/DD/YYYY) and sometimes in ISO format (YYYY-MM-DD), depending on which service you called. Bugs everywhere.</p>
 <h3 id="sla-and-reliability"><a class="header" href="#sla-and-reliability">SLA and Reliability</a></h3>
 <pre><code class="language-sruja">PaymentGateway = system "Payment Gateway" {
   metadata {
@@ -7741,7 +7723,6 @@ view index {
 <p>You can now create architectures that clearly distinguish what you control from what you depend on. You can plan for failures at boundaries instead of being surprised by them. You can document interface contracts that prevent integration disasters.</p>
 <p>You're building resilient systems.</p>
 <p>In the next module, you'll learn about <strong>flows</strong>—how information moves through your system over time. You'll discover how to model data flow, process flows, and temporal behaviors that tell a richer story than static diagrams can.</p>
-<p>See you there!</p>
 <hr>
 <h2 id="module-3-complete"><a class="header" href="#module-3-complete">Module 3 Complete!</a></h2>
 <p>You've now mastered the art of defining and crossing boundaries. Here's what you've learned:</p>
@@ -7829,8 +7810,6 @@ CheckoutFlow = scenario "Customer Checkout" {
 </code></pre>
 <p>The static relationship just tells you "customer uses the web app." The flow tells you the complete sequence—what the customer does, what the web app does, what the API does, in what order, and what happens at each step.</p>
 <h3 id="why-this-matters"><a class="header" href="#why-this-matters">Why This Matters</a></h3>
-<p>I once worked on a system where we had perfect static diagrams showing all the components. But nobody understood the actual order processing flow. When we debugged issues, we'd spend hours tracing through code because the diagrams didn't show sequence.</p>
-<p>We added flows, and suddenly everything became clear. Developers could see the complete path from customer action to database storage. Product managers could see exactly what users experienced. Everyone had the same mental model of how things moved through the system.</p>
 <h2 id="why-flows-matter-the-real-benefits"><a class="header" href="#why-flows-matter-the-real-benefits">Why Flows Matter: The Real Benefits</a></h2>
 <p>After years of modeling systems, I've found flows reveal things static relationships never can. Let me show you what flows actually surface.</p>
 <h3 id="1-data-lineage-where-does-data-come-from"><a class="header" href="#1-data-lineage-where-does-data-come-from">1. Data Lineage: Where Does Data Come From?</a></h3>
@@ -8366,7 +8345,6 @@ OrderFlow = scenario "Order Processing with Errors" {
 <p>Now you understand what flows are and why they matter. You know the different types of flows (data, user journey, control, event) and when to use each one.</p>
 <p>But we've only talked about <strong>what</strong> flows are. We haven't talked about <strong>how</strong> to create specific types of flows in practice.</p>
 <p>In the next lesson, you'll learn about <strong>Data Flow Diagrams</strong>—how to model DFD-style data flows that show lineage, transformations, and analytics pipelines. You'll discover how to document where data comes from, how it changes, and where it ultimately ends up.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="following-the-trail-data-flow-diagrams"><a class="header" href="#following-the-trail-data-flow-diagrams">Following the Trail: Data Flow Diagrams</a></h1>
 <p>Think of an oil pipeline. Crude oil goes in one end, flows through refineries where it's heated, distilled, and chemically treated, and comes out the other end as gasoline, diesel, or jet fuel. At each stage, the oil transforms into something more valuable.</p>
@@ -8426,7 +8404,6 @@ CustomerAnalyticsFlow = flow "Customer Data Lineage" {
 </code></pre>
 <p>This flow tells you the complete story: customer data originates in CRM, gets extracted by ETL, normalized (cleaned up), enriched with behavioral data, aggregated into segments, stored in the warehouse, and ultimately shows up on a business dashboard.</p>
 <p>Without this flow, would you know customer data comes from the CRM? Would you know it gets enriched with clickstream data? Would you know it's aggregated daily? Probably not.</p>
-<p>I once worked on a project where nobody knew where analytics data came from. We spent weeks tracking down data lineage every time we found an issue. We added data flows, and suddenly everyone knew the complete path.</p>
 <h3 id="2-process-understanding-what-actually-happens"><a class="header" href="#2-process-understanding-what-actually-happens">2. Process Understanding: What Actually Happens?</a></h3>
 <p>Data flows reveal the processing steps your data goes through—the "how" not just the "what."</p>
 <pre><code class="language-sruja">// partial
@@ -8473,7 +8450,6 @@ TransformationFlow = flow "Data Transformations" {
 <li>Enriched → Aggregated (metrics computed)</li>
 </ul>
 <p>This documentation is invaluable. When someone asks, "What happened to this data?" you can point to the flow and show them each transformation step.</p>
-<p>I once inherited a system where nobody documented data transformations. We found mysterious records in the warehouse—dates in the wrong format, currencies mixed up, values that made no sense. We spent months reverse-engineering what transformations were happening. Document it upfront.</p>
 <h3 id="4-bottleneck-identification-where-will-things-slow-down"><a class="header" href="#4-bottleneck-identification-where-will-things-slow-down">4. Bottleneck Identification: Where Will Things Slow Down?</a></h3>
 <p>Data flows make bottlenecks obvious—where processing might slow down, where queues might form, where latency will be worst.</p>
 <pre><code class="language-sruja">// partial
@@ -8608,7 +8584,7 @@ RealTimeAnalyticsFlow = flow "Real-Time Analytics Pipeline" {
 </ul>
 <p><strong>Use when:</strong> Building real-time dashboards, fraud detection, personalized recommendations, live monitoring.</p>
 <h3 id="pattern-4-lambda-architecture"><a class="header" href="#pattern-4-lambda-architecture">Pattern 4: Lambda Architecture</a></h3>
-<p>Batch processing for comprehensive analytics plus real-time for speed.</p>
+<p>Batch processing for full analytics plus real-time for speed.</p>
 <pre><code class="language-sruja">// partial
 LambdaArchitectureFlow = flow "Lambda Architecture" {
   // Speed layer: Real-time
@@ -8629,10 +8605,10 @@ LambdaArchitectureFlow = flow "Lambda Architecture" {
 <ul>
 <li>Two paths: fast (speed layer) and accurate (batch layer)</li>
 <li>Speed layer provides quick but possibly incomplete results</li>
-<li>Batch layer provides comprehensive but delayed results</li>
+<li>Batch layer provides full but delayed results</li>
 <li>Query service merges both for best of both worlds</li>
 </ul>
-<p><strong>Use when:</strong> You need both real-time responsiveness and comprehensive accuracy.</p>
+<p><strong>Use when:</strong> You need both real-time responsiveness and full accuracy.</p>
 <h2 id="documenting-data-transformations"><a class="header" href="#documenting-data-transformations">Documenting Data Transformations</a></h2>
 <p>One of the most important things you can do in data flows is document transformations clearly.</p>
 <h3 id="using-relationship-labels"><a class="header" href="#using-relationship-labels">Using Relationship Labels</a></h3>
@@ -8817,7 +8793,6 @@ ETLPipeline = flow "ETL Pipeline" {
 <p>Now you understand how to create data flow diagrams. You can model data lineage, document transformations, and design ETL and analytics pipelines.</p>
 <p>But data flows are just one type of flow. There's another crucial type—<strong>user journeys</strong> (or behavioral flows)—which show how users interact with your system from their perspective.</p>
 <p>In the next lesson, you'll learn about user journeys. You'll discover how to model BDD-style scenarios, document happy paths and error paths, and capture the complete user experience from start to finish.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="walking-in-their-shoes-user-journeys"><a class="header" href="#walking-in-their-shoes-user-journeys">Walking in Their Shoes: User Journeys</a></h1>
 <p>Ever watched someone use a product you built? You notice things you never would—confusing buttons, unclear error messages, workflows that don't make sense. Why? Because you built it from your perspective, not theirs.</p>
@@ -8852,10 +8827,6 @@ ETLPipeline = flow "ETL Pipeline" {
 <li>Both happy and sad paths</li>
 </ul>
 <h2 id="why-user-journeys-matter"><a class="header" href="#why-user-journeys-matter">Why User Journeys Matter</a></h2>
-<p>I've learned this the hard way. I once built a feature without modeling user journeys, and when we launched, users were completely confused.</p>
-<p>They couldn't find the checkout button. When they did, error messages were cryptic. The "success" page didn't tell them what to do next. Support tickets flooded in. We had to rebuild the entire feature.</p>
-<p>If I'd modeled user journeys upfront, we would have seen these issues immediately. The journey would have shown: "User clicks checkout → System shows error 'ERR_500' → User is confused."</p>
-<p><strong>User journeys matter because:</strong></p>
 <h3 id="1-requirements-clarity"><a class="header" href="#1-requirements-clarity">1. Requirements Clarity</a></h3>
 <p>User journeys turn vague requirements into concrete scenarios:</p>
 <p><strong>Vague requirement:</strong> "Users should be able to check out"</p>
@@ -8931,7 +8902,6 @@ RegistrationEdgeCases = scenario "Registration Edge Cases" {
   WebApp -&gt; Customer "Shows error: Password too weak"
 }
 </code></pre>
-<p>I once launched a feature without modeling edge cases. Users started using weird inputs, emojis in names, passwords with special characters, and the system broke in creative ways. Model edge cases upfront.</p>
 <h2 id="creating-user-journeys-in-sruja"><a class="header" href="#creating-user-journeys-in-sruja">Creating User Journeys in Sruja</a></h2>
 <p>Sruja gives you two keywords for user journeys, and they're interchangeable:</p>
 <h3 id="using-scenario-1"><a class="header" href="#using-scenario-1">Using <code>scenario</code></a></h3>
@@ -9060,7 +9030,6 @@ ErrorRegistration = scenario "User Registration (Error Path: Duplicate Email)" {
 <li>Focus on errors users actually encounter</li>
 <li>Ensure error messages are helpful, not cryptic</li>
 </ul>
-<p>I once worked on a system where error messages were like "ERR_500_CHECKOUT_FAILED." Users had no idea what went wrong. We rewrote them to be helpful: "Payment failed. Please check your card details or try a different payment method." Support tickets dropped by 70%.</p>
 <h3 id="pattern-3-branching-path"><a class="header" href="#pattern-3-branching-path">Pattern 3: Branching Path</a></h3>
 <p>Different things happen based on conditions:</p>
 <pre><code class="language-sruja">// partial
@@ -9296,7 +9265,6 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
 <li>They help teams discuss "what if" scenarios</li>
 <li>They prevent surprises in production</li>
 </ul>
-<p>I once launched a feature without modeling edge cases. Users immediately found scenarios we hadn't considered—checking out with gift cards during sales, checking out from different countries with different currencies, checking out with addresses that don't validate. We spent months fixing edge cases we could have caught upfront.</p>
 <h2 id="what-to-remember-11"><a class="header" href="#what-to-remember-11">What to Remember</a></h2>
 <p>User journeys tell the story of how users interact with your system—from their perspective. When you create user journeys:</p>
 <ul>
@@ -9491,7 +9459,6 @@ LoginError = scenario "Login Failed" {
 </ul>
 <p>You can now create diagrams that tell complete stories—stories about how data moves through your system, and stories about how users experience your system. You can model data lineage, transformations, bottlenecks, and user journeys.</p>
 <p>In the next module, you'll learn about <strong>feedback loops</strong>—how systems regulate themselves through circular cause-and-effect relationships. You'll discover how positive feedback loops amplify change and negative feedback loops stabilize systems. You'll learn to recognize these patterns in real systems and understand their powerful effects.</p>
-<p>See you there!</p>
 <hr>
 <h2 id="module-4-complete"><a class="header" href="#module-4-complete">Module 4 Complete!</a></h2>
 <p>You've now mastered the art of modeling flows. Here's what you've learned:</p>
@@ -9569,11 +9536,6 @@ LoginError = scenario "Login Failed" {
 <p>I used to think of feedback loops as "circular dependencies" and avoid them at all costs. That was a huge mistake. In software systems, avoiding feedback loops means missing opportunities for self-improvement.</p>
 <p>Let me share some real-world examples that changed my perspective.</p>
 <h3 id="1-self-regulation-without-explicit-logic"><a class="header" href="#1-self-regulation-without-explicit-logic">1. Self-Regulation Without Explicit Logic</a></h3>
-<p>I once worked on a load balancer that needed to scale servers up and down based on traffic. The team implemented a simple rule: "if CPU &gt; 80%, add a server." This created a feedback loop:</p>
-<pre><code>High CPU detected → Add server → CPU decreases → System monitors → [loop repeats]
-</code></pre>
-<p>We didn't design this as a feedback loop—it emerged from the rule. And it worked beautifully. The system self-regulated without explicit programming.</p>
-<p>The lesson: Feedback loops don't always need to be designed. They can emerge from simple rules interacting with each other.</p>
 <h3 id="2-learning-systems-that-actually-learn"><a class="header" href="#2-learning-systems-that-actually-learn">2. Learning Systems That Actually Learn</a></h3>
 <p>I consulted on a recommendation engine that started with terrible suggestions. Users rated things, and the system improved over time. What fascinated me was how the learning emerged from the feedback loop:</p>
 <pre><code>User watches video → System recommends similar video → User watches it → User rates it → System learns preferences → Next recommendation is better → [loop continues]
@@ -9675,8 +9637,6 @@ UserExperience = scenario "Feature Usage Feedback" {
 }
 </code></pre>
 <p>This is a <strong>learning and adaptation feedback loop</strong>. The system learns from how users interact, the team makes changes, and users have a better experience next time.</p>
-<p>I once launched a feature without this feedback loop. We assumed users would love it. Six months later, we checked analytics and found 60% abandonment. We fixed issues, but the damage was done. We'd lost months of user trust.</p>
-<p>The lesson: Always build feedback loops into your systems. Don't assume—measure, learn, adapt.</p>
 <h3 id="example-3-cache-hit-rate-optimization"><a class="header" href="#example-3-cache-hit-rate-optimization">Example 3: Cache Hit Rate Optimization</a></h3>
 <p>Systems often optimize themselves through feedback loops:</p>
 <pre><code class="language-sruja">// partial
@@ -9921,7 +9881,6 @@ System adjusts future actions based on feedback
 </tbody>
 </table>
 </div>
-<p>I spent years avoiding any circular structures in my architectures. Then I learned about feedback loops in systems thinking and realized I'd been throwing away a powerful tool. Now I embrace feedback loops while avoiding circular dependencies. The distinction is crucial.</p>
 <h2 id="why-feedback-loops-are-natural-not-errors"><a class="header" href="#why-feedback-loops-are-natural-not-errors">Why Feedback Loops Are Natural, Not Errors</a></h2>
 <p>Here's something I've learned: In traditional software engineering, we're trained to avoid circular dependencies. But in systems thinking, feedback loops aren't errors—they're natural, desirable patterns.</p>
 <p>Think about nature:</p>
@@ -10036,7 +9995,6 @@ System adjusts future actions based on feedback
 <p>Now you understand what feedback loops are and why they matter. You know they're natural, not errors, and you can identify them in systems. You've seen examples from thermostats to social media algorithms to auto-scaling systems.</p>
 <p>But we've only talked about <strong>what</strong> feedback loops are and <strong>why</strong> they matter. We haven't talked about <strong>how</strong> to classify different types of feedback loops or how to model them explicitly in your architectures.</p>
 <p>In the next lesson, you'll learn about <strong>types of feedback loops</strong>—positive (reinforcing), negative (balancing), and delayed (oscillating). You'll discover when to use each type, how to identify virtuous vs. vicious cycles, and what controls prevent runaway behavior.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="amplifying-or-dampening-types-of-feedback-loops"><a class="header" href="#amplifying-or-dampening-types-of-feedback-loops">Amplifying or Dampening: Types of Feedback Loops</a></h1>
 <p>Ever heard a squeaky microphone? You speak, the speaker hears you, and the volume gets louder and louder. Then the speaker notices and turns it down. That's a feedback loop—the output (your voice) affects the input (the microphone level).</p>
@@ -10102,8 +10060,7 @@ ViralGrowth = scenario "Viral Growth Loop" {
 <li>Can create echo chambers</li>
 <li>May amplify undesirable behaviors (fake news, spam)</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once worked on a social media algorithm that showed viral content more aggressively. Engagement spiked for a few weeks, then crashed because users got sick of seeing the same type of content. The positive feedback loop had run its course. We needed to dampen it—show diverse content even if it meant lower short-term engagement.</p>
+<p><strong>Real-world example:</strong></p>
 <h3 id="pattern-2-vicious-cycle-collapse"><a class="header" href="#pattern-2-vicious-cycle-collapse">Pattern 2: Vicious Cycle (Collapse)</a></h3>
 <p>Output counteracts input, leading to runaway collapse:</p>
 <pre><code class="language-sruja">// partial
@@ -10248,8 +10205,7 @@ RateLimiting = scenario "Stabilizing Control" {
 <li>When you want to maintain service quality for all users</li>
 <li>When fairness matters (don't let heavy users dominate)</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once saw a rate limiting system cause more harm than good. It was configured with a hard limit, and when users hit it, they'd get throttled and immediately retry, creating a burst of traffic that was worse than just letting them through. We added hysteresis—the limit would decrease temporarily after being hit, then slowly recover. This smoothed out traffic and actually improved throughput for everyone while protecting the system.</p>
+<p><strong>Real-world example:</strong></p>
 <h2 id="delayed-feedback-time-based"><a class="header" href="#delayed-feedback-time-based">Delayed Feedback (Time-Based)</a></h2>
 <p>Feedback that occurs after a delay can cause oscillation or overcorrection:</p>
 <h3 id="pattern-oscillation"><a class="header" href="#pattern-oscillation">Pattern: Oscillation</a></h3>
@@ -10285,8 +10241,7 @@ DelayedFeedback = scenario "Oscillating Control" {
 <li>When you want to stabilize oscillating systems</li>
 <li>When you need to add damping or predictive adjustments</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once worked on a caching system that would cache data for 30 minutes. But the data source would update every 10 minutes. The cache would show stale data, then refresh, then show stale data again. This created oscillation—applications would see new data for 20 minutes, then old data for 20 minutes, then new again. Users complained: "Why is the data jumping around? Is it broken?" We fixed it by making the cache time consistent with the source—stale data at the same time as source updates. Eliminating the time delay eliminated the oscillation.</p>
+<p><strong>Real-world example:</strong></p>
 <h2 id="comparing-feedback-loop-types"><a class="header" href="#comparing-feedback-loop-types">Comparing Feedback Loop Types</a></h2>
 <p>Different feedback loops serve different purposes:</p>
 <div class="table-wrapper">
@@ -10598,7 +10553,6 @@ HysteresisScaling = scenario "Auto-Scaling with Hysteresis" {
 <h2 id="whats-next-19"><a class="header" href="#whats-next-19">What's Next?</a></h2>
 <p>Now you understand the different types of feedback loops—positive (reinforcing) and negative (balancing)—and when to use each. You've seen how positive loops can create virtuous growth or vicious collapse. You've seen how negative loops maintain stability through self-regulation, error-correction, and control.</p>
 <p>In the next lesson, you'll learn to <strong>model cycles explicitly</strong> in Sruja. You'll discover how to create valid feedback loops, distinguish them from circular dependencies (which are bad), and use cycles to represent self-regulating systems, learning mechanisms, and adaptive behaviors.</p>
-<p>See you there!</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-3-modeling-cycles"><a class="header" href="#lesson-3-modeling-cycles">Lesson 3: Modeling Cycles</a></h1>
 <h2 id="learning-goals-14"><a class="header" href="#learning-goals-14">Learning Goals</a></h2>
@@ -11016,12 +10970,6 @@ view index {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="the-context-trap-why-great-architecture-needs-more-than-great-code"><a class="header" href="#the-context-trap-why-great-architecture-needs-more-than-great-code">The Context Trap: Why Great Architecture Needs More Than Great Code</a></h1>
-<p>I once worked on what we thought was the perfect e-commerce platform. Clean microservices architecture, elegant APIs, comprehensive test coverage, the works. We were proud. Three months after launch, the project was cancelled.</p>
-<p>The problem? We'd built the wrong thing.</p>
-<p>Our payment processing was elegant—but the company had negotiated a deal with a specific payment provider we couldn't use. Our real-time inventory tracking was brilliant—but the warehouse team needed daily batches, not real-time updates. Our admin interface was beautiful—but the support team needed bulk operations, not pretty screens.</p>
-<p>We had built a technical masterpiece that solved nobody's actual problems.</p>
-<p>The missing piece was context. We'd designed the system in isolation, without understanding the organizational constraints, stakeholder needs, and business realities that surrounded it. The architecture was technically sound but organizationally wrong.</p>
-<p>This lesson is about avoiding that trap. You'll learn how to see the invisible environment that shapes every system—the stakeholders, dependencies, constraints, and success criteria that determine whether your architecture succeeds or fails, regardless of how elegant your code might be.</p>
 <h2 id="learning-goals-15"><a class="header" href="#learning-goals-15">Learning Goals</a></h2>
 <p>By the end of this lesson, you'll be able to:</p>
 <ul>
@@ -12147,7 +12095,7 @@ ADR002 = adr "Use Stripe for payments" {
 <p>Modeling context isn't bureaucracy. It's survival.</p>
 <h2 id="whats-next-22"><a class="header" href="#whats-next-22">What's Next</a></h2>
 <p>Congratulations! You've completed <strong>Module 6: Context</strong> and the entire <strong>Systems Thinking 101</strong> course!</p>
-<h2 id="-course-complete"><a class="header" href="#-course-complete">🎉 Course Complete!</a></h2>
+<h2 id="course-complete"><a class="header" href="#course-complete">Course Complete!</a></h2>
 <p>You did it. You've made it through all six modules of Systems Thinking 101. That's no small achievement—this material fundamentally changes how you see software systems.</p>
 <p>Let me recap what you've learned:</p>
 <p><strong>Module 1: Fundamentals</strong> - You learned what systems thinking is, the iceberg model, and why seeing the whole system matters more than seeing individual parts.</p>
@@ -12922,7 +12870,6 @@ You buy 10 cheap servers and split the traffic between them.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 ECommerce = system "E-Commerce System" {
     WebServer = container "Web App" {
         technology "Rust, Axum"
@@ -13370,11 +13317,10 @@ Load balancers are the "traffic cops" that distribute requests across multiple s
 <h3 id="failover"><a class="header" href="#failover">Failover</a></h3>
 <p>The process of switching to a redundant system upon failure. This can be manual or automatic.</p>
 <hr>
-<h2 id="-sruja-perspective-modeling-redundancy"><a class="header" href="#-sruja-perspective-modeling-redundancy">🛠️ Sruja Perspective: Modeling Redundancy</a></h2>
+<h2 id="sruja-perspective-modeling-redundancy"><a class="header" href="#sruja-perspective-modeling-redundancy">Sruja Perspective: Modeling Redundancy</a></h2>
 <p>You can explicitly model redundant components in Sruja to visualize your high-availability strategy.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Payments = system "Payment System" {
     PaymentService = container "Payment Service" {
@@ -13419,7 +13365,6 @@ Ready to apply what you've learned? Take the interactive quiz for this lesson!
 **Explanation:**
 Availability measures how often a system is up and accessible. It's about uptime percentage (e.g., 99.9%).
 
-
 &lt;/details&gt;
 
 ---
@@ -13437,7 +13382,6 @@ Availability measures how often a system is up and accessible. It's about uptime
 
 **Explanation:**
 Reliability measures how often a system functions correctly without errors. A system can be available (up) but unreliable (returning 500 errors).
-
 
 &lt;/details&gt;
 
@@ -13771,7 +13715,6 @@ Reliability measures how often a system functions correctly without errors. A sy
 Failover is the process of automatically or manually switching to a redundant system upon failure. This is critical for high availability systems.
 Failover can be automatic (system detects failure and switches) or manual (operator triggers switch).
 
-
 &lt;/details&gt;
 
 ---
@@ -13833,10 +13776,9 @@ This quiz covers:
 <li><strong>Eventual Consistency:</strong> If no new updates are made, eventually all accesses will return the last updated value. (Common in AP systems).</li>
 </ul>
 <hr>
-<h2 id="-sruja-perspective-documenting-guarantees"><a class="header" href="#-sruja-perspective-documenting-guarantees">🛠️ Sruja Perspective: Documenting Guarantees</a></h2>
+<h2 id="sruja-perspective-documenting-guarantees"><a class="header" href="#sruja-perspective-documenting-guarantees">Sruja Perspective: Documenting Guarantees</a></h2>
 <p>When defining data stores in Sruja, it is helpful to document their consistency guarantees, especially for distributed databases.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 DataLayer = system "Data Layer" {
     UserDB = database "User Database" {
@@ -14351,11 +14293,10 @@ Approach:
 <li>System sends confirmation email.</li>
 </ol>
 <hr>
-<h2 id="-sruja-perspective-modeling-scenarios"><a class="header" href="#-sruja-perspective-modeling-scenarios">🛠️ Sruja Perspective: Modeling Scenarios</a></h2>
+<h2 id="sruja-perspective-modeling-scenarios"><a class="header" href="#sruja-perspective-modeling-scenarios">Sruja Perspective: Modeling Scenarios</a></h2>
 <p>Sruja provides a dedicated <code>scenario</code> keyword to model these interactions explicitly. This allows you to visualize the flow of data across your defined architecture.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 R1 = requirement functional "User can buy a ticket"
 R2 = requirement performance "Process payment in &lt; 2s"
@@ -14869,7 +14810,7 @@ backend api
 <li><strong>Cons:</strong> Uneven distribution (some servers have more active users), complexity in failover</li>
 <li><strong>Performance:</strong> 100K concurrent WebSockets, &lt;50ms message delivery</li>
 </ul>
-<h2 id="-sruja-perspective-modeling-load-balancers"><a class="header" href="#-sruja-perspective-modeling-load-balancers">🛠️ Sruja Perspective: Modeling Load Balancers</a></h2>
+<h2 id="sruja-perspective-modeling-load-balancers"><a class="header" href="#sruja-perspective-modeling-load-balancers">Sruja Perspective: Modeling Load Balancers</a></h2>
 <p>In Sruja, we treat load balancers as critical infrastructure components with clear trade-offs documented.</p>
 <h3 id="why-model-load-balancers"><a class="header" href="#why-model-load-balancers">Why Model Load Balancers?</a></h3>
 <p>Modeling load balancers in your architecture provides:</p>
@@ -16620,7 +16561,7 @@ view caching {
 <p>Write-Through would cache every product on write (inefficient). Write-Back has data loss risk (not acceptable for product data). Cache-Aside is perfect: cache the hot products (20% of products get 80% of traffic) and let LRU evict cold products.</p>
 </details>
 <h2 id="next-steps-9"><a class="header" href="#next-steps-9">Next Steps</a></h2>
-<p>Now that we understand caching strategies, eviction policies, and real-world implementations, let's put it all together with a comprehensive system design exercise.</p>
+<p>Now that we understand caching strategies, eviction policies, and real-world implementations, let's put it all together with a full system design exercise.</p>
 <p>👉 <strong><a href="courses/system-design-101/module-2-building-blocks/module-overview">Complete Module 2: The Building Blocks</a></strong></p>
 <p>Up next: <strong>Module 3: Advanced Modeling</strong> - Learn about system boundaries, context mapping, and more complex architectural patterns!</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -17660,7 +17601,7 @@ CheckoutProcess = scenario "Checkout Process" {
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-4-architectural-perspectives"><a class="header" href="#lesson-4-architectural-perspectives">Lesson 4: Architectural Perspectives</a></h1>
 <p>I'll never forget the board meeting where I learned this lesson the hard way.</p>
-<p>The VP of Engineering asked me to present our architecture to the executive team. I spent hours crafting this beautiful, comprehensive diagram showing every service, database, queue, and API endpoint. It was a masterpiece of technical completeness.</p>
+<p>The VP of Engineering asked me to present our architecture to the executive team. I spent hours crafting this beautiful, full diagram showing every service, database, queue, and API endpoint. It was a masterpiece of technical completeness.</p>
 <p>I proudly projected it on the screen.</p>
 <p>The CEO stared at it for ten seconds, then asked: "So... where's the revenue coming from?"</p>
 <p>The diagram had 47 boxes. None of them mentioned customers, payments, or business value. I'd shown them the engine when they wanted to see the car.</p>
@@ -17803,7 +17744,7 @@ view index {
 <p>Same system. Different lenses.</p>
 <h2 id="when-to-create-views-framework"><a class="header" href="#when-to-create-views-framework">When to Create Views (Framework)</a></h2>
 <p>Here's the framework I use to decide which views to create:</p>
-<h3 id="always-create-these-views"><a class="header" href="#always-create-these-views">Always Create These Views:</a></h3>
+<h3 id="always-create-these-views"><a class="header" href="#always-create-these-views">Always Create These Views</a></h3>
 <p><strong>1. Context View (Executive)</strong></p>
 <ul>
 <li><strong>Audience:</strong> Executives, stakeholders, non-technical team members</li>
@@ -17825,7 +17766,7 @@ view index {
 <li><strong>Hides:</strong> External systems, high-level architecture</li>
 <li><strong>Use when:</strong> Onboarding developers, planning sprints, debugging</li>
 </ul>
-<h3 id="create-conditionally"><a class="header" href="#create-conditionally">Create Conditionally:</a></h3>
+<h3 id="create-conditionally"><a class="header" href="#create-conditionally">Create Conditionally</a></h3>
 <p><strong>4. Data Flow View</strong></p>
 <ul>
 <li><strong>Create when:</strong> System has complex data pipelines, multiple data stores, or data compliance requirements</li>
@@ -17960,11 +17901,6 @@ view index {
 <div style="break-before: page; page-break-before: always;"></div>
 <hr>
 <h1 id="lesson-5-views--styling"><a class="header" href="#lesson-5-views--styling">Lesson 5: Views &amp; Styling</a></h1>
-<p>I once worked with an architect who loved colors. His diagrams were... enthusiastic.</p>
-<p>Every service had a different color. Databases were purple. APIs were orange. Message queues were pink. External systems were yellow. Internal systems were green. And the relationships? Rainbow gradients.</p>
-<p>It looked like a unicorn had exploded on his screen.</p>
-<p>When I asked him to walk me through the architecture, he spent 10 minutes explaining his color coding system. By minute 3, I'd forgotten what we were looking at. By minute 10, I had a headache.</p>
-<p>Here's the thing: <strong>styling should clarify, not decorate</strong>. When done right, styling makes diagrams instantly understandable. When done wrong, it creates visual noise that obscures the very thing you're trying to show.</p>
 <h2 id="the-traffic-light-principle"><a class="header" href="#the-traffic-light-principle">The Traffic Light Principle</a></h2>
 <p>Think about traffic lights. They use three colors with specific meanings:</p>
 <ul>
@@ -18208,7 +18144,7 @@ view dataflow {
 <p>Size communicates scale. Style communicates meaning.</p>
 <h2 id="when-to-style-framework"><a class="header" href="#when-to-style-framework">When to Style (Framework)</a></h2>
 <p>Here's my framework for deciding when to apply styling:</p>
-<h3 id="always-style"><a class="header" href="#always-style">Always Style:</a></h3>
+<h3 id="always-style"><a class="header" href="#always-style">Always Style</a></h3>
 <p><strong>1. Element Types</strong></p>
 <ul>
 <li>Databases should look different from services</li>
@@ -18228,7 +18164,7 @@ view dataflow {
 <li>Sync vs. async communication</li>
 <li>Permanent vs. temporary data</li>
 </ul>
-<h3 id="sometimes-style"><a class="header" href="#sometimes-style">Sometimes Style:</a></h3>
+<h3 id="sometimes-style"><a class="header" href="#sometimes-style">Sometimes Style</a></h3>
 <p><strong>4. Performance Indicators</strong></p>
 <ul>
 <li>Hot paths (frequently used)</li>
@@ -18241,7 +18177,7 @@ view dataflow {
 <li>Team B's services</li>
 <li>Shared infrastructure</li>
 </ul>
-<h3 id="rarely-style"><a class="header" href="#rarely-style">Rarely Style:</a></h3>
+<h3 id="rarely-style"><a class="header" href="#rarely-style">Rarely Style</a></h3>
 <p><strong>6. Technology Stack</strong></p>
 <ul>
 <li>Java vs. Python services</li>
@@ -18367,7 +18303,7 @@ view dataflow {
 <p>I stared at her. Then I stared at the architecture diagrams. Then I dug through old Slack channels, Jira tickets, and Google Docs.</p>
 <p>Two hours later, I found a comment from eight months ago: "PostgreSQL because we need ACID transactions for payments."</p>
 <p>That was it. No context about what alternatives we considered. No explanation of the trade-offs. No record of who made the decision or why.</p>
-<p>We had beautiful architecture diagrams. We had detailed API specs. We had comprehensive test coverage. But we had <strong>no memory of our decisions</strong>.</p>
+<p>We had beautiful architecture diagrams. We had detailed API specs. We had full test coverage. But we had <strong>no memory of our decisions</strong>.</p>
 <p>That's when I learned: <strong>architecture without context is just pretty pictures</strong>. You need to capture not just WHAT you built, but WHY you built it that way.</p>
 <p>This lesson covers the advanced Sruja features that transform your diagrams from "nice drawings" into "living documentation" that tells the full story.</p>
 <h2 id="the-five-pillars-of-complete-architecture"><a class="header" href="#the-five-pillars-of-complete-architecture">The Five Pillars of Complete Architecture</a></h2>
@@ -18383,15 +18319,6 @@ view dataflow {
 <hr>
 <h2 id="1-kinds-and-types-define-your-vocabulary"><a class="header" href="#1-kinds-and-types-define-your-vocabulary">1. Kinds and Types: Define Your Vocabulary</a></h2>
 <h3 id="the-naming-chaos-story"><a class="header" href="#the-naming-chaos-story">The Naming Chaos Story</a></h3>
-<p>I once joined a project where everyone named things differently:</p>
-<ul>
-<li>"Database" vs "DB" vs "DataStore" vs "Persistence"</li>
-<li>"Service" vs "API" vs "Backend" vs "Server"</li>
-<li>"Queue" vs "MessageBus" vs "EventStream" vs "Broker"</li>
-</ul>
-<p>The architecture had 47 elements. It felt like 47 different architects had named them.</p>
-<p>When I tried to write validation rules like "all databases must be encrypted," I couldn't. Because "databases" were hidden among "DataStores," "DBs," and "Persistence Layers."</p>
-<p><strong>The fix:</strong> Define your vocabulary upfront. Decide what you'll call things, then stick to it.</p>
 <h3 id="how-sruja-helps"><a class="header" href="#how-sruja-helps">How Sruja Helps</a></h3>
 <p>Sruja's <code>stdlib</code> provides standard element kinds:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
@@ -18987,8 +18914,6 @@ view index {
 <p>I inherited a project with 47 views. Yes, forty-seven.</p>
 <p>Each had a name like "view1", "temp", "test-final", "new-view-v2", and my personal favorite: "DO-NOT-DELETE". No descriptions. No documentation. Half of them showed the same thing with slight variations.</p>
 <p>When I asked the team which view to show executives, they said: "Probably view12? Or maybe view18? Definitely not view23 - that one's outdated."</p>
-<p>I spent two days consolidating those 47 views into 7 coherent perspectives. Two days of archaeology, trying to understand why each view existed, what audience it served, and whether it was still relevant.</p>
-<p>Here's what I learned: <strong>views are powerful, but without governance, they become technical debt</strong>. This lesson is about managing views at scale - not just creating them, but maintaining them, organizing them, and knowing when to kill them.</p>
 <h2 id="the-view-governance-framework"><a class="header" href="#the-view-governance-framework">The VIEW Governance Framework</a></h2>
 <p>After that disaster, I created a framework for view management. I call it VIEW:</p>
 <p><strong>V - Verify the Audience</strong></p>
@@ -19020,7 +18945,7 @@ view index {
 <h2 id="when-to-create-views-decision-framework"><a class="header" href="#when-to-create-views-decision-framework">When to Create Views (Decision Framework)</a></h2>
 <p>The mistake I made early in my career was creating views for everything. Every meeting, every question, every discussion resulted in a new view. That's how you get to 47 views.</p>
 <p>Here's the framework I use now:</p>
-<h3 id="always-create"><a class="header" href="#always-create">Always Create:</a></h3>
+<h3 id="always-create"><a class="header" href="#always-create">Always Create</a></h3>
 <p><strong>1. Executive View</strong></p>
 <ul>
 <li><strong>Purpose:</strong> Show business value and scope</li>
@@ -19045,7 +18970,7 @@ view index {
 <li><strong>Excludes:</strong> External systems, high-level architecture</li>
 <li><strong>Update frequency:</strong> When implementation patterns change</li>
 </ul>
-<h3 id="create-conditionally-1"><a class="header" href="#create-conditionally-1">Create Conditionally:</a></h3>
+<h3 id="create-conditionally-1"><a class="header" href="#create-conditionally-1">Create Conditionally</a></h3>
 <p><strong>4. Security View</strong></p>
 <ul>
 <li><strong>Create when:</strong> Handling sensitive data, compliance requirements</li>
@@ -19081,7 +19006,7 @@ view index {
 <li><strong>Includes:</strong> Services/components involved in feature</li>
 <li><strong>Excludes:</strong> Unrelated parts of system</li>
 </ul>
-<h3 id="rarely-create"><a class="header" href="#rarely-create">Rarely Create:</a></h3>
+<h3 id="rarely-create"><a class="header" href="#rarely-create">Rarely Create</a></h3>
 <p><strong>9. User Journey Views</strong></p>
 <ul>
 <li><strong>Usually better as:</strong> Scenarios (see Lesson 6)</li>
@@ -19884,7 +19809,7 @@ GraphQL API = container "GraphQL API Service" {
 <li>Both remain in history</li>
 </ul>
 <h2 id="adr-structure-the-complete-template"><a class="header" href="#adr-structure-the-complete-template">ADR Structure: The Complete Template</a></h2>
-<p>Here's a comprehensive ADR template you can adapt:</p>
+<p>Here's a full ADR template you can adapt:</p>
 <pre><code class="language-sruja">// partial
 ADR### = adr "[Short Title]" {
   // REQUIRED: Current status
@@ -19993,12 +19918,12 @@ ADR### = adr "[Short Title]" {
 <ul>
 <li>Positive: No breaking changes for existing users</li>
 <li>Negative: Multiple API versions to maintain</li>
-<li>Neutral: Requires comprehensive testing across versions</li>
+<li>Neutral: Requires full testing across versions</li>
 </ul>
 <p><strong>Why this ADR is famous:</strong> Solved API evolution elegantly.</p>
 <h2 id="when-to-write-an-adr-1"><a class="header" href="#when-to-write-an-adr-1">When to Write an ADR</a></h2>
 <p>Not every decision needs an ADR. Here's the framework I use:</p>
-<h3 id="always-write-an-adr"><a class="header" href="#always-write-an-adr">Always Write an ADR:</a></h3>
+<h3 id="always-write-an-adr"><a class="header" href="#always-write-an-adr">Always Write an ADR</a></h3>
 <p><strong>1. Technology Choices</strong></p>
 <ul>
 <li>Choosing a database (PostgreSQL vs. MongoDB vs. CockroachDB)</li>
@@ -20034,7 +19959,7 @@ ADR### = adr "[Short Title]" {
 <li>Communication protocols</li>
 </ul>
 <p><strong>Why:</strong> This affects how architecture evolves.</p>
-<h3 id="sometimes-write-an-adr"><a class="header" href="#sometimes-write-an-adr">Sometimes Write an ADR:</a></h3>
+<h3 id="sometimes-write-an-adr"><a class="header" href="#sometimes-write-an-adr">Sometimes Write an ADR</a></h3>
 <p><strong>6. API Design Decisions</strong></p>
 <ul>
 <li>REST vs. GraphQL vs. gRPC</li>
@@ -20059,7 +19984,7 @@ ADR### = adr "[Short Title]" {
 </ul>
 <p><strong>Write when:</strong> Complex deployment requirements
 <strong>Skip when:</strong> Simple deployment</p>
-<h3 id="rarely-write-an-adr"><a class="header" href="#rarely-write-an-adr">Rarely Write an ADR:</a></h3>
+<h3 id="rarely-write-an-adr"><a class="header" href="#rarely-write-an-adr">Rarely Write an ADR</a></h3>
 <p><strong>9. Implementation Details</strong></p>
 <ul>
 <li>Variable naming conventions</li>
@@ -21709,7 +21634,7 @@ view index {
 <p><strong>The result:</strong> Faster decisions, clearer ownership, decentralized architecture.</p>
 <h3 id="google-api-standards-governance"><a class="header" href="#google-api-standards-governance">Google: API Standards Governance</a></h3>
 <p><strong>The problem:</strong> Inconsistent APIs made integration difficult. Every team invented their own patterns.</p>
-<p><strong>The solution:</strong> Google API Design Guide - comprehensive standards for all APIs.</p>
+<p><strong>The solution:</strong> Google API Design Guide - full standards for all APIs.</p>
 <p><strong>The enforcement:</strong> Automated linters check every API definition. Non-compliant APIs fail CI builds. No exceptions.</p>
 <p><strong>The result:</strong> Consistent developer experience across thousands of APIs.</p>
 <h3 id="stripe-security-governance"><a class="header" href="#stripe-security-governance">Stripe: Security Governance</a></h3>
@@ -22159,7 +22084,7 @@ policy EncryptionPolicy "All databases must be encrypted" {
 </ul>
 <p><strong>Phase 3: Scale (Govern seriously)</strong></p>
 <ul>
-<li>Comprehensive policies</li>
+<li>full policies</li>
 <li>Continuous enforcement</li>
 <li>Self-service with guardrails</li>
 </ul>
@@ -23109,7 +23034,7 @@ ECommerce.Database.tags ["criticality:high"]
 <li>Define availability SLO</li>
 <li>Basic monitoring</li>
 </ul>
-<p><strong>Phase 3: Growth (Comprehensive SLOs)</strong></p>
+<p><strong>Phase 3: Growth (full SLOs)</strong></p>
 <ul>
 <li>Traffic increasing</li>
 <li>Add latency, error rate SLOs</li>
@@ -23124,23 +23049,9 @@ ECommerce.Database.tags ["criticality:high"]
 <li>Sophisticated alerting</li>
 </ul>
 <hr>
-<p><strong>Next up:</strong> Lesson 5 brings everything together with a comprehensive production readiness review - how to know when your architecture is truly ready for production.</p>
+<p><strong>Next up:</strong> Lesson 5 brings everything together with a full production readiness review - how to know when your architecture is truly ready for production.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="lesson-5-tracking-architecture-evolution"><a class="header" href="#lesson-5-tracking-architecture-evolution">Lesson 5: Tracking Architecture Evolution</a></h1>
-<p>I spent three weeks as an architecture archaeologist.</p>
-<p>A new VP of Engineering joined our company and asked a simple question: "How did our architecture get to where it is today? What decisions shaped it?"</p>
-<p>I thought it would be easy. I'd just look at the architecture documentation and tell the story.</p>
-<p><strong>The problem:</strong> There was no architecture documentation. Not really. We had:</p>
-<ul>
-<li>An outdated Confluence wiki with diagrams from 2019</li>
-<li>A Google Drive folder with PowerPoint slides from various presentations</li>
-<li>A Figma board with "current architecture" that hadn't been updated in 8 months</li>
-<li>Various README files scattered across 47 repositories</li>
-<li>And, if I was lucky, some comments in code</li>
-</ul>
-<p>I spent three weeks digging through Git history, Slack archives, Jira tickets, and interviewing the five engineers who'd been there longest. I reconstructed a partial history. But most of the "why" was lost. The people who made the decisions had left. The Slack channels had been archived. The context was gone.</p>
-<p><strong>What I learned:</strong> Architecture without history is just a snapshot. It tells you WHAT the system looks like, but not HOW it got there or WHY. And without that context, you're destined to repeat the same mistakes.</p>
-<p>This lesson is about tracking architecture evolution: not just what your architecture is, but how it changes over time and why. It's also the final lesson in this course, so we'll wrap up everything you've learned.</p>
 <h2 id="why-track-architecture-evolution"><a class="header" href="#why-track-architecture-evolution">Why Track Architecture Evolution?</a></h2>
 <h3 id="the-five-problems-of-lost-history"><a class="header" href="#the-five-problems-of-lost-history">The Five Problems of Lost History</a></h3>
 <p><strong>1. Onboarding Takes Forever</strong></p>
@@ -23178,7 +23089,7 @@ ECommerce.Database.tags ["criticality:high"]
 <pre><code class="language-bash"># What changed in the architecture?
 git log --oneline --follow architecture.sruja
 
-# Output:
+# Output
 e4f8c2a Add Redis cache layer (see ADR-005)
 a3b7d1f Split payment service from main API
 9c2e5f3 Increase API replicas to 10 (SLO improvement)
@@ -23603,7 +23514,7 @@ ADR042 = adr "Use PostgreSQL" {
 ### Q3 (July - September)
 - Multi-region deployment (ADR-019)
 - Implemented Chaos Engineering (ADR-020)
-- Added comprehensive monitoring (ADR-021)
+- Added full monitoring (ADR-021)
 - SLO Impact: Availability 99.7% → 99.9%
 
 ### Q4 (October - December)
@@ -23937,7 +23848,7 @@ git show v2024.01:architecture.sruja | sruja export
 <p><strong>Phase 3: Mature System</strong></p>
 <ul>
 <li>Regular evolution reviews</li>
-<li>Comprehensive ADR history</li>
+<li>full ADR history</li>
 <li>Multi-year SLO tracking</li>
 </ul>
 <p><strong>Phase 4: Legacy System</strong></p>
@@ -23980,7 +23891,7 @@ git show v2024.01:architecture.sruja | sruja export
 <li>Create template for review notes</li>
 </ul>
 <hr>
-<h1 id="-course-complete-system-design-101"><a class="header" href="#-course-complete-system-design-101">🎉 Course Complete: System Design 101</a></h1>
+<h1 id="course-complete-system-design-101"><a class="header" href="#course-complete-system-design-101">Course Complete: System Design 101</a></h1>
 <p>Congratulations! You've completed the entire System Design 101 course. Let's reflect on what you've learned.</p>
 <h2 id="your-journey"><a class="header" href="#your-journey">Your Journey</a></h2>
 <p>You started as someone who wanted to understand system design better. You've now mastered:</p>
@@ -24225,11 +24136,10 @@ git show v2024.01:architecture.sruja | sruja export
 <li><strong>Base62 Encoding:</strong> Converts a unique ID (from a counter or database ID) into a string of characters [a-z, A-Z, 0-9].</li>
 </ul>
 <hr>
-<h2 id="-sruja-perspective-modeling-the-flow"><a class="header" href="#-sruja-perspective-modeling-the-flow">🛠️ Sruja Perspective: Modeling the Flow</a></h2>
+<h2 id="sruja-perspective-modeling-the-flow"><a class="header" href="#sruja-perspective-modeling-the-flow">Sruja Perspective: Modeling the Flow</a></h2>
 <p>We can use Sruja to model the system components and the user scenario for redirection.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 R1 = requirement functional "Shorten long URL"
 R2 = requirement functional "Redirect short URL"
@@ -24325,11 +24235,10 @@ include *
 <li><strong>Middleware:</strong> In a centralized API Gateway (Best practice).</li>
 </ol>
 <hr>
-<h2 id="-sruja-perspective-middleware-modeling"><a class="header" href="#-sruja-perspective-middleware-modeling">🛠️ Sruja Perspective: Middleware Modeling</a></h2>
+<h2 id="sruja-perspective-middleware-modeling"><a class="header" href="#sruja-perspective-middleware-modeling">Sruja Perspective: Middleware Modeling</a></h2>
 <p>In Sruja, we can model the Rate Limiter as a component within the API Gateway, backed by a fast datastore like Redis.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 APIGateway = system "API Gateway" {
     GatewayService = container "Gateway" {
@@ -24388,7 +24297,6 @@ include *
 <h2 id="sruja-highthroughput-view"><a class="header" href="#sruja-highthroughput-view">Sruja: High‑Throughput View</a></h2>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Pipeline = system "Data Pipeline" {
 Ingest = container "Ingestion Service" {
@@ -24528,11 +24436,10 @@ exclude Pipeline.OutputDB
 <li><strong>User Status:</strong> Key-Value store (Redis) with TTL.</li>
 </ul>
 <hr>
-<h2 id="-sruja-perspective-modeling-real-time-flows"><a class="header" href="#-sruja-perspective-modeling-real-time-flows">🛠️ Sruja Perspective: Modeling Real-Time Flows</a></h2>
+<h2 id="sruja-perspective-modeling-real-time-flows"><a class="header" href="#sruja-perspective-modeling-real-time-flows">Sruja Perspective: Modeling Real-Time Flows</a></h2>
 <p>We can use Sruja to model the WebSocket connections and the async message processing.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 requirement R1 functional "Real-time messaging"
 requirement R2 functional "Message history"
@@ -24683,11 +24590,10 @@ include *
 <h3 id="4-adaptive-bitrate-streaming-hlsdash"><a class="header" href="#4-adaptive-bitrate-streaming-hlsdash">4. Adaptive Bitrate Streaming (HLS/DASH)</a></h3>
 <p>The player automatically switches quality based on the user's internet speed.</p>
 <hr>
-<h2 id="-sruja-perspective-modeling-infrastructure"><a class="header" href="#-sruja-perspective-modeling-infrastructure">🛠️ Sruja Perspective: Modeling Infrastructure</a></h2>
+<h2 id="sruja-perspective-modeling-infrastructure"><a class="header" href="#sruja-perspective-modeling-infrastructure">Sruja Perspective: Modeling Infrastructure</a></h2>
 <p>We can use Sruja's <code>deployment</code> nodes to visualize the global distribution of content.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 YouTube = system "Video Platform" {
   WebApp = container "Web App"
@@ -24851,10 +24757,9 @@ description "Focuses on video processing components"
 <li><em>Trade-off:</em> If the server crashes before flushing, you lose a few seconds of data (Eventual Consistency).</li>
 </ul>
 <hr>
-<h2 id="-sruja-perspective-modeling-write-flows"><a class="header" href="#-sruja-perspective-modeling-write-flows">🛠️ Sruja Perspective: Modeling Write Flows</a></h2>
+<h2 id="sruja-perspective-modeling-write-flows"><a class="header" href="#sruja-perspective-modeling-write-flows">Sruja Perspective: Modeling Write Flows</a></h2>
 <p>We can use Sruja to model the "Write-Behind" architecture.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 CounterService = system "View Counter" {
     API = container "Ingestion API" {
@@ -24912,7 +24817,6 @@ include *
 <p>They document trade‑offs and prevent accidental coupling across services.</p>
 <h2 id="sruja-guardrails-for-consistency"><a class="header" href="#sruja-guardrails-for-consistency">Sruja: Guardrails for Consistency</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 constraints {
 rule "No cross‑service transactions"
@@ -25058,7 +24962,6 @@ sruja --version
 <p>Before modeling architecture, let's capture product requirements:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 // Product Requirements (from product team)
 requirement R1 functional "Merchants can create and manage online stores"
 requirement R2 functional "Shoppers can browse products and make purchases"
@@ -25082,7 +24985,6 @@ include *
 <p>Now let's model the system context:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 // Product Requirements
 requirement R1 functional "Merchants can create and manage online stores"
@@ -25325,7 +25227,6 @@ jobs:
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 // Requirements that drive the architecture decision
 requirement R1 functional "Must support 10,000+ stores"
 requirement R2 performance "API response &lt; 200ms p95"
@@ -25423,7 +25324,6 @@ include Platform.APIModule Platform.OrderDB
 <p>We define these choices in our <code>container</code> and <code>database</code> definitions.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 Platform = system "E-Commerce Platform" {
 WebApp = container "Storefront &amp; Admin" {
   technology "Next.js, TypeScript"
@@ -25454,7 +25354,6 @@ API -&gt; Database "SQL/TCP"
 <p>Sruja models <strong>which services exist and how they connect</strong>. For detailed API schemas (endpoints, request/response structures), use <strong>OpenAPI/Swagger</strong>.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 customer = person "Customer"
 
@@ -25498,7 +25397,6 @@ view index {
 <p>Sruja focuses on <strong>architectural concerns</strong>: which services exist, how they relate, and what they do. For detailed API schemas, use OpenAPI/Swagger.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 customer = person "Customer"
 
@@ -25647,7 +25545,6 @@ customer -&gt; ecommerce.api "uses"
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 ECommerce = system "E-Commerce Platform" {
     API = container "REST API" {
         technology "Rust"
@@ -25740,7 +25637,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 API = system "REST API" {
     APIv1 = container "API v1.2.3" {
         technology "Rust"
@@ -25781,7 +25677,6 @@ include *
 <p>Document the rollout plan in metadata:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 ECommerce = system "E-Commerce Platform" {
 API = container "API Service" {
@@ -25854,7 +25749,6 @@ deployment Production "Production Environment" {
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 Platform = system "Platform" {
 FeatureFlags = container "Feature Flag Service" {
   technology "LaunchDarkly, Split.io"
@@ -25875,7 +25769,6 @@ include *
 <p>Model your observability during deployments:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Observability = system "Observability Stack" {
 Prometheus = container "Metrics" {
@@ -25937,7 +25830,6 @@ deployment Production "Production Environment" {
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 Customer = person "Customer"
 
 Platform = system "E-Commerce Platform" {
@@ -25973,7 +25865,6 @@ PaymentGateway -&gt; Customer "Returns confirmation"
 <p>Let's update the architecture:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Customer = person "Customer"
 
@@ -26055,7 +25946,6 @@ policy Observability "Must have metrics" {
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 ECommerce = system "E-Commerce" {
     slo {
         availability { target "99.9%" window "30 days" }
@@ -26116,7 +26006,6 @@ Database = container "Inventory DB"
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 OrderService = system "Order Service" {
 // ...
 OrderService -&gt; InventoryService "gRPC CheckStock"
@@ -26130,7 +26019,6 @@ OrderService -&gt; InventoryService "gRPC CheckStock"
 <h2 id="deprecating-components"><a class="header" href="#deprecating-components">Deprecating Components</a></h2>
 <p>We decided to move from <code>Stripe</code> to <code>Adyen</code> for lower fees. But we can't switch overnight.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 Stripe = system "Legacy Payment Gateway" {
 metadata {
@@ -26178,7 +26066,6 @@ metadata {
 <p>Use tags and metadata to make security posture explicit.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Shop = system "Shop" {
   UserDB = database "User DB" {
@@ -26406,7 +26293,6 @@ deployment Dev {
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 Viewer = person "Video Viewer"
 
 StreamingPlatform = system "Video Streaming Service" {
@@ -26455,7 +26341,6 @@ include *
 <p>This is where you show your scaling knowledge. Let's add scaling configuration:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 Viewer = person "Video Viewer"
 
 StreamingPlatform = system "Video Streaming Service" {
@@ -26502,7 +26387,7 @@ include *
 }
 </code></pre>
 <h2 id="what-interviewers-look-for-1"><a class="header" href="#what-interviewers-look-for-1">What Interviewers Look For</a></h2>
-<h3 id="-good-answer-what-you-just-did"><a class="header" href="#-good-answer-what-you-just-did">✅ Good Answer (What You Just Did)</a></h3>
+<h3 id="good-answer-what-you-just-did"><a class="header" href="#good-answer-what-you-just-did">Good Answer (What You Just Did)</a></h3>
 <ol>
 <li><strong>Clarified requirements</strong> before designing</li>
 <li><strong>Started with high-level</strong> architecture</li>
@@ -26510,7 +26395,7 @@ include *
 <li><strong>Addressed scaling</strong> with specific numbers</li>
 <li><strong>Explained trade-offs</strong> (CDN vs origin server)</li>
 </ol>
-<h3 id="-bad-answer-common-mistakes"><a class="header" href="#-bad-answer-common-mistakes">❌ Bad Answer (Common Mistakes)</a></h3>
+<h3 id="bad-answer-common-mistakes"><a class="header" href="#bad-answer-common-mistakes">Bad Answer (Common Mistakes)</a></h3>
 <ol>
 <li>Jumping straight to code/implementation details</li>
 <li>Not asking clarifying questions</li>
@@ -26532,7 +26417,6 @@ include *
 <p>Add caching to your design:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 StreamingPlatform = system "Video Streaming Service" {
 VideoAPI = container "Video API" {
@@ -26630,7 +26514,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   technology "Rust, gRPC"
@@ -26714,7 +26597,7 @@ include *
 }
 </code></pre>
 <h2 id="what-interviewers-look-for-2"><a class="header" href="#what-interviewers-look-for-2">What Interviewers Look For</a></h2>
-<h3 id="-good-answer-what-you-just-did-1"><a class="header" href="#-good-answer-what-you-just-did-1">✅ Good Answer (What You Just Did)</a></h3>
+<h3 id="good-answer-what-you-just-did-1"><a class="header" href="#good-answer-what-you-just-did-1">Good Answer (What You Just Did)</a></h3>
 <ol>
 <li><strong>Defined SLOs explicitly</strong> - Shows you think about measurable targets</li>
 <li><strong>Addressed all requirements</strong> - Availability, latency, throughput</li>
@@ -26722,7 +26605,7 @@ include *
 <li><strong>Scalability</strong> - Showed how to handle 1M txn/s</li>
 <li><strong>Redundancy</strong> - Multiple replicas, failover strategies</li>
 </ol>
-<h3 id="-bad-answer-common-mistakes-1"><a class="header" href="#-bad-answer-common-mistakes-1">❌ Bad Answer (Common Mistakes)</a></h3>
+<h3 id="bad-answer-common-mistakes-1"><a class="header" href="#bad-answer-common-mistakes-1">Bad Answer (Common Mistakes)</a></h3>
 <ol>
 <li>Not defining SLOs or performance targets</li>
 <li>Ignoring availability requirements</li>
@@ -26772,7 +26655,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   slo {
@@ -26796,7 +26678,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   slo {
@@ -26819,7 +26700,6 @@ include *
 <p><strong>Your answer with SLO</strong>:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
@@ -26858,7 +26738,6 @@ include *
 <p><strong>Interviewer</strong>: "How do you ensure 99.99% availability?"</p>
 <p>Add redundancy to your design:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
@@ -26939,7 +26818,6 @@ include *
 <h2 id="sruja-model-slos--validate"><a class="header" href="#sruja-model-slos--validate">Sruja: Model SLOs &amp; Validate</a></h2>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 API = system "API Server" {
   Gateway = container "Gateway" {
@@ -27057,7 +26935,6 @@ include *
 <p>Model each microservice as a <strong>separate system</strong> within the architecture. This clearly shows service boundaries.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Customer = person "Online Customer"
 
@@ -27216,7 +27093,7 @@ include *
 }
 </code></pre>
 <h2 id="what-interviewers-look-for-4"><a class="header" href="#what-interviewers-look-for-4">What Interviewers Look For</a></h2>
-<h3 id="-good-answer-what-you-just-did-2"><a class="header" href="#-good-answer-what-you-just-did-2">✅ Good Answer (What You Just Did)</a></h3>
+<h3 id="good-answer-what-you-just-did-2"><a class="header" href="#good-answer-what-you-just-did-2">Good Answer (What You Just Did)</a></h3>
 <ol>
 <li><strong>Clear service boundaries</strong> - Each service is a separate system</li>
 <li><strong>Single responsibility</strong> - Each service has one clear purpose</li>
@@ -27224,7 +27101,7 @@ include *
 <li><strong>Addressed data ownership</strong> - Each service owns its database</li>
 <li><strong>Explained trade-offs</strong> - Why microservices vs monolith</li>
 </ol>
-<h3 id="-bad-answer-common-mistakes-2"><a class="header" href="#-bad-answer-common-mistakes-2">❌ Bad Answer (Common Mistakes)</a></h3>
+<h3 id="bad-answer-common-mistakes-2"><a class="header" href="#bad-answer-common-mistakes-2">Bad Answer (Common Mistakes)</a></h3>
 <ol>
 <li>Services too granular (one service per function)</li>
 <li>Services too coarse (monolith split incorrectly)</li>
@@ -27269,7 +27146,6 @@ include *
 <p>Add them to your design (extending the main architecture):</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Customer = person "Online Customer"
 
@@ -27470,7 +27346,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 // HIPAA Compliance Policy
 HIPAACompliance = policy "All patient data must be encrypted and access logged" {
   category "compliance"
@@ -27566,7 +27441,7 @@ include *
 }
 </code></pre>
 <h2 id="what-interviewers-look-for-6"><a class="header" href="#what-interviewers-look-for-6">What Interviewers Look For</a></h2>
-<h3 id="-good-answer-what-you-just-did-3"><a class="header" href="#-good-answer-what-you-just-did-3">✅ Good Answer (What You Just Did)</a></h3>
+<h3 id="good-answer-what-you-just-did-3"><a class="header" href="#good-answer-what-you-just-did-3">Good Answer (What You Just Did)</a></h3>
 <ol>
 <li><strong>Understood compliance requirements</strong> - Mentioned specific HIPAA rules</li>
 <li><strong>Defined policies explicitly</strong> - Showed governance thinking</li>
@@ -27574,7 +27449,7 @@ include *
 <li><strong>Addressed security</strong> - Encryption, access control, audit logging</li>
 <li><strong>Explained enforcement</strong> - How policies are enforced</li>
 </ol>
-<h3 id="-bad-answer-common-mistakes-3"><a class="header" href="#-bad-answer-common-mistakes-3">❌ Bad Answer (Common Mistakes)</a></h3>
+<h3 id="bad-answer-common-mistakes-3"><a class="header" href="#bad-answer-common-mistakes-3">Bad Answer (Common Mistakes)</a></h3>
 <ol>
 <li>Not understanding compliance requirements</li>
 <li>No mention of policies or governance</li>
@@ -27626,7 +27501,6 @@ include *
 <p>Add data retention policy:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 HIPAACompliance = policy "All patient data must be encrypted and access logged" {
   category "compliance"
@@ -27733,7 +27607,6 @@ include *
 <h2 id="sruja-codify-guardrails"><a class="header" href="#sruja-codify-guardrails">Sruja: Codify Guardrails</a></h2>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 SecurityPolicy = policy "Security Policy" {
 description "Security posture for services"
 }
@@ -27804,14 +27677,14 @@ include *
 <p>2-3 hours</p>
 <hr>
 <h2 id="raw-thoughts-from-analysis"><a class="header" href="#raw-thoughts-from-analysis">Raw Thoughts from Analysis</a></h2>
-<h3 id="v0420-features-to-cover"><a class="header" href="#v0420-features-to-cover">v0.42.0 Features to Cover:</a></h3>
+<h3 id="v0420-features-to-cover"><a class="header" href="#v0420-features-to-cover">v0.42.0 Features to Cover</a></h3>
 <ul>
 <li><code>sruja evolution</code> - outcome-driven evolutionary architectures</li>
 <li><code>sruja health</code> / health status dashboard</li>
 <li>fitness evaluation</li>
 <li>enterprise graph health metrics</li>
 </ul>
-<h3 id="related-concepts"><a class="header" href="#related-concepts">Related Concepts:</a></h3>
+<h3 id="related-concepts"><a class="header" href="#related-concepts">Related Concepts</a></h3>
 <ul>
 <li>Outcome-driven architecture</li>
 <li>Architectural fitness functions</li>
@@ -27819,7 +27692,7 @@ include *
 <li>Evolutionary vs traditional architecture</li>
 <li>Sruja maturation phases (Instrumentation, Context Hints, Infra Discovery)</li>
 </ul>
-<h3 id="lesson-ideas"><a class="header" href="#lesson-ideas">Lesson Ideas:</a></h3>
+<h3 id="lesson-ideas"><a class="header" href="#lesson-ideas">Lesson Ideas</a></h3>
 <ol>
 <li>
 <p><strong>Fitness Functions &amp; Health Metrics</strong></p>
@@ -28198,7 +28071,6 @@ auto_record_learnings = true
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 Agent = component "Research Agent"
 LLM = component "Model Provider"
 Tool = component "Search Tool"
@@ -28237,7 +28109,6 @@ include *
 </ul>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 AgentSystem = system "Customer Support Bot" {
 Brain = container "Orchestrator" {
@@ -28296,7 +28167,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 component Agent
 component Tool
 component User
@@ -28326,7 +28196,6 @@ include *
 <p>A central "Supervisor" agent routes tasks to worker agents and aggregates results.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 Supervisor = container "Orchestrator"
 
@@ -28372,7 +28241,6 @@ include *
 <p>If your AI is a product that users interact with, model it as a <strong>System</strong>.</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
-
 User = person "User"
 AI_Assistant = system "Support Bot"
 
@@ -28387,7 +28255,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 AI_Assistant = system "AI Assistant" {
 Router = container "Router Agent"
 Search = container "Search Agent"
@@ -28398,7 +28265,6 @@ VectorDB = database "Memory"
 <p>If you are designing a single agent's logic, the specific tools and chains are <strong>Components</strong>.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 AI_Assistant = system "AI Assistant" {
 SearchAgent = container "Search Agent" {
@@ -28427,7 +28293,6 @@ container GPT4Agent {
 <p>Use <code>requirement</code> blocks to specify safety properties.</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 container Agent
 container BankAPI
@@ -28507,7 +28372,7 @@ container AgentSystem {
 <p>1-2 hours</p>
 <hr>
 <h2 id="raw-thoughts-from-analysis-1"><a class="header" href="#raw-thoughts-from-analysis-1">Raw Thoughts from Analysis</a></h2>
-<h3 id="v0230-features-to-cover"><a class="header" href="#v0230-features-to-cover">v0.23.0+ Features to Cover:</a></h3>
+<h3 id="v0230-features-to-cover"><a class="header" href="#v0230-features-to-cover">v0.23.0+ Features to Cover</a></h3>
 <ul>
 <li><code>sruja mcp</code> command (MCP stdio server)</li>
 <li><code>sruja context</code> command for building context</li>
@@ -28515,7 +28380,7 @@ container AgentSystem {
 <li><code>sruja context-score</code> for AI-readiness scoring</li>
 <li>Editor integrations (Cursor, GitHub Copilot, Cline, Windsurf)</li>
 </ul>
-<h3 id="related-concepts-1"><a class="header" href="#related-concepts-1">Related Concepts:</a></h3>
+<h3 id="related-concepts-1"><a class="header" href="#related-concepts-1">Related Concepts</a></h3>
 <ul>
 <li>Model Context Protocol (MCP)</li>
 <li>AI-editor context optimization</li>
@@ -28523,7 +28388,7 @@ container AgentSystem {
 <li>Context-driven development</li>
 <li>AI pair programming</li>
 </ul>
-<h3 id="key-commands"><a class="header" href="#key-commands">Key Commands:</a></h3>
+<h3 id="key-commands"><a class="header" href="#key-commands">Key Commands</a></h3>
 <ul>
 <li><code>sruja mcp -r .</code></li>
 <li><code>sruja context -r repoA -r repoB</code></li>
@@ -28532,7 +28397,7 @@ container AgentSystem {
 <li><code>sruja why &lt;component-id&gt;</code></li>
 <li><code>sruja impact &lt;component-id&gt;</code></li>
 </ul>
-<h3 id="editor-setup"><a class="header" href="#editor-setup">Editor Setup:</a></h3>
+<h3 id="editor-setup"><a class="header" href="#editor-setup">Editor Setup</a></h3>
 <pre><code class="language-json">// Cursor: .cursor/mcp.json
 {
   "mcpServers": {
@@ -28543,7 +28408,7 @@ container AgentSystem {
   }
 }
 </code></pre>
-<h3 id="lesson-ideas-1"><a class="header" href="#lesson-ideas-1">Lesson Ideas:</a></h3>
+<h3 id="lesson-ideas-1"><a class="header" href="#lesson-ideas-1">Lesson Ideas</a></h3>
 <ol>
 <li>
 <p><strong>MCP Server Setup</strong></p>
@@ -29131,7 +28996,7 @@ D) <code>sruja_validate_change</code> only</p>
 </ol>
 <h2 id="bounded-agent-loop"><a class="header" href="#bounded-agent-loop">Bounded agent loop</a></h2>
 <pre><code class="language-bash">sruja agent plan -r . --goal "Fix drift on Checkout" --element-id Shop.Checkout --print
-# Review plan JSON, then:
+# Review plan JSON, then
 sruja agent apply -r . --plan docs/plans/&lt;run-id&gt;.json
 </code></pre>
 <p>Optional MaTTS parallel attempts:</p>
@@ -29158,7 +29023,7 @@ max_bytes = 20000
   --hitl-kind precedent
 
 sruja agent curate -r .
-# After reviewing curate output, merge duplicates into one entry:
+# After reviewing curate output, merge duplicates into one entry
 sruja agent merge -r . --ids id1,id2 -c "Merged context" -H "..." -g "Combined guardrail"
 </code></pre>
 <h2 id="mcp-ladder-editors"><a class="header" href="#mcp-ladder-editors">MCP ladder (editors)</a></h2>
@@ -29324,7 +29189,6 @@ sruja agent merge -r . --ids id1,id2 -c "Merged context" -H "..." -g "Combined g
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 // Constraint: Presentation layer cannot access datastores directly
 constraint C1 {
 description "Presentation layer must not access datastores"
@@ -29387,7 +29251,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 // Convention: Naming standards
 convention N1 {
 description "Service names should follow pattern: &lt;domain&gt;-&lt;function&gt;"
@@ -29420,7 +29283,6 @@ include *
 <p>Here's how a large organization enforces standards across teams:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 // Global constraint: All services must have SLOs
 constraint Global1 {
@@ -29705,7 +29567,7 @@ service-repo/
 <p>2-3 hours</p>
 <hr>
 <h2 id="raw-thoughts-from-analysis-2"><a class="header" href="#raw-thoughts-from-analysis-2">Raw Thoughts from Analysis</a></h2>
-<h3 id="v0340-features-to-cover"><a class="header" href="#v0340-features-to-cover">v0.34.0 Features to Cover:</a></h3>
+<h3 id="v0340-features-to-cover"><a class="header" href="#v0340-features-to-cover">v0.34.0 Features to Cover</a></h3>
 <ul>
 <li><code>state_machine</code> syntax in DSL</li>
 <li><code>contract</code> syntax for API contracts</li>
@@ -29713,7 +29575,7 @@ service-repo/
 <li>State machine integrity rules</li>
 <li>Contract integrity validation</li>
 </ul>
-<h3 id="related-concepts-2"><a class="header" href="#related-concepts-2">Related Concepts:</a></h3>
+<h3 id="related-concepts-2"><a class="header" href="#related-concepts-2">Related Concepts</a></h3>
 <ul>
 <li>Behavioral DSL</li>
 <li>State machine validation</li>
@@ -29721,7 +29583,7 @@ service-repo/
 <li>API versioning</li>
 <li>Scenario-based testing</li>
 </ul>
-<h3 id="key-dsl-elements"><a class="header" href="#key-dsl-elements">Key DSL Elements:</a></h3>
+<h3 id="key-dsl-elements"><a class="header" href="#key-dsl-elements">Key DSL Elements</a></h3>
 <pre><code class="language-sruja">&lt;!-- partial --&gt;
 // State Machine
 Order = state_machine "Order Lifecycle" {
@@ -29752,7 +29614,7 @@ PaymentContract = contract "Payment API" {
   }
 }
 </code></pre>
-<h3 id="lesson-ideas-2"><a class="header" href="#lesson-ideas-2">Lesson Ideas:</a></h3>
+<h3 id="lesson-ideas-2"><a class="header" href="#lesson-ideas-2">Lesson Ideas</a></h3>
 <ol>
 <li>
 <p><strong>State Machines</strong></p>
@@ -30213,7 +30075,7 @@ scenario "Order lifecycle end-to-end" {
 <p>2-3 hours</p>
 <hr>
 <h2 id="raw-thoughts-from-analysis-3"><a class="header" href="#raw-thoughts-from-analysis-3">Raw Thoughts from Analysis</a></h2>
-<h3 id="v0340-v0350-features-to-cover"><a class="header" href="#v0340-v0350-features-to-cover">v0.34.0, v0.35.0 Features to Cover:</a></h3>
+<h3 id="v0340-v0350-features-to-cover"><a class="header" href="#v0340-v0350-features-to-cover">v0.34.0, v0.35.0 Features to Cover</a></h3>
 <ul>
 <li><code>intent</code> command and domain</li>
 <li>Phase 4: Adversarial Critique Engine ("Angry Agent")</li>
@@ -30221,7 +30083,7 @@ scenario "Order lifecycle end-to-end" {
 <li><code>sruja propose</code> command</li>
 <li><code>sruja review</code> command</li>
 </ul>
-<h3 id="related-concepts-3"><a class="header" href="#related-concepts-3">Related Concepts:</a></h3>
+<h3 id="related-concepts-3"><a class="header" href="#related-concepts-3">Related Concepts</a></h3>
 <ul>
 <li>Intent-first development</li>
 <li>Architectural rationale (ADR)</li>
@@ -30229,7 +30091,7 @@ scenario "Order lifecycle end-to-end" {
 <li>Evidence-based validation</li>
 <li>Compliance and audit trails</li>
 </ul>
-<h3 id="key-commands-1"><a class="header" href="#key-commands-1">Key Commands:</a></h3>
+<h3 id="key-commands-1"><a class="header" href="#key-commands-1">Key Commands</a></h3>
 <ul>
 <li><code>sruja intent propose -r . --from-diff</code></li>
 <li><code>sruja intent check -r .</code></li>
@@ -30237,7 +30099,7 @@ scenario "Order lifecycle end-to-end" {
 <li><code>sruja review -r .</code></li>
 <li><code>sruja propose -r .</code></li>
 </ul>
-<h3 id="lesson-ideas-3"><a class="header" href="#lesson-ideas-3">Lesson Ideas:</a></h3>
+<h3 id="lesson-ideas-3"><a class="header" href="#lesson-ideas-3">Lesson Ideas</a></h3>
 <ol>
 <li>
 <p><strong>Writing Architectural Intent</strong></p>
@@ -30759,14 +30621,14 @@ sruja drift -r . --fix
 <li>Command line familiarity</li>
 </ul>
 <h2 id="raw-thoughts"><a class="header" href="#raw-thoughts">Raw Thoughts</a></h2>
-<h3 id="v0350-features-to-cover"><a class="header" href="#v0350-features-to-cover">v0.35.0 Features to Cover:</a></h3>
+<h3 id="v0350-features-to-cover"><a class="header" href="#v0350-features-to-cover">v0.35.0 Features to Cover</a></h3>
 <ul>
 <li><code>sruja publish</code> command</li>
 <li><code>sruja compose</code> command</li>
 <li>Architecture Index MVP with Federated Registry</li>
 <li>Bundle schema and system index schema</li>
 </ul>
-<h3 id="key-concepts-1"><a class="header" href="#key-concepts-1">Key Concepts:</a></h3>
+<h3 id="key-concepts-1"><a class="header" href="#key-concepts-1">Key Concepts</a></h3>
 <ul>
 <li><code>repo.bundle.json</code> - published architecture artifact</li>
 <li><code>system.index.json</code> - composed multi-repo graph</li>
@@ -32405,7 +32267,7 @@ jobs:
 <pre><code class="language-bash"># Check drift with fix suggestions
 sruja drift -r . -a repo.sruja
 
-# For auto-fix capabilities, update the architecture to match code:
+# For auto-fix capabilities, update the architecture to match code
 # sruja init --auto  # writes repo.sruja.draft; author repo.sruja with skill
 </code></pre>
 <h2 id="governance-metrics"><a class="header" href="#governance-metrics">Governance Metrics</a></h2>
@@ -32511,7 +32373,7 @@ D) Use environment variables</p>
 B) Code coverage
 C) AI-readiness of the codebase (0-100 score)
 D) Server uptime</p>
-<h2 id="course-complete"><a class="header" href="#course-complete">Course Complete!</a></h2>
+<h2 id="course-complete-1"><a class="header" href="#course-complete-1">Course Complete!</a></h2>
 <p>You've completed the Federated Architecture course. You now understand:</p>
 <ul>
 <li>✅ Federation fundamentals and bundle publishing</li>

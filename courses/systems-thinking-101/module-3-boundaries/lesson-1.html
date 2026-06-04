@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -232,7 +232,6 @@ Shop = system "Shop" {
 PaymentGateway = system "Payment Gateway"
 </code></pre>
 <p>When something breaks with payments, who fixes it? If the boundary is clear, everyone knows: <strong>your team</strong> fixes anything inside Shop, <strong>the payment vendor</strong> fixes anything in PaymentGateway. No confusion, no finger-pointing.</p>
-<p>I once worked on a project where a team spent three days arguing about who owned a broken integration because nobody had bothered to document the boundary. Three days of developer time—wasted.</p>
 <h3 id="2-risk-management-what-could-go-wrong"><a class="header" href="#2-risk-management-what-could-go-wrong">2. Risk Management: What Could Go Wrong?</a></h3>
 <p>Every time you cross a boundary, you're introducing risk. You're depending on something outside your control.</p>
 <pre><code class="language-sruja">// partial
@@ -649,7 +648,6 @@ AnalyticsService = system "Analytics Service" {
 <p>Now you understand what boundaries are and why they matter. You know how to identify different types of boundaries and mark them clearly in your diagrams.</p>
 <p>But there's a question we haven't answered: <strong>how do you actually mark components as internal or external in Sruja?</strong> How do you use metadata effectively to document ownership and dependencies?</p>
 <p>In the next lesson, you'll learn exactly that. We'll cover how to annotate boundary elements, model team and organizational boundaries, and create diagrams that make it instantly clear what's inside versus what's outside.</p>
-<p>See you there!</p>
 
                     </main>
 

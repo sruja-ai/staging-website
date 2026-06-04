@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -181,20 +181,6 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="lesson-5-tracking-architecture-evolution"><a class="header" href="#lesson-5-tracking-architecture-evolution">Lesson 5: Tracking Architecture Evolution</a></h1>
-<p>I spent three weeks as an architecture archaeologist.</p>
-<p>A new VP of Engineering joined our company and asked a simple question: "How did our architecture get to where it is today? What decisions shaped it?"</p>
-<p>I thought it would be easy. I'd just look at the architecture documentation and tell the story.</p>
-<p><strong>The problem:</strong> There was no architecture documentation. Not really. We had:</p>
-<ul>
-<li>An outdated Confluence wiki with diagrams from 2019</li>
-<li>A Google Drive folder with PowerPoint slides from various presentations</li>
-<li>A Figma board with "current architecture" that hadn't been updated in 8 months</li>
-<li>Various README files scattered across 47 repositories</li>
-<li>And, if I was lucky, some comments in code</li>
-</ul>
-<p>I spent three weeks digging through Git history, Slack archives, Jira tickets, and interviewing the five engineers who'd been there longest. I reconstructed a partial history. But most of the "why" was lost. The people who made the decisions had left. The Slack channels had been archived. The context was gone.</p>
-<p><strong>What I learned:</strong> Architecture without history is just a snapshot. It tells you WHAT the system looks like, but not HOW it got there or WHY. And without that context, you're destined to repeat the same mistakes.</p>
-<p>This lesson is about tracking architecture evolution: not just what your architecture is, but how it changes over time and why. It's also the final lesson in this course, so we'll wrap up everything you've learned.</p>
 <h2 id="why-track-architecture-evolution"><a class="header" href="#why-track-architecture-evolution">Why Track Architecture Evolution?</a></h2>
 <h3 id="the-five-problems-of-lost-history"><a class="header" href="#the-five-problems-of-lost-history">The Five Problems of Lost History</a></h3>
 <p><strong>1. Onboarding Takes Forever</strong></p>
@@ -232,7 +218,7 @@
 <pre><code class="language-bash"># What changed in the architecture?
 git log --oneline --follow architecture.sruja
 
-# Output:
+# Output
 e4f8c2a Add Redis cache layer (see ADR-005)
 a3b7d1f Split payment service from main API
 9c2e5f3 Increase API replicas to 10 (SLO improvement)
@@ -657,7 +643,7 @@ ADR042 = adr "Use PostgreSQL" {
 ### Q3 (July - September)
 - Multi-region deployment (ADR-019)
 - Implemented Chaos Engineering (ADR-020)
-- Added comprehensive monitoring (ADR-021)
+- Added full monitoring (ADR-021)
 - SLO Impact: Availability 99.7% → 99.9%
 
 ### Q4 (October - December)
@@ -991,7 +977,7 @@ git show v2024.01:architecture.sruja | sruja export
 <p><strong>Phase 3: Mature System</strong></p>
 <ul>
 <li>Regular evolution reviews</li>
-<li>Comprehensive ADR history</li>
+<li>full ADR history</li>
 <li>Multi-year SLO tracking</li>
 </ul>
 <p><strong>Phase 4: Legacy System</strong></p>
@@ -1034,7 +1020,7 @@ git show v2024.01:architecture.sruja | sruja export
 <li>Create template for review notes</li>
 </ul>
 <hr>
-<h1 id="-course-complete-system-design-101"><a class="header" href="#-course-complete-system-design-101">🎉 Course Complete: System Design 101</a></h1>
+<h1 id="course-complete-system-design-101"><a class="header" href="#course-complete-system-design-101">Course Complete: System Design 101</a></h1>
 <p>Congratulations! You've completed the entire System Design 101 course. Let's reflect on what you've learned.</p>
 <h2 id="your-journey"><a class="header" href="#your-journey">Your Journey</a></h2>
 <p>You started as someone who wanted to understand system design better. You've now mastered:</p>

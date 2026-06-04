@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -244,8 +244,7 @@ ViralGrowth = scenario "Viral Growth Loop" {
 <li>Can create echo chambers</li>
 <li>May amplify undesirable behaviors (fake news, spam)</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once worked on a social media algorithm that showed viral content more aggressively. Engagement spiked for a few weeks, then crashed because users got sick of seeing the same type of content. The positive feedback loop had run its course. We needed to dampen it—show diverse content even if it meant lower short-term engagement.</p>
+<p><strong>Real-world example:</strong></p>
 <h3 id="pattern-2-vicious-cycle-collapse"><a class="header" href="#pattern-2-vicious-cycle-collapse">Pattern 2: Vicious Cycle (Collapse)</a></h3>
 <p>Output counteracts input, leading to runaway collapse:</p>
 <pre><code class="language-sruja">// partial
@@ -390,8 +389,7 @@ RateLimiting = scenario "Stabilizing Control" {
 <li>When you want to maintain service quality for all users</li>
 <li>When fairness matters (don't let heavy users dominate)</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once saw a rate limiting system cause more harm than good. It was configured with a hard limit, and when users hit it, they'd get throttled and immediately retry, creating a burst of traffic that was worse than just letting them through. We added hysteresis—the limit would decrease temporarily after being hit, then slowly recover. This smoothed out traffic and actually improved throughput for everyone while protecting the system.</p>
+<p><strong>Real-world example:</strong></p>
 <h2 id="delayed-feedback-time-based"><a class="header" href="#delayed-feedback-time-based">Delayed Feedback (Time-Based)</a></h2>
 <p>Feedback that occurs after a delay can cause oscillation or overcorrection:</p>
 <h3 id="pattern-oscillation"><a class="header" href="#pattern-oscillation">Pattern: Oscillation</a></h3>
@@ -427,8 +425,7 @@ DelayedFeedback = scenario "Oscillating Control" {
 <li>When you want to stabilize oscillating systems</li>
 <li>When you need to add damping or predictive adjustments</li>
 </ul>
-<p><strong>Real-world example:</strong>
-I once worked on a caching system that would cache data for 30 minutes. But the data source would update every 10 minutes. The cache would show stale data, then refresh, then show stale data again. This created oscillation—applications would see new data for 20 minutes, then old data for 20 minutes, then new again. Users complained: "Why is the data jumping around? Is it broken?" We fixed it by making the cache time consistent with the source—stale data at the same time as source updates. Eliminating the time delay eliminated the oscillation.</p>
+<p><strong>Real-world example:</strong></p>
 <h2 id="comparing-feedback-loop-types"><a class="header" href="#comparing-feedback-loop-types">Comparing Feedback Loop Types</a></h2>
 <p>Different feedback loops serve different purposes:</p>
 <div class="table-wrapper">
@@ -740,7 +737,6 @@ HysteresisScaling = scenario "Auto-Scaling with Hysteresis" {
 <h2 id="whats-next"><a class="header" href="#whats-next">What's Next?</a></h2>
 <p>Now you understand the different types of feedback loops—positive (reinforcing) and negative (balancing)—and when to use each. You've seen how positive loops can create virtuous growth or vicious collapse. You've seen how negative loops maintain stability through self-regulation, error-correction, and control.</p>
 <p>In the next lesson, you'll learn to <strong>model cycles explicitly</strong> in Sruja. You'll discover how to create valid feedback loops, distinguish them from circular dependencies (which are bad), and use cycles to represent self-regulating systems, learning mechanisms, and adaptive behaviors.</p>
-<p>See you there!</p>
 
                     </main>
 

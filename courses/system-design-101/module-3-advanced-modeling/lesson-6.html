@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -185,7 +185,7 @@
 <p>I stared at her. Then I stared at the architecture diagrams. Then I dug through old Slack channels, Jira tickets, and Google Docs.</p>
 <p>Two hours later, I found a comment from eight months ago: "PostgreSQL because we need ACID transactions for payments."</p>
 <p>That was it. No context about what alternatives we considered. No explanation of the trade-offs. No record of who made the decision or why.</p>
-<p>We had beautiful architecture diagrams. We had detailed API specs. We had comprehensive test coverage. But we had <strong>no memory of our decisions</strong>.</p>
+<p>We had beautiful architecture diagrams. We had detailed API specs. We had full test coverage. But we had <strong>no memory of our decisions</strong>.</p>
 <p>That's when I learned: <strong>architecture without context is just pretty pictures</strong>. You need to capture not just WHAT you built, but WHY you built it that way.</p>
 <p>This lesson covers the advanced Sruja features that transform your diagrams from "nice drawings" into "living documentation" that tells the full story.</p>
 <h2 id="the-five-pillars-of-complete-architecture"><a class="header" href="#the-five-pillars-of-complete-architecture">The Five Pillars of Complete Architecture</a></h2>
@@ -201,15 +201,6 @@
 <hr>
 <h2 id="1-kinds-and-types-define-your-vocabulary"><a class="header" href="#1-kinds-and-types-define-your-vocabulary">1. Kinds and Types: Define Your Vocabulary</a></h2>
 <h3 id="the-naming-chaos-story"><a class="header" href="#the-naming-chaos-story">The Naming Chaos Story</a></h3>
-<p>I once joined a project where everyone named things differently:</p>
-<ul>
-<li>"Database" vs "DB" vs "DataStore" vs "Persistence"</li>
-<li>"Service" vs "API" vs "Backend" vs "Server"</li>
-<li>"Queue" vs "MessageBus" vs "EventStream" vs "Broker"</li>
-</ul>
-<p>The architecture had 47 elements. It felt like 47 different architects had named them.</p>
-<p>When I tried to write validation rules like "all databases must be encrypted," I couldn't. Because "databases" were hidden among "DataStores," "DBs," and "Persistence Layers."</p>
-<p><strong>The fix:</strong> Define your vocabulary upfront. Decide what you'll call things, then stick to it.</p>
 <h3 id="how-sruja-helps"><a class="header" href="#how-sruja-helps">How Sruja Helps</a></h3>
 <p>Sruja's <code>stdlib</code> provides standard element kinds:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'

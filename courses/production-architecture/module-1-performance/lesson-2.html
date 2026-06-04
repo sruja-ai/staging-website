@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -211,7 +211,6 @@
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   technology "Rust, gRPC"
@@ -295,7 +294,7 @@ include *
 }
 </code></pre>
 <h2 id="what-interviewers-look-for"><a class="header" href="#what-interviewers-look-for">What Interviewers Look For</a></h2>
-<h3 id="-good-answer-what-you-just-did"><a class="header" href="#-good-answer-what-you-just-did">✅ Good Answer (What You Just Did)</a></h3>
+<h3 id="good-answer-what-you-just-did"><a class="header" href="#good-answer-what-you-just-did">Good Answer (What You Just Did)</a></h3>
 <ol>
 <li><strong>Defined SLOs explicitly</strong> - Shows you think about measurable targets</li>
 <li><strong>Addressed all requirements</strong> - Availability, latency, throughput</li>
@@ -303,7 +302,7 @@ include *
 <li><strong>Scalability</strong> - Showed how to handle 1M txn/s</li>
 <li><strong>Redundancy</strong> - Multiple replicas, failover strategies</li>
 </ol>
-<h3 id="-bad-answer-common-mistakes"><a class="header" href="#-bad-answer-common-mistakes">❌ Bad Answer (Common Mistakes)</a></h3>
+<h3 id="bad-answer-common-mistakes"><a class="header" href="#bad-answer-common-mistakes">Bad Answer (Common Mistakes)</a></h3>
 <ol>
 <li>Not defining SLOs or performance targets</li>
 <li>Ignoring availability requirements</li>
@@ -353,7 +352,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   slo {
@@ -377,7 +375,6 @@ include *
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
 
-
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
   slo {
@@ -400,7 +397,6 @@ include *
 <p><strong>Your answer with SLO</strong>:</p>
 <pre><code class="language-sruja">// partial
 import { * } from 'sruja.ai/stdlib'
-
 
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {
@@ -439,7 +435,6 @@ include *
 <p><strong>Interviewer</strong>: "How do you ensure 99.99% availability?"</p>
 <p>Add redundancy to your design:</p>
 <pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
 
 PaymentService = system "Payment Processing" {
 PaymentAPI = container "Payment API" {

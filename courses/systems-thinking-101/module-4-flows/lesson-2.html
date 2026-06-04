@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -238,7 +238,6 @@ CustomerAnalyticsFlow = flow "Customer Data Lineage" {
 </code></pre>
 <p>This flow tells you the complete story: customer data originates in CRM, gets extracted by ETL, normalized (cleaned up), enriched with behavioral data, aggregated into segments, stored in the warehouse, and ultimately shows up on a business dashboard.</p>
 <p>Without this flow, would you know customer data comes from the CRM? Would you know it gets enriched with clickstream data? Would you know it's aggregated daily? Probably not.</p>
-<p>I once worked on a project where nobody knew where analytics data came from. We spent weeks tracking down data lineage every time we found an issue. We added data flows, and suddenly everyone knew the complete path.</p>
 <h3 id="2-process-understanding-what-actually-happens"><a class="header" href="#2-process-understanding-what-actually-happens">2. Process Understanding: What Actually Happens?</a></h3>
 <p>Data flows reveal the processing steps your data goes through—the "how" not just the "what."</p>
 <pre><code class="language-sruja">// partial
@@ -285,7 +284,6 @@ TransformationFlow = flow "Data Transformations" {
 <li>Enriched → Aggregated (metrics computed)</li>
 </ul>
 <p>This documentation is invaluable. When someone asks, "What happened to this data?" you can point to the flow and show them each transformation step.</p>
-<p>I once inherited a system where nobody documented data transformations. We found mysterious records in the warehouse—dates in the wrong format, currencies mixed up, values that made no sense. We spent months reverse-engineering what transformations were happening. Document it upfront.</p>
 <h3 id="4-bottleneck-identification-where-will-things-slow-down"><a class="header" href="#4-bottleneck-identification-where-will-things-slow-down">4. Bottleneck Identification: Where Will Things Slow Down?</a></h3>
 <p>Data flows make bottlenecks obvious—where processing might slow down, where queues might form, where latency will be worst.</p>
 <pre><code class="language-sruja">// partial
@@ -420,7 +418,7 @@ RealTimeAnalyticsFlow = flow "Real-Time Analytics Pipeline" {
 </ul>
 <p><strong>Use when:</strong> Building real-time dashboards, fraud detection, personalized recommendations, live monitoring.</p>
 <h3 id="pattern-4-lambda-architecture"><a class="header" href="#pattern-4-lambda-architecture">Pattern 4: Lambda Architecture</a></h3>
-<p>Batch processing for comprehensive analytics plus real-time for speed.</p>
+<p>Batch processing for full analytics plus real-time for speed.</p>
 <pre><code class="language-sruja">// partial
 LambdaArchitectureFlow = flow "Lambda Architecture" {
   // Speed layer: Real-time
@@ -441,10 +439,10 @@ LambdaArchitectureFlow = flow "Lambda Architecture" {
 <ul>
 <li>Two paths: fast (speed layer) and accurate (batch layer)</li>
 <li>Speed layer provides quick but possibly incomplete results</li>
-<li>Batch layer provides comprehensive but delayed results</li>
+<li>Batch layer provides full but delayed results</li>
 <li>Query service merges both for best of both worlds</li>
 </ul>
-<p><strong>Use when:</strong> You need both real-time responsiveness and comprehensive accuracy.</p>
+<p><strong>Use when:</strong> You need both real-time responsiveness and full accuracy.</p>
 <h2 id="documenting-data-transformations"><a class="header" href="#documenting-data-transformations">Documenting Data Transformations</a></h2>
 <p>One of the most important things you can do in data flows is document transformations clearly.</p>
 <h3 id="using-relationship-labels"><a class="header" href="#using-relationship-labels">Using Relationship Labels</a></h3>
@@ -629,7 +627,6 @@ ETLPipeline = flow "ETL Pipeline" {
 <p>Now you understand how to create data flow diagrams. You can model data lineage, document transformations, and design ETL and analytics pipelines.</p>
 <p>But data flows are just one type of flow. There's another crucial type—<strong>user journeys</strong> (or behavioral flows)—which show how users interact with your system from their perspective.</p>
 <p>In the next lesson, you'll learn about user journeys. You'll discover how to model BDD-style scenarios, document happy paths and error paths, and capture the complete user experience from start to finish.</p>
-<p>See you there!</p>
 
                     </main>
 

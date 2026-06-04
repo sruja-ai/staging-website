@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-449dcb4c.js"></script>
@@ -180,16 +180,15 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="sruja-design-philosophy-the-unified-intuitive-dsl"><a class="header" href="#sruja-design-philosophy-the-unified-intuitive-dsl">Sruja Design Philosophy: The Unified Intuitive DSL</a></h1>
-<h2 id="objective"><a class="header" href="#objective">Objective</a></h2>
-<p>Create a modeling language that empowers <strong>all developers</strong> - from students to enterprise architects - to design systems with confidence, while naturally guiding them toward simplicity and preventing over-engineering.</p>
+                        <h2 id="objective"><a class="header" href="#objective">Objective</a></h2>
+<p>Create a modeling language that helps <strong>all developers</strong> — from students to enterprise architects — design systems with confidence, while guiding them toward simplicity and preventing over-engineering.</p>
 <p><strong>Core Principles</strong>:</p>
 <ol>
 <li><strong>Start simple, stay simple</strong>: A 1st-year CS student should be productive in 10 minutes, and advanced developers should be guided away from unnecessary complexity.</li>
 <li><strong>Empower, don't restrict</strong>: The language should enable all developers, not limit them, but guide them toward good design.</li>
 <li><strong>Approachability first</strong>: Complex concepts should be available but not encouraged unless truly needed.</li>
 <li><strong>Prevent over-engineering</strong>: The language itself should make simple designs easier than complex ones.</li>
-<li><strong>Systems thinking made simple</strong>: Enable holistic system understanding through intuitive syntax, without requiring complex theory.</li>
+<li><strong>Systems thinking made simple</strong>: Enable full system understanding through intuitive syntax, without requiring complex theory.</li>
 </ol>
 <h2 id="methodology-analysis"><a class="header" href="#methodology-analysis">Methodology Analysis</a></h2>
 <div class="table-wrapper">
@@ -281,7 +280,6 @@ ShopAPI.WebApp -&gt; ShopAPI.Database "Reads/Writes"
 Order -&gt; Payment "Triggers"
 </code></pre>
 <p><strong>Rationale</strong>: Arrows are universal. Everyone understands "A -&gt; B" means "A relates to B".</p>
-<h2 id="proposed-syntax-the-universal-model"><a class="header" href="#proposed-syntax-the-universal-model">Proposed Syntax: "The Universal Model"</a></h2>
 <h3 id="level-1-beginner-c4-style"><a class="header" href="#level-1-beginner-c4-style">Level 1: Beginner (C4 Style)</a></h3>
 <pre><code class="language-sruja">// partial
 // Element kinds
@@ -376,7 +374,6 @@ SecurityPolicy = policy "Encrypt all data" category "security" enforcement "requ
 Customer -&gt; Shop.API "Uses"
 Shop.API -&gt; Shop.DB "Reads/Writes"
 </code></pre>
-<h2 id="key-design-decisions"><a class="header" href="#key-design-decisions">Key Design Decisions</a></h2>
 <h3 id="1-progressive-disclosure"><a class="header" href="#1-progressive-disclosure">1. Progressive Disclosure</a></h3>
 <ul>
 <li><strong>Beginner</strong>: Start with <code>system</code>, <code>container</code>, <code>component</code> (C4)</li>
@@ -402,7 +399,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li>In a <code>component</code>: Internal data structure</li>
 </ul>
 <p><strong>Rationale</strong>: One keyword, multiple interpretations based on context. Reduces vocabulary size.</p>
-<h2 id="preventing-over-engineering-simplicity-by-design"><a class="header" href="#preventing-over-engineering-simplicity-by-design">Preventing Over-Engineering: Simplicity by Design</a></h2>
 <h3 id="how-sruja-guides-toward-simplicity"><a class="header" href="#how-sruja-guides-toward-simplicity">How Sruja Guides Toward Simplicity</a></h3>
 <p><strong>1. Start Simple</strong></p>
 <ul>
@@ -434,7 +430,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li><code>module</code> = "How is this organized?" (Logical grouping)</li>
 <li>Keep it focused on what you're actually modeling</li>
 </ul>
-<h2 id="missing-concepts--future-considerations"><a class="header" href="#missing-concepts--future-considerations">Missing Concepts &amp; Future Considerations</a></h2>
 <h3 id="currently-missing-but-important"><a class="header" href="#currently-missing-but-important">Currently Missing (but important):</a></h3>
 <ol>
 <li><strong>Constraints/Validation</strong>: How to express "email must be valid", "age &gt; 0"?</li>
@@ -454,7 +449,6 @@ Shop.API -&gt; Shop.DB "Reads/Writes"
 <li>Consider relationship syntax: <code>User -&gt; Order[1:*]</code></li>
 <li>✅ <code>flow</code> and <code>scenario</code>/<code>story</code> already implemented for flow thinking (DFD and BDD-style)</li>
 </ul>
-<h2 id="migration-path"><a class="header" href="#migration-path">Migration Path</a></h2>
 <h3 id="from-c4-to-sruja"><a class="header" href="#from-c4-to-sruja">From C4 to Sruja:</a></h3>
 <pre><code class="language-sruja">&lt;!-- partial --&gt;
 // C4: System Context
@@ -501,7 +495,7 @@ datastore Database {
 }
 </code></pre>
 <h2 id="systems-thinking-simple-and-intuitive"><a class="header" href="#systems-thinking-simple-and-intuitive">Systems Thinking: Simple and Intuitive</a></h2>
-<p><strong>Goal</strong>: Empower developers to think about systems holistically - understanding how parts interact, boundaries, and emergent behavior - without requiring complex theory.</p>
+<p><strong>Goal</strong>: Help developers think about systems as a whole — understanding how parts interact, boundaries, and emergent behavior — without requiring complex theory.</p>
 <h3 id="core-systems-thinking-concepts-simplified"><a class="header" href="#core-systems-thinking-concepts-simplified">Core Systems Thinking Concepts (Simplified)</a></h3>
 <p>Systems thinking is about understanding:</p>
 <ol>

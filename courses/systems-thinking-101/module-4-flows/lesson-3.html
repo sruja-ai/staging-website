@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -213,10 +213,6 @@
 <li>Both happy and sad paths</li>
 </ul>
 <h2 id="why-user-journeys-matter"><a class="header" href="#why-user-journeys-matter">Why User Journeys Matter</a></h2>
-<p>I've learned this the hard way. I once built a feature without modeling user journeys, and when we launched, users were completely confused.</p>
-<p>They couldn't find the checkout button. When they did, error messages were cryptic. The "success" page didn't tell them what to do next. Support tickets flooded in. We had to rebuild the entire feature.</p>
-<p>If I'd modeled user journeys upfront, we would have seen these issues immediately. The journey would have shown: "User clicks checkout → System shows error 'ERR_500' → User is confused."</p>
-<p><strong>User journeys matter because:</strong></p>
 <h3 id="1-requirements-clarity"><a class="header" href="#1-requirements-clarity">1. Requirements Clarity</a></h3>
 <p>User journeys turn vague requirements into concrete scenarios:</p>
 <p><strong>Vague requirement:</strong> "Users should be able to check out"</p>
@@ -292,7 +288,6 @@ RegistrationEdgeCases = scenario "Registration Edge Cases" {
   WebApp -&gt; Customer "Shows error: Password too weak"
 }
 </code></pre>
-<p>I once launched a feature without modeling edge cases. Users started using weird inputs, emojis in names, passwords with special characters, and the system broke in creative ways. Model edge cases upfront.</p>
 <h2 id="creating-user-journeys-in-sruja"><a class="header" href="#creating-user-journeys-in-sruja">Creating User Journeys in Sruja</a></h2>
 <p>Sruja gives you two keywords for user journeys, and they're interchangeable:</p>
 <h3 id="using-scenario"><a class="header" href="#using-scenario">Using <code>scenario</code></a></h3>
@@ -421,7 +416,6 @@ ErrorRegistration = scenario "User Registration (Error Path: Duplicate Email)" {
 <li>Focus on errors users actually encounter</li>
 <li>Ensure error messages are helpful, not cryptic</li>
 </ul>
-<p>I once worked on a system where error messages were like "ERR_500_CHECKOUT_FAILED." Users had no idea what went wrong. We rewrote them to be helpful: "Payment failed. Please check your card details or try a different payment method." Support tickets dropped by 70%.</p>
 <h3 id="pattern-3-branching-path"><a class="header" href="#pattern-3-branching-path">Pattern 3: Branching Path</a></h3>
 <p>Different things happen based on conditions:</p>
 <pre><code class="language-sruja">// partial
@@ -657,7 +651,6 @@ GatewayOutageCheckout = scenario "Checkout During Payment Outage" {
 <li>They help teams discuss "what if" scenarios</li>
 <li>They prevent surprises in production</li>
 </ul>
-<p>I once launched a feature without modeling edge cases. Users immediately found scenarios we hadn't considered—checking out with gift cards during sales, checking out from different countries with different currencies, checking out with addresses that don't validate. We spent months fixing edge cases we could have caught upfront.</p>
 <h2 id="what-to-remember"><a class="header" href="#what-to-remember">What to Remember</a></h2>
 <p>User journeys tell the story of how users interact with your system—from their perspective. When you create user journeys:</p>
 <ul>
@@ -852,7 +845,6 @@ LoginError = scenario "Login Failed" {
 </ul>
 <p>You can now create diagrams that tell complete stories—stories about how data moves through your system, and stories about how users experience your system. You can model data lineage, transformations, bottlenecks, and user journeys.</p>
 <p>In the next module, you'll learn about <strong>feedback loops</strong>—how systems regulate themselves through circular cause-and-effect relationships. You'll discover how positive feedback loops amplify change and negative feedback loops stabilize systems. You'll learn to recognize these patterns in real systems and understand their powerful effects.</p>
-<p>See you there!</p>
 <hr>
 <h2 id="module-4-complete"><a class="header" href="#module-4-complete">Module 4 Complete!</a></h2>
 <p>You've now mastered the art of modeling flows. Here's what you've learned:</p>

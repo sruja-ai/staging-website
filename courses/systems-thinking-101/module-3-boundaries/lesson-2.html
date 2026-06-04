@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b96efda5.js";
+            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -264,7 +264,6 @@ PaymentGateway = system "Payment Gateway" {
 <li>What security controls are in place</li>
 <li>Whether you can use it for sensitive data</li>
 </ul>
-<p>I once worked on a healthcare project where someone chose an email provider without checking HIPAA compliance. We had to rebuild the integration later. Lesson learned: <strong>document compliance requirements upfront</strong>.</p>
 <h2 id="common-boundary-patterns"><a class="header" href="#common-boundary-patterns">Common Boundary Patterns</a></h2>
 <p>After modeling hundreds of systems, I've noticed patterns that repeat constantly. Let me show you the ones I see most often.</p>
 <h3 id="pattern-1-third-party-services"><a class="header" href="#pattern-1-third-party-services">Pattern 1: Third-Party Services</a></h3>
@@ -746,7 +745,6 @@ Shop.API -&gt; EmailService "Send confirmation"
 <p>Now you know how to mark internal and external components clearly. You can annotate external systems with ownership, SLAs, and support information. You can model team boundaries and create different views for different audiences.</p>
 <p>But we've only talked about <strong>defining</strong> boundaries. We haven't talked about what happens when you <strong>cross</strong> them.</p>
 <p>In the next lesson, you'll learn about crossing boundaries—how to model integrations, plan for failures, document interface contracts, and design fallback strategies. You'll discover why every boundary crossing is both an opportunity and a risk.</p>
-<p>See you there!</p>
 
                     </main>
 
