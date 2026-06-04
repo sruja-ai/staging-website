@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-101ea6d2.js";
+            window.path_to_searchindex_js = "searchindex-b96efda5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-449dcb4c.js"></script>
@@ -34508,21 +34508,32 @@ System.Container -&gt; System.Container.Component "calls"
 From -&gt; To "Label" [tag1, tag2]
 </code></pre>
 <h3 id="requirements-4"><a class="header" href="#requirements-4">Requirements</a></h3>
-<pre><code class="language-sruja">// partial
+<pre><code class="language-sruja">// Minimal
 R1 = requirement functional "Description"
 R2 = requirement nonfunctional "Description"
 R3 = requirement constraint "Description"
 R4 = requirement performance "Description"
 R5 = requirement security "Description"
 
-// With body block
-R6 = requirement functional "Description" {
+// Enriched with PRD-aligned fields
+R6 = requirement functional "User can checkout" {
     description "Detailed description"
-    metadata {
-        priority "high"
+    priority "must"                    // MoSCoW: must | should | could | wont
+    status "accepted"                  // proposed | accepted | deprecated | superseded
+    user_journey "Narrative of the user's path through the feature"
+    acceptance_criteria {
+        given "Precondition"
+        when "User action"
+        then "Expected outcome"
     }
+    scenario CheckoutFlow              // Link to scenario element
+    adr ADR001                         // Link to ADR element
+    affects System.Container.Component // Link to architecture elements
+    source "prd://checkout-prd"        // Cross-repo PRD reference
+    tags ["checkout", "critical"]
 }
 </code></pre>
+<p>Requirements support MoSCoW priority, acceptance criteria (Given-When-Then), and traceability links to scenarios, ADRs, and architecture elements. The <code>source</code> field enables cross-repo PRD linking — multiple repos can reference the same central PRD.</p>
 <h3 id="adrs-architectural-decision-records"><a class="header" href="#adrs-architectural-decision-records">ADRs (Architectural Decision Records)</a></h3>
 <pre><code class="language-sruja">ADR001 = adr "Title" {
     status "accepted"
