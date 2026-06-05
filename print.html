@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-b6c07abd.js";
+            window.path_to_searchindex_js = "searchindex-09360d00.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-449dcb4c.js"></script>
@@ -27679,7 +27679,7 @@ include *
 <h2 id="raw-thoughts-from-analysis"><a class="header" href="#raw-thoughts-from-analysis">Raw Thoughts from Analysis</a></h2>
 <h3 id="v0420-features-to-cover"><a class="header" href="#v0420-features-to-cover">v0.42.0 Features to Cover</a></h3>
 <ul>
-<li><code>sruja evolution</code> - outcome-driven evolutionary architectures</li>
+<li><code>sruja intent history</code> - outcome-driven evolutionary architectures</li>
 <li><code>sruja health</code> / health status dashboard</li>
 <li>fitness evaluation</li>
 <li>enterprise graph health metrics</li>
@@ -27716,7 +27716,7 @@ include *
 <p><strong>Continuous Evolution</strong></p>
 <ul>
 <li>Sruja maturation phases workflow</li>
-<li>Using <code>sruja evolution</code> command</li>
+<li>Using <code>sruja intent history</code> command</li>
 <li>Drift detection and <code>--fix</code></li>
 <li>Autonomous optimization loop pattern (from agentic memory)</li>
 </ul>
@@ -27944,13 +27944,13 @@ health:
 </code></pre>
 <h2 id="the-evolution-command"><a class="header" href="#the-evolution-command">The Evolution Command</a></h2>
 <pre><code class="language-bash"># Run evolution analysis
-sruja evolution -r .
+sruja intent history -r .
 
 # Show recommended changes
-sruja evolution -r . --propose
+sruja intent history -r . --propose
 
 # Apply recommended changes
-sruja evolution -r . --fix
+sruja intent history -r . --fix
 </code></pre>
 <h2 id="drift-detection-and-resolution"><a class="header" href="#drift-detection-and-resolution">Drift Detection and Resolution</a></h2>
 <pre><code class="language-bash"># Detect drift
@@ -27991,7 +27991,7 @@ auto_record_learnings = true
 
 - name: Evolution Check (daily)
   if: github.event_name == 'schedule'
-  run: sruja evolution -r . --propose
+  run: sruja intent history -r . --propose
 </code></pre>
 <h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
 <p>The continuous evolution workflow:</p>
@@ -28000,7 +28000,7 @@ auto_record_learnings = true
 <li><strong>Measure</strong>: Run health checks</li>
 <li><strong>Detect</strong>: Find drift with <code>sruja drift</code></li>
 <li><strong>Propose</strong>: Get evolution suggestions</li>
-<li><strong>Apply</strong>: Use <code>sruja evolution --fix</code></li>
+<li><strong>Apply</strong>: Use <code>sruja intent history --fix</code></li>
 <li><strong>Learn</strong>: Agentic memory improves over time</li>
 </ol>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
@@ -28375,7 +28375,7 @@ container AgentSystem {
 <h3 id="v0230-features-to-cover"><a class="header" href="#v0230-features-to-cover">v0.23.0+ Features to Cover</a></h3>
 <ul>
 <li><code>sruja mcp</code> command (MCP stdio server)</li>
-<li><code>sruja context</code> command for building context</li>
+<li><code>sruja ai-context</code> command for building context</li>
 <li><code>sruja focus</code> for task-specific briefing</li>
 <li><code>sruja context-score</code> for AI-readiness scoring</li>
 <li>Editor integrations (Cursor, GitHub Copilot, Cline, Windsurf)</li>
@@ -28391,7 +28391,7 @@ container AgentSystem {
 <h3 id="key-commands"><a class="header" href="#key-commands">Key Commands</a></h3>
 <ul>
 <li><code>sruja mcp -r .</code></li>
-<li><code>sruja context -r repoA -r repoB</code></li>
+<li><code>sruja ai-context -r repoA -r repoB</code></li>
 <li><code>sruja focus --file &lt;path&gt;</code></li>
 <li><code>sruja context-score -r .</code></li>
 <li><code>sruja why &lt;component-id&gt;</code></li>
@@ -28422,9 +28422,9 @@ container AgentSystem {
 <li>
 <p><strong>Context-Driven Assistance</strong></p>
 <ul>
-<li>Building context with <code>sruja context</code></li>
+<li>Building context with <code>sruja ai-context</code></li>
 <li>Using <code>sruja focus</code> for task briefing</li>
-<li>Cross-repo context (<code>sruja context -r repoA -r repoB</code>)</li>
+<li>Cross-repo context (<code>sruja ai-context -r repoA -r repoB</code>)</li>
 <li>Optimizing context score</li>
 </ul>
 </li>
@@ -28576,7 +28576,7 @@ D) It deploys applications</p>
 <p>A) <code>sruja server start</code>
 B) <code>sruja mcp -r .</code>
 C) <code>sruja connect</code>
-D) <code>sruja context</code></p>
+D) <code>sruja ai-context</code></p>
 <h2 id="next-steps-16"><a class="header" href="#next-steps-16">Next Steps</a></h2>
 <p>Lesson 2 covers building and optimizing context for AI assistance.</p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -28741,7 +28741,7 @@ sruja doctor -r .
 </ul>
 <h2 id="quiz-test-your-understanding-2"><a class="header" href="#quiz-test-your-understanding-2">Quiz: Test Your Understanding</a></h2>
 <h3 id="q1-what-command-generates-ai-context-for-your-codebase"><a class="header" href="#q1-what-command-generates-ai-context-for-your-codebase">Q1: What command generates AI context for your codebase?</a></h3>
-<p>A) <code>sruja context</code>
+<p>A) <code>sruja ai-context</code>
 B) <code>sruja ai-context</code>
 C) <code>sruja generate</code>
 D) <code>sruja build</code></p>
@@ -28949,7 +28949,7 @@ C) To make the code faster
 D) It's not necessary</p>
 <h3 id="q3-what-command-shows-the-blast-radius-of-changing-a-component"><a class="header" href="#q3-what-command-shows-the-blast-radius-of-changing-a-component">Q3: What command shows the blast radius of changing a component?</a></h3>
 <p>A) <code>sruja lint</code>
-B) <code>sruja context</code>
+B) <code>sruja ai-context</code>
 C) <code>sruja impact</code>
 D) <code>sruja drift</code></p>
 <h3 id="q4-which-mcp-tools-surface-in-repo-lineage-for-an-ai-session"><a class="header" href="#q4-which-mcp-tools-surface-in-repo-lineage-for-an-ai-session">Q4: Which MCP tools surface in-repo lineage for an AI session?</a></h3>
@@ -29785,7 +29785,7 @@ D) Database schema</p>
 <h3 id="q2-what-command-validates-sruja-dsl-files"><a class="header" href="#q2-what-command-validates-sruja-dsl-files">Q2: What command validates Sruja DSL files?</a></h3>
 <p>A) <code>sruja validate</code>
 B) <code>sruja lint</code>
-C) <code>sruja check</code>
+C) <code>sruja drift --ci</code>
 D) <code>sruja verify</code></p>
 <h3 id="q3-what-are-guard-conditions-used-for"><a class="header" href="#q3-what-are-guard-conditions-used-for">Q3: What are guard conditions used for?</a></h3>
 <p>A) Encrypting data at rest
@@ -31409,7 +31409,7 @@ sruja drift -r . -a repo.sruja
 <h3 id="q1-what-command-is-used-to-validate-sruja-dsl-files"><a class="header" href="#q1-what-command-is-used-to-validate-sruja-dsl-files">Q1: What command is used to validate Sruja DSL files?</a></h3>
 <p>A) <code>sruja validate</code>
 B) <code>sruja lint</code>
-C) <code>sruja check</code>
+C) <code>sruja drift --ci</code>
 D) <code>sruja verify</code></p>
 <h3 id="q2-when-modeling-external-services-you-dont-control-what-should-you-use"><a class="header" href="#q2-when-modeling-external-services-you-dont-control-what-should-you-use">Q2: When modeling external services you don't control, what should you use?</a></h3>
 <p>A) Import statements with no changes
@@ -31574,7 +31574,7 @@ D) A CI/CD pipeline</p>
 <p>A) <code>sruja lint</code>
 B) <code>sruja drift</code>
 C) <code>sruja validate</code>
-D) <code>sruja check</code></p>
+D) <code>sruja drift --ci</code></p>
 <h2 id="module-complete-6"><a class="header" href="#module-complete-6">Module Complete!</a></h2>
 <p>You've completed Cross-Repo Relationships. You now understand:</p>
 <ul>
@@ -32215,7 +32215,7 @@ jobs:
 <p>A) <code>sruja report</code>
 B) <code>sruja compliance</code>
 C) <code>sruja audit</code>
-D) <code>sruja check</code></p>
+D) <code>sruja drift --ci</code></p>
 <h3 id="q2-what-does-sruja-drift---ci-do"><a class="header" href="#q2-what-does-sruja-drift---ci-do">Q2: What does <code>sruja drift --ci</code> do?</a></h3>
 <p>A) Runs in CI mode with GitHub Actions format output
 B) Checks Git CI/CD pipeline status
@@ -32359,7 +32359,7 @@ sruja ai-context -r .
 </ul>
 <h2 id="quiz-test-your-understanding-15"><a class="header" href="#quiz-test-your-understanding-15">Quiz: Test Your Understanding</a></h2>
 <h3 id="q1-what-command-runs-architecture-checks-in-ci-mode"><a class="header" href="#q1-what-command-runs-architecture-checks-in-ci-mode">Q1: What command runs architecture checks in CI mode?</a></h3>
-<p>A) <code>sruja check</code>
+<p>A) <code>sruja drift --ci</code>
 B) <code>sruja drift --ci</code>
 C) <code>sruja validate</code>
 D) <code>sruja test</code></p>
@@ -34046,8 +34046,7 @@ sruja completion fish
 <tr><td><code>sruja tree &lt;file&gt;</code></td><td>Print element tree</td></tr>
 <tr><td><code>sruja watch -r .</code></td><td>Keep feedback live while coding</td></tr>
 <tr><td><code>sruja doctor -r .</code></td><td>Alias for <code>status</code></td></tr>
-<tr><td><code>sruja drift --ci -r .</code></td><td><strong>Preferred</strong> CI drift check (GitHub Actions annotations; replaces deprecated <code>check</code>)</td></tr>
-<tr><td><code>sruja check -r .</code></td><td>Deprecated alias for drift-style CI output — use <code>drift --ci</code></td></tr>
+<tr><td><code>sruja drift --ci -r .</code></td><td>CI drift check (GitHub Actions annotations)</td></tr>
 <tr><td><code>sruja baseline -r .</code></td><td>Snapshot violations for baseline ignore in CI</td></tr>
 <tr><td><code>sruja ai -r . --task "..."</code></td><td>Paste-ready AI coding brief (optional <code>--enrich</code> / <code>--enrich-cmd</code>)</td></tr>
 <tr><td><code>sruja focus -r . --file &lt;path&gt;</code></td><td>Context briefing before starting work</td></tr>

@@ -35,7 +35,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-b6c07abd.js";
+            window.path_to_searchindex_js = "../../../searchindex-09360d00.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-449dcb4c.js"></script>
@@ -205,13 +205,13 @@
 </code></pre>
 <h2 id="the-evolution-command"><a class="header" href="#the-evolution-command">The Evolution Command</a></h2>
 <pre><code class="language-bash"># Run evolution analysis
-sruja evolution -r .
+sruja intent history -r .
 
 # Show recommended changes
-sruja evolution -r . --propose
+sruja intent history -r . --propose
 
 # Apply recommended changes
-sruja evolution -r . --fix
+sruja intent history -r . --fix
 </code></pre>
 <h2 id="drift-detection-and-resolution"><a class="header" href="#drift-detection-and-resolution">Drift Detection and Resolution</a></h2>
 <pre><code class="language-bash"># Detect drift
@@ -252,7 +252,7 @@ auto_record_learnings = true
 
 - name: Evolution Check (daily)
   if: github.event_name == 'schedule'
-  run: sruja evolution -r . --propose
+  run: sruja intent history -r . --propose
 </code></pre>
 <h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
 <p>The continuous evolution workflow:</p>
@@ -261,7 +261,7 @@ auto_record_learnings = true
 <li><strong>Measure</strong>: Run health checks</li>
 <li><strong>Detect</strong>: Find drift with <code>sruja drift</code></li>
 <li><strong>Propose</strong>: Get evolution suggestions</li>
-<li><strong>Apply</strong>: Use <code>sruja evolution --fix</code></li>
+<li><strong>Apply</strong>: Use <code>sruja intent history --fix</code></li>
 <li><strong>Learn</strong>: Agentic memory improves over time</li>
 </ol>
 <h2 id="module-complete"><a class="header" href="#module-complete">Module Complete!</a></h2>
