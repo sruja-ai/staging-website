@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Getting started (full) - Sruja – Context engineering for the AI era.</title>
+        <title>Getting started (Tier 1 + Tier 2) - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0032acf8.js";
+            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-449dcb4c.js"></script>
+        <script src="../toc-3238d5d9.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,208 +181,104 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p><strong>Architecture from your code—no DSL learning required.</strong></p>
-<p>Your AI writes and maintains <code>.sruja</code> files. You just need to know what to ask for.</p>
+<p>Sruja’s core value is <strong>keeping AI edits aligned with your repo structure</strong>:</p>
+<ul>
+<li><strong>Before</strong> edits: brief the agent with <code>focus</code></li>
+<li><strong>After</strong> edits: run deterministic gates with <code>verify-task</code></li>
+<li><strong>Always</strong>: detect structural drift from real code, not from diagrams</li>
+</ul>
+<p>You can get value on day one <strong>without</strong> writing any <code>.sruja</code> files.</p>
 <hr>
-<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<h2 id="two-ways-to-use-sruja"><a class="header" href="#two-ways-to-use-sruja">Two ways to use Sruja</a></h2>
+<ul>
+<li><strong>Tier 1 (recommended first): harness without <code>repo.sruja</code></strong>
+<ul>
+<li>Structural scan + drift checks from your actual code</li>
+<li>Agent briefings (<code>focus</code>) and post-edit gates (<code>verify-task</code>)</li>
+<li>Best for evaluation and immediate guardrails</li>
+</ul>
+</li>
+<li><strong>Tier 2 (optional): reviewed intent in Git (<code>repo.sruja</code>)</strong>
+<ul>
+<li>Versioned, reviewable architecture intent</li>
+<li>CI drift gates compare reality vs declared intent</li>
+<li>Exports (Markdown/Mermaid) become derived artifacts</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="tier-1-harness-in-5-minutes-no-reposruja"><a class="header" href="#tier-1-harness-in-5-minutes-no-reposruja">Tier 1: Harness in 5 minutes (no <code>repo.sruja</code>)</a></h2>
+<h3 id="step-1-install-the-cli"><a class="header" href="#step-1-install-the-cli">Step 1: Install the CLI</a></h3>
+<pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
+</code></pre>
+<p>If you’re working from source in this repo:</p>
+<pre><code class="language-bash">just build  # or: make build
+./target/release/sruja --help
+</code></pre>
+<h3 id="step-2-get-a-first-structural-read"><a class="header" href="#step-2-get-a-first-structural-read">Step 2: Get a first structural read</a></h3>
+<p>From your repo root:</p>
+<pre><code class="language-bash">sruja start -r .
+sruja drift -r . --structural-only --advisory
+</code></pre>
+<p>This reports repo-level structural issues that AI edits tend to introduce (cycles, layer violations, hub modules), plus an “uncertain” section where inference isn’t confident.</p>
+<h3 id="step-3-use-sruja-with-an-ai-editor-focus--edit--verify"><a class="header" href="#step-3-use-sruja-with-an-ai-editor-focus--edit--verify">Step 3: Use Sruja with an AI editor (focus → edit → verify)</a></h3>
+<p>Run a file-scoped briefing before a risky edit:</p>
+<pre><code class="language-bash">sruja focus -r . --file path/to/file.rs
+</code></pre>
+<p>After the agent edits:</p>
+<pre><code class="language-bash">sruja verify-task --profile coding -r .
+</code></pre>
+<h3 id="step-4-optional-wire-mcp-for-tool-based-briefings"><a class="header" href="#step-4-optional-wire-mcp-for-tool-based-briefings">Step 4 (optional): Wire MCP for tool-based briefings</a></h3>
+<p>If your editor supports MCP, run Sruja as an MCP stdio server:</p>
+<pre><code class="language-bash">sruja mcp -r .
+</code></pre>
+<p>For host/editor setup details, see <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a>.</p>
+<hr>
+<h2 id="tier-2-optional-reviewed-reposruja-in-git"><a class="header" href="#tier-2-optional-reviewed-reposruja-in-git">Tier 2 (optional): Reviewed <code>repo.sruja</code> in Git</a></h2>
+<p>Tier 2 is for teams that want <strong>reviewed intent</strong> in Git and strict CI enforcement. Keep it minimal at first.</p>
+<h3 id="step-1-generate-and-validate-intent"><a class="header" href="#step-1-generate-and-validate-intent">Step 1: Generate and validate intent</a></h3>
+<p>Prerequisites:</p>
 <ul>
 <li><strong>AI editor</strong> – Cursor, Copilot, Claude, Continue.dev, etc.</li>
-<li><strong>AI skill</strong> – Install first: <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
-<li><strong>Sruja CLI</strong> – Needed when the skill runs discover/lint/drift; the skill will guide you to install it if missing (<code>curl -fsSL https://sruja.ai/install.sh | bash</code>)</li>
+<li><strong>AI skill</strong> – <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
 </ul>
-<hr>
-<h2 id="step-1-gather-evidence-or-let-the-skill-do-it"><a class="header" href="#step-1-gather-evidence-or-let-the-skill-do-it">Step 1: Gather evidence (or let the skill do it)</a></h2>
-<p>When you use the <strong>sruja-architecture skill</strong>, it runs discovery for you. Discovery is <strong>not</strong> just a file list—under the hood the CLI runs <strong>Tree-sitter</strong> on your code to build a <strong>graph of components and their dependency relations</strong> (who imports whom, which modules call which). That graph is the evidence the skill uses.</p>
-<p>If you want to run discovery yourself (e.g. to inspect the summary), run:</p>
-<pre><code class="language-bash">cd your-project
-sruja discover --context -r . --format json
-</code></pre>
-<p><strong>What this does:</strong> Scans your repo with Tree-sitter, builds the component/dependency graph, then outputs a <strong>summary</strong> of that graph (so the AI can scope and ask targeted questions). The skill prefers <code>.sruja/context.json</code> and <code>.sruja/graph.json</code> when present (e.g. after <code>sruja sync</code> or the extension's <strong>Refresh repo context</strong>); when missing, it runs discover for you—no need to run a command first. For the full graph on demand: <code>sruja scan -r . -o graph.json</code>, or use the graph written by sync at <code>.sruja/graph.json</code>.</p>
-<p><strong>Summary output includes:</strong></p>
-<ul>
-<li>Component and edge <strong>counts</strong> (from the Tree-sitter graph)</li>
-<li>Primary language and framework</li>
-<li>Inferred architecture style (monolith / microservices)</li>
-<li>Suggested areas (top-level path segments for scoping)</li>
-</ul>
-<p><strong>Example summary (actual schema):</strong></p>
-<pre><code class="language-json">{
-  "repo": "my-app",
-  "scan_scope": { "included": [], "excluded": [] },
-  "components": 42,
-  "edges": 58,
-  "primary_language": "TypeScript",
-  "framework": "React",
-  "architecture_style": "monolith",
-  "domain": null,
-  "suggested_areas": ["src", "lib", "apps"]
-}
-</code></pre>
-<p>The <strong>full graph</strong> is written by <code>sruja sync</code> to <code>.sruja/graph.json</code>. You can also produce it on demand with <code>sruja scan -r . -o graph.json</code>.</p>
-<hr>
-<h2 id="step-2-generate-architecture-with-ai"><a class="header" href="#step-2-generate-architecture-with-ai">Step 2: Generate Architecture with AI</a></h2>
-<p>In your AI editor, run:</p>
-<pre><code>Use sruja-architecture. Analyze the discovery output:
-[JSON from step 1],
-identify systems, containers, and their relationships,
-generate repo.sruja using C4 context and container levels,
-then run `sruja lint` and fix until it passes.
-</code></pre>
-<p><strong>What your AI will do:</strong></p>
-<ol>
-<li><strong>Analyze</strong> the JSON output from discovery</li>
-<li><strong>Ask questions</strong> if scope is unclear (e.g., "What's this service for?")</li>
-<li><strong>Generate</strong> <code>repo.sruja</code> with your architecture</li>
-<li><strong>Validate</strong> it with <code>sruja lint</code></li>
-<li><strong>Fix</strong> any errors automatically</li>
-</ol>
-<hr>
-<h2 id="what-reposruja-looks-like"><a class="header" href="#what-reposruja-looks-like">What repo.sruja Looks Like</a></h2>
-<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
-
-// External actors
-MobileApp = person "Mobile App" {
-  description "Customer-facing mobile application"
-}
-
-// Main system
-MyApp = system "My Application" {
-  description "Handles user requests and processing"
-
-  // Containers (deployable units)
-  API = container "API Service" {
-    technology "Node.js + Express"
-    description "RESTful API for mobile and web clients"
-  }
-
-  Worker = container "Background Worker" {
-    technology "Node.js + Bull"
-    description "Processes async jobs (emails, reports)"
-  }
-
-  // Datastores
-  Database = database "Primary DB" {
-    technology "PostgreSQL"
-    description "Stores user data and transactions"
-  }
-
-  Cache = database "Redis Cache" {
-    technology "Redis"
-    description "Caches frequently accessed data"
-  }
-}
-
-// Relationships (how things connect)
-MobileApp -&gt; MyApp.API "HTTPS requests"
-MyApp.API -&gt; MyApp.Database "SQL queries"
-MyApp.API -&gt; MyApp.Cache "Redis get/set"
-MyApp.Worker -&gt; MyApp.Database "SQL queries"
-</code></pre>
-<p><strong>Key concepts:</strong></p>
-<ul>
-<li><strong>person</strong> – External actors (users, systems calling you)</li>
-<li><strong>system</strong> – Major boundary (your entire application)</li>
-<li><strong>container</strong> – Deployable unit (API, worker, web frontend)</li>
-<li><strong>database</strong> – Data storage or cache</li>
-<li><strong>-&gt;</strong> – Relationship with protocol description</li>
-</ul>
-<hr>
-<h2 id="step-3-validate"><a class="header" href="#step-3-validate">Step 3: Validate</a></h2>
-<p>After the AI generates <code>repo.sruja</code>, validate it:</p>
+<p>The skill uses repo evidence (Tree-sitter graph + summaries) to propose <code>repo.sruja</code>. When you have a draft:</p>
 <pre><code class="language-bash">sruja lint repo.sruja
 </code></pre>
-<p><strong>What this checks:</strong></p>
-<ul>
-<li><strong>Syntax errors</strong> – Invalid structure or keywords</li>
-<li><strong>Circular dependencies</strong> – A depends on B, B depends on A</li>
-<li><strong>Orphan elements</strong> – Something with no connections</li>
-<li><strong>Missing fields</strong> – Required information not provided</li>
-</ul>
-<p><strong>Fix errors:</strong> Paste the lint output to your AI and say: "Fix these errors."</p>
+<h3 id="step-2-refresh-evidence-and-check-drift"><a class="header" href="#step-2-refresh-evidence-and-check-drift">Step 2: Refresh evidence and check drift</a></h3>
+<pre><code class="language-bash">sruja sync -r .
+sruja drift -r . -a repo.sruja
+</code></pre>
+<h3 id="step-3-ci-drift-gate-recommended"><a class="header" href="#step-3-ci-drift-gate-recommended">Step 3: CI drift gate (recommended)</a></h3>
+<p>One-time baseline:</p>
+<pre><code class="language-bash">sruja baseline -r . -o .sruja/violations.baseline.json
+</code></pre>
+<p>CI check that fails only on new problems:</p>
+<pre><code class="language-bash">sruja drift --ci -r . --baseline .sruja/violations.baseline.json -f github-actions
+</code></pre>
 <hr>
-<h2 id="step-4-export-for-documentation"><a class="header" href="#step-4-export-for-documentation">Step 4: Export for Documentation</a></h2>
-<h3 id="export-markdown"><a class="header" href="#export-markdown">Export Markdown</a></h3>
-<pre><code class="language-bash">sruja export markdown repo.sruja &gt; ARCHITECTURE.md
-</code></pre>
-<p>Creates a readable document you can share with your team.</p>
-<h3 id="export-mermaid-diagram"><a class="header" href="#export-mermaid-diagram">Export Mermaid Diagram</a></h3>
-<pre><code class="language-bash">sruja export mermaid repo.sruja &gt; ARCHITECTURE.mmd
-</code></pre>
-<p>Creates a diagram you can:</p>
+<h2 id="about-architecture-files-optional"><a class="header" href="#about-architecture-files-optional">About architecture files (optional)</a></h2>
+<p>You can use Sruja purely as a harness (Tier 1) and never commit an architecture file.</p>
+<p>If you do want reviewed intent in Git (Tier 2), today that intent is stored as an <strong>architecture file</strong> (<code>repo.sruja</code>). The exact authoring format is <strong>not the product center</strong> and may evolve; the stable value is the workflow around it:</p>
 <ul>
-<li>Open in <a href="https://mermaid.live">Mermaid Live Editor</a></li>
-<li>Import into VS Code with the extension</li>
-<li>Add to documentation</li>
+<li>evidence from code → task-scoped context → deterministic gates → drift checks in CI</li>
 </ul>
-<h3 id="export-json"><a class="header" href="#export-json">Export JSON</a></h3>
-<pre><code class="language-bash">sruja export json repo.sruja &gt; ARCHITECTURE.json
-</code></pre>
-<p>Machine-readable format for tools and automation.</p>
 <hr>
-<h2 id="understanding-c4-levels"><a class="header" href="#understanding-c4-levels">Understanding C4 Levels</a></h2>
-<p>Sruja uses the C4 Model, which organizes architecture into levels:</p>
+<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick reference</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Level</th><th>What It Is</th><th>Example</th></tr>
+<tr><th>Goal</th><th>Command</th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Person</strong></td><td>External actors</td><td>Users, external systems, third-party APIs</td></tr>
-<tr><td><strong>System</strong></td><td>High-level boundary</td><td>"Order System", "User Management System"</td></tr>
-<tr><td><strong>Container</strong></td><td>Deployable unit</td><td>"API Service", "Web App", "Worker"</td></tr>
-<tr><td><strong>Component</strong></td><td>Internal part</td><td>"Payment Module", "Auth Controller"</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Recommended:</strong> Start with Person + System + Container levels. Add components only when you need more detail.</p>
-<hr>
-<h2 id="common-questions"><a class="header" href="#common-questions">Common Questions</a></h2>
-<p><strong>"When should I use stdlib imports?"</strong></p>
-<p>Always. It saves time by providing standard types (person, system, container, etc.) so you don't define them manually.</p>
-<p><strong>"What if discovery doesn't find my code?"</strong></p>
-<ol>
-<li>Check your language is supported (JavaScript, Python, Go, Rust, Java)</li>
-<li>Make sure you're in the correct directory</li>
-<li>Try <code>sruja quickstart -r .</code> to see what's detected</li>
-</ol>
-<p><strong>"How detailed should repo.sruja be?"</strong></p>
-<p><strong>Start minimal.</strong> Only model what you actually need:</p>
-<ul>
-<li>External actors calling your system</li>
-<li>Major containers (services, apps)</li>
-<li>Key datastores</li>
-</ul>
-<p>Add more detail only when it provides value.</p>
-<p><strong>"Can I edit repo.sruja manually?"</strong></p>
-<p>Yes, but it's easier to let AI do it. If you do edit manually:</p>
-<ul>
-<li>Run <code>sruja lint</code> before committing</li>
-<li>Validate syntax with the extension</li>
-</ul>
-<hr>
-<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
-<ul>
-<li><strong>Beginner Path:</strong> <a href="./beginner-path.html">Beginner Path</a> – 7 steps to go deeper</li>
-<li><strong>Examples:</strong> <a href="../examples/index.html">Examples Gallery</a> – Real-world architectures</li>
-<li><strong>Language Reference:</strong> <a href="../reference/language-spec.html">Language Specification</a> – Complete DSL guide</li>
-</ul>
-<hr>
-<h2 id="quick-reference"><a class="header" href="#quick-reference">Quick Reference</a></h2>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Want to</th><th>Command</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Analyze code</strong></td><td><code>sruja discover --context -r . --format json</code></td></tr>
-<tr><td><strong>Structural draft</strong></td><td><code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</td></tr>
-<tr><td><strong>Validate</strong></td><td><code>sruja lint repo.sruja</code></td></tr>
-<tr><td><strong>Refresh evidence</strong></td><td><code>sruja sync -r .</code></td></tr>
-<tr><td><strong>Repo health</strong></td><td><code>sruja status -r .</code></td></tr>
-<tr><td><strong>Export Markdown</strong></td><td><code>sruja export markdown repo.sruja &gt; doc.md</code></td></tr>
-<tr><td><strong>Export Mermaid</strong></td><td><code>sruja export mermaid repo.sruja &gt; diagram.mmd</code></td></tr>
-<tr><td><strong>Export JSON</strong></td><td><code>sruja export json repo.sruja &gt; arch.json</code></td></tr>
-<tr><td><strong>Check drift</strong></td><td><code>sruja drift -r . -a repo.sruja --format json</code></td></tr>
+<tr><td>Structural scan (no files required)</td><td><code>sruja start -r .</code></td></tr>
+<tr><td>Structural drift (advisory)</td><td><code>sruja drift -r . --structural-only --advisory</code></td></tr>
+<tr><td>Brief an agent before edits</td><td><code>sruja focus -r . --file &lt;path&gt;</code></td></tr>
+<tr><td>Post-edit gates</td><td><code>sruja verify-task --profile coding -r .</code></td></tr>
+<tr><td>Refresh evidence</td><td><code>sruja sync -r .</code></td></tr>
+<tr><td>Lint reviewed intent</td><td><code>sruja lint repo.sruja</code></td></tr>
+<tr><td>Drift vs reviewed intent</td><td><code>sruja drift -r . -a repo.sruja</code></td></tr>
+<tr><td>Start MCP server</td><td><code>sruja mcp -r .</code></td></tr>
 </tbody>
 </table>
 </div>
@@ -395,7 +291,7 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../docs/how-sruja-works.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../docs/cli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -409,7 +305,7 @@ MyApp.Worker -&gt; MyApp.Database "SQL queries"
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../docs/how-sruja-works.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../docs/cli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

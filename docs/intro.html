@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - Sruja – Context engineering for the AI era.</title>
+        <title>What is Sruja? - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0032acf8.js";
+            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-449dcb4c.js"></script>
+        <script src="../toc-3238d5d9.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -206,10 +206,11 @@
 <p>With Sruja (Tier 1):</p>
 <ul>
 <li>Structural scan and drift — no <code>.sruja</code> required</li>
-<li><code>focus</code> / MCP briefings before the host agent edits</li>
-<li><code>verify-task</code> after edits (lint, tests, drift when applicable)</li>
-<li>Optional: <code>sruja-architecture</code> skill → reviewed <code>repo.sruja</code> in Git</li>
-<li>Diagrams and docs are Tier-2 exports, not the source of truth</li>
+<li><code>focus</code> briefings before the host agent edits</li>
+<li><code>verify-task</code> gates after edits (lint/tests/drift based on repo profile)</li>
+<li>MCP integration so the host agent can query Sruja deterministically</li>
+<li>Context graph + AI context exports for host agents and CI</li>
+<li>Optional: reviewed intent in Git (<code>repo.sruja</code>) when teams want strict CI gates</li>
 </ul>
 <p>Sruja is <strong>not</strong> a replacement for Cursor or Copilot — it is the guardrail layer beside them.</p>
 <h2 id="how-this-helps"><a class="header" href="#how-this-helps">How This Helps</a></h2>
@@ -223,28 +224,27 @@
 <tr><td>Architecture lives in stale diagrams</td><td>Architecture lives in versioned <code>repo.sruja</code></td></tr>
 <tr><td>Hard to catch generated mistakes</td><td>Validation catches syntax, drift, and structural issues</td></tr>
 <tr><td>Hard to brief agents consistently</td><td>Task-scoped context is reusable</td></tr>
-<tr><td>Diagrams become the truth</td><td>Diagrams are exported from reviewed truth</td></tr>
+<tr><td>Diagrams become the truth</td><td>Diagrams are exports (when you choose to generate them)</td></tr>
 </tbody>
 </table>
 </div>
 <hr>
-<h2 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h2>
-<p><strong>Architecture as Code:</strong> Instead of drawing boxes, you define structure in code. AI writes it, you validate it, and everyone uses the same source.</p>
-<p><strong>Validation:</strong> Like <code>lint</code> for code, <code>sruja lint</code> checks for:</p>
+<h2 id="start-here"><a class="header" href="#start-here">Start Here</a></h2>
 <ul>
-<li>Circular dependencies</li>
-<li>Orphaned components</li>
-<li>Missing connections</li>
-<li>Rule violations</li>
+<li><a href="../getting-started.html">Quick start</a>: harness-first workflow</li>
+<li><a href="getting-started.html">Getting started (full)</a>: Tier 1 + Tier 2 in one page</li>
+<li><a href="cli.html">CLI guide</a>: daily commands, CI-friendly outputs, and workflows</li>
+<li><a href="vscode-extension.html">VS Code extension</a>: editor commands, diagnostics, diagram preview</li>
 </ul>
-<p><strong>C4 Model:</strong> Sruja uses the C4 approach, which organizes architecture into levels:</p>
+<hr>
+<h2 id="what-sruja-optimizes-for"><a class="header" href="#what-sruja-optimizes-for">What Sruja Optimizes For</a></h2>
 <ul>
-<li><strong>Person:</strong> Users, external systems</li>
-<li><strong>System:</strong> Major boundaries (e.g., "Order System")</li>
-<li><strong>Container:</strong> Deployable units (e.g., "API Service")</li>
-<li><strong>Component:</strong> Internal parts (e.g., "Payment Module")</li>
+<li><strong>Evidence over guesses</strong>: the harness starts from what exists in code today</li>
+<li><strong>Small surface area</strong>: a few commands used consistently (<code>focus</code>, <code>verify-task</code>, drift)</li>
+<li><strong>Explicit trade-offs</strong>: optional reviewed intent when the team is ready</li>
+<li><strong>Host-owned LLM loop</strong>: Sruja never replaces your editor/agent</li>
+<li><strong>Context engineering</strong>: context graphs + MCP tools, not "learn a DSL"</li>
 </ul>
-<p>This hierarchy makes architecture clear and understandable.</p>
 <h2 id="who-is-sruja-for"><a class="header" href="#who-is-sruja-for">Who is Sruja For?</a></h2>
 <h3 id="students--learners"><a class="header" href="#students--learners">Students &amp; Learners</a></h3>
 <ul>
@@ -255,9 +255,9 @@
 <h3 id="software-architects"><a class="header" href="#software-architects">Software Architects</a></h3>
 <ul>
 <li><strong>Review architecture changes</strong> against evidence and intent</li>
-<li><strong>Prevent architectural drift</strong> through automated validation</li>
+<li><strong>Prevent architectural drift</strong> through automated gates</li>
 <li><strong>Scale guardrails</strong> across multiple teams without turning every review into archaeology</li>
-<li><strong>Document decisions</strong> with <a href="docs/concepts/adr.html">ADRs (Architecture Decision Records)</a></li>
+<li><strong>Document decisions</strong> with <a href="concepts/adr.html">ADRs (Architecture Decision Records)</a></li>
 </ul>
 <h3 id="product-teams"><a class="header" href="#product-teams">Product Teams</a></h3>
 <ul>
@@ -273,38 +273,11 @@
 <li><strong>Model deployments</strong> - Blue/Green, Canary, multi-region strategies</li>
 <li><strong>Refresh evidence</strong> so AI assistants and reviewers see current repo context</li>
 </ul>
-<h2 id="example"><a class="header" href="#example">Example</a></h2>
-<p>Here's a simple example to get you started:</p>
-<pre><code class="language-sruja">// partial
-import { * } from 'sruja.ai/stdlib'
-
-App = system "My App" {
-    Web = container "Web Server"
-    DB = database "Database"
-}
-
-User = person "User"
-
-User -&gt; App.Web "Visits"
-App.Web -&gt; App.DB "Reads/Writes"
-
-view index {
-    include *
-}
-</code></pre>
-<p>For <strong>production-ready examples</strong> with real-world patterns, see our <a href="docs/examples.html">Examples</a> page featuring:</p>
-<ul>
-<li>Banking systems (fintech)</li>
-<li>E-commerce platforms</li>
-<li>Healthcare platforms (HIPAA-compliant)</li>
-<li>Multi-tenant SaaS platforms</li>
-</ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <ul>
-<li><strong>New to Sruja?</strong> Start with <a href="docs/getting-started.html">Getting Started</a></li>
-<li><strong>Use AI:</strong> Install the skill in your editor and let AI generate architecture from your codebase</li>
-<li><strong>Need examples?</strong> Check out <a href="docs/examples.html">Real-World Examples</a></li>
-<li><strong>Ready to build?</strong> Use the <a href="../vscode.html">VS Code extension</a> for diagram preview</li>
+<li><strong>New to Sruja?</strong> Start with <a href="../getting-started.html">Quick start</a></li>
+<li><strong>Need workflows?</strong> Read the <a href="cli.html">CLI guide</a> and <a href="how-sruja-works.html">How Sruja works</a></li>
+<li><strong>Ready for reviewed intent?</strong> Follow <a href="using-sruja-in-your-project.html">Using Sruja in your project</a></li>
 </ul>
 
                     </main>

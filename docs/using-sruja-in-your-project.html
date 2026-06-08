@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0032acf8.js";
+            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-449dcb4c.js"></script>
+        <script src="../toc-3238d5d9.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,13 +181,14 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="using-sruja-in-your-project"><a class="header" href="#using-sruja-in-your-project">Using Sruja in Your Project</a></h1>
-<p>This guide is for <strong>teams and organizations</strong> that want to use Sruja in their own repositories to enhance their code: architecture-as-code, validation in CI, and AI-assisted generation with consistent rules.</p>
+<p>This guide is for <strong>teams and organizations</strong> that want Sruja as an <strong>AI coding harness</strong>: task briefings, drift detection, and deterministic gates around AI edits. Architecture-as-code (<code>repo.sruja</code>) is optional and comes later.</p>
 <h2 id="what-you-get"><a class="header" href="#what-you-get">What you get</a></h2>
 <ul>
-<li><strong>Architecture as code</strong> – <code>.sruja</code> files in Git; no separate diagram tool to keep in sync.</li>
-<li><strong>Validation</strong> – <code>sruja lint</code> catches undefined refs, circular dependencies, missing fields, orphans.</li>
-<li><strong>AI-friendly</strong> – Rules and skills so Cursor, Copilot, etc. generate valid Sruja and better architecture.</li>
-<li><strong>CI</strong> – Fail PRs when architecture is invalid; optional export to Markdown/JSON/Mermaid for docs.</li>
+<li><strong>Harness loop</strong> – <code>focus</code> before edits, <code>verify-task</code> after edits.</li>
+<li><strong>Structural drift detection</strong> – repo evidence from real code (no files required to start).</li>
+<li><strong>Optional reviewed intent</strong> – <code>repo.sruja</code> in Git when you want strict CI enforcement.</li>
+<li><strong>Validation &amp; exports</strong> – <code>lint</code> and derived outputs (Markdown/Mermaid/JSON) when you choose to model.</li>
+<li><strong>MCP integration</strong> – tool-based editor/agent workflows (Cursor, Claude Desktop, etc.).</li>
 </ul>
 <h2 id="1-install-your-machine-andor-ci"><a class="header" href="#1-install-your-machine-andor-ci">1. Install (your machine and/or CI)</a></h2>
 <h3 id="cli"><a class="header" href="#cli">CLI</a></h3>
@@ -209,24 +210,36 @@ sruja lint --help
 <p>Install <strong>Sruja Language Support</strong> from the <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a> (or <a href="https://open-vsx.org/">Open VSX</a>). You get syntax highlighting, LSP diagnostics, and optional diagram preview for <code>.sruja</code> files.</p>
 <hr>
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
-<h3 id="step-1-create-or-add-architecture"><a class="header" href="#step-1-create-or-add-architecture">Step 1: Create or add architecture</a></h3>
-<pre><code class="language-bash"># From your repo root (recommended pilot path)
-sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
-# Author repo.sruja with the sruja-architecture skill, then:
-sruja lint repo.sruja
-sruja sync -r .
+<h3 id="step-1-start-with-the-harness-tier-1"><a class="header" href="#step-1-start-with-the-harness-tier-1">Step 1: Start with the harness (Tier 1)</a></h3>
+<pre><code class="language-bash"># From your repo root
+sruja start -r .
+sruja drift -r . --structural-only --advisory
 </code></pre>
-<p><code>--generate-baseline</code> writes a workspace map draft—not reviewed architecture. Promote to <code>repo.sruja</code> via the skill, lint, then refresh evidence under <code>.sruja/</code> for drift workflows.</p>
-<h3 id="step-2-ai-editor-integration-so-ai-generated-code-follows-rules"><a class="header" href="#step-2-ai-editor-integration-so-ai-generated-code-follows-rules">Step 2: AI editor integration (so AI-generated code follows rules)</a></h3>
-<p>Install the skill in your AI editor:</p>
+<p>This gives you immediate value: a structural snapshot and drift-style findings without committing any new architecture files.</p>
+<h3 id="step-2-ai-editor-integration-focus--edit--verify"><a class="header" href="#step-2-ai-editor-integration-focus--edit--verify">Step 2: AI editor integration (focus → edit → verify)</a></h3>
+<p>If you use an AI editor/agent, use Sruja as the guardrail:</p>
+<pre><code class="language-bash">sruja focus -r . --file path/to/file.rs
+sruja verify-task --profile coding -r .
+</code></pre>
+<p>To enable tool-based integration, start MCP:</p>
+<pre><code class="language-bash">sruja mcp -r .
+</code></pre>
+<p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a> for editor setup.</p>
+<h3 id="step-3-optional-reviewed-intent-in-git-tier-2"><a class="header" href="#step-3-optional-reviewed-intent-in-git-tier-2">Step 3 (optional): Reviewed intent in Git (Tier 2)</a></h3>
+<p>When the team is ready to review architecture intent like code, generate <code>repo.sruja</code> using the architecture skill:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
-<p>Optional: if you want helper files for Cursor/Copilot prompts, generate them once and commit:</p>
+<p>Then validate and compare intent to reality:</p>
+<pre><code class="language-bash">sruja lint repo.sruja
+sruja sync -r .
+sruja drift -r . -a repo.sruja
+</code></pre>
+<p>Optional: generate prompt/helper files for Cursor/Copilot once and commit:</p>
 <pre><code class="language-bash">sruja start -r . --prompt
 </code></pre>
-<p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo for details.</p>
-<h3 id="step-3-validate-in-ci"><a class="header" href="#step-3-validate-in-ci">Step 3: Validate in CI</a></h3>
-<p>In CI, keep it simple: lint the baseline and check for drift against <code>repo.sruja</code>.</p>
+<p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> for details.</p>
+<h3 id="step-4-validate-in-ci"><a class="header" href="#step-4-validate-in-ci">Step 4: Validate in CI</a></h3>
+<p>In CI, keep it simple: lint reviewed intent and check drift. For incremental adoption, use a baseline so existing issues don’t block you.</p>
 <p><strong>GitHub Actions example:</strong></p>
 <pre><code class="language-yaml">name: Validate Sruja
 
@@ -305,11 +318,11 @@ jobs:
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../docs/adoption-playbook.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../docs/how-sruja-works.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../docs/design-philosophy.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../docs/vscode-extension.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -319,11 +332,11 @@ jobs:
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../docs/adoption-playbook.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../docs/how-sruja-works.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../docs/design-philosophy.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../docs/vscode-extension.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

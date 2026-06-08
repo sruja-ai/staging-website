@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Concepts - Sruja – Context engineering for the AI era.</title>
+        <title>Architecture files (legacy, optional) - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-0032acf8.js";
+            window.path_to_searchindex_js = "../../searchindex-06a7077b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-449dcb4c.js"></script>
+        <script src="../../toc-3238d5d9.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,11 +180,39 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+                        <h1 id="architecture-files-legacy-optional"><a class="header" href="#architecture-files-legacy-optional">Architecture files (legacy, optional)</a></h1>
+<p>This section is for teams that choose to store <strong>reviewed intent in Git</strong> (<code>repo.sruja</code>). If you’re using Sruja primarily as an <strong>AI coding harness</strong> (MCP + context graph + focus/verify gates), you can ignore this section.</p>
+<h2 id="what-you-model-when-you-choose-tier-2"><a class="header" href="#what-you-model-when-you-choose-tier-2">What you model (when you choose Tier 2)</a></h2>
+<ul>
+<li><strong>People and systems</strong>: who uses what, and where the boundary is.</li>
+<li><strong>Containers and components</strong>: deployable units and meaningful internal sub-parts.</li>
+<li><strong>Relations</strong>: explicit connections with protocols and intent.</li>
+<li><strong>Views</strong>: what you want to render/export for a given audience.</li>
+<li><strong>Validation</strong>: making sure the model is consistent and useful.</li>
+</ul>
+<h2 id="where-to-go-next"><a class="header" href="#where-to-go-next">Where to go next</a></h2>
+<ul>
+<li><a href="architecture.html">Architecture</a></li>
+<li><a href="c4-model.html">C4 model</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="container.html">Container</a></li>
+<li><a href="component.html">Component</a></li>
+<li><a href="person.html">Person</a></li>
+<li><a href="relations.html">Relations</a></li>
+<li><a href="views.html">Views</a></li>
+<li><a href="validation.html">Validation</a></li>
+<li><a href="deployment.html">Deployment</a></li>
+<li><a href="requirements.html">Requirements</a></li>
+<li><a href="scenario.html">Scenario</a></li>
+<li><a href="adr.html">ADR</a></li>
+<li><a href="policy.html">Policy</a></li>
+</ul>
+<hr>
+<h2 id="the-overview----block-optional"><a class="header" href="#the-overview----block-optional">The <code>overview { ... }</code> block (optional)</a></h2>
+<p>Use <code>overview</code> to add a short, human-readable summary shown in exports.</p>
 <p>Use <code>overview</code> to provide a concise system description shown in docs/exports.</p>
 <h2 id="syntax"><a class="header" href="#syntax">Syntax</a></h2>
-<pre><code class="language-sruja">// partial
-import { * } from 'sruja.ai/stdlib'
+<pre><code class="language-sruja">import { * } from 'sruja.ai/stdlib'
 
 
 overview {
@@ -206,11 +234,11 @@ include *
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../docs/faq.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../docs/style-guide.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../docs/concepts/architecture.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../courses/overview.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -220,11 +248,11 @@ include *
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../docs/faq.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../docs/style-guide.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../docs/concepts/architecture.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../courses/overview.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>

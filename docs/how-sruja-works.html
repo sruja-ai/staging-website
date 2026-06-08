@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-0032acf8.js";
+            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-449dcb4c.js"></script>
+        <script src="../toc-3238d5d9.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -191,167 +191,25 @@
 <li><strong>VS Code extension</strong>: Editor integration powered by the WASM build (extension/ + sruja-wasm).</li>
 <li><strong>Docs</strong>: This site—built with mdBook from the <code>book/</code> directory.</li>
 </ol>
-<h2 id="architecture-diagram"><a class="header" href="#architecture-diagram">Architecture Diagram</a></h2>
-<p>Explore the Sruja architecture itself using the interactive viewer below. This diagram is defined in Sruja DSL!</p>
-<pre><code class="language-sruja">&lt;!-- partial --&gt;
-import { * } from 'sruja.ai/stdlib'
-
-
-RootSystem = system "The Sruja Platform" {
-  tags ["root"]
-}
-
-User = person "Architect/Developer" {
-	description "Uses Sruja to design and document systems"
-}
-
-Sruja = system "Sruja Platform" {
-	description "Context engineering platform that helps AI-assisted teams generate, validate, and maintain architecture as code from repo evidence"
-
-	CLI = container "Sruja CLI" {
-		technology "Rust"
-		description "Command-line interface (crates/sruja-cli)"
-	}
-
-	Engine = container "Core Engine" {
-		technology "Rust"
-		description "Validation and export (crates/sruja-engine, sruja-export)"
-
-		Validation = component "Validation Engine" {
-			technology "Rust"
-			description "Validates AST against rules (crates/sruja-core/src/engine/rules)"
-		}
-
-		Scorer = component "Scoring Engine" {
-			technology "Rust"
-			description "Calculates architecture health score (crates/sruja-core/src/engine/scorer)"
-		}
-
-		Policy = component "Policy Engine" {
-			technology "Rust"
-			description "Enforces custom policies (future: OPA/Rego)"
-		}
-
-		Scorer -&gt; Validation "uses results from"
-		Validation -&gt; Policy "checks against"
-	}
-
-	Language = container "Language Service" {
-		technology "Rust"
-		description "Parser and AST (crates/sruja-language)"
-	}
-
-	WASM = container "WASM Module" {
-		technology "Rust/WASM"
-		description "WebAssembly build (crates/sruja-wasm)"
-	}
-
-	VSCode = container "VS Code Extension" {
-		technology "TypeScript"
-		description "Editor extension (extension/)"
-	}
-
-	Book = container "Documentation" {
-		technology "mdBook"
-		description "This site (book/)"
-	}
-
-	// Internal Dependencies
-	CLI -&gt; Language "parses DSL using"
-	CLI -&gt; Engine "validates using"
-	CLI -&gt; WASM "builds"
-
-	WASM -&gt; Language "embeds"
-	WASM -&gt; Engine "embeds"
-
-	VSCode -&gt; Language "parses/validates via WASM"
-	VSCode -&gt; WASM "uses for preview"
-
-	Book -&gt; WASM "uses for diagram blocks"
-}
-
-User -&gt; Sruja.CLI "runs commands"
-User -&gt; Sruja.VSCode "writes DSL"
-User -&gt; Sruja.Book "reads docs"
-
-BrowserSystem = system "Web Browser" {
-	description "User's web browser environment"
-  tags ["external"]
-	LocalStore = database "Local Storage"
-}
-
-// ADRs
-ADR001 = adr "Use WASM for Client-Side Execution" {
-	status "Accepted"
-	context "We need to run validation and parsing in the browser and VS Code without a backend server."
-	decision "Compile the Rust core engine to WebAssembly."
-	consequences "Ensures consistent logic across all platforms but increases build complexity."
-}
-
-// Deployment
-deployment Production "Production Environment" {
-  node GitHubPages "GitHub Pages" {
-    containerInstance RootSystem
-  }
-}
-
-GitHubSystem = system "GitHub Platform" {
-  description "Source control, CI/CD, and hosting"
-  Actions = container "GitHub Actions" {
-    technology "YAML/Node"
-    description "CI/CD workflows"
-  }
-  Pages = container "GitHub Pages" {
-    technology "Static Hosting"
-    description "Hosts documentation site"
-  }
-  Releases = container "GitHub Releases" {
-    technology "File Hosting"
-    description "Hosts CLI binaries"
-  }
-  Actions -&gt; Pages "deploys to"
-  Actions -&gt; Releases "publishes to"
-}
-
-
-User -&gt; GitHubSystem "pushes code to"
-
-
-// Component Stories
-CLIStory = story "Using the CLI" {
-  User -&gt; Sruja.CLI "runs validate"
-  Sruja.CLI -&gt; Sruja.Language "parses DSL"
-  Sruja.CLI -&gt; Sruja.Engine "validates"
-  Sruja.CLI -&gt; User "reports diagnostics"
-}
-
-VSCodeStory = story "Using VS Code" {
-  User -&gt; Sruja.VSCode "edits .sruja file"
-  Sruja.VSCode -&gt; Sruja.WASM "LSP and preview"
-  Sruja.WASM -&gt; Sruja.VSCode "diagnostics and diagram"
-  Sruja.VSCode -&gt; User "shows errors and preview"
-}
-
-CIDev = scenario "Continuous Integration (Dev)" {
-  User -&gt; GitHubSystem "pushes to main"
-  GitHubSystem -&gt; GitHubSystem.Actions "triggers CI"
-  GitHubSystem.Actions -&gt; Sruja "builds &amp; tests"
-  GitHubSystem.Actions -&gt; GitHubSystem.Pages "deploys dev site"
-}
-
-ReleaseProd = scenario "Production Release" {
-  User -&gt; GitHubSystem "merges PR to prod"
-  GitHubSystem -&gt; GitHubSystem.Actions "triggers release"
-  GitHubSystem.Actions -&gt; GitHubSystem.Pages "deploys prod site"
-  GitHubSystem.Actions -&gt; Sruja.VSCode "publishes extension"
-  GitHubSystem.Actions -&gt; GitHubSystem.Releases "publishes CLI binaries"
-}
-
-view index {
-  title "Complete System View"
-  include *
-}
-</code></pre>
+<h2 id="how-the-pieces-work-together"><a class="header" href="#how-the-pieces-work-together">How the pieces work together</a></h2>
+<p>Sruja’s core loop is <strong>evidence → briefing → edit → gates</strong>:</p>
+<ol>
+<li>The CLI scans real code into a dependency/evidence model (Tree-sitter–backed).</li>
+<li><code>focus</code> turns that evidence into a task-scoped briefing (MCP or CLI output).</li>
+<li>The host agent edits code with boundaries in mind.</li>
+<li><code>verify-task</code> runs deterministic checks so drift doesn’t silently accumulate.</li>
+</ol>
+<p>When teams want strict enforcement, <code>repo.sruja</code> becomes reviewed intent in Git and <code>drift -a repo.sruja</code> becomes the CI gate.</p>
+<h2 id="context-graph-and-ai-context"><a class="header" href="#context-graph-and-ai-context">Context graph and AI context</a></h2>
+<p>Sruja is primarily a <strong>context engineering</strong> system. The core artifact is a <strong>context graph</strong> derived from the repo, not a hand-authored diagram.</p>
+<p>Typical outputs:</p>
+<ul>
+<li><code>.sruja/graph.json</code>: full dependency graph (evidence)</li>
+<li><code>.sruja/context.json</code>: smaller, cache-friendly summary for agents</li>
+<li><code>sruja ai-context -r .</code>: structured AI context export for host tools</li>
+</ul>
+<p>MCP tools expose the same evidence and briefings in a tool-friendly form so the host agent can fetch exactly what it needs without dumping the whole repo into a prompt.</p>
+<p>Architecture files (<code>repo.sruja</code>) are optional; they exist only if you want reviewed intent in Git and strict drift enforcement in CI.</p>
 <h2 id="key-components"><a class="header" href="#key-components">Key Components</a></h2>
 <h3 id="core-engine-rust"><a class="header" href="#core-engine-rust">Core Engine (Rust)</a></h3>
 <p>The <a href="https://github.com/sruja-ai/sruja/tree/main/crates/sruja-language"><code>sruja-language</code></a> and <a href="https://github.com/sruja-ai/sruja/tree/main/crates/sruja-engine"><code>sruja-engine</code></a> crates form the foundation. They define the DSL grammar, parse input files into an AST (Abstract Syntax Tree), and run validation rules (like cycle detection and layer enforcement).</p>
@@ -418,11 +276,11 @@ view index {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../docs/getting-started.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../docs/cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../docs/examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../docs/using-sruja-in-your-project.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -432,11 +290,11 @@ view index {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../docs/getting-started.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../docs/cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../docs/examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../docs/using-sruja-in-your-project.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
