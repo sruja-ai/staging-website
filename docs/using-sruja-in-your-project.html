@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Using Sruja in your project - Sruja – Context engineering for the AI era.</title>
+        <title>Core vs extensions - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,15 +180,33 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="using-sruja-in-your-project"><a class="header" href="#using-sruja-in-your-project">Using Sruja in Your Project</a></h1>
-<p>This guide is for <strong>teams and organizations</strong> that want Sruja as an <strong>AI coding harness</strong>: task briefings, drift detection, and deterministic gates around AI edits. Architecture-as-code (<code>repo.sruja</code>) is optional and comes later.</p>
-<h2 id="what-you-get"><a class="header" href="#what-you-get">What you get</a></h2>
+                        <h1 id="core-and-extensions-in-your-project"><a class="header" href="#core-and-extensions-in-your-project">Core And Extensions In Your Project</a></h1>
+<p>This guide is for teams that want to adopt Sruja without letting advanced features take over the product story. Start with the core loop, then add extensions only when they clearly help.</p>
+<h2 id="start-with-the-core"><a class="header" href="#start-with-the-core">Start with the core</a></h2>
+<p>These are the defaults to adopt first:</p>
 <ul>
-<li><strong>Harness loop</strong> – <code>focus</code> before edits, <code>verify-task</code> after edits.</li>
-<li><strong>Structural drift detection</strong> – repo evidence from real code (no files required to start).</li>
-<li><strong>Optional reviewed intent</strong> – <code>repo.sruja</code> in Git when you want strict CI enforcement.</li>
-<li><strong>Validation &amp; exports</strong> – <code>lint</code> and derived outputs (Markdown/Mermaid/JSON) when you choose to model.</li>
-<li><strong>MCP integration</strong> – tool-based editor/agent workflows (Cursor, Claude Desktop, etc.).</li>
+<li><strong>Capture</strong> – ingest docs and record decisions you want future humans and AI to reuse.</li>
+<li><strong>Retrieve</strong> – <code>focus</code>, <code>ai</code>, and MCP before editing.</li>
+<li><strong>Verify</strong> – <code>drift</code>, <code>intent check</code>, and <code>verify-task</code> after editing.</li>
+<li><strong>Optional reviewed intent</strong> – <code>repo.sruja</code> only when you want durable, reviewable intent in Git.</li>
+</ul>
+<h2 id="then-add-extensions-deliberately"><a class="header" href="#then-add-extensions-deliberately">Then add extensions deliberately</a></h2>
+<p>Only add these after the core loop is working:</p>
+<ul>
+<li><strong>Reviewed intent workflows</strong> – richer <code>repo.sruja</code> authoring and stricter CI gates</li>
+<li><strong>Visualization</strong> – Markdown, Mermaid, and other exports</li>
+<li><strong>Team review flows</strong> – critique, PR drift checks, policy-oriented enforcement</li>
+<li><strong>Federation and multi-repo</strong> – cross-repo packaging and retrieval</li>
+<li><strong>Advanced agent ops</strong> – plans, learnings, and memory workflows</li>
+</ul>
+<hr>
+<h2 id="what-you-get-from-the-core-path"><a class="header" href="#what-you-get-from-the-core-path">What you get from the core path</a></h2>
+<ul>
+<li><strong>Small default workflow</strong> – easier to explain and adopt</li>
+<li><strong>Repo-grounded context</strong> – no need to start with modeling everything</li>
+<li><strong>Deterministic verification</strong> – changes get checked after editing</li>
+<li><strong>Safer expansion</strong> – extensions stay available without cluttering onboarding</li>
+<li><strong>MCP integration</strong> – tool-based editor and agent workflows when needed</li>
 </ul>
 <h2 id="1-install-your-machine-andor-ci"><a class="header" href="#1-install-your-machine-andor-ci">1. Install (your machine and/or CI)</a></h2>
 <h3 id="cli"><a class="header" href="#cli">CLI</a></h3>
@@ -210,22 +228,23 @@ sruja lint --help
 <p>Install <strong>Sruja Language Support</strong> from the <a href="https://marketplace.visualstudio.com/">VS Code Marketplace</a> (or <a href="https://open-vsx.org/">Open VSX</a>). You get syntax highlighting, LSP diagnostics, and optional diagram preview for <code>.sruja</code> files.</p>
 <hr>
 <h2 id="2-add-sruja-to-your-repo-5-minutes"><a class="header" href="#2-add-sruja-to-your-repo-5-minutes">2. Add Sruja to your repo (5 minutes)</a></h2>
-<h3 id="step-1-start-with-the-harness-tier-1"><a class="header" href="#step-1-start-with-the-harness-tier-1">Step 1: Start with the harness (Tier 1)</a></h3>
+<h3 id="step-1-start-with-the-core-loop"><a class="header" href="#step-1-start-with-the-core-loop">Step 1: Start with the core loop</a></h3>
 <pre><code class="language-bash"># From your repo root
 sruja start -r .
 sruja drift -r . --structural-only --advisory
 </code></pre>
-<p>This gives you immediate value: a structural snapshot and drift-style findings without committing any new architecture files.</p>
-<h3 id="step-2-ai-editor-integration-focus--edit--verify"><a class="header" href="#step-2-ai-editor-integration-focus--edit--verify">Step 2: AI editor integration (focus → edit → verify)</a></h3>
+<p>This gives you immediate value without committing any new architecture files.</p>
+<h3 id="step-2-retrieve-context-before-editing"><a class="header" href="#step-2-retrieve-context-before-editing">Step 2: Retrieve context before editing</a></h3>
 <p>If you use an AI editor/agent, use Sruja as the guardrail:</p>
 <pre><code class="language-bash">sruja focus -r . --file path/to/file.rs
+sruja ai -r . --task "Refactor auth boundary"
 sruja verify-task --profile coding -r .
 </code></pre>
 <p>To enable tool-based integration, start MCP:</p>
 <pre><code class="language-bash">sruja mcp -r .
 </code></pre>
 <p>See <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a> for editor setup.</p>
-<h3 id="step-3-optional-reviewed-intent-in-git-tier-2"><a class="header" href="#step-3-optional-reviewed-intent-in-git-tier-2">Step 3 (optional): Reviewed intent in Git (Tier 2)</a></h3>
+<h3 id="step-3-optional-add-reviewed-intent-in-git"><a class="header" href="#step-3-optional-add-reviewed-intent-in-git">Step 3 (optional): Add reviewed intent in Git</a></h3>
 <p>When the team is ready to review architecture intent like code, generate <code>repo.sruja</code> using the architecture skill:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
@@ -281,7 +300,24 @@ jobs:
           path: '**/*.sruja.md'
 </code></pre>
 <hr>
-<h2 id="3-how-this-enhances-your-code"><a class="header" href="#3-how-this-enhances-your-code">3. How this enhances your code</a></h2>
+<h2 id="3-where-extensions-fit"><a class="header" href="#3-where-extensions-fit">3. Where extensions fit</a></h2>
+<p>Once the core path works, add extensions based on a real need:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Need</th><th>Add</th></tr>
+</thead>
+<tbody>
+<tr><td>Reviewable intent in Git</td><td><code>repo.sruja</code>, <code>lint</code>, <code>sync</code>, <code>drift -a repo.sruja</code></td></tr>
+<tr><td>Better documentation outputs</td><td><code>export</code> commands</td></tr>
+<tr><td>Stricter review flows</td><td>CI drift checks, critique, policy-oriented docs</td></tr>
+<tr><td>Cross-repo understanding</td><td>federation docs and tooling</td></tr>
+<tr><td>Advanced agent workflows</td><td>plans, learnings, memory, and other advanced surfaces</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="4-how-this-enhances-your-code"><a class="header" href="#4-how-this-enhances-your-code">4. How this enhances your code</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -297,15 +333,16 @@ jobs:
 </table>
 </div>
 <hr>
-<h2 id="4-using-sruja-across-multiple-repos"><a class="header" href="#4-using-sruja-across-multiple-repos">4. Using Sruja across multiple repos</a></h2>
+<h2 id="5-using-sruja-across-multiple-repos"><a class="header" href="#5-using-sruja-across-multiple-repos">5. Using Sruja across multiple repos</a></h2>
 <ul>
 <li><strong>Per-repo</strong> – Each repository that owns a service or app can have its own <code>.sruja</code> file(s). Add the same CI job and the same AI setup (e.g. copy <code>.cursorrules</code> and <code>.copilot-instructions.md</code> from a template, install the skill, or run <code>sruja start -r . --prompt</code> once and commit).</li>
 <li><strong>Central docs repo</strong> – Some teams keep a single "docs" or "architecture" repo with one or more <code>.sruja</code> files and run Sruja CI there; link to exported Markdown/JSON from other repos. Other repos don't need the CLI unless they also own architecture files.</li>
 <li><strong>Shared rules</strong> – Use the same <a href="https://github.com/sruja-ai/sruja/tree/main/skills/sruja-architecture">sruja-architecture skill</a> (<code>npx skills add sruja-ai/sruja --skill sruja-architecture</code>) across repos so AI and humans share the same patterns and trade-offs.</li>
 </ul>
 <hr>
-<h2 id="5-where-to-go-next"><a class="header" href="#5-where-to-go-next">5. Where to go next</a></h2>
+<h2 id="6-where-to-go-next"><a class="header" href="#6-where-to-go-next">6. Where to go next</a></h2>
 <ul>
+<li><strong>Core workflow</strong> – <a href="getting-started.html">Getting started</a></li>
 <li><strong>Language specification</strong> – <a href="../reference/language-spec.html">Language specification</a> (full DSL reference in this book)</li>
 <li><strong>AI editors and catching bugs</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/AI_EDITOR_INTEGRATION.md">AI editor integration</a> in the repo</li>
 <li><strong>Reviewing AI-generated code</strong> – <a href="https://github.com/sruja-ai/sruja/blob/main/docs/REVIEWING_AI_GENERATED_CODE.md">Reviewing AI-generated code</a> in the repo</li>

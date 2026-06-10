@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Beginner path - Sruja – Context engineering for the AI era.</title>
+        <title>Advanced modeling path - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -180,15 +180,15 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="beginner-path-use-ai-skills-for-architecture"><a class="header" href="#beginner-path-use-ai-skills-for-architecture">Beginner Path: Use AI Skills for Architecture</a></h1>
-<p><strong>Don't learn a language—use AI to generate and maintain architecture.</strong></p>
-<p>If you just did <a href="../getting-started.html">Quick Start</a>, you have the CLI and skill installed. These 7 steps show how to use AI to maintain your architecture effectively.</p>
+                        <h1 id="advanced-modeling-path"><a class="header" href="#advanced-modeling-path">Advanced Modeling Path</a></h1>
+<p><strong>Optional path for teams that want reviewed intent in Git.</strong></p>
+<p>If you just did <a href="../getting-started.html">Quick start</a>, you already have the core workflow. This page is for the next step: using Sruja to maintain reviewed intent with <code>repo.sruja</code> and the <code>sruja-architecture</code> skill.</p>
 <blockquote class="blockquote-tag blockquote-tag-tip">
 <p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
-<p><strong>Track your progress:</strong> Check off each step as you complete it. Takes ~2–3 hours total.</p>
+<p><strong>Use this later:</strong> This is not required for default adoption. Come here only when you want explicit, reviewable architecture modeling.</p>
 </blockquote>
 <hr>
-<h2 id="step-1-generate-your-first-architecture--2030-min"><a class="header" href="#step-1-generate-your-first-architecture--2030-min">Step 1: Generate Your First Architecture ⏱️ 20–30 min</a></h2>
+<h2 id="step-1-generate-reviewed-intent--2030-min"><a class="header" href="#step-1-generate-reviewed-intent--2030-min">Step 1: Generate Reviewed Intent ⏱️ 20–30 min</a></h2>
 <p><strong>What you'll do:</strong> Let AI analyze your code and create <code>repo.sruja</code></p>
 <p><strong>Instructions:</strong></p>
 <ol>
@@ -237,7 +237,7 @@ then run `sruja lint` and fix until it passes.
 <p><strong>Success check:</strong> You can explain your architecture in plain English</p>
 <p><strong>What you learned:</strong></p>
 <ul>
-<li>C4 structure (person → system → container)</li>
+<li>How reviewed intent is expressed</li>
 <li>How to read relationships</li>
 <li>What each component does</li>
 </ul>
@@ -300,7 +300,7 @@ Then run sruja lint and fix any errors.
 </ul>
 <hr>
 <h2 id="step-5-export-for-your-team--1015-min"><a class="header" href="#step-5-export-for-your-team--1015-min">Step 5: Export for Your Team ⏱️ 10–15 min</a></h2>
-<p><strong>What you'll do:</strong> Share architecture with stakeholders</p>
+<p><strong>What you'll do:</strong> Share reviewed intent with stakeholders when needed</p>
 <p><strong>Instructions:</strong></p>
 <ol>
 <li>Export Markdown:</li>
@@ -320,7 +320,7 @@ Then run sruja lint and fix any errors.
 <p><strong>What you learned:</strong></p>
 <ul>
 <li>Different export formats</li>
-<li>How to share architecture</li>
+<li>How to share reviewed intent</li>
 <li>That diagrams are output, not the source</li>
 </ul>
 <hr>
@@ -402,6 +402,15 @@ with Kafka, producers, and consumers. Explain trade-offs.
 </table>
 </div>
 <hr>
+<h2 id="before-you-spend-time-here"><a class="header" href="#before-you-spend-time-here">Before You Spend Time Here</a></h2>
+<p>Make sure the core path is already useful for your team:</p>
+<ul>
+<li><code>sruja start -r .</code></li>
+<li><code>sruja drift -r . --structural-only --advisory</code></li>
+<li><code>sruja focus -r . --file &lt;path&gt;</code></li>
+<li><code>sruja verify-task --profile coding -r .</code></li>
+</ul>
+<p>If that loop is not already helping, do not invest in advanced modeling yet.</p>
 <h2 id="common-mistakes-to-avoid"><a class="header" href="#common-mistakes-to-avoid">Common Mistakes to Avoid</a></h2>
 <p>❌ <strong>Don't:</strong> "Generate full architecture for everything"</p>
 <p>✅ <strong>Do:</strong> Start with context + container levels, add components when needed</p>

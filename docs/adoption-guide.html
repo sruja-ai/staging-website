@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -182,22 +182,22 @@
                     <main>
                         <h1 id="sruja-adoption-guide"><a class="header" href="#sruja-adoption-guide">Sruja Adoption Guide</a></h1>
 <h2 id="using-sruja-in-your-repo"><a class="header" href="#using-sruja-in-your-repo">Using Sruja in your repo</a></h2>
-<p>For a short, practical guide (install CLI, add to your project, CI, AI, multi-repo), see <strong><a href="using-sruja-in-your-project.html">Using Sruja in your project</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
+<p>For a short, practical guide to the new product shape, see <strong><a href="using-sruja-in-your-project.html">Core vs extensions</a></strong>. The rest of this adoption guide helps you evaluate fit and plan rollout.</p>
 <h2 id="canonical-pilot-path-recommended"><a class="header" href="#canonical-pilot-path-recommended">Canonical pilot path (recommended)</a></h2>
-<p>Use a single, repeatable workflow to evaluate Sruja. Start with the skill when your editor supports it:</p>
-<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
-</code></pre>
-<p>Then ask your AI editor to gather evidence, generate or update <code>repo.sruja</code>, and run <code>sruja lint</code>.</p>
-<p>For deterministic CLI-only evaluation:</p>
+<p>Use a single, repeatable workflow to evaluate Sruja. Start with the core loop first:</p>
 <pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
-sruja quickstart -r . --generate-baseline   # repo.sruja.draft (structural evidence)
-# Author repo.sruja with the sruja-architecture skill, then:
+sruja start -r .
+sruja drift -r . --structural-only --advisory
+sruja focus -r . --file path/to/file.rs
+sruja verify-task --profile coding -r .
+</code></pre>
+<p>Only after that should you decide whether to add reviewed intent in Git:</p>
+<pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 sruja lint repo.sruja
 sruja sync -r .
-sruja status -r .
 sruja drift -r . -a repo.sruja
 </code></pre>
-<p>Both paths are designed to minimize ambiguity: one reviewed truth file (<code>repo.sruja</code>), one validation gate (<code>lint</code>), and one drift signal (<code>drift</code>) backed by refreshed evidence (<code>sync</code>).</p>
+<p>This keeps evaluation honest: prove the core loop first, then layer on richer authoring and governance only when needed.</p>
 <h2 id="is-sruja-right-for-your-organization"><a class="header" href="#is-sruja-right-for-your-organization">Is Sruja Right for Your Organization?</a></h2>
 <h3 id="quick-self-assessment"><a class="header" href="#quick-self-assessment">Quick Self-Assessment</a></h3>
 <p>Answer these questions to determine if Sruja addresses your needs:</p>
@@ -315,10 +315,10 @@ Total Value = Time Savings + Onboarding + Risk Reduction
 <ol>
 <li>Review Sruja documentation</li>
 <li>Install CLI: <code>curl -fsSL https://sruja.ai/install.sh | bash</code></li>
-<li>Generate structural evidence: <code>sruja quickstart -r . --generate-baseline</code> (writes <code>repo.sruja.draft</code>)</li>
-<li>Author reviewed <code>repo.sruja</code> (skill), then validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
-<li>Capture the first health signal: <code>sruja status -r .</code> and <code>sruja drift -r . -a repo.sruja</code></li>
-<li>Install VS Code extension for syntax highlighting and diagnostics (optional)</li>
+<li>Run the core loop: <code>sruja start -r .</code>, <code>sruja drift -r . --structural-only --advisory</code>, <code>sruja focus -r . --file &lt;path&gt;</code>, <code>sruja verify-task --profile coding -r .</code></li>
+<li>If the team needs reviewed intent, author <code>repo.sruja</code> with the skill, then validate and refresh evidence: <code>sruja lint repo.sruja</code> then <code>sruja sync -r .</code></li>
+<li>Capture the first alignment signal: <code>sruja drift -r . -a repo.sruja</code> when reviewed intent exists</li>
+<li>Install VS Code extension for syntax highlighting and diagnostics if the team will edit <code>.sruja</code> files</li>
 </ol>
 <p><strong>Deliverable</strong>: Understanding of Sruja capabilities</p>
 <h3 id="phase-2-proof-of-concept-weeks-2-4"><a class="header" href="#phase-2-proof-of-concept-weeks-2-4">Phase 2: Proof of Concept (Weeks 2-4)</a></h3>

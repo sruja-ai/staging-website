@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Getting started (Tier 1 + Tier 2) - Sruja – Context engineering for the AI era.</title>
+        <title>Getting started (core + reviewed intent) - Sruja – Context engineering for the AI era.</title>
 
 
         <!-- Custom HTML head -->
@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,33 +181,22 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>Sruja’s core value is <strong>keeping AI edits aligned with your repo structure</strong>:</p>
+<p>Sruja’s core value is <strong>capturing knowledge, retrieving task context, and verifying changes against decisions</strong>:</p>
 <ul>
-<li><strong>Before</strong> edits: brief the agent with <code>focus</code></li>
-<li><strong>After</strong> edits: run deterministic gates with <code>verify-task</code></li>
-<li><strong>Always</strong>: detect structural drift from real code, not from diagrams</li>
+<li><strong>Capture</strong>: bring important docs and decisions into the repo</li>
+<li><strong>Retrieve</strong>: brief the next change with <code>focus</code>, <code>ai</code>, or MCP</li>
+<li><strong>Verify</strong>: run deterministic checks after editing</li>
 </ul>
 <p>You can get value on day one <strong>without</strong> writing any <code>.sruja</code> files.</p>
 <hr>
-<h2 id="two-ways-to-use-sruja"><a class="header" href="#two-ways-to-use-sruja">Two ways to use Sruja</a></h2>
+<h2 id="the-core-loop"><a class="header" href="#the-core-loop">The core loop</a></h2>
 <ul>
-<li><strong>Tier 1 (recommended first): harness without <code>repo.sruja</code></strong>
-<ul>
-<li>Structural scan + drift checks from your actual code</li>
-<li>Agent briefings (<code>focus</code>) and post-edit gates (<code>verify-task</code>)</li>
-<li>Best for evaluation and immediate guardrails</li>
-</ul>
-</li>
-<li><strong>Tier 2 (optional): reviewed intent in Git (<code>repo.sruja</code>)</strong>
-<ul>
-<li>Versioned, reviewable architecture intent</li>
-<li>CI drift gates compare reality vs declared intent</li>
-<li>Exports (Markdown/Mermaid) become derived artifacts</li>
-</ul>
-</li>
+<li><strong>Capture</strong>: ingest docs and record decisions you want future humans and AI to reuse</li>
+<li><strong>Retrieve</strong>: generate task-scoped context before touching code</li>
+<li><strong>Verify</strong>: confirm the result still matches structure and intent</li>
 </ul>
 <hr>
-<h2 id="tier-1-harness-in-5-minutes-no-reposruja"><a class="header" href="#tier-1-harness-in-5-minutes-no-reposruja">Tier 1: Harness in 5 minutes (no <code>repo.sruja</code>)</a></h2>
+<h2 id="core-workflow-in-5-minutes"><a class="header" href="#core-workflow-in-5-minutes">Core workflow in 5 minutes</a></h2>
 <h3 id="step-1-install-the-cli"><a class="header" href="#step-1-install-the-cli">Step 1: Install the CLI</a></h3>
 <pre><code class="language-bash">curl -fsSL https://sruja.ai/install.sh | bash
 </code></pre>
@@ -220,29 +209,33 @@
 <pre><code class="language-bash">sruja start -r .
 sruja drift -r . --structural-only --advisory
 </code></pre>
-<p>This reports repo-level structural issues that AI edits tend to introduce (cycles, layer violations, hub modules), plus an “uncertain” section where inference isn’t confident.</p>
-<h3 id="step-3-use-sruja-with-an-ai-editor-focus--edit--verify"><a class="header" href="#step-3-use-sruja-with-an-ai-editor-focus--edit--verify">Step 3: Use Sruja with an AI editor (focus → edit → verify)</a></h3>
+<p>This reports repo-level structural issues that AI edits tend to introduce, plus an “uncertain” section where inference is weaker.</p>
+<h3 id="step-3-retrieve-task-context-before-editing"><a class="header" href="#step-3-retrieve-task-context-before-editing">Step 3: Retrieve task context before editing</a></h3>
 <p>Run a file-scoped briefing before a risky edit:</p>
 <pre><code class="language-bash">sruja focus -r . --file path/to/file.rs
 </code></pre>
+<p>For a paste-ready brief:</p>
+<pre><code class="language-bash">sruja ai -r . --task "Refactor auth boundary"
+</code></pre>
+<h3 id="step-4-verify-after-editing"><a class="header" href="#step-4-verify-after-editing">Step 4: Verify after editing</a></h3>
 <p>After the agent edits:</p>
 <pre><code class="language-bash">sruja verify-task --profile coding -r .
 </code></pre>
-<h3 id="step-4-optional-wire-mcp-for-tool-based-briefings"><a class="header" href="#step-4-optional-wire-mcp-for-tool-based-briefings">Step 4 (optional): Wire MCP for tool-based briefings</a></h3>
+<h3 id="step-5-optional-wire-mcp-for-tool-based-briefings"><a class="header" href="#step-5-optional-wire-mcp-for-tool-based-briefings">Step 5 (optional): Wire MCP for tool-based briefings</a></h3>
 <p>If your editor supports MCP, run Sruja as an MCP stdio server:</p>
 <pre><code class="language-bash">sruja mcp -r .
 </code></pre>
 <p>For host/editor setup details, see <a href="https://github.com/sruja-ai/sruja/blob/main/docs/HOST_AGENT_INTEGRATION.md">Host agent integration</a>.</p>
 <hr>
-<h2 id="tier-2-optional-reviewed-reposruja-in-git"><a class="header" href="#tier-2-optional-reviewed-reposruja-in-git">Tier 2 (optional): Reviewed <code>repo.sruja</code> in Git</a></h2>
-<p>Tier 2 is for teams that want <strong>reviewed intent</strong> in Git and strict CI enforcement. Keep it minimal at first.</p>
+<h2 id="optional-reviewed-intent-in-git"><a class="header" href="#optional-reviewed-intent-in-git">Optional: reviewed intent in Git</a></h2>
+<p>Add <code>repo.sruja</code> only when you want <strong>reviewed intent</strong> in Git and stricter CI enforcement. Keep it minimal at first.</p>
 <h3 id="step-1-generate-and-validate-intent"><a class="header" href="#step-1-generate-and-validate-intent">Step 1: Generate and validate intent</a></h3>
 <p>Prerequisites:</p>
 <ul>
 <li><strong>AI editor</strong> – Cursor, Copilot, Claude, Continue.dev, etc.</li>
 <li><strong>AI skill</strong> – <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
 </ul>
-<p>The skill uses repo evidence (Tree-sitter graph + summaries) to propose <code>repo.sruja</code>. When you have a draft:</p>
+<p>The skill uses repo evidence to propose <code>repo.sruja</code>. When you have a draft:</p>
 <pre><code class="language-bash">sruja lint repo.sruja
 </code></pre>
 <h3 id="step-2-refresh-evidence-and-check-drift"><a class="header" href="#step-2-refresh-evidence-and-check-drift">Step 2: Refresh evidence and check drift</a></h3>
@@ -257,9 +250,9 @@ sruja drift -r . -a repo.sruja
 <pre><code class="language-bash">sruja drift --ci -r . --baseline .sruja/violations.baseline.json -f github-actions
 </code></pre>
 <hr>
-<h2 id="about-architecture-files-optional"><a class="header" href="#about-architecture-files-optional">About architecture files (optional)</a></h2>
-<p>You can use Sruja purely as a harness (Tier 1) and never commit an architecture file.</p>
-<p>If you do want reviewed intent in Git (Tier 2), today that intent is stored as an <strong>architecture file</strong> (<code>repo.sruja</code>). The exact authoring format is <strong>not the product center</strong> and may evolve; the stable value is the workflow around it:</p>
+<h2 id="about-reviewed-intent"><a class="header" href="#about-reviewed-intent">About reviewed intent</a></h2>
+<p>You can use Sruja for capture, retrieve, and verify without ever committing an architecture file.</p>
+<p>If you do want reviewed intent in Git, today that intent is stored as an <strong>architecture file</strong> (<code>repo.sruja</code>). The exact authoring format is <strong>not the product center</strong> and may evolve; the stable value is the workflow around it:</p>
 <ul>
 <li>evidence from code → task-scoped context → deterministic gates → drift checks in CI</li>
 </ul>
@@ -271,10 +264,11 @@ sruja drift -r . -a repo.sruja
 <tr><th>Goal</th><th>Command</th></tr>
 </thead>
 <tbody>
-<tr><td>Structural scan (no files required)</td><td><code>sruja start -r .</code></td></tr>
-<tr><td>Structural drift (advisory)</td><td><code>sruja drift -r . --structural-only --advisory</code></td></tr>
+<tr><td>Structural scan</td><td><code>sruja start -r .</code></td></tr>
+<tr><td>Structural drift</td><td><code>sruja drift -r . --structural-only --advisory</code></td></tr>
 <tr><td>Brief an agent before edits</td><td><code>sruja focus -r . --file &lt;path&gt;</code></td></tr>
-<tr><td>Post-edit gates</td><td><code>sruja verify-task --profile coding -r .</code></td></tr>
+<tr><td>Generate a paste-ready task brief</td><td><code>sruja ai -r . --task "..."</code></td></tr>
+<tr><td>Post-edit verification</td><td><code>sruja verify-task --profile coding -r .</code></td></tr>
 <tr><td>Refresh evidence</td><td><code>sruja sync -r .</code></td></tr>
 <tr><td>Lint reviewed intent</td><td><code>sruja lint repo.sruja</code></td></tr>
 <tr><td>Drift vs reviewed intent</td><td><code>sruja drift -r . -a repo.sruja</code></td></tr>

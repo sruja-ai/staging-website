@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,27 +181,27 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="how-sruja-works"><a class="header" href="#how-sruja-works">How Sruja Works</a></h1>
-<p>Sruja is built for <strong>context engineering in the AI SDLC</strong>: architecture as code backed by repo evidence, validation, drift checks, and editor/CI workflows. We are not a diagramming product; diagrams are exported from reviewed architecture truth.</p>
+<p>Sruja is built for context engineering during software changes. The center is simple: gather repo evidence, retrieve the right context before editing, and verify the result after editing. Reviewed intent in Git is optional.</p>
 <h2 id="the-sruja-platform"><a class="header" href="#the-sruja-platform">The Sruja Platform</a></h2>
 <p>The platform consists of several key components working together:</p>
 <ol>
-<li><strong>Parser &amp; engine</strong>: Rust crates for parsing, validation, and export (sruja-language, sruja-engine, sruja-export).</li>
-<li><strong>CLI</strong>: Command-line interface for local development and CI/CD (sruja-cli).</li>
-<li><strong>WASM</strong>: Rust core compiled to WebAssembly for the docs book and VS Code (sruja-wasm).</li>
-<li><strong>VS Code extension</strong>: Editor integration powered by the WASM build (extension/ + sruja-wasm).</li>
-<li><strong>Docs</strong>: This site—built with mdBook from the <code>book/</code> directory.</li>
+<li><strong>Scan and evidence</strong>: Rust crates gather structure and context from code.</li>
+<li><strong>CLI</strong>: Local and CI workflows for retrieve and verify steps.</li>
+<li><strong>WASM</strong>: Shared core for the docs book and VS Code.</li>
+<li><strong>VS Code extension</strong>: Editor support for validation and previews.</li>
+<li><strong>Docs</strong>: This site, built from the <code>book/</code> directory.</li>
 </ol>
 <h2 id="how-the-pieces-work-together"><a class="header" href="#how-the-pieces-work-together">How the pieces work together</a></h2>
-<p>Sruja’s core loop is <strong>evidence → briefing → edit → gates</strong>:</p>
+<p>Sruja’s core loop is <strong>evidence → context → edit → verify</strong>:</p>
 <ol>
-<li>The CLI scans real code into a dependency/evidence model (Tree-sitter–backed).</li>
-<li><code>focus</code> turns that evidence into a task-scoped briefing (MCP or CLI output).</li>
-<li>The host agent edits code with boundaries in mind.</li>
-<li><code>verify-task</code> runs deterministic checks so drift doesn’t silently accumulate.</li>
+<li>The CLI scans real code into an evidence model.</li>
+<li><code>focus</code>, <code>ai</code>, or MCP turns that evidence into task-scoped context.</li>
+<li>The host agent or developer edits code with that context in mind.</li>
+<li><code>verify-task</code>, drift, and intent checks keep regressions from silently accumulating.</li>
 </ol>
-<p>When teams want strict enforcement, <code>repo.sruja</code> becomes reviewed intent in Git and <code>drift -a repo.sruja</code> becomes the CI gate.</p>
+<p>When teams want stricter governance, <code>repo.sruja</code> becomes reviewed intent in Git and <code>drift -a repo.sruja</code> becomes part of the CI gate.</p>
 <h2 id="context-graph-and-ai-context"><a class="header" href="#context-graph-and-ai-context">Context graph and AI context</a></h2>
-<p>Sruja is primarily a <strong>context engineering</strong> system. The core artifact is a <strong>context graph</strong> derived from the repo, not a hand-authored diagram.</p>
+<p>Sruja is primarily a context engineering system. The core artifact is a repo-derived context graph, not a hand-authored diagram.</p>
 <p>Typical outputs:</p>
 <ul>
 <li><code>.sruja/graph.json</code>: full dependency graph (evidence)</li>
@@ -209,7 +209,7 @@
 <li><code>sruja ai-context -r .</code>: structured AI context export for host tools</li>
 </ul>
 <p>MCP tools expose the same evidence and briefings in a tool-friendly form so the host agent can fetch exactly what it needs without dumping the whole repo into a prompt.</p>
-<p>Architecture files (<code>repo.sruja</code>) are optional; they exist only if you want reviewed intent in Git and strict drift enforcement in CI.</p>
+<p>Architecture files (<code>repo.sruja</code>) are optional; they exist only if you want reviewed intent in Git and stricter drift enforcement in CI.</p>
 <h2 id="key-components"><a class="header" href="#key-components">Key Components</a></h2>
 <h3 id="core-engine-rust"><a class="header" href="#core-engine-rust">Core Engine (Rust)</a></h3>
 <p>The <a href="https://github.com/sruja-ai/sruja/tree/main/crates/sruja-language"><code>sruja-language</code></a> and <a href="https://github.com/sruja-ai/sruja/tree/main/crates/sruja-engine"><code>sruja-engine</code></a> crates form the foundation. They define the DSL grammar, parse input files into an AST (Abstract Syntax Tree), and run validation rules (like cycle detection and layer enforcement).</p>
@@ -220,14 +220,14 @@
 <li><strong>Documentation site</strong>: For "Show diagram" in code blocks (like the one above).</li>
 </ul>
 <h3 id="cli--cicd"><a class="header" href="#cli--cicd">CLI &amp; CI/CD</a></h3>
-<p>The <code>sruja</code> CLI (<a href="https://github.com/sruja-ai/sruja/tree/main/crates/sruja-cli"><code>sruja-cli</code></a>) is a static binary that wraps the core engine. It supports:</p>
+<p>The <code>sruja</code> CLI wraps the core engine. The most important public workflows are:</p>
 <ul>
-<li><strong>Local development</strong>: <code>sruja fmt</code>, <code>sruja lint</code>, <code>sruja export</code>.</li>
-<li><strong>CI/CD</strong>: Validate and export architecture in pipelines.</li>
-<li><strong>Export</strong>: <code>sruja export json</code>, <code>sruja export mermaid</code>, <code>sruja export markdown</code>, <code>sruja export context</code>, <code>sruja export dsl</code>.</li>
+<li><strong>Retrieve</strong>: <code>focus</code>, <code>ai</code>, <code>mcp</code></li>
+<li><strong>Verify</strong>: <code>drift</code>, <code>intent check</code>, <code>verify-task</code></li>
+<li><strong>Optional reviewed intent</strong>: <code>lint</code>, <code>sync</code>, <code>drift -a repo.sruja</code></li>
 </ul>
 <h2 id="context-engineering"><a class="header" href="#context-engineering">Context Engineering</a></h2>
-<p>Sruja provides <strong>context engineering</strong> across four progressive layers:</p>
+<p>Sruja provides context engineering across four progressive layers:</p>
 <pre><code>┌─────────────────────────────────────────────────────────────┐
 │  Layer 4: Intent                                            │
 │  "What did we intend vs what exists?"                       │
@@ -253,22 +253,22 @@
 <li><strong>Semantic</strong>: What patterns and relationships mean? (analyze)</li>
 <li><strong>Intent</strong>: Does reality match declared architecture? (drift, intent check)</li>
 </ul>
-<h3 id="ai-skill-multiplies-context"><a class="header" href="#ai-skill-multiplies-context">AI Skill Multiplies Context</a></h3>
-<p>The <strong>sruja-architecture skill</strong> enhances all four layers:</p>
+<h3 id="optional-reviewed-intent-layer"><a class="header" href="#optional-reviewed-intent-layer">Optional Reviewed-Intent Layer</a></h3>
+<p>The <code>sruja-architecture</code> skill is an optional accelerator for teams that want reviewed intent in Git:</p>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>Layer</th><th>CLI Only</th><th>CLI + Skill</th></tr>
+<tr><th>Layer</th><th>Core path</th><th>Optional reviewed-intent path</th></tr>
 </thead>
 <tbody>
-<tr><td>Syntactic</td><td><code>sruja lint</code></td><td>Pattern-aware DSL generation</td></tr>
-<tr><td>Structural</td><td><code>sruja scan</code></td><td>Evidence-based discovery</td></tr>
-<tr><td>Semantic</td><td><code>sruja analyze</code></td><td>Patterns and trade-offs</td></tr>
-<tr><td>Intent</td><td><code>sruja drift</code></td><td>Multi-perspective review</td></tr>
+<tr><td>Syntactic</td><td>no file required</td><td><code>sruja lint</code></td></tr>
+<tr><td>Structural</td><td><code>sruja start</code>, <code>sruja drift</code></td><td>evidence-backed modeling</td></tr>
+<tr><td>Semantic</td><td><code>focus</code>, <code>ai</code>, MCP retrieval</td><td>richer architecture interpretation</td></tr>
+<tr><td>Intent</td><td><code>verify-task</code>, <code>intent check</code></td><td><code>sruja drift -a repo.sruja</code></td></tr>
 </tbody>
 </table>
 </div>
-<p>Install the skill to unlock AI-powered context engineering:</p>
+<p>Install the skill only when you want that reviewed-intent workflow:</p>
 <pre><code class="language-bash">npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture
 </code></pre>
 

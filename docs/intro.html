@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,10 +181,10 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>AI coding harness for repo structure.</strong></p>
-<p>Sruja scans your codebase, reports structural problems AI edits tend to introduce, and gives agents bounded context via MCP (<code>focus</code>, drift state, <code>verify-task</code>). Optional <code>repo.sruja</code> is reviewed CI intent — not required on day one.</p>
+<p><strong>Context engineering for knowledge and decisions.</strong></p>
+<p>Sruja helps teams capture important engineering knowledge, retrieve the right task context for developers and AI agents, and verify that changes still align with those decisions. Optional <code>repo.sruja</code> is reviewed intent in Git, not the day-one requirement.</p>
 <blockquote>
-<p><strong>New here?</strong> Install the CLI, register MCP, install <code>sruja-harness</code> — <a href="../getting-started.html">Quick start</a> (~5 min). Add <code>sruja-architecture</code> only when you want versioned architecture in Git.</p>
+<p><strong>New here?</strong> Start with <a href="../getting-started.html">Quick start</a> to learn the core loop: capture, retrieve, verify. Add <code>repo.sruja</code> only when you want reviewed intent in Git.</p>
 </blockquote>
 <h2 id="the-problem"><a class="header" href="#the-problem">The Problem</a></h2>
 <p>How does your AI know the real architecture today?</p>
@@ -202,15 +202,13 @@
 </div>
 <p>Sound familiar? You're not alone. Most teams struggle with this.</p>
 <h2 id="the-solution"><a class="header" href="#the-solution">The Solution</a></h2>
-<p><strong>Deterministic harness plus optional architecture-as-code.</strong></p>
-<p>With Sruja (Tier 1):</p>
+<p><strong>A small context loop with optional reviewed intent.</strong></p>
+<p>With Sruja:</p>
 <ul>
-<li>Structural scan and drift — no <code>.sruja</code> required</li>
-<li><code>focus</code> briefings before the host agent edits</li>
-<li><code>verify-task</code> gates after edits (lint/tests/drift based on repo profile)</li>
-<li>MCP integration so the host agent can query Sruja deterministically</li>
-<li>Context graph + AI context exports for host agents and CI</li>
-<li>Optional: reviewed intent in Git (<code>repo.sruja</code>) when teams want strict CI gates</li>
+<li>Capture knowledge and decisions with docs, decision records, and optional reviewed intent</li>
+<li>Retrieve grounded context with <code>focus</code>, <code>ai</code>, and MCP before the host agent edits</li>
+<li>Verify the result with drift, intent, and <code>verify-task</code></li>
+<li>Add reviewed intent in Git (<code>repo.sruja</code>) only when the team wants stricter governance</li>
 </ul>
 <p>Sruja is <strong>not</strong> a replacement for Cursor or Copilot — it is the guardrail layer beside them.</p>
 <h2 id="how-this-helps"><a class="header" href="#how-this-helps">How This Helps</a></h2>
@@ -220,58 +218,52 @@
 <tr><th>Before Sruja</th><th>With Sruja</th></tr>
 </thead>
 <tbody>
-<tr><td>AI guesses from partial context</td><td>AI works from repo evidence</td></tr>
-<tr><td>Architecture lives in stale diagrams</td><td>Architecture lives in versioned <code>repo.sruja</code></td></tr>
-<tr><td>Hard to catch generated mistakes</td><td>Validation catches syntax, drift, and structural issues</td></tr>
+<tr><td>AI guesses from partial context</td><td>AI works from repo evidence and linked decisions</td></tr>
+<tr><td>Knowledge lives in stale docs or chat history</td><td>Important context is captured and retrievable</td></tr>
+<tr><td>Hard to catch generated mistakes</td><td>Drift, intent, and verification gates catch regressions</td></tr>
 <tr><td>Hard to brief agents consistently</td><td>Task-scoped context is reusable</td></tr>
-<tr><td>Diagrams become the truth</td><td>Diagrams are exports (when you choose to generate them)</td></tr>
+<tr><td>Diagrams become the truth</td><td>Diagrams are optional outputs, not the product center</td></tr>
 </tbody>
 </table>
 </div>
 <hr>
 <h2 id="start-here"><a class="header" href="#start-here">Start Here</a></h2>
 <ul>
-<li><a href="../getting-started.html">Quick start</a>: harness-first workflow</li>
-<li><a href="getting-started.html">Getting started (full)</a>: Tier 1 + Tier 2 in one page</li>
+<li><a href="../getting-started.html">Quick start</a>: core capture, retrieve, verify loop</li>
+<li><a href="getting-started.html">Getting started</a>: core workflow plus optional reviewed intent</li>
 <li><a href="cli.html">CLI guide</a>: daily commands, CI-friendly outputs, and workflows</li>
-<li><a href="vscode-extension.html">VS Code extension</a>: editor commands, diagnostics, diagram preview</li>
+<li><a href="vscode-extension.html">VS Code extension</a>: editor commands, diagnostics, and previews</li>
 </ul>
 <hr>
 <h2 id="what-sruja-optimizes-for"><a class="header" href="#what-sruja-optimizes-for">What Sruja Optimizes For</a></h2>
 <ul>
-<li><strong>Evidence over guesses</strong>: the harness starts from what exists in code today</li>
-<li><strong>Small surface area</strong>: a few commands used consistently (<code>focus</code>, <code>verify-task</code>, drift)</li>
-<li><strong>Explicit trade-offs</strong>: optional reviewed intent when the team is ready</li>
-<li><strong>Host-owned LLM loop</strong>: Sruja never replaces your editor/agent</li>
-<li><strong>Context engineering</strong>: context graphs + MCP tools, not "learn a DSL"</li>
+<li><strong>Evidence over guesses</strong>: context starts from what exists in code and linked docs today</li>
+<li><strong>Small surface area</strong>: a few core workflows used consistently</li>
+<li><strong>Explicit trade-offs</strong>: reviewed intent is optional until the team needs it</li>
+<li><strong>Host-owned LLM loop</strong>: Sruja never replaces your editor or agent</li>
+<li><strong>Knowledge and decisions</strong>: context engineering, not a feature catalog</li>
 </ul>
 <h2 id="who-is-sruja-for"><a class="header" href="#who-is-sruja-for">Who is Sruja For?</a></h2>
-<h3 id="students--learners"><a class="header" href="#students--learners">Students &amp; Learners</a></h3>
-<ul>
-<li><strong>Understand system design</strong> through production-ready examples from fintech, healthcare, and e-commerce</li>
-<li><strong>Use AI skills</strong> to generate architecture and explore patterns without manual DSL writing</li>
-<li><strong>Real-world scenarios</strong> that prepare you for interviews and real projects</li>
-</ul>
 <h3 id="software-architects"><a class="header" href="#software-architects">Software Architects</a></h3>
 <ul>
-<li><strong>Review architecture changes</strong> against evidence and intent</li>
-<li><strong>Prevent architectural drift</strong> through automated gates</li>
-<li><strong>Scale guardrails</strong> across multiple teams without turning every review into archaeology</li>
+<li><strong>Review changes</strong> against evidence and intent</li>
+<li><strong>Prevent drift</strong> through automated gates</li>
 <li><strong>Document decisions</strong> with <a href="concepts/adr.html">ADRs (Architecture Decision Records)</a></li>
+<li><strong>Keep reviewed truth</strong> in Git when needed</li>
 </ul>
-<h3 id="product-teams"><a class="header" href="#product-teams">Product Teams</a></h3>
+<h3 id="developers-using-ai"><a class="header" href="#developers-using-ai">Developers Using AI</a></h3>
 <ul>
-<li><strong>Link requirements to architecture</strong> - see how features map to technical components</li>
-<li><strong>Track SLOs and metrics</strong> alongside your architecture</li>
-<li><strong>Align technical decisions</strong> with business goals and user needs</li>
-<li><strong>Communicate architecture</strong> to stakeholders (export to Markdown/Mermaid when needed)</li>
+<li><strong>Brief agents before edits</strong> with the right task context</li>
+<li><strong>Reduce risky guesses</strong> from incomplete repo understanding</li>
+<li><strong>Verify generated changes</strong> before calling work done</li>
+<li><strong>Keep prior decisions visible</strong> at change time</li>
 </ul>
-<h3 id="devops-engineers"><a class="header" href="#devops-engineers">DevOps Engineers</a></h3>
+<h3 id="teams-maintaining-shared-knowledge"><a class="header" href="#teams-maintaining-shared-knowledge">Teams Maintaining Shared Knowledge</a></h3>
 <ul>
-<li><strong>Integrate into CI/CD</strong> - validate architecture on every commit</li>
-<li><strong>Automate documentation</strong> generation from architecture files</li>
-<li><strong>Model deployments</strong> - Blue/Green, Canary, multi-region strategies</li>
-<li><strong>Refresh evidence</strong> so AI assistants and reviewers see current repo context</li>
+<li><strong>Capture docs and decisions</strong> in a durable, reviewable way</li>
+<li><strong>Integrate into CI/CD</strong> so alignment is checked continuously</li>
+<li><strong>Preserve reasoning</strong> so future maintainers and agents do not start cold</li>
+<li><strong>Export artifacts</strong> only when communication requires them</li>
 </ul>
 <h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
 <ul>

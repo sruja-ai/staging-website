@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06a7077b.js";
+            window.path_to_searchindex_js = "../searchindex-9cf36ffb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-3238d5d9.js"></script>
+        <script src="../toc-40be4d75.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,11 +181,19 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="cli-guide"><a class="header" href="#cli-guide">CLI Guide</a></h1>
-<p>The <code>sruja</code> command-line interface is your primary tool for interacting with Sruja projects.</p>
+<p>The <code>sruja</code> command-line interface is your primary tool for interacting with Sruja. Start with the core loop first, then use the rest as supporting or advanced workflows.</p>
 <!--more-->
 <h2 id="repository-path"><a class="header" href="#repository-path">Repository path</a></h2>
 <p>Most repo-scoped commands take <strong><code>-r</code></strong> with <strong><code>--repo</code></strong> as the long form (recommended). <strong><code>--path</code></strong> is accepted as an alias on many commands for older scripts. Positional paths (e.g. <code>sruja scan .</code>) remain valid where documented.</p>
 <h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<h2 id="start-here"><a class="header" href="#start-here">Start Here</a></h2>
+<p>If you are new, start with these commands:</p>
+<pre><code class="language-bash">sruja start -r .
+sruja drift -r . --structural-only --advisory
+sruja focus -r . --file path/to/file.rs
+sruja verify-task --profile coding -r .
+</code></pre>
+<p>Use <code>sruja ai -r . --task "..."</code> or <code>sruja mcp -r .</code> when you want richer task context retrieval.</p>
 <h3 id="export"><a class="header" href="#export"><code>export</code></a></h3>
 <p>Exports the architecture to various formats.</p>
 <p><strong>Usage:</strong></p>
@@ -238,32 +246,25 @@ sruja lint [file] --format json
 sruja discover --context -r . --format json   # Machine-readable (components, areas, framework)
 sruja discover                          # Question bank only
 </code></pre>
-<h3 id="commands-that-back-the-ai-skill-and-ci"><a class="header" href="#commands-that-back-the-ai-skill-and-ci">Commands that back the AI skill (and CI)</a></h3>
-<p>The <strong>sruja-architecture skill</strong> is the primary way to get value; it runs discovery and drift under the hood. These CLI commands power the skill and are also useful to run directly (CI, automation, power users).</p>
+<h3 id="optional-reviewed-intent-and-advanced-commands"><a class="header" href="#optional-reviewed-intent-and-advanced-commands">Optional reviewed-intent and advanced commands</a></h3>
+<p>These commands are useful when you want reviewed intent in Git, richer automation, or advanced team workflows.</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Command</th><th>Purpose</th></tr>
 </thead>
 <tbody>
-<tr><td><strong><code>sruja discover --context -r &lt;path&gt; --format json</code></strong></td><td>Evidence for the skill: repo structure, technologies, modules (skill runs this)</td></tr>
-<tr><td><strong><code>sruja sync -r &lt;path&gt;</code></strong></td><td>Refresh <code>.sruja/context.json</code> (summary) and <code>.sruja/graph.json</code> (full graph); skill uses these for evidence</td></tr>
-<tr><td><strong><code>sruja drift -r &lt;path&gt; -a repo.sruja</code></strong></td><td>Declared vs actual; skill uses for refinement; CI for gates</td></tr>
-<tr><td><strong><code>sruja ai-context -r &lt;path&gt;</code></strong></td><td>Export architecture context for AI tools</td></tr>
-<tr><td><strong><code>sruja quickstart -r &lt;path&gt;</code></strong></td><td>First look: structural overview and baseline generation (recommended for evaluation)</td></tr>
-<tr><td><strong><code>sruja onboard -r &lt;path&gt;</code></strong></td><td>One-shot onboarding brief for humans and agents (deterministic; optional enrichment)</td></tr>
-<tr><td><strong><code>sruja status -r &lt;path&gt;</code></strong></td><td>Show baseline + health + truth status (reviewed / drifted / unknown)</td></tr>
-<tr><td><strong><code>sruja review -r &lt;path&gt;</code></strong></td><td>Review workflow: refresh evidence, detect drift, propose updates/open questions</td></tr>
-<tr><td><strong><code>sruja impact &lt;target&gt; -r &lt;path&gt;</code></strong></td><td>Blast radius analysis (upstream dependents + downstream dependencies)</td></tr>
-<tr><td><strong><code>sruja why "question" -r &lt;path&gt;</code></strong></td><td>Ask architecture questions with deterministic evidence from the knowledge graph</td></tr>
+<tr><td><strong><code>sruja sync -r &lt;path&gt;</code></strong></td><td>Refresh evidence files</td></tr>
+<tr><td><strong><code>sruja drift -r &lt;path&gt; -a repo.sruja</code></strong></td><td>Compare reviewed intent to actual code</td></tr>
+<tr><td><strong><code>sruja ai-context -r &lt;path&gt;</code></strong></td><td>Export structured context for host tools</td></tr>
+<tr><td><strong><code>sruja why "question" -r &lt;path&gt;</code></strong></td><td>Investigate architecture questions with deterministic evidence</td></tr>
 <tr><td><strong><code>sruja drift --ci -r &lt;path&gt; -f github-actions</code></strong></td><td>CI-focused drift check output</td></tr>
-<tr><td><strong><code>sruja baseline -r &lt;path&gt;</code></strong></td><td>Snapshot current violations to ignore them in CI (<code>sruja drift --baseline ...</code>)</td></tr>
-<tr><td><strong><code>sruja intent check -r &lt;path&gt; -i &lt;intent_dir&gt;</code></strong></td><td>Compare declared architectural intent vs actual implementation</td></tr>
-<tr><td><strong><code>sruja compliance -r &lt;path&gt; -a repo.sruja -i &lt;intent_dir&gt;</code></strong></td><td>Structural drift + intent + policy violations (exit 1 if non-compliant)</td></tr>
+<tr><td><strong><code>sruja baseline -r &lt;path&gt;</code></strong></td><td>Snapshot current violations to ignore them in CI</td></tr>
+<tr><td><strong><code>sruja compliance -r &lt;path&gt; -a repo.sruja -i &lt;intent_dir&gt;</code></strong></td><td>Structural drift + intent + policy violations</td></tr>
 <tr><td><strong><code>sruja publish -r &lt;path&gt; -o repo.bundle.json</code></strong></td><td>Export repo truth + evidence for federation</td></tr>
 <tr><td><strong><code>sruja compose -i &lt;bundle.json&gt; -o system.index.json</code></strong></td><td>Compose repo bundles into a system index</td></tr>
-<tr><td><strong><code>sruja mcp</code></strong></td><td>Start MCP stdio server (for tool-based clients)</td></tr>
-<tr><td><strong><code>sruja scan &lt;path&gt; --output graph.json</code></strong></td><td>Raw graph JSON (scripting / advanced)</td></tr>
+<tr><td><strong><code>sruja mcp</code></strong></td><td>Start MCP stdio server</td></tr>
+<tr><td><strong><code>sruja scan &lt;path&gt; --output graph.json</code></strong></td><td>Raw graph JSON for scripting and advanced use</td></tr>
 </tbody>
 </table>
 </div>
@@ -274,8 +275,8 @@ sruja impact Shop.WebApp -r .
 sruja why "why did we choose PostgreSQL?" -r .
 sruja ai-context -r . -f markdown -o .cursor/rules/architecture.md
 </code></pre>
-<h3 id="repo-workflow-recommended"><a class="header" href="#repo-workflow-recommended">Repo workflow (recommended)</a></h3>
-<p>Use these when you want “architecture health” and “keep it in sync” workflows in a repo.</p>
+<h3 id="older-or-supporting-workflow-aliases"><a class="header" href="#older-or-supporting-workflow-aliases">Older or supporting workflow aliases</a></h3>
+<p>These still exist, but they are not the main path to teach first.</p>
 <pre><code class="language-bash"># First-time setup
 sruja start -r . --prompt
 
