@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-9cf36ffb.js";
+            window.path_to_searchindex_js = "searchindex-f690d022.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-40be4d75.js"></script>
@@ -318,7 +318,9 @@ then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
 <p><strong>"Do I need MCP?"</strong></p>
 <p>No for CLI-only workflows. MCP is the best experience inside Cursor/Claude Desktop.</p>
 <p><strong>"Is Sruja a coding agent?"</strong></p>
-<p>No. Cursor/Copilot own the LLM loop. Sruja is the <strong>harness</strong> (drift, focus, verify-task).</p>
+<p>Yes. <code>sruja agent loop</code> drives the full closed-loop agent (comprehend → plan →
+execute → critique → replan). Sruja also works as a passive harness from any
+editor (Cursor, Copilot) via MCP.</p>
 <p><strong>"What's the difference between <code>quickstart</code> and <code>discover</code>?"</strong></p>
 <ul>
 <li><strong><code>quickstart</code> / <code>start</code></strong> — human-friendly onboarding</li>
@@ -331,7 +333,7 @@ then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
 <h2 id="learn-more"><a class="header" href="#learn-more">Learn more</a></h2>
 <ul>
 <li><a href="#advanced-modeling-path">Beginner path</a></li>
-<li><a href="https://github.com/sruja-ai/sruja/blob/main/docs/INSTALL_AS_SKILL.md">Install as skill (full)</a></li>
+<li><a href="https://github.com/sruja-ai/sruja/blob/main/skills/README.md">Install as skill (full)</a></li>
 <li><a href="https://github.com/sruja-ai/sruja/tree/main/docs/examples/host-gates">Host gate examples</a></li>
 <li><a href="#getting-started">Getting started (full DSL walkthrough)</a></li>
 </ul>
@@ -405,7 +407,7 @@ then sruja lint repo.sruja and sruja drift -r . -a repo.sruja.
 <li><strong>Evidence over guesses</strong>: context starts from what exists in code and linked docs today</li>
 <li><strong>Small surface area</strong>: a few core workflows used consistently</li>
 <li><strong>Explicit trade-offs</strong>: reviewed intent is optional until the team needs it</li>
-<li><strong>Host-owned LLM loop</strong>: Sruja never replaces your editor or agent</li>
+<li><strong>CLI-first agent</strong>: <code>sruja agent loop</code> owns the full closed loop, or use MCP from any editor</li>
 <li><strong>Knowledge and decisions</strong>: context engineering, not a feature catalog</li>
 </ul>
 <h2 id="who-is-sruja-for"><a class="header" href="#who-is-sruja-for">Who is Sruja For?</a></h2>
@@ -490,7 +492,7 @@ sruja drift -r . --structural-only --advisory
 <p>Prerequisites:</p>
 <ul>
 <li><strong>AI editor</strong> – Cursor, Copilot, Claude, Continue.dev, etc.</li>
-<li><strong>AI skill</strong> – <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../docs/INSTALL_AS_SKILL.html">Install as a Skill</a>)</li>
+<li><strong>AI skill</strong> – <code>npx skills add https://github.com/sruja-ai/sruja --skill sruja-architecture</code> (see <a href="../../skills/README.html">Install as a Skill</a>)</li>
 </ul>
 <p>The skill uses repo evidence to propose <code>repo.sruja</code>. When you have a draft:</p>
 <pre><code class="language-bash">sruja lint repo.sruja
@@ -4748,7 +4750,7 @@ RAG.Retriever -&gt; RAG.VectorDB "Search"
 RAG.Generator -&gt; AgentSystem.Executor "Produce answer"
 </code></pre>
 <h2 id="grounded-harness-operational-loop"><a class="header" href="#grounded-harness-operational-loop">Grounded harness (operational loop)</a></h2>
-<p>DSL models describe <strong>what</strong> you build; Sruja’s CLI enforces <strong>whether</strong> architecture matches code. For lint/drift loops, local <code>--enrich-cmd</code> inference, and host-owned continual learning, see <a href="../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</p>
+<p>DSL models describe <strong>what</strong> you build; Sruja's CLI enforces <strong>whether</strong> architecture matches code. For the closed-loop agent, lint/drift gates, and continual learning, see <a href="../../docs/GROUNDED_HARNESS_AND_CONTINUAL_LEARNING.html">Grounded harness and continual learning</a>.</p>
 <h2 id="next-steps-4"><a class="header" href="#next-steps-4">Next Steps</a></h2>
 <ul>
 <li>Explore <code>book/valid-examples/pattern-agentic-ai.sruja</code> and <code>book/valid-examples/pattern-rag-pipeline.sruja</code></li>
